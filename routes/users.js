@@ -7,15 +7,18 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  res.send('responding to a POST at /users');
+  // res.writeHead(201)
+  res.status(201).send('responding to a POST at /users');
 });
 
 router.put('/', function(req, res, next) {
-  res.send('responding to a PUT at /users');
+  // res.writeHead(204)
+  res.status(200).send('responding to a PUT at /users');
 });
 
 router.patch('/', function(req, res, next) {
-  res.send('responding to a PATCH at /users');
+  // res.writeHead(204)
+  res.status(200).send('responding to a PATCH at /users');
 });
 
 module.exports = router;
