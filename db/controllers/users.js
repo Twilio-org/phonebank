@@ -19,9 +19,8 @@ module.exports = {
     .fetch()
   },
 
-  getUserbyId: (params) => {
+  getUserById: (params) => {
     return new Users({ id: params.id }).fetch();
   }
 
 }
-
