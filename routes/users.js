@@ -29,9 +29,14 @@ router.put('/:id', function(req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
-  var requested_user_id = req.params.id
+  var userParams = {
+    id: req.params.id
+  };
 
-  res.status(200).send('responding to a PATCH at /users');
+  users.deactivateUserById(userParams)
+  .then(function(model) {
+    res.status(200).send('User Successfully Deactivated');
+  });
 });
 
 module.exports = router;
