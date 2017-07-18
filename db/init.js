@@ -1,10 +1,12 @@
-var db = require('knex')({
+var knex = require('knex')({
   client: 'pg',
   connection: process.env.PG_CONNECTION_STRING,
   debug: true
 });
 
-db.schema.createTableIfNotExists('users', function(table) {
+var bookshelf = require('bookshelf')(knex);
+
+bookshelf.knex.schema.createTableIfNotExists('users', function(table) {
     table.increments();
     table.string('email').notNullable().unique().index();
     table.string('first_name').notNullable();
@@ -19,3 +21,5 @@ db.schema.createTableIfNotExists('users', function(table) {
 }).then(() => {
     console.log(('Created users table'));
 });
+
+export default bookshelf;
