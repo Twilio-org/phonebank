@@ -29,7 +29,6 @@ router.put('/:id', function(req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
-
   users.deactivateUserById({ id: req.params.id })
   .then(function(model) {
     res.status(200).send('User Successfully Deactivated');
