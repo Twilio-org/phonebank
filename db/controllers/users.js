@@ -33,5 +33,13 @@ module.exports = {
       phone_number: params.phone_number,
       email: params.email
     }, {method: 'update'})
+  },
+
+  deactivateUserById: (params) => {
+    return new Users()
+    .where({id: params.id})
+    .save({
+      is_active: false
+    }, {method: 'update'})
   }
 }
