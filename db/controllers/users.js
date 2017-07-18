@@ -1,7 +1,7 @@
 var Users = require('../models/users');
 
 module.exports = {
-  newUser : (params) => {
+  newUser: (params) => {
     return new Users({
       first_name: params.first_name,
       last_name: params.last_name,
