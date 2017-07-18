@@ -19,9 +19,13 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/:id', function(req, res, next) {
-  var requested_user_id = req.params.id
+  var userParams = req.body;
+  userParams.id = req.params.id;
 
-  res.status(200).send('responding to a PUT at /users');
+  users.updateUserById(userParams)
+  .then(function(model) {
+    res.status(200).send('Record Successfully Updated');
+  });
 });
 
 router.patch('/:id', function(req, res, next) {
