@@ -20,10 +20,10 @@ router.post('/', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
   var userParams = req.body;
-  userParams.id = req.params.id
+  userParams.id = req.params.id;
 
   users.updateUserById(userParams)
-  .then(function(model){
+  .then(function(model) {
     res.status(200).send('Record Successfully Updated');
   });
 });
