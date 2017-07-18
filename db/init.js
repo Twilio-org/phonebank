@@ -4,7 +4,7 @@ var knex = require('knex')({
   debug: true
 });
 
-var bookshelf = require('bookshelf')(knex)
+var bookshelf = require('bookshelf')(knex);
 
 bookshelf.knex.schema.createTableIfNotExists('users', function(table) {
     table.increments();
