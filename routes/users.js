@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  users(req.body);
+  users.newUser(req.body);
   res.status(201).send('responding to a POST at /users');
 });
 
