@@ -4,7 +4,9 @@ var db = require('knex')({
   debug: true
 });
 
-db.schema.createTableIfNotExists('users', function(table) {
+var bookshelf = require('bookshelf')(db)
+
+bookshelf.knex.schema.createTableIfNotExists('users', function(table) {
     table.increments();
     table.string('email').notNullable().unique().index();
     table.string('first_name').notNullable();
