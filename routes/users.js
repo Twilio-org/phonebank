@@ -1,13 +1,13 @@
 var express = require('express');
+var users = require('../db/controllers/users')
 var router = express.Router();
-
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('responding to a GET at /users');
 });
 
 router.post('/', function(req, res, next) {
-  // res.writeHead(201)
+  users(req.body);
   res.status(201).send('responding to a POST at /users');
 });
 

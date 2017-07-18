@@ -6,6 +6,8 @@ bookshelf.plugin(bookshelf_bcrypt);
 
 const User = bookshelf.Model.extend({
   tableName: 'users',
-  bcrypt: { field: 'password' },
-  hasTimestamps: true
+  bcrypt: { field: 'password_hash' },
+  hasTimestamps: false
 });
+
+module.exports = User;
