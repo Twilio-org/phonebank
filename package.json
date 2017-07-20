@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server/www",
-    "lint": "./node_modules/.bin/eslint .",
-    "test": "mocha",
+    "lint": "eslint .",
+    "test": "npm run lint && mocha",
     "babel": "babel --presets es2015,env src --out-dir build",
     "db": "psql -U $PG_USER -d $PG_USER"
   },
@@ -28,8 +28,11 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.0",
-    "eslint": "^4.2.0",
-    "eslint-config-google": "^0.9.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
     "request": "^2.81.0"
