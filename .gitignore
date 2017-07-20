@@ -61,3 +61,6 @@ typings/
 
 # package lock from running npm install
 package-lock.json
+
+# build folder
+build/
