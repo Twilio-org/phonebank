@@ -6,7 +6,7 @@
     "start": "nodemon ./src/www",
     "lint": "./node_modules/.bin/eslint .",
     "test": "mocha",
-    "babel": "babel --presets es2015,env ./ -o build/"
+    "babel": "babel --presets es2015,env src --out-dir build"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
