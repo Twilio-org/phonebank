@@ -6,7 +6,8 @@
     "start": "nodemon ./src/www",
     "lint": "./node_modules/.bin/eslint .",
     "test": "mocha",
-    "babel": "babel --presets es2015,env src --out-dir build"
+    "babel": "babel --presets es2015,env src --out-dir build",
+    "db": "psql -U $PG_USER -d $PG_USER"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
