@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "nodemon ./src/www",
     "lint": "./node_modules/.bin/eslint .",
-    "test": "mocha"
+    "test": "mocha",
+    "babel": "babel --presets es2015,env src --out-dir build"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
@@ -22,10 +23,14 @@
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
-    "request": "^2.81.0",
-    "mocha": "^3.4.2",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.0",
     "eslint": "^4.2.0",
-    "eslint-config-google": "^0.9.1"
+    "eslint-config-google": "^0.9.1",
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
+    "request": "^2.81.0"
   }
 }
