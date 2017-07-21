@@ -1,4 +1,4 @@
-from React, { Component } import 'react';
+import React, { Component } from 'react';
 
 class Registration extends Component {
 	constructor(props) {
