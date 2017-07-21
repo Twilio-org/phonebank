@@ -11,15 +11,15 @@ import promise from 'redux-promise-middleware';
 
 /*=====reducer imports=====*/
 const appReducer = combineReducers({
-	form: formReducer,
-	routing: routerReducer
+  form: formReducer,
+  routing: routerReducer
 });
 
 const rootReducer = (state, action) => {
-	if(action.type === 'LOGOUT_USER')	{
-		state = undefined;
-	}
-	return appReducer(state, action);
+  if(action.type === 'LOGOUT_USER')	{
+    state = undefined;
+  }
+  return appReducer(state, action);
 }
 
 // const middleware = process.env.NODE_ENV !== 'production' ?

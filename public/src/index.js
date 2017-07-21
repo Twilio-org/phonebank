@@ -7,17 +7,17 @@ import store from './store';
 import App from './components/app';
 
 const Root = props => {
-	return (
-		<Provider store={store}>
-			<BrowserRouter history={history}>
-				<div>
-					<Switch>
-						<Route exact path="/" component={App} />
-					</Switch>
-				</div>
-			</BrowserRouter>
-		</Provider>
-	);
+  return (
+    <Provider store={store}>
+      <BrowserRouter history={history}>
+        <div>
+          <Switch>
+            <Route exact path="/" component={App} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
 ReactDOM.render(<Root />, document.getElementById('root'));
