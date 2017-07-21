@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 // Components
 import App from './components/app';
+import RegistrationForm from './containers/registration';
 
 const Root = props => {
   return (
@@ -12,7 +13,8 @@ const Root = props => {
       <BrowserRouter history={history}>
         <div>
           <Switch>
-            <Route exact path="/" component={App} />
+            <Route path="/registration" component={RegistrationForm} />
+            <Route path="/" component={App} />
           </Switch>
         </div>
       </BrowserRouter>
