@@ -1,5 +1,7 @@
 var express = require('express');
+var bcrypt = require('bcrypt');
 var tokenGenerator = require('../config/auth/jwtGenerator');
+var users = require('../db/controllers/users')
 var router  = express.Router();
 
 router.post('/', function(req, res) {
@@ -7,21 +9,25 @@ router.post('/', function(req, res) {
   var reqPassword = req.body.password;
 
   if (reqEmail && reqPassword) {
-    var user = getUserByEmail({ email: reqEmail });
+    var user = users.getUserByEmail({ email: reqEmail })
+    .then(function(user){
+      if (!user) {
+        console.log('user not found')
+        res.status(401).send({ message: "invalid username or password" });
+      }
 
-    if (!user) {
-      res.status(401).json({ message: "invalid username or password" });
-    }
-
-    if (user.password === req.body.password) {
-      var token = tokenGenerator();
-      res.json({
-        message: "login successful",
-        token: token
-      });
-    } else {
-      res.status(401).json({ message: "passwords did not match" });
-    }
+      if (bcrypt.compare(reqPassword, user.password)) {
+        console.log('password match')
+        var token = tokenGenerator(user.id);
+        res.json({
+          message: "login successful",
+          token: token
+        });
+      } else {
+        console.log('password no match');
+        res.status(401).send({ message: "invalid username or password" });
+      }
+    });
   }
 
 });
