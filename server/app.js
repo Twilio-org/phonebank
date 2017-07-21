@@ -9,7 +9,7 @@ var index = require('./src/routes/index');
 var users = require('./src/routes/users');
 var sessions = require('./src/routes/authenticate');
 
-var passport = require('./src/config/auth/passport');
+var passport = require('./src/config/auth/passport').passport;
 
 var app = express();
 
