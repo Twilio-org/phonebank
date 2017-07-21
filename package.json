@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/www.js && npm run build",
+    "start": "nodemon ./server/www.js && npm run build",
     "lint": "./node_modules/.bin/eslint .",
     "test": "mocha",
     "babel": "babel --presets es2015,env src --out-dir build",
