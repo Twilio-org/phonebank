@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 class RegistrationForm extends Component {
+  onSubmit(values) {
+    console.log(values);
+  }
+
   renderField(field){
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
 
@@ -19,10 +23,6 @@ class RegistrationForm extends Component {
         </div>
       </div>
     );
-  }
-
-  onSubmit(values) {
-    console.log(values);
   }
 
   render() {
