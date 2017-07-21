@@ -14,7 +14,7 @@ router.post('/', function(req, res) {
     }
 
     if (user.password === req.body.password) {
-      var token tokenGenerator();
+      var token = tokenGenerator();
       res.json({
         message: "login successful",
         token: token
