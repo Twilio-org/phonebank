@@ -5,11 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./src/routes/index');
 var users = require('./src/routes/users');
-var sessions = require('./src/routes/authenticate');
+var authenticate = require('./src/routes/authenticate');
 
-var passport = require('./src/config/auth/passport').passport;
+var passport = require('./src/config/auth/passportConfig').passport;
 
 var app = express();
 
@@ -28,7 +27,7 @@ app.use(express.static(path.join(__dirname, '../public/dist/src')));
 app.use('/users', users);
 app.use('/authenticate', authenticate);
 
-app.use('*', (req, res, next) => {
+app.use('/', (req, res, next) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
@@ -48,7 +47,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  console.log(err);
 });
 
 module.exports = app;
