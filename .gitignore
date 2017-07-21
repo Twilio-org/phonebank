@@ -65,4 +65,8 @@ package-lock.json
 # build folder
 build/
 
+# DS_Store
 .DS_Store
+
+# webpack bundle
+public/dist/

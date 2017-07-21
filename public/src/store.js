@@ -1,16 +1,18 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
-import { routeReducer, routerMiddeware } from 'react-router-redux';
+import { routerReducer, routerMiddeware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
+import immutable from 'redux-immutable-state-invariant';
+import { createLogger } from 'redux-logger';
+import { reducer as formReducer } from 'redux-form'; 
 
 /*=====middleware=====*/
-
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
 
 /*=====reducer imports=====*/
-
 const appReducer = combineReducers({
-	//reducers go here;
+	form: formReducer,
+	routing: routerReducer
 });
 
 const rootReducer = (state, action) => {
@@ -24,7 +26,6 @@ const rootReducer = (state, action) => {
 //   [require('redux-immutable-state-invariant').default(), require('logger')(), promise(), thunk] :
 //   [promise(), thunk];
 
-const middleware = [require('redux-immutable-state-invariant').default(), require('redux-logger')(), promise(), thunk];
+const middleware = [immutable(), createLogger(), promise(), thunk];
 
 module.exports = createStore(rootReducer, applyMiddleware(...middleware));
-//this will create the redux store and house the combined reducers
