@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server/www.js && npm run build",
-    "lint": "./node_modules/.bin/eslint .",
-    "test": "mocha",
+    "lint": "eslint .",
+    "test": "npm run lint && mocha",
     "babel": "babel --presets es2015,env src --out-dir build",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
-    "build:prod": "webpack -p && cp public/index.html dist/index.html"
+    "build:prod": "webpack -p && cp public/index.html dist/index.html",
+    "db": "psql -U $PG_USER -d $PG_USER"
   },
   "dependencies": {
     "bcrypt": "^1.0.2",
