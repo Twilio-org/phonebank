@@ -12,6 +12,7 @@
     "db": "psql -U $PG_USER -d $PG_USER"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
     "bookshelf": "^0.10.4",

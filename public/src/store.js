@@ -12,7 +12,7 @@ import promise from 'redux-promise-middleware';
 /*=====reducer imports=====*/
 const appReducer = combineReducers({
   form: formReducer,
-  routing: routerReducer
+  routing: routerReducer,
 });
 
 const rootReducer = (state, action) => {
