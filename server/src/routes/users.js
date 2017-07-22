@@ -1,7 +1,11 @@
 var express = require('express');
 var users = require('../db/controllers/users')
+var passport = require('passport');
 var router = express.Router();
 /* GET users listing. */
+
+router.use(passport.authenticate('jwt', { session: false }));
+
 router.get('/:id', function(req, res, next) {
   var requested_user_id = req.params.id
 
@@ -9,13 +13,6 @@ router.get('/:id', function(req, res, next) {
   .then(function(model){
     res.status(200).send(model);
   });
-});
-
-router.post('/', function(req, res, next) {
-  var userParams = req.body;
-
-  users.newUser(userParams);
-  res.status(201).send('responding to a POST at /users');
 });
 
 router.put('/:id', function(req, res, next) {

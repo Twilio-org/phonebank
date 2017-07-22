@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var users = require('./src/routes/users');
 var authenticate = require('./src/routes/authenticate');
+var register = require('./src/routes/register')
 
 var passport = require('./src/config/auth/passportConfig').passport;
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, '../public/dist')));
 
 app.use('/users', users);
 app.use('/authenticate', authenticate);
+app.use('/register', register)
 
 app.use('/', (req, res, next) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));

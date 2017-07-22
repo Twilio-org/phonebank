@@ -13,7 +13,7 @@ router.post('/', function(req, res) {
     .then(function(user){
       if (!user) {
         console.log('user not found')
-        res.status(401).send({ message: "invalid username or password" });
+        res.status(401).json({ message: "invalid username or password" });
       }
 
       if (bcrypt.compare(reqPassword, user.password)) {
@@ -25,15 +25,11 @@ router.post('/', function(req, res) {
         });
       } else {
         console.log('password no match');
-        res.status(401).send({ message: "invalid username or password" });
+        res.status(401).json({ message: "invalid username or password" });
       }
     });
   }
 
-});
-
-router.delete('/', function(req, res, next) {
-  res.send('responding to a DELETE request at /sessions')
 });
 
 module.exports = router;
