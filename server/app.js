@@ -5,11 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./src/routes/index');
 var users = require('./src/routes/users');
-var sessions = require('./src/routes/sessions');
+var authenticate = require('./src/routes/authenticate');
+var register = require('./src/routes/register')
+
+var passport = require('./src/config/auth/passportConfig').passport;
 
 var app = express();
+
+app.use(passport.initialize());
 
 // view engine setup
 // uncomment after placing your favicon in /public
@@ -22,9 +26,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public/dist/src')));
 
 app.use('/users', users);
-app.use('/sessions', sessions);
+app.use('/authenticate', authenticate);
+app.use('/register', register)
 
-app.use('*', (req, res, next) => {
+app.use('/', (req, res, next) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
@@ -44,7 +49,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  console.log(err);
 });
 
 module.exports = app;
