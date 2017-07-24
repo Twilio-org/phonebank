@@ -27,6 +27,6 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
       console.log(('Created users table'));
     });
   }
-})
+});
 
 export default bookshelf;
