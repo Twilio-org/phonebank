@@ -7,7 +7,11 @@ export default class App extends Component {
 
   render(){
     return(
-      <div>This is App. Meow.</div>
+      <section id="content">
+        <div className="container">
+          {this.props.children}
+        </div>
+      </section>
     );
   }
 }
