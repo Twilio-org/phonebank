@@ -1,9 +1,7 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
-import { routerReducer, routerMiddeware } from 'react-router-redux';
-import { browserHistory } from 'react-router';
 import immutable from 'redux-immutable-state-invariant';
 import { createLogger } from 'redux-logger';
-import { reducer as formReducer } from 'redux-form'; 
+import { reducer as formReducer } from 'redux-form';
 
 /*=====middleware=====*/
 import thunk from 'redux-thunk';
@@ -12,7 +10,6 @@ import promise from 'redux-promise-middleware';
 /*=====reducer imports=====*/
 const appReducer = combineReducers({
   form: formReducer,
-  routing: routerReducer
 });
 
 const rootReducer = (state, action) => {

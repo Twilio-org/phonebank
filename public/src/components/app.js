@@ -11,6 +11,7 @@ export default class App extends Component {
             {this.props.children}
           </div>
         </section>
+        This is App. Meow.
       </div>
     );
   }
