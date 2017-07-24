@@ -3,7 +3,7 @@ import axios from 'axios';
 export function registerNewUser(userInfo, history){
   const { first_name, last_name, email, phone_number, password } = userInfo;
   //route that was previously known as '/users'
-  return dispatch => axios.post('/registration', {
+  return dispatch => axios.post('/register', {
     first_name,
     last_name,
     password,
