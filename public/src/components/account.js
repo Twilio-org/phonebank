@@ -33,6 +33,7 @@ class AccountPage extends Component {
 function mapStateToProps(state){
   return {auth: state.auth, account_info: state.account_info}
 }
+
 // function mapStateToProps({ users }, ownProps) {
 //   return { user: users[ownProps.match.params.id] }
 // }
