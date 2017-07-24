@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run babel && nodemon ./build/www.js",
+    "start": "concurrently \"npm run babel && nodemon ./build/www.js\" \"npm run build\"",
     "lint": "eslint .",
     "test": "npm run lint && mocha",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
