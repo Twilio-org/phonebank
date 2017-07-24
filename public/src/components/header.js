@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Navigation from '../containers/navigation';
+import Navigation from './navigation';
 
 export default class Header extends Component{
   render(){
@@ -11,7 +11,7 @@ export default class Header extends Component{
             <div className="col-md-4">
               <Link className="navbar-brand" to="/">Phonebank</Link>
             </div>
-            <div className="col-md-8 pull-right">
+            <div className="col-md-8">
               <Navigation />
             </div>
           </div>
