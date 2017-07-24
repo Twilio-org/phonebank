@@ -5,6 +5,7 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
+
 import users from './routes/users';
 import authenticate from './routes/authenticate';
 import register from './routes/register';
@@ -16,6 +17,9 @@ const app = express();
 const passport = passportModule.passport;
 
 app.use(passport.initialize());
+
+// initializing env variables
+
 
 // view engine setup
 // uncomment after placing your favicon in /public
