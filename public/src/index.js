@@ -10,6 +10,7 @@ import App from './components/app';
 import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing-page'
 import LogInForm from './components/login';
+import AccountPage from './components/account';
 
 const Root = props => {
   return (
@@ -19,6 +20,7 @@ const Root = props => {
           <Switch>
             <Route path="/registration" component={RegistrationForm} />
             <Route path="/login" component={LogInForm} />
+            <Route path="/account" component={AccountPage} />
             <Route path="/" component={App} />
           </Switch>
         </App>
