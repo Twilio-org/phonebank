@@ -1,7 +1,18 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+
+import { registerNewUser } from '../actions/registration';
 
 class RegistrationForm extends Component {
+  onSubmit(values) {
+    console.log('history?: ', this.props.history, '\n');
+    console.log('new user values: ',values);
+    this.props.registerNewUser(values, () => {
+      this.props.history.push('/');
+    })
+  }
+
   renderField(field){
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
 
@@ -19,10 +30,6 @@ class RegistrationForm extends Component {
         </div>
       </div>
     );
-  }
-
-  onSubmit(values) {
-    console.log(values);
   }
 
   render() {
@@ -104,4 +111,6 @@ function validate(values){
 export default reduxForm({
   validate,
   form: 'RegistrationForm'
-})(RegistrationForm);
+})(
+  connect(null, { registerNewUser })(RegistrationForm)
+);

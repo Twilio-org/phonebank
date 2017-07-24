@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./server/www.js && npm run build",
+    "start": "concurrently \"nodemon ./server/www.js\" \"npm run build\"",
     "lint": "eslint .",
     "test": "npm run lint && mocha",
     "babel": "babel --presets es2015,env src --out-dir build",
@@ -12,10 +12,12 @@
     "db": "psql -U $PG_USER -d $PG_USER"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
     "body-parser": "~1.17.1",
     "bookshelf": "^0.10.4",
     "bookshelf-bcrypt": "^2.1.0",
+    "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "^2.5.6",
