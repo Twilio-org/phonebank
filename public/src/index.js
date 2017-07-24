@@ -6,17 +6,18 @@ import store from './store';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
+import LandingPage from './components/landing-page'
 
 const Root = props => {
   return (
     <Provider store={store}>
       <BrowserRouter history={history}>
-        <div>
+        <App>
           <Switch>
-            <Route path="/registration" component={RegistrationForm} />
-            <Route path="/" component={App} />
+            <Route path="/registration" component={RegistrationForm}/>
+            <Route path="/" component={LandingPage}/>
           </Switch>
-        </div>
+        </App>
       </BrowserRouter>
     </Provider>
   );

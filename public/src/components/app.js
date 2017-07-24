@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
+import Header from './header'
 
 export default class App extends Component {
-  constructor(props){
-    super(props);
-  }
-
   render(){
     return(
-      <section id="content">
-        <div className="container">
-          {this.props.children}
-        </div>
-      </section>
+      <div>
+        <Header />
+        <section id="content">
+          <div className="container">
+            {this.props.children}
+          </div>
+        </section>
+      </div>
     );
   }
 }
