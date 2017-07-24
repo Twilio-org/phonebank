@@ -5,13 +5,15 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
-const users = require('./routes/users');
-const authenticate = require('./routes/authenticate');
-const register = require('./routes/register');
+import users from './routes/users';
+import authenticate from './routes/authenticate';
+import register from './routes/register';
 
-const passport = require('./config/auth/passportConfig').passport;
+import passportModule from './config/auth/passportConfig';
 
 const app = express();
+
+const passport = passportModule.passport;
 
 app.use(passport.initialize());
 
