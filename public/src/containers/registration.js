@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { registerNewUser } from '../actions/registration';
 
 class RegistrationForm extends Component {
   onSubmit(values) {
-    console.log('history?: ', this.props.history, '\n');
-    console.log('new user values: ',values);
-    this.props.registerNewUser(values, () => {
-      this.props.history.push('/');
-    })
+    const { history } = this.props;
+    this.props.registerNewUser(values, history);
   }
 
-  renderField(field){
-    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`
+  renderField(field) {
+    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
 
-    return(
+    return (
       <div className={className}>
         <label>{field.label}</label>
         <input
@@ -38,36 +36,36 @@ class RegistrationForm extends Component {
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <div className="row">
           <div className="col-md-6">
-            <Field 
+            <Field
               name="first_name"
               label="First Name"
               component={this.renderField}
             />
           </div>
           <div className="col-md-6">
-            <Field 
+            <Field
               name="last_name"
               label="Last Name"
               component={this.renderField}
             />
           </div>
         </div>
-        <Field 
+        <Field
           name="email"
           label="Email"
           component={this.renderField}
         />
-        <Field 
+        <Field
           name="phone_number"
           label="Phone Number"
           component={this.renderField}
         />
-        <Field 
+        <Field
           name="password"
           label="Password"
           component={this.renderField}
         />
-        <Field 
+        <Field
           name="password_confirm"
           label="Confirm Password"
           component={this.renderField}
@@ -78,8 +76,7 @@ class RegistrationForm extends Component {
   }
 }
 
-function validate(values){
-  //validate some stuff here
+function validate(values) {
   const errors = {};
   if (!values.first_name) {
     errors.first_name = 'Please enter your first name.';
@@ -89,7 +86,7 @@ function validate(values){
   }
   if (!values.email) {
     errors.email = 'Please enter your email.';
-  } else if (!values.email.includes('@')){
+  } else if (!values.email.includes('@')) {
     errors.email = 'Please enter a valid email.';
   }
   if (!values.phone_number) {
@@ -97,7 +94,7 @@ function validate(values){
   }
   if (!values.password) {
     errors.password = 'Please enter your password.';
-  } 
+  }
   if (!values.password_confirm) {
     errors.password_confirm = 'Please confirm your password.';
   }
@@ -108,9 +105,11 @@ function validate(values){
   return errors;
 }
 
-export default reduxForm({
-  validate,
-  form: 'RegistrationForm'
-})(
-  connect(null, { registerNewUser })(RegistrationForm)
+export default withRouter(
+  reduxForm({
+    validate,
+    form: 'RegistrationForm'
+  })(
+    connect(null, { registerNewUser })(RegistrationForm)
+  )
 );

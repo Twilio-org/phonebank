@@ -7,7 +7,9 @@ export default class App extends Component {
 
   render(){
     return(
-      <div>This is App. Meow.</div>
+      <div>
+        This is App. Meow.
+      </div>
     );
   }
 }
