@@ -7,6 +7,7 @@
     "lint": "eslint .",
     "test": "npm run lint && mocha",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
+    "db:test": "psql -U $PG_USER -d phonebank_test",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
     "db": "psql -U $PG_USER -d $PG_USER"
@@ -17,6 +18,7 @@
     "body-parser": "~1.17.1",
     "bookshelf": "^0.10.4",
     "bookshelf-bcrypt": "^2.1.0",
+    "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
