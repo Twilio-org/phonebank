@@ -8,20 +8,26 @@ import css from '../stylesheets/app.scss';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
-import LandingPage from './components/landing-page'
+import EditAccountInfo from './components/edit_account';
+import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import AccountPage from './components/account';
+import { authTransition } from './actions/login';
 
 const Root = props => {
+  //isLogged in will go here, does not exist yet!
+  //login redirect if logged in is true needs to redirect to the landing page
+
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div>
+        <App>
           <Switch>
-            <Route path="/registration" component={RegistrationForm} />
-            <Route path="/login" component={LogInForm} />
-            <Route path="/account" component={AccountPage} />
-            <Route path="/" component={App} />
+            <Route path="/registration" render={() => isLoggedIn ? (<RegistrationForm />) : (<Redirect to="/login" />)} />
+            <Route path="/login" render={() => isLoggedIn ? (<Redirect to="/account" />) : (<Login />)} />
+            <Route path="/account/edit" render={() => isLoggedIn ? (<EditAccountInfo />) : (<Redirect to="/login" />)} />
+            <Route path="/account" render={() => isLoggedIn ? (<AccountPage />) : (<Redirect to="/login" />)} />
+            <Route path="/" render={() => isLoggedIn ? (<LandingPage />) : (<Redirect to="/login" />)} />
           </Switch>
         </App>
       </BrowserRouter>

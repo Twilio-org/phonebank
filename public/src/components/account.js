@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 class AccountPage extends Component {
   componentDidMount() {
+    //not yet functional, no user id info in the store or in params
     const { id } = this.props.match.params;
-    console.log(id, 'id ?')
     // this.props.fetchUser(id);
   }
 
