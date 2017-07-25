@@ -15,11 +15,8 @@ class EditAccountInfo extends Component {
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
 
     // const { user } = this.props;
-<<<<<<< HEAD
+
     const Allie = {
-=======
-    const user = {
->>>>>>> Added edit_account component and action. Added account component.
       first_name: 'joe',
       last_name: 'smith',
       email: 'joe@meow.com',
@@ -32,11 +29,8 @@ class EditAccountInfo extends Component {
         <input
           type={!!field.name && field.name.slice(0, 9) === 'password' ? 'password' : 'text'}
           className="form-control"
-<<<<<<< HEAD
           placeholder={Allie[field.name]}
-=======
-          placeholder={!!user[field.name] ? user[field.name] : "*******"}
->>>>>>> Added edit_account component and action. Added account component.
+          //placeholder={!!user[field.name] ? user[field.name] : "*******"}
           {...field.input}
         />
       </div>

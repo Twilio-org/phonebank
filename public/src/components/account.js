@@ -4,7 +4,6 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { fetchUser } from '../actions/account_info';
 
-
 class AccountPage extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
@@ -41,9 +40,10 @@ function mapStateToProps(state){
   return {auth: state.auth, account_info: state.account_info}
 }
 
-// function mapStateToProps({ users }, ownProps) {
-//   return { user: users[ownProps.match.params.id] }
-// }
+// function mapStateToProps({ user }) {
+  // return { user };
+  // return { user: users[ownProps.match.params.id] };
+}
 
 export default withRouter(
   connect(mapStateToProps, { fetchUser })(AccountPage)
