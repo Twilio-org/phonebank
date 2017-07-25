@@ -11,11 +11,12 @@ import { createLogger } from 'redux-logger';
 
 /*=====reducer imports=====*/
 import { authStatusReducer } from './reducers/login';
-
+import { accountInfoReducer } from './reducers/account_info';
 
 const appReducer = combineReducers({
   form: formReducer,
-  auth: authStatusReducer
+  auth: authStatusReducer,
+  account_info: accountInfoReducer
 });
 
 const rootReducer = (state, action) => {

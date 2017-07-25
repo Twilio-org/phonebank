@@ -61,17 +61,11 @@ export function clearAuthCredentials(){
   }
 }
 
-//helper:
-export function authTransition(route, isTrue, nextState, replace, callback) {
-  console.log('authTransition is running!')
-  var authorize = (route, isTrue, nextState, replace, callback) => {
-    const currentState = store.getState();
-    const currentUser = currentState.authStatus;
-    if (!!currentUser.id === isTrue) {
-      replace(route);
-    }
-    callback();
-  };
-  //validateUser
-  store.dispatch(userValidation(authorize.bind(null, route, isTrue, nextState, replace, callback)));
+export function authTransition(storeInstance) {
+    const { auth } = storeInstance.getState();
+    console.log(auth, 'should be the auth obj from the store');
+    const { id } = auth;
+    const token = localStorage.getItem('auth_token');
+    console.log(!!id, 'id', !!token, 'token')
+    return !!id && !!token;
 }
