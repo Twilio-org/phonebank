@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export function registerNewUser(userInfo, history){
+export function registerNewUser(userInfo, history) {
   const { first_name, last_name, email, phone_number, password } = userInfo;
   //route that was previously known as '/users'
   return dispatch => axios.post('/register', {

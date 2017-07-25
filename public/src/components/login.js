@@ -65,11 +65,6 @@ function validate(values) {
   return errors;
 }
 
-// export default reduxForm({
-//   validate,
-//   form: 'LogInForm'
-// })(LogInForm)
-
 export default withRouter(
   reduxForm({
     validate,

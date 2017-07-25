@@ -12,7 +12,10 @@ import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import AccountPage from './components/account';
+import EditAccountInfo from './components/edit_account';
+
 import { authTransition } from './actions/login';
+
 
 const Root = props => {
   //isLogged in will go here, does not exist yet!
@@ -34,6 +37,6 @@ const Root = props => {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 ReactDOM.render(<Root />, document.getElementById('root'));
