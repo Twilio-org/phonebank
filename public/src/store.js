@@ -1,4 +1,9 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
+<<<<<<< HEAD
+=======
+import immutable from 'redux-immutable-state-invariant';
+import { createLogger } from 'redux-logger';
+>>>>>>> Updated merge conflict
 import { reducer as formReducer } from 'redux-form';
 
 /*=====middleware=====*/

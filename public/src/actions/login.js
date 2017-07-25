@@ -31,7 +31,7 @@ export function logoutUser(userInfo, history) {
 }
 
 export function userValidation(cb){
-  return dispatch => axios.get('/session', 
+  return dispatch => axios.get('/session',
   {
     headers: {'Authoization': 'JWT' + localStorage.getItem('auth_token')}
   })
@@ -62,10 +62,10 @@ export function clearAuthCredentials(){
 }
 
 export function authTransition(storeInstance) {
-    const { auth } = storeInstance.getState();
-    console.log(auth, 'should be the auth obj from the store');
-    const { id } = auth;
-    const token = localStorage.getItem('auth_token');
-    console.log(!!id, 'id', !!token, 'token')
-    return !!id && !!token;
+  const { auth } = storeInstance.getState();
+  console.log(auth, 'should be the auth obj from the store');
+  const { id } = auth;
+  const token = localStorage.getItem('auth_token');
+  console.log(!!id, 'id', !!token, 'token')
+  return !!id && !!token;
 }
