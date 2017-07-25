@@ -4,6 +4,14 @@ import { Navbar, Row, Col } from 'react-bootstrap';
 import Navigation from './navigation';
 
 export default class Header extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showNav: props.showNav
+    };
+  }
+  getLinks() {
+  }
   render() {
     return (
       <Navbar>

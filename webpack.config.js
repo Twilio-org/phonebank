@@ -28,12 +28,12 @@ module.exports = {
 				}
 			},
 			{
-	        test: /\.scss$/,
+	        test: /\.less$/,
 	        use: extractSass.extract({
               use: [{
                   loader: "css-loader"
               }, {
-                  loader: "sass-loader"
+                  loader: "less-loader"
               }],
               // use style-loader in development
               fallback: "style-loader"
