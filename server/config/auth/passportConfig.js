@@ -28,5 +28,5 @@ passport.use(strategy);
 
 export default {
   passport,
-  jwtOptions,
+  jwtOptions
 };

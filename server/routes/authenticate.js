@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
           const token = genToken(user.id);
           res.json({
             message: 'login successful',
-            token,
+            token
           });
         } else {
           console.log('password no match');

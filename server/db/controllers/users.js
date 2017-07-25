@@ -7,13 +7,13 @@ export default {
       last_name: params.last_name,
       password_hash: params.password,
       phone_number: params.phone_number,
-      email: params.email,
+      email: params.email
     })
       .save(),
 
   getUserByEmail: params =>
     new User({
-      email: params,
+      email: params.email
     })
       .fetch(),
 
@@ -28,17 +28,17 @@ export default {
         last_name: params.last_name,
         password_hash: params.password,
         phone_number: params.phone_number,
-        email: params.email,
+        email: params.email
       }, {
-        method: 'update',
+        method: 'update'
       }),
 
   deactivateUserById: params =>
     new User()
       .where({ id: params.id })
       .save({
-        is_active: false,
+        is_active: false
       }, {
-        method: 'update',
-      }),
+        method: 'update'
+      })
 };
