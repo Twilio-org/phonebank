@@ -15,8 +15,8 @@ const Root = props => {
       <BrowserRouter history={history}>
         <App>
           <Switch>
-            <Route path="/registration" component={RegistrationForm}/>
-            <Route path="/" component={LandingPage}/>
+            <Route path="/registration" component={RegistrationForm} />
+            <Route path="/" component={LandingPage} />
           </Switch>
         </App>
       </BrowserRouter>

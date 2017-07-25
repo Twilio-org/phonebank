@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Row, Col } from 'react-bootstrap';
 import Navigation from './navigation';
 
-export default class Header extends Component{
+export default class Header extends Component {
   render() {
     return (
       <Navbar>
