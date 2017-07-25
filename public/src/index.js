@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-
-import css from '../stylesheets/app.scss';
+import '../stylesheets/app.scss';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
-import LandingPage from './components/landing-page'
+import LandingPage from './components/landing-page';
 
 const Root = props => {
   return (
@@ -23,6 +22,6 @@ const Root = props => {
       </BrowserRouter>
     </Provider>
   );
-}
+};
 
 ReactDOM.render(<Root />, document.getElementById('root'));

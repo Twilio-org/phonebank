@@ -1,0 +1,11 @@
+#navigation {
+    padding: 10px 30px;
+    float: right;
+}
+
+
+@media(max-width: 768px){
+  #navigation{
+    float: inherit;
+  }
+}
