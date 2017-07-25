@@ -26,7 +26,5 @@ const strategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
 
 passport.use(strategy);
 
-export default {
-  passport,
-  jwtOptions
-};
+export { passport };
+export { jwtOptions };

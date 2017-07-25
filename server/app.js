@@ -10,18 +10,12 @@ import users from './routes/users';
 import authenticate from './routes/authenticate';
 import register from './routes/register';
 
-import passportModule from './config/auth/passportConfig';
+import { passport } from './config/auth/passportConfig';
 
 const app = express();
 
-const passport = passportModule.passport;
-
 app.use(passport.initialize());
 
-// initializing env variables
-
-
-// view engine setup
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
