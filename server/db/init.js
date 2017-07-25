@@ -4,7 +4,7 @@ import bookshelfModule from 'bookshelf';
 const knex = knexModule({
   client: 'pg',
   connection: process.env.PG_CONNECTION_STRING,
-  debug: true,
+  debug: true
 });
 
 const bookshelf = bookshelfModule(knex);
