@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
+import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Navigation extends Component{
-  render(){
-    return(
-      <div className="dropdown show">
-        <a className="btn btn-secondary dropdown-toggle" href="/" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Menu
-        </a>
-        <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a className="dropdown-item" href="/registration">Register</a>
-        </div>
-      </div>
+  render() {
+    return (
+      <ButtonToolbar>
+        <DropdownButton title="Menu" id="menu">
+          <MenuItem eventKey="1" href="/registration">
+            Register
+          </MenuItem>
+        </DropdownButton>
+      </ButtonToolbar>
     );
   }
 }
