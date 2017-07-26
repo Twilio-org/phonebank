@@ -11,18 +11,7 @@ const knexdb = bookshelfModule(knex);
 let usersModel = require('../db/models/users').default;
 knexdb.plugin(bookshelfBcrypt);
 usersModel = usersModel(knexdb);
-// usersModel(knexdb);
-// const usersModel = require('../db/models/users').default(db);
 
-// const db = bookshelf(knexdb).plugin(bookshelfBcrypt);
-// bookshelf = bookshelf(db);
-// const bookshelf = require('../db/init').default(devconfig);
-// console.log(bookshelf.default)
-// import usersModel from '../db/models/users';
-// import bookshelf from 'bookshelf';
-
-
-// users = users(devconfig).plugin(bookshelfBcrypt);
 
 
 const router = express.Router();

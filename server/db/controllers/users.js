@@ -1,5 +1,3 @@
-// import User from '../models/users';
-
 export default {
   saveNewUser: (params, Model) =>
     new Model({

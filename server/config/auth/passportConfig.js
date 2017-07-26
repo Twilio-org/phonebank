@@ -13,7 +13,6 @@ const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 let usersModel = require('../../db/models/users').default;
 
-
 knexdb.plugin(bookshelfBcrypt);
 usersModel = usersModel(knexdb);
 

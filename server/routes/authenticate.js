@@ -13,19 +13,15 @@ let usersModel = require('../db/models/users').default;
 knexdb.plugin(bookshelfBcrypt);
 usersModel = usersModel(knexdb);
 
-
 const router = express.Router();
 
 router.post('/', (req, res) => {
   const reqEmail = req.body.email;
   const reqPassword = req.body.password;
 
-  console.log(reqEmail, reqPassword);
-
   if (reqEmail && reqPassword) {
     User.getUserByEmail({ email: reqEmail }, usersModel)
       .then((user) => {
-        console.log('USERRRR', user);
         if (!user) {
           console.log('user not found');
           res.status(401).send({ message: 'invalid username or password' });
@@ -35,7 +31,6 @@ router.post('/', (req, res) => {
               console.log(err.message);
               res.status(500).send(err.message);
             }
-
             if (match) {
               console.log('password match');
               const token = genToken(user.id);

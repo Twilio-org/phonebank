@@ -1,8 +1,3 @@
-// import bookshelfBcrypt from 'bookshelf-bcrypt';
-// import bookshelf from '../init';
-
-// bookshelf.plugin(bookshelfBcrypt);
-
 const User = function(bookshelfObj) {
   return bookshelfObj.Model.extend({
     tableName: 'users',

@@ -1,14 +1,6 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 
-// const knex = knexModule({
-//   client: 'pg',
-//   connection: process.env.PG_CONNECTION_STRING,
-//   debug: true,
-// });
-
-// const bookshelf = bookshelfModule(knex);
-
 const initializeDB = function(config, module) {
   module(config);
 }
