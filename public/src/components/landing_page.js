@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import { PageHeader, Row, Col } from 'react-bootstrap';
 
-export default class LandingPage extends Component{
+class LandingPage extends Component {
 
-  render(){
-  const id = 1;
-    return(
+  render() {
+    const { id } = this.props.auth;
+    return (
       <Row>
         <Col md={12}>
           <PageHeader>Phonebank</PageHeader>
@@ -15,5 +16,21 @@ export default class LandingPage extends Component{
         </Col>
       </Row>
     );
+  }
+}
+
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    account_info: state.account_info
   };
 }
+
+function mapDispatchToProps() {
+  return { };
+}
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(LandingPage)
+);

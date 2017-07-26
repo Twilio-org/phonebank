@@ -12,17 +12,24 @@ class RegistrationForm extends Component {
   }
 
   renderField(field) {
-    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
+    const className = `form-group ${field.meta.touched
+                                    && field.meta.error
+                                    ? 'has-danger'
+                                    : ''}`;
 
     return (
       <div className={className}>
-        <label>{field.label}</label>
-        <input
-          type={!!field.name && field.name.slice(0,9) === 'password' ? 'password' : 'text'}
-          className="form-control"
-          placeholder={field.label}
-          {...field.input}
-        />
+        <label htmlFor={field.label}>{field.label}
+          <input
+            type={!!field.name
+                  && field.name.slice(0, 9) === 'password'
+                  ? 'password'
+                  : 'text'}
+            className="form-control"
+            placeholder={field.label}
+            {...field.input}
+          />
+        </label>
         <div className="text-help">
           {field.meta.touched ? field.meta.error : ''}
         </div>
@@ -98,7 +105,8 @@ function validate(values) {
   if (!values.password_confirm) {
     errors.password_confirm = 'Please confirm your password.';
   }
-  if (!!values.password && !!values.password_confirm && values.password !== values.password_confirm) {
+  if (!!values.password && !!values.password_confirm && values.password
+      !== values.password_confirm) {
     errors.password_confirm = 'The passwords must match.';
   }
 
