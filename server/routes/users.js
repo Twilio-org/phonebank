@@ -41,6 +41,9 @@ router.put('/:id', (req, res) => {
   users.updateUserById(userParams)
     .then(() => {
       res.status(200).send('Record Successfully Updated');
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
 });
 
@@ -48,7 +51,10 @@ router.patch('/:id', (req, res) => {
   users.deactivateUserById({ id: req.params.id })
     .then(() => {
       res.status(200).send('User Successfully Deactivated');
-    });
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
 });
 
 export default router;
