@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon server/www.js --exec babel-node --presets es2015,stage-2",
     "lint": "eslint .",
-    "test": "npm run lint && mocha",
+    "test": "mocha --compilers js:babel-core/register",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "db:test": "psql -U $PG_USER -d phonebank_test",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",

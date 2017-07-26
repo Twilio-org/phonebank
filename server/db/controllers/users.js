@@ -1,8 +1,6 @@
-import User from '../models/users';
-
 export default {
-  saveNewUser: params =>
-    new User({
+  saveNewUser: (params, Model) =>
+    new Model({
       first_name: params.first_name,
       last_name: params.last_name,
       password_hash: params.password,
@@ -11,17 +9,20 @@ export default {
     })
       .save(),
 
-  getUserByEmail: params =>
-    new User({
-      email: params.email
+  getUserByEmail: (params, Model) =>
+    new Model({
+      email: params.email,
     })
       .fetch(),
 
-  getUserById: params =>
-    new User({ id: params.id }).fetch(),
+  getUserById: (params, Model) =>
+    new Model({
+      id: params.id
+    })
+    .fetch(),
 
-  updateUserById: params =>
-    new User()
+  updateUserById: (params, Model) =>
+    new Model()
       .where({ id: params.id })
       .save({
         first_name: params.first_name,
@@ -33,8 +34,8 @@ export default {
         method: 'update'
       }),
 
-  deactivateUserById: params =>
-    new User()
+  deactivateUserById: (params, Model) =>
+    new Model()
       .where({ id: params.id })
       .save({
         is_active: false

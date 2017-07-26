@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export function registerNewUser(userInfo, history) {
+export default function registerNewUser(userInfo, history) {
   const { first_name, last_name, email, phone_number, password } = userInfo;
-  //route that was previously known as '/users'
+  // route that was previously known as '/users'
   return dispatch => axios.post('/register', {
     first_name,
     last_name,
@@ -10,11 +10,15 @@ export function registerNewUser(userInfo, history) {
     phone_number,
     email
   })
-  .then(res => {
-    console.log('response from attempt to post user to db: ', res);
+  .then((res) => {
     history.push('/login');
+    return res;
   })
-  .catch(err => {
-    console.log('error in posting new user to db: ', err);
-  })
+  .catch((err) => {
+    const customError = {
+      message: `error in posting new user to db: ${err}`,
+      name: 'registerNewUser function error in registration.js'
+    };
+    throw customError;
+  });
 }

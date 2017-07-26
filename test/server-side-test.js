@@ -1,23 +1,23 @@
-var testdb = require('../knexfile').test;
-var knex = require('knex')(testdb);
-var request = require('request');
-var bookshelf_bcrypt = require('bookshelf-bcrypt');
-var expect = require('chai').expect;
-var chaiHttp = require('chai-http');
-var Users = require('../server/src/db/controllers/users');
+import { test as testdb } from '../knexfile';
+import request from 'request';
+import bookshelf_bcrypt from 'bookshelf-bcrypt';
+import { expect } from 'chai';
+import chaiHttp from 'chai-http';
+import Users from '../server/db/controllers/users';
+const knex = require('knex')(testdb);
 
 
 
 describe('Server-side tests', function() {
-  var bookshelf = require('bookshelf')(knex);
+  const bookshelf = require('bookshelf')(knex);
   bookshelf.plugin(bookshelf_bcrypt);
-  var Users = bookshelf.Model.extend({
+  const Users = bookshelf.Model.extend({
       tableName: 'users',
       bcrypt: {field: 'password_hash'},
       hasTimestamps: false
     })
 
-  beforeEach(function() {
+  before(function() {
     bookshelf.knex.schema.createTableIfNotExists('users', function(table) {
       table.increments('id');
       table.string('email').notNullable().unique().index();
@@ -54,11 +54,11 @@ describe('Server-side tests', function() {
   });
 
   afterEach(function() {
-    return bookshelf.knex.schema.dropTable('users');
+
   });
 
   after(function() {
-
+    return bookshelf.knex.schema.dropTable('users');
   })
 
   describe('Data insertion', function() {
