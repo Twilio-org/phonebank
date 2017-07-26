@@ -33,7 +33,7 @@ export function loginUser(loginInfo, history) {
       name: 'user info post request from account_info component'
     };
     throw customError;
-  })
+  });
 }
 
 export function logoutUser(userInfo, history) {
@@ -57,25 +57,4 @@ export function authTransition(storeInstance) {
   const token = localStorage.getItem('auth_token');
   return !!id && !!token;
 }
-// export function userValidation(cb) {
-//   return dispatch => axios.get('/session',
-//     {
-//       headers: {'Authoization': 'JWT' + localStorage.getItem('auth_token')}
-//     })
-//   .then((res) => {
-//     const { id } = res.data;
-//     return dispatch(setUserAuthCredentials({ id: id }));
-//   })
-//   .then(() => {
-//     cb();
-//   })
-//   .catch((err) => {
-//     const customError = {
-//       message: `error with user validation: ${err}`,
-//       name: 'function userValidation'
-//     };
-//     throw customError;
-//     cb();
-//   });
-// }
 
