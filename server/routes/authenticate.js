@@ -6,7 +6,7 @@ import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 import { development as devconfig } from '../../knexfile';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
-const { initializeDB, bookshelf } = require('../db/init').default;
+const { bookshelf } = require('../db/init').default;
 const knex = knexModule(devconfig);
 const knexdb = bookshelfModule(knex);
 let usersModel = require('../db/models/users').default;
