@@ -11,13 +11,6 @@ class AccountPage extends Component {
     this.props.fetchUser(id);
   }
 
-  // onEditClick() {
-  //   const { id } = this.props.match.params;
-  //   this.props.editPost(id, () => {
-  //     this.props.history.push('/account/edit');
-  //   });
-  // }
-
   render() {
     const { account_info } = this.props;
     const { id } = this.props.auth;

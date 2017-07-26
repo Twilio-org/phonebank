@@ -9,7 +9,6 @@ export function setAccountInfo(user) {
 }
 
 export function fetchUser(id) {
-  // refactor to use backticks
   return dispatch => axios.get(`/users/${id}`, {
     headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` }
   })

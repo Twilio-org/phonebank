@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import Header from './header';
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <div>
@@ -16,3 +18,18 @@ export default class App extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    account_info: state.account_info
+  };
+}
+
+function mapDispatchToProps() {
+  return { };
+}
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(App)
+);

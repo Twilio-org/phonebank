@@ -51,6 +51,12 @@ export function logoutUser(userInfo, history) {
   });
 }
 
+export function authTransition(storeInstance) {
+  const { auth } = storeInstance.getState();
+  const { id } = auth;
+  const token = localStorage.getItem('auth_token');
+  return !!id && !!token;
+}
 // export function userValidation(cb) {
 //   return dispatch => axios.get('/session',
 //     {
@@ -73,10 +79,3 @@ export function logoutUser(userInfo, history) {
 //   });
 // }
 
-
-export function authTransition(storeInstance) {
-  const { auth } = storeInstance.getState();
-  const { id } = auth;
-  const token = localStorage.getItem('auth_token');
-  return !!id && !!token;
-}
