@@ -8,20 +8,14 @@ import { updateUser } from '../actions/edit_account';
 class EditAccountInfo extends Component {
   onSubmit(values) {
     const { history } = this.props;
-    this.props.updateUser(values, history);
+    this.props.updateUser(this.props.auth.id, values, history);
   }
 
   renderField(field) {
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
 
-    // const { user } = this.props;
-
-    const Allie = {
-      first_name: 'joe',
-      last_name: 'smith',
-      email: 'joe@meow.com',
-      phone_number: '12345678901'
-    }
+    const { account_info } = this.props;
+    console.log('the user is: ', account_info);
 
     return (
       <div className={className}>
@@ -29,7 +23,7 @@ class EditAccountInfo extends Component {
         <input
           type={!!field.name && field.name.slice(0, 9) === 'password' ? 'password' : 'text'}
           className="form-control"
-          placeholder={Allie[field.name]}
+          placeholder={account_info[field.name]}
           //placeholder={!!user[field.name] ? user[field.name] : "*******"}
           {...field.input}
         />
@@ -46,26 +40,26 @@ class EditAccountInfo extends Component {
             <Field
               name="first_name"
               label="First Name"
-              component={this.renderField}
+              component={this.renderField.bind(this)}
             />
           </div>
           <div className="col-md-6">
             <Field
               name="last_name"
               label="Last Name"
-              component={this.renderField}
+              component={this.renderField.bind(this)}
             />
           </div>
         </div>
         <Field
           name="email"
           label="Email"
-          component={this.renderField}
+          component={this.renderField.bind(this)}
         />
         <Field
           name="phone_number"
           label="Phone Number"
-          component={this.renderField}
+          component={this.renderField.bind(this)}
         />
         <button type="submit">Update</button>
       </form>
@@ -81,11 +75,15 @@ function validate(values) {
   return errors;
 }
 
+function mapStateToProps(state) {
+  return { account_info: state.account_info, auth: state.auth };
+}
+
 export default withRouter(
   reduxForm({
     validate,
     form: 'EditedAccountInfo'
   })(
-    connect(null, { updateUser })(EditAccountInfo)
+    connect(mapStateToProps, { updateUser })(EditAccountInfo)
   )
 );

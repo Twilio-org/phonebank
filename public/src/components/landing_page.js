@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader } from 'react-bootstrap'
 export default class LandingPage extends Component{
-  
+
   render(){
-  const id = 31;
+  const id = 1;
     return(
       <div>
         <PageHeader>Phonebank</PageHeader>

@@ -27,7 +27,7 @@ class AccountPage extends Component {
         <h6>Phone:</h6>
           <h3>{!!this.props.account_info ? this.props.account_info.phone_number : ''}</h3>
         <div className="text-xs-right">
-          <Link className="btn btn-primary" to="/account/edit">
+          <Link className="btn btn-primary" to={`/account/${this.props.auth.id}/edit`}>
             Edit Account
           </Link>
         </div>
@@ -36,13 +36,8 @@ class AccountPage extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return {auth: state.auth, account_info: state.account_info}
-}
-
-// function mapStateToProps({ user }) {
-  // return { user };
-  // return { user: users[ownProps.match.params.id] };
+function mapStateToProps(state) {
+  return { auth: state.auth, account_info: state.account_info };
 }
 
 export default withRouter(
