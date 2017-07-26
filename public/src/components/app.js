@@ -6,9 +6,11 @@ import Header from './header';
 
 class App extends Component {
   render() {
+    const { auth, account_info } = this.props;
+    const { id } = auth;
     return (
       <div>
-        <Header />
+        <Header userId={id} userInfo={account_info} />
         <section id="content">
           <Grid>
             {this.props.children}
