@@ -27,7 +27,7 @@ const Root = props => {
       <BrowserRouter>
         <App>
           <Switch>
-            <Route path="/registration" render={() => isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/login" />)} />
+            <Route path="/registration" render={() => !isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/" />)} />
             <Route path="/login" render={() => isLoggedIn() ? (<Redirect to="/account" />) : (<LogInForm />)} />
             <Route exact path="/account/:id/edit" render={() => isLoggedIn() ? (<EditAccountInfo />) : (<Redirect to="/login" />)} />
             <Route path="/account" render={() => isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />)} />
