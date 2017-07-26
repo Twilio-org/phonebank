@@ -1,5 +1,8 @@
 import axios from 'axios';
+<<<<<<< HEAD
 import { CLEAR_AUTH, SET_AUTH_JWT_FULFILLED } from '../reducers/login';
+=======
+>>>>>>> cd5417dae698b1228e186e278d0fcded7734b6f0
 
 export function loginUser(loginInfo, history) {
   const { email, password } = loginInfo;
@@ -9,15 +12,20 @@ export function loginUser(loginInfo, history) {
     password
   })
   .then(res => {
+<<<<<<< HEAD
     const { token, id } = res.data;
     localStorage.setItem('auth_token', token);
     dispatch(setUserAuthCredentials({id: id}))
+=======
+    console.log('response from attempt to login user: ', res);
+>>>>>>> cd5417dae698b1228e186e278d0fcded7734b6f0
     history.push('/');
   })
   .catch(err => {
     console.log('error in posting user login: ', err);
   })
 }
+<<<<<<< HEAD
 
 export function logoutUser(userInfo, history) {
   return dispatch => axios.get('/logout')
@@ -69,3 +77,5 @@ export function authTransition(storeInstance) {
   console.log(!!id, 'id', !!token, 'token')
   return !!id && !!token;
 }
+=======
+>>>>>>> cd5417dae698b1228e186e278d0fcded7734b6f0

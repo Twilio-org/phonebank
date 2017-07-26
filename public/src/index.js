@@ -16,7 +16,6 @@ import EditAccountInfo from './components/edit_account';
 
 import { authTransition } from './actions/login';
 
-
 const Root = props => {
   //isLogged in will go here, does not exist yet!
   //login redirect if logged in is true needs to redirect to the landing page
