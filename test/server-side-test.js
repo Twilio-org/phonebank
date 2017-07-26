@@ -1,11 +1,3 @@
-// var testdb = require('../knexfile').test;
-// var knex = require('knex')(testdb);
-// var request = require('request');
-// var bookshelf_bcrypt = require('bookshelf-bcrypt');
-// var expect = require('chai').expect;
-// var chaiHttp = require('chai-http');
-// var Users = require('../server/db/controllers/users');
-
 import {test as testdb} from '../knexfile';
 import request from 'request';
 import bookshelf_bcrypt from 'bookshelf-bcrypt';
