@@ -1,4 +1,4 @@
-import {test as testdb} from '../knexfile';
+import { test as testdb } from '../knexfile';
 import request from 'request';
 import bookshelf_bcrypt from 'bookshelf-bcrypt';
 import { expect } from 'chai';
