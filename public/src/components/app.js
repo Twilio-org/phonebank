@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import Header from './header'
+import { Grid } from 'react-bootstrap';
+import Header from './header';
 
 export default class App extends Component {
-  render(){
-    return(
+  render() {
+    return (
       <div>
         <Header />
         <section id="content">
-          <div className="container">
+          <Grid>
             {this.props.children}
-          </div>
+          </Grid>
         </section>
       </div>
     );
