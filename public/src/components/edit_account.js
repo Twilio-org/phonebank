@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -6,16 +7,20 @@ import { withRouter } from 'react-router-dom';
 import { updateUser } from '../actions/edit_account';
 
 class EditAccountInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.renderField = this.renderField.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
   onSubmit(values) {
     const { history } = this.props;
-    this.props.updateUser(this.props.auth.id, values, history);
+    const { id } = this.props.auth;
+    this.props.updateUser(id, values, history);
   }
 
   renderField(field) {
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
-
     const { account_info } = this.props;
-    console.log('the user is: ', account_info);
 
     return (
       <div className={className}>
@@ -24,7 +29,7 @@ class EditAccountInfo extends Component {
           type={!!field.name && field.name.slice(0, 9) === 'password' ? 'password' : 'text'}
           className="form-control"
           placeholder={account_info[field.name]}
-          //placeholder={!!user[field.name] ? user[field.name] : "*******"}
+          // placeholder={!!user[field.name] ? user[field.name] : "*******"}
           {...field.input}
         />
       </div>
@@ -34,32 +39,32 @@ class EditAccountInfo extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <div className="row">
           <div className="col-md-6">
             <Field
               name="first_name"
               label="First Name"
-              component={this.renderField.bind(this)}
+              component={this.renderField}
             />
           </div>
           <div className="col-md-6">
             <Field
               name="last_name"
               label="Last Name"
-              component={this.renderField.bind(this)}
+              component={this.renderField}
             />
           </div>
         </div>
         <Field
           name="email"
           label="Email"
-          component={this.renderField.bind(this)}
+          component={this.renderField}
         />
         <Field
           name="phone_number"
           label="Phone Number"
-          component={this.renderField.bind(this)}
+          component={this.renderField}
         />
         <button type="submit">Update</button>
       </form>
@@ -67,9 +72,34 @@ class EditAccountInfo extends Component {
   }
 }
 
+// EditAccountInfo.propTypes = {
+//   updateUser: PropTypes.func,
+//   handleSubmit: PropTypes.func,
+//   auth: PropTypes.obj,
+//   id: PropTypes.number,
+//   account_info: PropTypes.obj,
+//   history: PropTypes.obj
+// };
+
+// EditAccountInfo.defaultProps = {
+//   updateUser: () => 'meow',
+//   handleSubmit: () => 'meow',
+//   auth: { id: 1 },
+//   id: 1,
+//   account_info: {
+//     first_name: 'meow',
+//     last_name: 'meows',
+//     email: 'meow@meow.com',
+//     phone_number: '12342345'
+//   },
+//   history: { meow: 'meow' }
+// };
+
+
 function validate(values) {
   const errors = {};
-  if (!!values.password && !!values.password_confirm && values.password !== values.password_confirm) {
+  const { password, password_confirm } = values;
+  if (!!password && !!password_confirm && password !== password_confirm) {
     errors.password_confirm = 'The passwords must match.';
   }
   return errors;
