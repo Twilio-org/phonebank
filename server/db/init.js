@@ -1,10 +1,6 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 
-const initializeDB = function(config, module) {
-  module(config);
-}
-
 const bookshelf = function(bookshelfObj) {
   bookshelfObj.knex.schema.hasTable('users').then((exist) => {
     if (!exist) {
@@ -27,4 +23,4 @@ const bookshelf = function(bookshelfObj) {
   });
 }
 
-export default { bookshelf, initializeDB };
+export default bookshelf;
