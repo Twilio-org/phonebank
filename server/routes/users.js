@@ -8,7 +8,6 @@ router.use(passport.authenticate('jwt', { session: false }));
 
 router.get('/:id', (req, res) => {
   const requestedUserId = req.params.id;
-
   users.getUserById({ id: requestedUserId })
     .then((model) => {
       res.status(200).send(model);
