@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
               res.status(201).json({
                 message: 'login successful',
                 token,
-                id
+                id, 
               });
             } else {
               console.log('invalid password');
