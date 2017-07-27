@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { registerNewUser } from '../actions/registration';
+import registerNewUser from '../actions/registration';
 
 class RegistrationForm extends Component {
   onSubmit(values) {

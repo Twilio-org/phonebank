@@ -13,8 +13,7 @@ export default function updateUser(userId, userInfo, history) {
     { headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` } }
   )
   .then((res) => {
-    history.push('/account');
-    return res;
+    history.push(`/account/${userId}`);
   })
   .catch((err) => {
     const customError = {
