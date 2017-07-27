@@ -103,7 +103,7 @@ describe('Server-side tests', function() {
   })
 
   describe('Data retrieval', function() {
-    it('should getUserByEmail if given an email (test 1)', (done) => {
+    it('should retrieve user by email (test 1)', (done) => {
       User.getUserByEmail({ email: 'John@gmail.com'}, usersModel)
         .then((user) => {
           should.exist(user);
@@ -114,7 +114,7 @@ describe('Server-side tests', function() {
         }, done);
     });
 
-    it('should getUserByEmail if given an email (test 2)', (done) => {
+    it('should retrieve user by email (test 2)', (done) => {
       User.getUserByEmail({ email: 'Jane@gmail.com'}, usersModel)
         .then((user) => {
           should.exist(user);
@@ -124,7 +124,30 @@ describe('Server-side tests', function() {
           done();
         }, done);
     });
+    
+    it ('should retrieve user by ID (test 1)', (done) => {
+      User.getUserById({ id: 1 }, usersModel)
+        .then((user) => {
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
+          done();
+        }, done)
+    });
+
+    it ('should retrieve user by ID (test 2)', (done) => {
+      User.getUserById({ id: 2 }, usersModel)
+        .then((user) => {
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('Jane');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
+          done();
+        }, done)
+    });
   })
+
 
   describe('Data update', function() {
     beforeEach(() => {
@@ -153,7 +176,7 @@ describe('Server-side tests', function() {
           .then(email => { 
             expect(email).to.equal('Jane@yahoo.com');
             done();
-          });
+          }, done);
     });
 
     it('should update user last_name by ID', (done) => {
@@ -162,7 +185,7 @@ describe('Server-side tests', function() {
           .then((lastName) => {
             expect(lastName).to.equal('Wilson');
             done();
-          });
+          }, done);
     });
 
     it('should rehash passwords upon update (test 1)', (done) => {
@@ -184,7 +207,7 @@ describe('Server-side tests', function() {
               expect(match).to.be.true;
               done();
             })
-          })
+          }, done)
     })
 
     it('should deactivate user when given an ID (test 1)', (done) => {
@@ -193,7 +216,7 @@ describe('Server-side tests', function() {
           .then((status) => {
             expect(status).to.be.false;
             done();
-          }) 
+          }, done) 
     });
 
     it('should deactivate user when given an ID (test 2)', (done) => {
@@ -202,7 +225,7 @@ describe('Server-side tests', function() {
           .then((status) => {
             expect(status).to.be.false;
             done();
-          }) 
+          }, done) 
     });
 
   });
