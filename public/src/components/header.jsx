@@ -10,12 +10,20 @@ export default class Header extends Component {
     this.getLinks = this.getLinks.bind(this);
   }
   getLinks() {
-    // CHANGE: ideally this method would get the appropriate
     // links to pass into the navigation based on session info
-    const links = [
-      { title: 'Register', href: '/registration' },
-      { title: 'Login', href: '/login' }
-    ];
+    const currentUser = this.props.userId;
+    let links = [];
+    if (currentUser) { // user is logged in aka id present
+      links = [
+        { title: 'Account', href: `/account/${currentUser}` },
+        { title: 'Logout', href: '/logout' }
+      ];
+    } else {
+      links = [
+        { title: 'Register', href: '/registration' },
+        { title: 'Login', href: '/login' }
+      ];
+    }
     return links;
   }
   render() {
@@ -28,12 +36,10 @@ export default class Header extends Component {
             </Navbar.Brand>
           </Col>
           <Col md={4} id="navigation">
-            <Navigation links={this.getLinks}/>
+            <Navigation title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name} links={this.getLinks()}/>
           </Col>
         </Row>
       </Navbar>
     );
   }
 }
-
-
