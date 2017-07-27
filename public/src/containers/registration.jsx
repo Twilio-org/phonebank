@@ -52,7 +52,6 @@ class RegistrationForm extends Component {
             <Field
               name="first_name"
               label="First Name"
-              type="text"
               component={this.renderField}
             />
           </div>
@@ -60,7 +59,6 @@ class RegistrationForm extends Component {
             <Field
               name="last_name"
               label="Last Name"
-              type="text"
               component={this.renderField}
             />
           </div>
@@ -68,25 +66,21 @@ class RegistrationForm extends Component {
         <Field
           name="email"
           label="Email"
-          type="email"
           component={this.renderField}
         />
         <Field
           name="phone_number"
           label="Phone Number"
-          type="phone"
           component={this.renderField}
         />
         <Field
           name="password"
           label="Password"
-          type="password"
           component={this.renderField}
         />
         <Field
           name="password_confirm"
           label="Confirm Password"
-          type="password"
           component={this.renderField}
         />
         <button type="submit">Sign Up</button>
