@@ -1,5 +1,6 @@
 import { test as testconfig } from '../knexfile';
 import knexModule from 'knex';
+import { expect, Should} from 'chai';
 import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
 import User from '../server/db/controllers/users';
@@ -36,24 +37,6 @@ describe('Server-side tests', function() {
         });
       }
     })
-    
-    return (
-      User.saveNewUser({
-        first_name: 'John',
-        last_name: 'Doe',
-        password: 'hatch',
-        phone_number: '+14441114444',
-        email: 'John@Doe.com' 
-      }, usersModel) &&
-
-      User.saveNewUser({
-        first_name: 'Jane',
-        last_name: 'Doe',
-        password: 'hatch1',
-        phone_number: '+14441114444',
-        email: 'Jane@Jane.com' 
-      }, usersModel)
-    )
   });
 
   afterEach(function() {
@@ -64,13 +47,62 @@ describe('Server-side tests', function() {
      return knexdb.knex.schema.dropTable('users');
   });
 
-  describe('Data retrieval', function() {
+  describe('Data insertion', function() {
+    beforeEach(() => {
+      this.userSaveParams1 = {
+        first_name: 'John',
+        last_name: 'Doe',
+        password: 'hatch',
+        phone_number: '+14441114444',
+        email: 'John@gmail.com' 
+      };
 
-    it('should getUserByEmail if given an email - first_name', function(done) {
-      User.getUserByEmail({ email: 'John@Doe.com'}, usersModel)
+      this.userSaveParams2 = {
+        first_name: 'Jane',
+        last_name: 'Doe',
+        password: 'hatch1',
+        phone_number: '+14441114444',
+        email: 'Jane@gmail.com' 
+      }
+    })
+
+    it('should be able to saveNewUser (test 1)', (done) => {
+      User.saveNewUser(this.userSaveParams1, usersModel)
+        .then((user) => {
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
+    })
+
+
+    it('should be able to saveNewUser (test 2)', (done) => {
+      User.saveNewUser(this.userSaveParams2, usersModel)
+        .then((user) => {
+          expect(user.attributes.first_name).to.equal('Jane');
+          expect(user.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
+    })
+  })
+
+  describe('Data retrieval', function() {
+    it('should getUserByEmail if given an email (test 1)', (done) => {
+      User.getUserByEmail({ email: 'John@gmail.com'}, usersModel)
         .then((user) => {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
+    });
+
+    it('should getUserByEmail if given an email (test 2)', (done) => {
+      User.getUserByEmail({ email: 'Jane@gmail.com'}, usersModel)
+        .then((user) => {
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('Jane');
+          expect(user.attributes.last_name).to.equal('Doe');
           done();
         }, done);
     });
@@ -84,7 +116,7 @@ describe('Server-side tests', function() {
         last_name: 'Doe',
         password: 'hatch1',
         phone_number: '+14441114444',
-        email: 'Jane@Doe.com'
+        email: 'Jane@gmail.com'
       };
 
       this.userUpdateParams1 = {
@@ -93,7 +125,7 @@ describe('Server-side tests', function() {
         last_name: 'Wilson',
         password: 'hatch1',
         phone_number: '+14441114444',
-        email: 'John@Doe.com'
+        email: 'John@gmail.com'
       };
     });
 
@@ -101,7 +133,7 @@ describe('Server-side tests', function() {
       User.updateUserById(this.userUpdateParams2, usersModel)
         .then((user) => user.attributes.email)
           .then(email => { 
-            expect(email).to.equal('Jane@Doe.com');
+            expect(email).to.equal('Jane@gmail.com');
             done();
           });
     });
