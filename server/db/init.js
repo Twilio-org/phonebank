@@ -1,7 +1,4 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
-
-const bookshelf = function(bookshelfObj) {
+const bookshelfCreateTable = (bookshelfObj) => {
   bookshelfObj.knex.schema.hasTable('users').then((exist) => {
     if (!exist) {
       bookshelfObj.knex.schema.createTableIfNotExists('users', (table) => {
@@ -14,13 +11,13 @@ const bookshelf = function(bookshelfObj) {
         table.boolean('is_admin').defaultTo(false);
         table.boolean('is_banned').defaultTo(false);
         table.boolean('is_active').defaultTo(true);
-        table.timestamp('date_created').defaultTo(knex.fn.now());
-        table.timestamp('date_updated').defaultTo(knex.fn.now());
+        table.timestamp('date_created').defaultTo(bookshelfObj.knex.fn.now());
+        table.timestamp('date_updated').defaultTo(bookshelfObj.knex.fn.now());
       }).then(() => {
         console.log(('Created users table'));
       });
     }
   });
-}
+};
 
-export default bookshelf;
+export default bookshelfCreateTable;

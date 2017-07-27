@@ -1,7 +1,7 @@
-import express from 'express';
+
 import bcrypt from 'bcrypt';
 import genToken from '../config/auth/jwtGenerator';
-import User from '../db/controllers/users';
+import UserService from '../db/services/users';
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 import { development as devconfig } from '../../knexfile';
@@ -13,9 +13,7 @@ let usersModel = require('../db/models/users').default;
 knexdb.plugin(bookshelfBcrypt);
 usersModel = usersModel(knexdb);
 
-const router = express.Router();
-
-router.post('/', (req, res) => {
+function checkCredentials(req, res) {
   const reqEmail = req.body.email;
   const reqPassword = req.body.password;
 
@@ -36,18 +34,16 @@ router.post('/', (req, res) => {
               const token = genToken(user.id);
               res.status(201).json({
                 message: 'login successful',
-                token,
+                token
               });
             } else {
               console.log('invalid password');
               res.status(401).json({ message: 'invalid username or password' });
             }
-          })
+          });
         }
-      })
+      });
   } else {
     res.status(401).json({ message: 'invalid username or password' });
   }
-})
-
-export default router;
+}
