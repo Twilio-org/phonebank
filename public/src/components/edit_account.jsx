@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 
 import updateUser from '../actions/edit_account';
 
@@ -73,16 +74,12 @@ class EditAccountInfo extends Component {
           label="Phone Number"
           component={this.renderField}
         />
-        <div className="row">
-          <div className="col-md-1">
-            <button className="btn btn-primary" type="submit">Update</button>
-          </div>
-          <div className="col-md-1">
-            <Link className="btn btn-secondary" to={`/account/${id}`}>
-              Cancel
-            </Link>
-          </div>
-        </div>
+        <ButtonToolbar>
+          <Button bsStyle="primary" type="submit">Update</Button>
+          <Link className="btn btn-default" to={`/account/${id}`}>
+            Cancel
+          </Link>
+        </ButtonToolbar>
       </form>
     );
   }
