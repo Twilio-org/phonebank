@@ -14,6 +14,7 @@ export default function updateUser(userId, userInfo, history) {
   )
   .then((res) => {
     history.push(`/account/${userId}`);
+    return res;
   })
   .catch((err) => {
     const customError = {
