@@ -14,17 +14,6 @@
     "db:test": "psql -U $PG_USER -d phonebank_test"
   },
   "jest":{
-    "transform": {},
-    "moduleNameMapper": {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-        "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
-  },
-  "jest":{
-    "verbose": true,
-    "moduleFileExtensions": ["js", "jsx"]
-  },
-  "jest":{
     "verbose": true,
     "moduleFileExtensions": ["js", "jsx"]
   },
