@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { updateUser } from '../actions/edit_account';
+import updateUser from '../actions/edit_account';
 
 class EditAccountInfo extends Component {
   constructor(props) {
@@ -21,17 +21,23 @@ class EditAccountInfo extends Component {
   renderField(field) {
     const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
     const { account_info } = this.props;
+    const mapToLabelNames = {
+      'First Name': 'first_name',
+      'Last Name': 'last_name',
+      Email: 'email',
+      'Phone Number': 'phone_number'
+    };
 
     return (
       <div className={className}>
-        <label>{field.label}</label>
+        <label htmlFor={field.label}>{field.label}
         <input
-          type={!!field.name && field.name.slice(0, 9) === 'password' ? 'password' : 'text'}
+          type={'text'}
           className="form-control"
-          placeholder={account_info[field.name]}
-          // placeholder={!!user[field.name] ? user[field.name] : "*******"}
+          placeholder={account_info[mapToLabelNames[field.label]]}
           {...field.input}
         />
+        </label>
       </div>
     );
   }
