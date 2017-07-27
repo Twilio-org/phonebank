@@ -11,8 +11,6 @@ const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
 const usersModel = Model(knexdb);
 const should = Should();
 
-
-
 describe('Server-side tests', function() {
 
   before(function() {
@@ -89,6 +87,7 @@ describe('Server-side tests', function() {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('John');
           expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
           done();
         }, done);
     });
@@ -99,6 +98,7 @@ describe('Server-side tests', function() {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('Jane');
           expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
           done();
         }, done);
     });
@@ -134,7 +134,7 @@ describe('Server-side tests', function() {
           });
     });
 
-    it ('should update user last_name by ID', (done) => {
+    it('should update user last_name by ID', (done) => {
       User.updateUserById(this.userUpdateParams1, usersModel)
         .then((user) => user.attributes.last_name)
           .then((lastName) => {
@@ -142,6 +142,25 @@ describe('Server-side tests', function() {
             done();
           });
     });
-  })
+
+    it('should deactivate user when given an ID (test 1)', (done) => {
+      User.deactivateUserById({ id: 1 }, usersModel)
+        .then((user) => user.attributes.is_active)
+          .then((status) => {
+            expect(status).to.be.false;
+            done();
+          }) 
+    });
+
+    it('should deactivate user when given an ID (test 2)', (done) => {
+      User.deactivateUserById({ id: 2 }, usersModel)
+        .then((user) => user.attributes.is_active)
+          .then((status) => {
+            expect(status).to.be.false;
+            done();
+          }) 
+    });
+
+  });
 })
 
