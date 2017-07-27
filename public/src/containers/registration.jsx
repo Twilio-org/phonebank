@@ -26,8 +26,9 @@ class RegistrationForm extends Component {
       <div className={className}>
         <label htmlFor={field.label}>{field.label}
           <input
-            type={!!field.name
-                  && field.name.slice(0, 9) === 'password'
+            type={!!field.label
+                  && (field.label === "Password"
+                      || field.label === "Confirm Password")
                   ? 'password'
                   : 'text'}
             className="form-control"
@@ -51,6 +52,7 @@ class RegistrationForm extends Component {
             <Field
               name="first_name"
               label="First Name"
+              type="text"
               component={this.renderField}
             />
           </div>
@@ -58,6 +60,7 @@ class RegistrationForm extends Component {
             <Field
               name="last_name"
               label="Last Name"
+              type="text"
               component={this.renderField}
             />
           </div>
@@ -65,21 +68,25 @@ class RegistrationForm extends Component {
         <Field
           name="email"
           label="Email"
+          type="email"
           component={this.renderField}
         />
         <Field
           name="phone_number"
           label="Phone Number"
+          type="phone"
           component={this.renderField}
         />
         <Field
           name="password"
           label="Password"
+          type="password"
           component={this.renderField}
         />
         <Field
           name="password_confirm"
           label="Confirm Password"
+          type="password"
           component={this.renderField}
         />
         <button type="submit">Sign Up</button>
