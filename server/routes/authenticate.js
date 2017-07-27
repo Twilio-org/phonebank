@@ -34,20 +34,22 @@ router.post('/', (req, res) => {
             if (match) {
               console.log('password match');
               const token = genToken(user.id);
+              const { id } = user;
               res.status(201).json({
                 message: 'login successful',
                 token,
+                id
               });
             } else {
               console.log('invalid password');
               res.status(401).json({ message: 'invalid username or password' });
             }
-          })
+          });
         }
-      })
+      });
   } else {
     res.status(401).json({ message: 'invalid username or password' });
   }
-})
+});
 
 export default router;

@@ -12,8 +12,6 @@ const knexdb = bookshelfModule(knex);
 const usersModel = Model(knexdb);
 knexdb.plugin(bookshelfBcrypt);
 
-
-
 const router = express.Router();
 
 router.use(passport.authenticate('jwt', { session: false }));
@@ -38,7 +36,7 @@ router.put('/:id', (req, res) => {
   const userParams = req.body;
   userParams.id = req.params.id;
 
-  users.updateUserById(userParams)
+  User.updateUserById(userParams, usersModel)
     .then(() => {
       res.status(200).send('Record Successfully Updated');
     })
@@ -48,13 +46,13 @@ router.put('/:id', (req, res) => {
 });
 
 router.patch('/:id', (req, res) => {
-  users.deactivateUserById({ id: req.params.id })
+  User.deactivateUserById({ id: req.params.id }, usersModel)
     .then(() => {
       res.status(200).send('User Successfully Deactivated');
     })
     .catch((err) => {
       res.status(500).send(err);
-    })
+    });
 });
 
 export default router;
