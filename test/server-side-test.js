@@ -132,18 +132,18 @@ describe('Server-side tests', function() {
         id: 2,
         first_name: 'Jane',
         last_name: 'Doe',
-        password: 'hatch1',
+        password: 'smallowl',
         phone_number: '+14441114444',
-        email: 'Jane@gmail.com'
+        email: 'Jane@yahoo.com'
       };
 
       this.userUpdateParams1 = {
         id: 1,
         first_name: 'John',
         last_name: 'Wilson',
-        password: 'hatch1',
+        password: 'bigowl',
         phone_number: '+14441114444',
-        email: 'John@gmail.com'
+        email: 'John@yahoo.com'
       };
     });
 
@@ -151,7 +151,7 @@ describe('Server-side tests', function() {
       User.updateUserById(this.userUpdateParams2, usersModel)
         .then((user) => user.attributes.email)
           .then(email => { 
-            expect(email).to.equal('Jane@gmail.com');
+            expect(email).to.equal('Jane@yahoo.com');
             done();
           });
     });
@@ -164,6 +164,28 @@ describe('Server-side tests', function() {
             done();
           });
     });
+
+    it('should rehash passwords upon update (test 1)', (done) => {
+      User.getUserById({ id: 1}, usersModel)
+        .then((user) => user.attributes.password_hash)
+          .then((passwordHash) => {
+            bcrypt.compare('bigowl', passwordHash, (err, match) => {
+              expect(match).to.be.true;
+              done();
+            })
+          })
+    })
+
+    it('should rehash passwords upon update (test 2)', (done) => {
+      User.getUserById({ id: 2}, usersModel)
+        .then((user) => user.attributes.password_hash)
+          .then((passwordHash) => {
+            bcrypt.compare('smallowl', passwordHash, (err, match) => {
+              expect(match).to.be.true;
+              done();
+            })
+          })
+    })
 
     it('should deactivate user when given an ID (test 1)', (done) => {
       User.deactivateUserById({ id: 1 }, usersModel)
