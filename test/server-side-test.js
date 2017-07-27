@@ -3,6 +3,7 @@ import knexModule from 'knex';
 import { expect, Should} from 'chai';
 import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
+import bcrypt from 'bcrypt';
 import User from '../server/db/controllers/users';
 import bookshelf from '../server/db/init';
 import Model from '../server/db/models/users';
@@ -69,6 +70,16 @@ describe('Server-side tests', function() {
         }, done);
     })
 
+    it('should hash passwords upon entry (test 1)', (done) => {
+      User.getUserByEmail({ email: 'John@gmail.com'}, usersModel)
+        .then((user) => user.attributes.password_hash)
+          .then((passwordHash) => {
+            bcrypt.compare('hatch', passwordHash, (err, match) => {
+              expect(match).to.be.true;
+              done();
+            })
+          })
+    })
 
     it('should be able to saveNewUser (test 2)', (done) => {
       User.saveNewUser(this.userSaveParams2, usersModel)
@@ -77,6 +88,17 @@ describe('Server-side tests', function() {
           expect(user.attributes.last_name).to.equal('Doe');
           done();
         }, done);
+    })
+
+    it('should hash passwords upon entry (test 2)', (done) => {
+      User.getUserByEmail({ email: 'Jane@gmail.com'}, usersModel)
+        .then((user) => user.attributes.password_hash)
+          .then((passwordHash) => {
+            bcrypt.compare('hatch1', passwordHash, (err, match) => {
+              expect(match).to.be.true;
+              done();
+            })
+          })
     })
   })
 
