@@ -39,10 +39,6 @@ describe('Server-side tests', function() {
     })
   });
 
-  afterEach(function() {
-
-  });
-
   after(function() {
      return knexdb.knex.schema.dropTable('users');
   });
