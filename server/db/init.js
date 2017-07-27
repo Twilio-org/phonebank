@@ -17,7 +17,7 @@ const bookshelf = function(bookshelfObj) {
         table.timestamp('date_created').defaultTo(knex.fn.now());
         table.timestamp('date_updated').defaultTo(knex.fn.now());
       }).then(() => {
-        console.log(('Created users table'));
+        console.log('Created users table');
       });
     }
   });
