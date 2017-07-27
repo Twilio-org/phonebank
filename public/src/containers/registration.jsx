@@ -6,6 +6,11 @@ import { withRouter } from 'react-router-dom';
 import registerNewUser from '../actions/registration';
 
 class RegistrationForm extends Component {
+  constructor(props){
+    super(props);
+    this.renderField = this.renderField.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
   onSubmit(values) {
     const { history } = this.props;
     this.props.registerNewUser(values, history);
@@ -40,7 +45,7 @@ class RegistrationForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <div className="row">
           <div className="col-md-6">
             <Field
