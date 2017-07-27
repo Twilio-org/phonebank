@@ -26,8 +26,9 @@ class RegistrationForm extends Component {
       <div className={className}>
         <label htmlFor={field.label}>{field.label}
           <input
-            type={!!field.name
-                  && field.name.slice(0, 9) === 'password'
+            type={!!field.label
+                  && (field.label === "Password"
+                      || field.label === "Confirm Password")
                   ? 'password'
                   : 'text'}
             className="form-control"

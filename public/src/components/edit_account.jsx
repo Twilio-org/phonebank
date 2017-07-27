@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 
 import updateUser from '../actions/edit_account';
 
@@ -44,6 +45,7 @@ class EditAccountInfo extends Component {
 
   render() {
     const { handleSubmit } = this.props;
+    const { id } = this.props.auth;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div className="row">
@@ -72,7 +74,12 @@ class EditAccountInfo extends Component {
           label="Phone Number"
           component={this.renderField}
         />
-        <button type="submit">Update</button>
+        <ButtonToolbar>
+          <Button bsStyle="primary" type="submit">Update</Button>
+          <Link className="btn btn-default" to={`/account/${id}`}>
+            Cancel
+          </Link>
+        </ButtonToolbar>
       </form>
     );
   }
