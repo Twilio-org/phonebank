@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CLEAR_AUTH, SET_AUTH_JWT_FULFILLED } from '../reducers/login';
+import { CLEAR_AUTH, SET_AUTH_JWT_FULFILLED, LOGOUT_USER } from '../reducers/login';
 
 export function setUserAuthCredentials(user) {
   return {
@@ -12,6 +12,12 @@ export function clearAuthCredentials() {
   return {
     type: CLEAR_AUTH
   };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT_USER
+  }
 }
 
 export function loginUser(loginInfo, history) {
@@ -40,6 +46,7 @@ export function logoutUser(userInfo, history) {
   return dispatch => axios.get('/logout')
   .then(() => {
     localStorage.removeItem('auth_token');
+    dispatch(logout());
     history.push('/login');
   })
   .catch((err) => {
@@ -57,4 +64,3 @@ export function authTransition(storeInstance) {
   const token = localStorage.getItem('auth_token');
   return !!id && !!token;
 }
-

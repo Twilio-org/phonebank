@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Grid } from 'react-bootstrap';
 import Header from './header';
+import { logoutUser } from '../actions/login';
 
 class App extends Component {
   render() {
-    const { auth, account_info } = this.props;
+    const { auth, account_info, logoutUser, history } = this.props;
     const { id } = auth;
     return (
       <div>
-        <Header userId={id} userInfo={account_info} />
+        <Header
+          userId={id}
+          userInfo={account_info}
+          logout={logoutUser}
+          history={history}
+        />
         <section id="content">
           <Grid>
             {this.props.children}
@@ -28,10 +34,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps() {
-  return { };
-}
-
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(App)
+  connect(mapStateToProps, { logoutUser })(App)
 );
