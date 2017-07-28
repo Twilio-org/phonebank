@@ -45,11 +45,6 @@ passport.use('local', new LocalStrategy({
             return done(null, user);
           }
           return done(null, false);
-        })
-        .then(() => done(null, false))
-        .catch((err) => {
-          console.log('error loging in user: ', err);
-          return done(null, false);
         });
         return done(null, false);
       })
