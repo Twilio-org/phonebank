@@ -13,20 +13,6 @@
     "start": "nodemon server/www.js --exec babel-node --presets es2015,stage-2",
     "test": "mocha --compilers js:babel-core/register"
   },
-  "jest":{
-    "transform": {},
-    "moduleNameMapper": {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-        "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
-  },
-  "jest":{
-    "transform": {},
-    "moduleNameMapper": {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-        "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    }
-  },
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
