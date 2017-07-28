@@ -1,28 +1,24 @@
+import http from 'http';
 import express from 'express';
-import routes from './config/routes';
+// import routes from './config/routes';
 import middleware from './config/middleware';
+import normalizePort from './config/port';
+import errorHandle from './config/errorHandle';
 
 const app = express();
+const port = normalizePort(process.env.PORT || '3000');
 
-routes(app, express);
-middleware(app);
+app.set('port', port);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
+// Create HTTP server.
+const server = http.createServer(app);
 
-  err.status = 404;
-  next(err);
-});
+// Listen on provided port, on all network interfaces.
+server.listen(port);
+server.on('error', errorHandle.onError);
+server.on('listening', errorHandle.onListening);
 
-// error handler
-app.use((err, req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+middleware(app, express);
+// routes(app, express);
 
-  // render the error page
-  res.status(err.status || 500);
-});
-
-export default app;
+export default server;

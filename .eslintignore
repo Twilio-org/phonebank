@@ -1,5 +1,5 @@
 build/*
 public/dist/*
 .eslintrc.js
-.knexfile.js
-.webpack.config.js
+knexfile.js
+webpack.config.js

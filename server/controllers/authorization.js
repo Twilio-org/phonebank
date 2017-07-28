@@ -1,5 +1,15 @@
-import jwt from 'jsonwebtoken';
+import knexModule from 'knex';
+import bookshelfModule from 'bookshelf';
+import bookshelfBcrypt from 'bookshelf-bcrypt';
+import genToken from '../config/auth/jwt';
 import usersService from '../db/services/users';
+import { development as devconfig } from '../../knexfile';
+import User from '../db/models/users';
+// import bookshelfCreateTable from '../db/init';
+const knex = knexModule(devconfig);
+const bookshelf = bookshelfModule(knex);
+bookshelf.plugin(bookshelfBcrypt);
+const UsersModel = User(bookshelf);
 
 export function register(req, res, next) {
   const userParams = {
@@ -10,7 +20,7 @@ export function register(req, res, next) {
     phoneNumber: req.body.phone_number
   };
 
-  usersService.saveNewUser(userParams)
+  usersService.saveNewUser(userParams, UsersModel)
     .then((user) => {
       if (user) {
         res.status(201).json({ message: 'Registration Successful' });
@@ -25,8 +35,13 @@ export function register(req, res, next) {
 }
 
 export function login(req, res) {
-  const payload = { id: req.user.id, org_id: req.user.org_id, username: req.user.username };
-  const token = jwt.sign(payload, jwtOptions.secretOrKey);
+  const id = req.user.id;
+  const token = genToken(id);
 
-  res.status(201).json({ message: "OK", token: token, id: req.user.id });
+  res.status(201).json({ message: 'login succesful', token, id });
+}
+
+export function logout(req, res) {
+  req.logout();
+  res.status(201).json(req.user);
 }

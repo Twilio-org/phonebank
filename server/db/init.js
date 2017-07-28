@@ -1,23 +1,28 @@
-const bookshelfCreateTable = (bookshelfObj) => {
-  bookshelfObj.knex.schema.hasTable('users').then((exist) => {
-    if (!exist) {
-      bookshelfObj.knex.schema.createTableIfNotExists('users', (table) => {
-        table.increments();
-        table.string('email').notNullable().unique().index();
-        table.string('first_name').notNullable();
-        table.string('last_name').notNullable();
-        table.string('phone_number').notNullable();
-        table.string('password_hash').notNullable();
-        table.boolean('is_admin').defaultTo(false);
-        table.boolean('is_banned').defaultTo(false);
-        table.boolean('is_active').defaultTo(true);
-        table.timestamp('date_created').defaultTo(bookshelfObj.knex.fn.now());
-        table.timestamp('date_updated').defaultTo(bookshelfObj.knex.fn.now());
-      }).then(() => {
-        console.log(('Created users table'));
-      });
-    }
-  });
-};
+import knexModule from 'knex';
+import bookshelfModule from 'bookshelf';
+import bookshelfBcrypt from 'bookshelf-bcrypt';
+import { development as devconfig } from '../../knexfile';
 
-export default bookshelfCreateTable;
+const knex = knexModule(devconfig);
+const bookshelf = bookshelfModule(knex);
+bookshelf.plugin(bookshelfBcrypt);
+
+bookshelf.knex.schema.hasTable('users').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTableIfNotExists('users', (table) => {
+      table.increments();
+      table.string('email').notNullable().unique().index();
+      table.string('firstName').notNullable();
+      table.string('lastName').notNullable();
+      table.string('phoneNumber').notNullable();
+      table.string('passwordHash').notNullable();
+      table.boolean('isAdmin').defaultTo(false);
+      table.boolean('isBanned').defaultTo(false);
+      table.boolean('isActive').defaultTo(true);
+      table.timestamp('dateCreated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('dateUpdated').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created users table'));
+    });
+  }
+});

@@ -1,21 +1,21 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
-import { getUserById,
-         updateUserById,
-         deactivateUserById } from '../../controllers/users';
-import { development as devconfig } from '../../knexfile';
-import { User as UsersModel } from '../db/models/users';
+import { getUserById } from '../../db/services/users';
+import { development as devconfig } from '../../../knexfile';
+import User from '../../db/models/users';
 
 const knex = knexModule(devconfig);
-const knexdb = bookshelfModule(knex);
+const bookshelf = bookshelfModule(knex);
 
-knexdb.plugin(bookshelfBcrypt);
-usersModel = usersModel(knexdb);
+bookshelf.plugin(bookshelfBcrypt);
+const UsersModel = User(bookshelf);
 
+dotenv.config();
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
@@ -24,7 +24,7 @@ const jwtOptions = {
 
 passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
   console.log('payload received', jwtPayload);
-  User.getUserById({ id: jwtPayload.id }, usersModel)
+  getUserById({ id: jwtPayload.id }, UsersModel)
     .then((user) => {
       if (user) {
         next(null, user);
@@ -32,7 +32,7 @@ passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
         next(null, false);
       }
     });
-}))
+}));
 
 export default function genToken(userId) {
   const payload = { id: userId };

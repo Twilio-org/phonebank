@@ -1,5 +1,5 @@
 import express from 'express';
-import { serveReactApp } from '../../controllers/index';
+import serveReactApp from '../../controllers/index';
 
 const router = express.Router();
 

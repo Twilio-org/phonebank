@@ -3,12 +3,12 @@ export default {
     const extractedParams = {
       firstName: params.firstName,
       lastName: params.lastName,
-      password: params.password,
+      passwordHash: params.password,
       phoneNumber: params.phoneNumber,
       email: params.email
     };
 
-    return new Model({ extractedParams }).save();
+    return new Model(extractedParams).save();
   },
 
   getUserByEmail: (params, Model) => {
@@ -30,14 +30,14 @@ export default {
     const extractedParams = {
       firstName: params.firstName,
       lastName: params.lastName,
-      password: params.password,
+      passwordHash: params.password,
       phoneNumber: params.phoneNumber,
       email: params.email
     };
 
     return new Model()
       .where({ id })
-      .save({ extractedParams }, {
+      .save(extractedParams, {
         method: 'update'
       });
   },
