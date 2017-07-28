@@ -6,12 +6,16 @@
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
-    "client:test": "jest",
+    "client:test": "jest --",
     "db": "psql -U $PG_USER -d $PG_USER",
     "db:test": "psql -U $PG_USER -d phonebank_test",
     "lint": "eslint .",
     "start": "nodemon server/www.js --exec babel-node --presets es2015,stage-2",
     "test": "mocha --compilers js:babel-core/register"
+  },
+  "jest":{
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"]
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -26,7 +30,6 @@
     "dotenv": "^4.0.0",
     "ejs": "^2.5.6",
     "express": "~4.15.2",
-    "immutable": "^3.8.1",
     "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",
     "morgan": "~1.8.1",
