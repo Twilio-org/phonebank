@@ -23,7 +23,7 @@ export function logout() {
 export function loginUser(loginInfo, history) {
   const { email, password } = loginInfo;
 
-  return dispatch => axios.post('/authenticate', {
+  return dispatch => axios.post('/auth/login', {
     email,
     password
   })
@@ -43,6 +43,8 @@ export function loginUser(loginInfo, history) {
 }
 
 export function logoutUser(userInfo, history) {
+  // TODO: rewrite bc we don't need to send a get request to /logout,
+  // this is only for passport with sessions, we have no sessions
   return dispatch => axios.get('/logout')
   .then(() => {
     localStorage.removeItem('auth_token');
