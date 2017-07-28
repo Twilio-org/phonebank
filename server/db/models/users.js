@@ -1,7 +1,7 @@
 export default function User(bookshelfObj) {
   return bookshelfObj.Model.extend({
     tableName: 'users',
-    bcrypt: { field: 'passwordHash' },
+    bcrypt: { field: 'password_hash' },
     hasTimestamps: false
   });
 }
