@@ -18,7 +18,7 @@ import { authTransition } from './actions/login';
 
 const Root = () => {
   // checks if user id !==null and if authToken exists iin localStorage;
-  // will refactor to seperate concerns;
+  // TODO: will refactor to seperate concerns;
   const isLoggedIn = authTransition.bind(null, store);
 
   return (
@@ -45,7 +45,7 @@ const Root = () => {
               }
             />
             <Route
-              path="/account"
+              path="/account/:id"
               render={
                 () => isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />)
               }
