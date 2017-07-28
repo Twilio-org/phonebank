@@ -6,6 +6,11 @@ import { withRouter } from 'react-router-dom';
 import { loginUser } from '../actions/login';
 
 class LogInForm extends Component {
+  constructor(props){
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.renderField = this.renderField.bind(this);
+  }
   onSubmit(values) {
     const { history } = this.props;
     this.props.loginUser(values, history);
@@ -34,7 +39,7 @@ class LogInForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
           <Field
             name="email"
