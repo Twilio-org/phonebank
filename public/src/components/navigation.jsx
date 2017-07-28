@@ -23,7 +23,7 @@ class Navigation extends Component {
   render() {
     return (
       <ButtonToolbar>
-        <DropdownButton title={this.props.title} id="menu">
+        <DropdownButton title={!!this.props.title ? this.props.title : ''} id="menu">
           {this.renderLinks()}
         </DropdownButton>
       </ButtonToolbar>
