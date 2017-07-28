@@ -1,5 +1,4 @@
-import { setAccountInfo } from '../../public/src/actions/account_info';
-import { setUserAuthCredentials } from '../../public/src/actions/login';
+import { setAccountInfo } from '../../../public/src/actions/account_info';
 
 describe('actions', () => {
   describe('setAccountInfo', () => {
@@ -41,11 +40,6 @@ describe('actions', () => {
         phone_number: '15555555555'
       };
       expect(setAccountInfo(user).payload.phone_number).toEqual(user.phone_number);
-    });
-  });
-  describe('setUserAuthCredentials', () => {
-    it('should have a type of "SET_AUTH_JWT_FULFILLED"', () => {
-      expect(setUserAuthCredentials().type).toEqual('SET_AUTH_JWT_FULFILLED');
     });
   });
 });
