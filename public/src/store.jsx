@@ -10,7 +10,7 @@ import { createLogger } from 'redux-logger';
 // import middleware from './reduxMiddleware';
 
 /*=====reducer imports=====*/
-import { authStatusReducer } from './reducers/login';
+import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
 
 const appReducer = combineReducers({
@@ -20,7 +20,7 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if(action.type === 'LOGOUT_USER')	{
+  if(action.type === LOGOUT_USER)	{
     state = undefined;
   }
   return appReducer(state, action);
