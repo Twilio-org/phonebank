@@ -1,5 +1,4 @@
 import logger from 'morgan';
-import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import path from 'path';
 import indexRouter from './routes/index';
@@ -27,7 +26,6 @@ export default function middleware(app, express) {
   // pass the logger
   app.use(logger('dev'));
 
-  // 
   serializeLogin(passport);
 
   // pass the
