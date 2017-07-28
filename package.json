@@ -28,6 +28,10 @@
     "verbose": true,
     "moduleFileExtensions": ["js", "jsx"]
   },
+  "jest":{
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"]
+  },
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt": "^1.0.2",
