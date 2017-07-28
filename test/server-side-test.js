@@ -189,7 +189,7 @@ describe('Server-side tests', function() {
     });
 
     it('should rehash passwords upon update (test 1)', (done) => {
-      User.getUserById({ id: 1}, usersModel)
+      User.getUserById({ id: 1 }, usersModel)
         .then((user) => user.attributes.password_hash)
           .then((passwordHash) => {
             bcrypt.compare('bigowl', passwordHash, (err, match) => {
@@ -200,7 +200,7 @@ describe('Server-side tests', function() {
     })
 
     it('should rehash passwords upon update (test 2)', (done) => {
-      User.getUserById({ id: 2}, usersModel)
+      User.getUserById({ id: 2 }, usersModel)
         .then((user) => user.attributes.password_hash)
           .then((passwordHash) => {
             bcrypt.compare('smallowl', passwordHash, (err, match) => {
