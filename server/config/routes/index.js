@@ -3,6 +3,6 @@ import serveReactApp from '../../controllers/index';
 
 const router = express.Router();
 
-router.route('*').get(serveReactApp);
+router.route('/').get(serveReactApp);
 
 export default router;
