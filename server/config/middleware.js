@@ -21,7 +21,7 @@ export default function middleware(app, express) {
   // pass the router files for each route
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
-  app.use('/', indexRouter);
+  app.use('*', indexRouter);
 
   // pass the logger
   app.use(logger('dev'));

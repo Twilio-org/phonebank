@@ -9,7 +9,7 @@ bookshelf.plugin(bookshelfBcrypt);
 
 bookshelf.knex.schema.hasTable('users').then((exist) => {
   if (!exist) {
-    bookshelf.knex.schema.createTableIfNotExists('users', (table) => {
+    bookshelf.knex.schema.createTable('users', (table) => {
       table.increments();
       table.string('email').notNullable().unique().index();
       table.string('first_name').notNullable();

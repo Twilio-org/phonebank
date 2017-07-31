@@ -37,7 +37,7 @@ passport.use('local', new LocalStrategy({
         if (!user) {
           return done(null, false);
         }
-        bcrypt.compare(password, user.attributes.passwordHash, (err, match) => {
+        return bcrypt.compare(password, user.attributes.password_hash, (err, match) => {
           if (err) {
             return done(null, false);
           }
@@ -46,7 +46,6 @@ passport.use('local', new LocalStrategy({
           }
           return done(null, false);
         });
-        return done(null, false);
       })
       .catch((err) => {
         console.log('error loging in user: ', err);

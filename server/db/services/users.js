@@ -1,10 +1,10 @@
 export default {
   saveNewUser: (params, Model) => {
     const extractedParams = {
-      firstName: params.firstName,
-      lastName: params.lastName,
-      passwordHash: params.password,
-      phoneNumber: params.phoneNumber,
+      first_name: params.firstName,
+      last_name: params.lastName,
+      password_hash: params.password,
+      phone_number: params.phoneNumber,
       email: params.email
     };
 
@@ -19,19 +19,19 @@ export default {
   },
 
   getUserById: (params, Model) => {
-    const userId = params.id;
+    const id = params.id;
 
-    return new Model({ userId })
+    return new Model({ id })
       .fetch();
   },
 
   updateUserById: (params, Model) => {
     const id = params.id;
     const extractedParams = {
-      firstName: params.firstName,
-      lastName: params.lastName,
-      passwordHash: params.password,
-      phoneNumber: params.phoneNumber,
+      first_name: params.firstName,
+      last_name: params.lastName,
+      password_hash: params.password,
+      phone_number: params.phoneNumber,
       email: params.email
     };
 

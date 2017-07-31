@@ -32,7 +32,7 @@ export function getUserById(req, res, next) {
     id: req.params.id
   };
 
-  return usersService.getUserById(params)
+  return usersService.getUserById(params, UsersModel)
     .then((user) => {
       if (user) {
         res.status(200).json(user);
