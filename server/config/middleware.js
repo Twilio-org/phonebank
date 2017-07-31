@@ -13,7 +13,7 @@ export default function middleware(app, express) {
   app.use(bodyParser.json());
 
   // define where express should look for static assests
-  app.use(express.static(path.join(__dirname, '../public/dist/src')));
+  app.use(express.static(path.join(__dirname, '../../public/dist/src')));
 
   // use passport for authentication
   app.use(passport.initialize());
