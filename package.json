@@ -9,9 +9,21 @@
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
-    "client:test": "jest",
+    "client:test": "jest --",
     "db": "psql -U $PG_USER -d $PG_USER",
     "db:test": "psql -U $PG_USER -d phonebank_test"
+  },
+  "jest":{
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"]
+  },
+  "jest":{
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"]
+  },
+  "jest":{
+    "verbose": true,
+    "moduleFileExtensions": ["js", "jsx"]
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -26,7 +38,6 @@
     "dotenv": "^4.0.0",
     "ejs": "^2.5.6",
     "express": "~4.15.2",
-    "immutable": "^3.8.1",
     "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",
     "morgan": "~1.8.1",
@@ -78,6 +89,9 @@
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
     "react-test-renderer": "^15.6.1",
+    "redux-immutable-state-invariant": "^2.0.0",
+    "redux-logger": "^3.0.6",
+    "regenerator-runtime": "^0.10.5",
     "request": "^2.81.0",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",

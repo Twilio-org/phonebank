@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SET_USER_ACCOUNT_INFO } from '../reducers/account_info';
+import { logout } from './login';
 
 export function setAccountInfo(user) {
   return {
@@ -22,5 +23,18 @@ export function fetchUser(id) {
       name: 'user info post request from account_info component'
     };
     throw customError;
+  });
+}
+
+export function deleteUser(id, history) {
+  return dispatch => axios.patch(`/users/${id}`, {
+    headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    console.log('res from patch req: ', res);  
+    return dispatch(logout());
+  })
+  .catch((err) => {
+    console.log('error with delete user axios request: ', err);
   });
 }

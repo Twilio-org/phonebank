@@ -16,8 +16,8 @@ import EditAccountInfo from './components/edit_account';
 import { authTransition } from './actions/login';
 
 const Root = () => {
-  // checks if user id !==null and if authToken exists in localStorage;
-  // will refactor to separate concerns;
+  // checks if user id !==null and if authToken exists iin localStorage;
+  // TODO: will refactor to seperate concerns;
   const isLoggedIn = authTransition.bind(null, store);
 
   return (
@@ -44,7 +44,7 @@ const Root = () => {
               }
             />
             <Route
-              path="/account"
+              path="/account/:id"
               render={
                 () => isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />)
               }

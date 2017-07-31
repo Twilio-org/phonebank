@@ -2,13 +2,26 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-import { fetchUser } from '../actions/account_info';
+import { fetchUser, deleteUser } from '../actions/account_info';
 
 class AccountPage extends Component {
+  constructor(props) {
+    super(props);
+    this.onDeleteClick = this.onDeleteClick.bind(this);
+  }
   componentDidMount() {
     const { id } = this.props.auth;
     this.props.fetchUser(id);
+  }
+
+  onDeleteClick() {
+    const { id } = this.props.auth;
+    console.log(id, 'user id on delete click')
+    const { history } = this.props;
+    console.log(this.props, 'meow');
+    this.props.deleteUser(id, history);
   }
 
   render() {
@@ -28,6 +41,9 @@ class AccountPage extends Component {
           <Link className="btn btn-primary" to={`/account/${id}/edit`}>
             Edit Account
           </Link>
+        </div>
+        <div>
+          <Button bsStyle="primary" onClick={this.onDeleteClick}>Delete Account</Button>
         </div>
       </div>
     );
@@ -56,5 +72,5 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { fetchUser })(AccountPage)
+  connect(mapStateToProps, { fetchUser, deleteUser })(AccountPage)
 );
