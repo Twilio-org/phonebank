@@ -26,7 +26,7 @@ export default {
   },
 
   updateUserById: (params, Model) => {
-    const id = params.id;
+    const { id } = params;
     const extractedParams = {
       first_name: params.firstName,
       last_name: params.lastName,
@@ -34,7 +34,6 @@ export default {
       phone_number: params.phoneNumber,
       email: params.email
     };
-
     return new Model()
       .where({ id })
       .save(extractedParams, {
@@ -43,9 +42,7 @@ export default {
   },
 
   deactivateUserById: (params, Model) => {
-    const {
-      id
-    } = params;
+    const { id } = params;
 
     return new Model()
       .where({ id })

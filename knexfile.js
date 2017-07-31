@@ -6,7 +6,7 @@ module.exports = {
     migrations: {
       directory: __dirname + '/server/src/db/migrations'
     },
-    debug: false,
+    debug: true,
     seeds: {
       directory: __dirname + '/server/src/db/seeds/test'
     }
@@ -18,6 +18,7 @@ module.exports = {
     migrations: {
       directory: __dirname + '/server/src/db/migrations'
     },
+    debug: true,
     seeds: {
       directory: __dirname + '/server/src/db/seeds/development'
     }
