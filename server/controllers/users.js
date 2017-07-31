@@ -72,7 +72,6 @@ export function deactivateUserById(req, res, next) {
   const params = {
     id: req.params.id
   };
-  console.log('id in deactivateUser controller: ', params.id);
 
   return usersService.deactivateUserById(params, UsersModel)
     .then((user) => {
