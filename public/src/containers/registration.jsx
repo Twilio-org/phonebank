@@ -19,7 +19,7 @@ class RegistrationForm extends Component {
   renderField(field) {
     const className = `form-group ${field.meta.touched
                                     && field.meta.error
-                                    ? 'has-danger'
+                                    ? 'has-error'
                                     : ''}`;
 
     return (

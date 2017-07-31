@@ -17,19 +17,18 @@ class LogInForm extends Component {
   }
 
   renderField(field) {
-    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-danger' : ''}`;
+    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
 
     return (
       <div className={className}>
         <label>{field.label}</label>
         <input
-          // type={!!field.name && field.name === 'password' ? 'password' : 'text'}
           className="form-control"
           placeholder={field.label}
           type={field.label}
           {...field.input}
         />
-        <div className="text-help has-danger">
+        <div className="text-help has-error">
           {field.meta.touched ? field.meta.error : ''}
         </div>
       </div>
@@ -44,13 +43,11 @@ class LogInForm extends Component {
           <Field
             name="email"
             label="email"
-            type="email"
             component={this.renderField}
           />
           <Field
             name="password"
             label="password"
-            type="password"
             component={this.renderField}
           />
         </div>
