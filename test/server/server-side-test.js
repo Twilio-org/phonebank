@@ -44,18 +44,18 @@ describe('Server-side tests', () => {
   describe('Data insertion', function() {
     beforeEach(() => {
       this.userSaveParams1 = {
-        first_name: 'John',
-        last_name: 'Doe',
+        firstName: 'John',
+        lastName: 'Doe',
         password: 'hatch',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'John@gmail.com'
       };
 
       this.userSaveParams2 = {
-        first_name: 'Jane',
-        last_name: 'Doe',
+        firstName: 'Jane',
+        lastName: 'Doe',
         password: 'hatch1',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'Jane@gmail.com'
       };
     });
@@ -151,19 +151,19 @@ describe('Server-side tests', () => {
     beforeEach(() => {
       this.userUpdateParams2 = {
         id: 2,
-        first_name: 'Jane',
-        last_name: 'Doe',
+        firstName: 'Jane',
+        lastName: 'Doe',
         password: 'smallowl',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'Jane@yahoo.com'
       };
 
       this.userUpdateParams1 = {
         id: 1,
-        first_name: 'John',
-        last_name: 'Wilson',
+        firstName: 'John',
+        lastName: 'Wilson',
         password: 'bigowl',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'John@yahoo.com'
       };
     });

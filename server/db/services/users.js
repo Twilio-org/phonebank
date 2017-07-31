@@ -1,10 +1,10 @@
 export default {
   saveNewUser: (params, Model) => {
     const extractedParams = {
-      first_name: params.first_name,
-      last_name: params.last_name,
+      first_name: params.firstName,
+      last_name: params.lastName,
       password_hash: params.password,
-      phone_number: params.phone_number,
+      phone_number: params.phoneNumber,
       email: params.email
     };
 
@@ -12,9 +12,9 @@ export default {
   },
 
   getUserByEmail: (params, Model) => {
-    const userEmail = params.email;
-
-    return new Model({ email: userEmail })
+    // const userEmail = params.email;
+    const { email } = params;
+    return new Model({ email })
       .fetch();
   },
 
@@ -26,27 +26,29 @@ export default {
   },
 
   updateUserById: (params, Model) => {
-    const userId = params.id;
+    // const userId = params.id;
+    const { id } = params;
     const extractedParams = {
-      first_name: params.first_name,
-      last_name: params.last_name,
+      first_name: params.firstName,
+      last_name: params.lastName,
       password_hash: params.password,
-      phone_number: params.phone_number,
+      phone_number: params.phoneNumber,
       email: params.email
     };
 
     return new Model()
-      .where({ id: userId })
+      .where({ id })
       .save(extractedParams, {
         method: 'update'
       });
   },
 
   deactivateUserById: (params, Model) => {
-    const userId = params.id;
+    // const userId = params.id;
+    const { id } = params;
 
     return new Model()
-      .where({ id: userId })
+      .where({ id })
       .save({
         is_active: false
       }, {
