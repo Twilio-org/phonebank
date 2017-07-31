@@ -26,6 +26,9 @@ export default {
   },
 
   updateUserById: (params, Model) => {
+    console.log('BEGINING OF UPDATE')
+    // const id = params.id;const 
+    // console.log(typeof id, 'typeof id in update user by id')
     const id = params.id;
     const extractedParams = {
       first_name: params.firstName,
@@ -34,7 +37,7 @@ export default {
       phone_number: params.phoneNumber,
       email: params.email
     };
-
+    console.log('extracted: ', extractedParams);
     return new Model()
       .where({ id })
       .save(extractedParams, {
@@ -43,9 +46,7 @@ export default {
   },
 
   deactivateUserById: (params, Model) => {
-    const {
-      id
-    } = params;
+    const { id } = params;
 
     return new Model()
       .where({ id })

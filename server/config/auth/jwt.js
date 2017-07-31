@@ -26,6 +26,7 @@ passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
   console.log('payload received', jwtPayload);
   usersService.getUserById({ id: jwtPayload.id }, UsersModel)
     .then((user) => {
+      console.log('user obj in jwt', user)
       if (user) {
         next(null, user);
       } else {
