@@ -19,7 +19,6 @@ export default {
   },
 
   getUserById: (params, Model) => {
-    // const userId = params.id;
     const { id } = params;
 
     return new Model({ id })
@@ -27,7 +26,6 @@ export default {
   },
 
   updateUserById: (params, Model) => {
-    // const userId = params.id;
     const { id } = params;
     const extractedParams = {
       first_name: params.firstName,
@@ -45,7 +43,6 @@ export default {
   },
 
   deactivateUserById: (params, Model) => {
-    // const userId = params.id;
     const { id } = params;
 
     return new Model()
