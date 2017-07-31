@@ -12,16 +12,17 @@ export default {
   },
 
   getUserByEmail: (params, Model) => {
-    // const userEmail = params.email;
     const { email } = params;
+
     return new Model({ email })
       .fetch();
   },
 
   getUserById: (params, Model) => {
-    const userId = params.id;
+    // const userId = params.id;
+    const { id } = params;
 
-    return new Model({ id: userId })
+    return new Model({ id })
       .fetch();
   },
 
