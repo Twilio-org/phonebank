@@ -14,6 +14,7 @@ export function fetchUser(id) {
   })
   .then((res) => {
     const userData = res.data;
+    console.log(userData, 'on fetch user')
     return dispatch(setAccountInfo(userData));
   })
   .catch((err) => {

@@ -35,6 +35,7 @@ export function register(req, res, next) {
 }
 
 export function login(req, res) {
+  console.log(req.user.id, 'req in login')
   const id = req.user.id;
   const token = genToken(id);
 
