@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
-import { getUserById } from '../../db/services/users';
+import usersService from '../../db/services/users';
 import { development as devconfig } from '../../../knexfile';
 import User from '../../db/models/users';
 
@@ -24,7 +24,7 @@ const jwtOptions = {
 
 passport.use(new JwtStrategy(jwtOptions, (jwtPayload, next) => {
   console.log('payload received', jwtPayload);
-  getUserById({ id: jwtPayload.id }, UsersModel)
+  usersService.getUserById({ id: jwtPayload.id }, UsersModel)
     .then((user) => {
       if (user) {
         next(null, user);
