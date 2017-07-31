@@ -36,7 +36,7 @@ class RegistrationForm extends Component {
             {...field.input}
           />
         </label>
-        <div className="text-help">
+        <div className="text-danger">
           {field.meta.touched ? field.meta.error : ''}
         </div>
       </div>
