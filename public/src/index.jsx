@@ -8,7 +8,6 @@ import '../stylesheets/app.less';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
-// import EditAccountInfo from './components/edit_account';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import AccountPage from './components/account';
@@ -17,8 +16,8 @@ import EditAccountInfo from './components/edit_account';
 import { authTransition } from './actions/login';
 
 const Root = () => {
-  // checks if user id !==null and if authToken exists iin localStorage;
-  // will refactor to seperate concerns;
+  // checks if user id !==null and if authToken exists in localStorage;
+  // will refactor to separate concerns;
   const isLoggedIn = authTransition.bind(null, store);
 
   return (

@@ -19,7 +19,7 @@ class RegistrationForm extends Component {
   renderField(field) {
     const className = `form-group ${field.meta.touched
                                     && field.meta.error
-                                    ? 'has-danger'
+                                    ? 'has-error'
                                     : ''}`;
 
     return (
@@ -36,7 +36,7 @@ class RegistrationForm extends Component {
             {...field.input}
           />
         </label>
-        <div className="text-help">
+        <div className="text-danger">
           {field.meta.touched ? field.meta.error : ''}
         </div>
       </div>
