@@ -1,12 +1,12 @@
 import React from 'react';
-// try .simulate
 import { mount, shallow, render } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import { AccountPage } from '../../../public/src/components/account';
 import { fetchUser } from '../../../public/src/actions/account_info';
-jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
 import deleteUser from '../../../public/src/actions/edit_account';
+
+jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
 
 const mockStore = {
   auth: {
