@@ -1,5 +1,4 @@
 import React from 'react';
-// try .simulate
 import { mount, shallow, render } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
