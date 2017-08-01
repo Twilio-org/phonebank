@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import { fetchUser } from '../actions/account_info';
 import { deleteUser } from '../actions/edit_account';
 
-class AccountPage extends Component {
+export class AccountPage extends Component {
   constructor(props) {
     super(props);
     this.onDeleteClick = this.onDeleteClick.bind(this);
