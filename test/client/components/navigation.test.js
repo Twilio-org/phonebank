@@ -7,7 +7,7 @@ import Navigation from '../../../public/src/components/navigation';
 describe('<Navigation />', () => {
   // test variables
   const testUser = {
-    first_name: 'Mr.',
+    first_name: 'Beyonce',
     last_name: 'Cat',
     email: 'mrcat@gmail.com',
     phone_number: '15555555555'
@@ -66,10 +66,18 @@ describe('<Navigation />', () => {
     it('should recieve "Login"/"Register" links if user is logged out',() => {
       expect(wrapper.instance().props['links']).toBe(linksLoggedOut);
     });
+    it('should recieve name if user is logged in',() => {
+      wrapper.setProps(propsLoggedIn);
+      expect(wrapper.instance().props['title']).toBe('Beyonce');
+    });
+    it('should recieve "Login"/"Register" links if user is logged out',() => {
+      wrapper.setProps(propsLoggedIn);
+      expect(wrapper.instance().props['links']).toBe(linksLoggedIn);
+    });
   });
 
   describe('onClick',() => {
-    it('should call logoutOnClick() when log out is clicked',() => {
+    it('should call logoutOnClick() when "Logout" is clicked',() => {
       const wrapper = mount(
         <MemoryRouter>
           <Navigation {...propsLoggedIn}/>
@@ -78,13 +86,21 @@ describe('<Navigation />', () => {
       wrapper.find('a').last().find('a').simulate('click');
       expect(logout).toHaveBeenCalled();
     });
-    it('should not render logout link, instead login link exists',() => {
+    it('should not render logout link if user logged out',() => {
       const wrapper = mount(
         <MemoryRouter>
           <Navigation {...propsLoggedOut}/>
         </MemoryRouter>
       );
-      expect(wrapper.find('a').last().find('a').text()).toBe('Login');
+      expect(wrapper.find('a').last().find('a').text()).not.toBe('Logout');
+    });
+  });
+
+  describe('renderLinks()',() => {
+    const wrapper = shallow(<Navigation {...propsLoggedOut} />);
+    it('should return link items correctly',() => {
+      const links = wrapper.instance().renderLinks();
+      expect(Array.isArray(links)).toBe(true);
     });
   });
 });
