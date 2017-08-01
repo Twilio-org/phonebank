@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { loginUser } from '../actions/login';
 
 class LogInForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.renderField = this.renderField.bind(this);

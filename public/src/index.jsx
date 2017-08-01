@@ -10,8 +10,8 @@ import App from './components/app';
 import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
-import AccountPage from './components/account';
 import EditAccountInfo from './components/edit_account';
+import AccountPage from './components/account';
 
 import { authTransition } from './actions/login';
 
