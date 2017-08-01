@@ -5,30 +5,6 @@ import renderer from 'react-test-renderer';
 import Navigation from '../../../public/src/components/navigation';
 
 describe('<Navigation />', () => {
-  describe('rendering', () => {
-    const wrapper = mount(
-      <MemoryRouter>
-        <Navigation />
-      </MemoryRouter>
-    );
-    it('renders correctly', () => {
-      const tree = renderer.create(
-        <MemoryRouter>
-          <Navigation />
-        </MemoryRouter>
-      ).toJSON();
-      expect(tree).toMatchSnapshot();
-    });
-    // it('should render <Navigation />', () => {
-    //   expect(wrapper.find('Navigation').length).toBe(1);
-    // });
-    // it('should render <Navbar />', () => {
-    //   expect(wrapper.find('Navbar').length).toBe(1);
-    // });
-    // it('should render <Navbar.Brand />', () => {
-    //   expect(wrapper.find('.navbar-brand').length).toBe(1);
-    // });
-  });
   // test variables
   const testUser = {
     first_name: 'Mr.',
@@ -36,40 +12,79 @@ describe('<Navigation />', () => {
     email: 'mrcat@gmail.com',
     phone_number: '15555555555'
   };
-  const props = {
-    userId: 1,
-    userInfo: testUser
+  const linksLoggedIn = [
+    { title: 'Account', href: `/account/1` },
+    { title: 'Logout', href: '/logout' }
+  ];
+  const linksLoggedOut = [
+    { title: 'Register', href: '/registration' },
+    { title: 'Login', href: '/login' }
+  ];
+  const logout = jest.fn();
+  const propsLoggedIn = {
+    title: testUser.first_name,
+    links: linksLoggedIn,
+    userInfo: testUser,
+    history: {},
+    logout: logout
   };
-  describe('props', () => {
-    const wrapper = shallow(<Navigation />);
-    // it('should receive a userInfo that is null',() => {
-    //   expect(wrapper.instance().props['userInfo']).toBe(undefined);
-    // });
-    // it('should receive a userId prop of null',() => {
-    //   expect(wrapper.instance().props['userId']).toBe(undefined);
-    // });
-    // it('should receive a userId prop of 1',() => {
-    //   wrapper.setProps(props);
-    //   expect(wrapper.instance().props['userId']).toBe(1);
-    // });
-    // it('should receive userInfo',() => {
-    //   wrapper.setProps(props);
-    //   expect(wrapper.instance().props['userInfo']).toEqual(testUser);
-    // });
+  const propsLoggedOut ={
+    title: 'Menu',
+    links: linksLoggedOut
+  };
+  describe('rendering', () => {
+    const wrapper = mount(
+      <MemoryRouter>
+        <Navigation {...propsLoggedOut}/>
+      </MemoryRouter>
+    );
+    it('renders correctly', () => {
+      const tree = renderer.create(
+        <MemoryRouter>
+          <Navigation {...propsLoggedOut} />
+        </MemoryRouter>
+      ).toJSON();
+      expect(tree).toMatchSnapshot();
+    });
+    it('should render <ButtonToolbar />', () => {
+      expect(wrapper.find('ButtonToolbar').length).toBe(1);
+    });
+    it('should render <DropdownButton />', () => {
+      expect(wrapper.find('DropdownButton').length).toBe(1);
+    });
+    it('should render <Link />', () => {
+      expect(wrapper.find('Link').length).toBeGreaterThan(1);
+    });
   });
 
-  describe('getLinks()',() => {
-    const wrapper = shallow(<Navigation />);
-    // const loggedOutLinks = [{ title: 'Register', href: '/registration' },
-    // { title: 'Login', href: '/login' }];
-    // const accountLink = {"href": "/account/1", "title": "Account"};
-    //
-    // it('should return array of register/login links when user is logged out', () => {
-    //   expect(wrapper.instance().getLinks()).toEqual(expect.arrayContaining(loggedOutLinks));
-    // });
-    // it('should return array containing account link when user is logged in', () => {
-    //   wrapper.setProps(props);
-    //   expect(wrapper.instance().getLinks()).toContainEqual(accountLink);
-    // });
+  describe('props', () => {
+    const wrapper = shallow(<Navigation {...propsLoggedOut} />);
+
+    it('should recieve "Menu" if user is logged out',() => {
+      expect(wrapper.instance().props['title']).toBe('Menu');
+    });
+    it('should recieve "Login"/"Register" links if user is logged out',() => {
+      expect(wrapper.instance().props['links']).toBe(linksLoggedOut);
+    });
+  });
+
+  describe('onClick',() => {
+    it('should call logoutOnClick() when log out is clicked',() => {
+      const wrapper = mount(
+        <MemoryRouter>
+          <Navigation {...propsLoggedIn}/>
+        </MemoryRouter>
+      );
+      wrapper.find('a').last().find('a').simulate('click');
+      expect(logout).toHaveBeenCalled();
+    });
+    it('should not render logout link, instead login link exists',() => {
+      const wrapper = mount(
+        <MemoryRouter>
+          <Navigation {...propsLoggedOut}/>
+        </MemoryRouter>
+      );
+      expect(wrapper.find('a').last().find('a').text()).toBe('Login');
+    });
   });
 });
