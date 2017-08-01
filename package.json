@@ -47,6 +47,7 @@
     "redux-form": "^7.0.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^4.8.3",
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
