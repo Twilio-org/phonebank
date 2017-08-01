@@ -3,9 +3,9 @@ import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
 import bcrypt from 'bcrypt';
 import { expect, Should } from 'chai';
-import { test as testconfig } from '../../knexfile';
-import User from '../../server/db/services/users';
-import Model from '../../server/db/models/users';
+import { test as testconfig } from '../../../knexfile';
+import User from '../../../server/db/services/users';
+import Model from '../../../server/db/models/users';
 
 const knex = knexModule(testconfig);
 const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
