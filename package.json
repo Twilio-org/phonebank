@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
-    "test": "npm run lint; npm run server:test; npm run client:test",
+    "test": "npm run lint && npm run server:test && npm run client:test",
     "lint": "eslint .",
     "server:test": "mocha ./test/server/* --recursive --compilers js:babel-core/register",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
