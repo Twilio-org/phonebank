@@ -17,13 +17,13 @@ export function clearAuthCredentials() {
 export function logout() {
   return {
     type: LOGOUT_USER
-  }
+  };
 }
 
 export function loginUser(loginInfo, history) {
   const { email, password } = loginInfo;
 
-  return dispatch => axios.post('/authenticate', {
+  return dispatch => axios.post('/auth/login', {
     email,
     password
   })
@@ -42,7 +42,7 @@ export function loginUser(loginInfo, history) {
   });
 }
 
-export function logoutUser(userInfo, history) {
+export function logoutUser(history) {
   return dispatch => axios.get('/logout')
   .then(() => {
     localStorage.removeItem('auth_token');

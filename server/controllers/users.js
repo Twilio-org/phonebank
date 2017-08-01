@@ -48,10 +48,10 @@ export function getUserById(req, res, next) {
 export function updateUserById(req, res, next) {
   const params = {
     id: req.params.id,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    firstName: req.body.first_name,
+    lastName: req.body.last_name,
     password: req.body.password,
-    phoneNumber: req.body.phoneNumber,
+    phoneNumber: req.body.phone_number,
     email: req.body.email
   };
 

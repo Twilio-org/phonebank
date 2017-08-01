@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logoutUser } from './login';
 
 export default function updateUser(userId, userInfo, history) {
   const { first_name, last_name, email, phone_number } = userInfo;
@@ -12,7 +13,7 @@ export default function updateUser(userId, userInfo, history) {
     },
     { headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` } }
   )
-  .then((res) => {
+  .then(() => {
     history.push(`/account/${userId}`);
   })
   .catch((err) => {
@@ -21,5 +22,16 @@ export default function updateUser(userId, userInfo, history) {
       name: 'user info put request from edit_account component'
     };
     throw customError;
+  });
+}
+
+export function deleteUser(id, history) {
+  return dispatch => axios.patch(`/users/${id}`,
+  { id },
+  { headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` } }
+  )
+  .then(() => dispatch(logoutUser(history)))
+  .catch((err) => {
+    console.log('error with delete user axios request: ', err);
   });
 }
