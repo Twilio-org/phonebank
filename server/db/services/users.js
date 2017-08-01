@@ -12,14 +12,14 @@ export default {
   },
 
   getUserByEmail: (params, Model) => {
-    const email = params.email;
+    const { email } = params;
 
     return new Model({ email })
       .fetch();
   },
 
   getUserById: (params, Model) => {
-    const id = params.id;
+    const { id } = params;
 
     return new Model({ id })
       .fetch();

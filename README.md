@@ -31,6 +31,7 @@ rm -rf $PGDATA && initdb -E utf8 -U $PG_USER -W
 # enter PG_PASSWORD
 pg_ctl start -D $PGDATA
 createdb $PG_USER -U $PG_USER
+createdb phonebank_test -U $PG_USER
 ```
 
 Optionally set up Postgres to launch at startup.
