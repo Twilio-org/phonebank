@@ -12,7 +12,7 @@ const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
 const usersModel = Model(knexdb);
 const should = Should();
 
-describe('Server-side tests', () => {
+describe('User service tests', () => {
   before(() => {
     knexdb.knex.schema.hasTable('users').then((exist) => {
       if (!exist) {
