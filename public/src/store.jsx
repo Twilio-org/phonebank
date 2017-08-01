@@ -1,5 +1,6 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
 /*=====middleware=====*/
 import thunk from 'redux-thunk';
@@ -20,12 +21,16 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if(action.type === LOGOUT_USER)	{
+  if (action.type === LOGOUT_USER) {
     state = undefined;
   }
   return appReducer(state, action);
-}
+};
 
 const middleware = [immutable(), createLogger(), promise(), thunk];
 
-module.exports = createStore(rootReducer, applyMiddleware(...middleware));
+const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
+
+persistStore(store);
+
+export default store;
