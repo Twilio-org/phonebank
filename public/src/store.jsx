@@ -2,15 +2,15 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { persistStore, autoRehydrate } from 'redux-persist';
 
-/*=====middleware=====*/
+/* =====middleware===== */
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
 import immutable from 'redux-immutable-state-invariant';
 import { createLogger } from 'redux-logger';
-//uncomment next line and comment out previous four lines when NODE_ENV is set
+// uncomment next line and comment out previous four lines when NODE_ENV is set
 // import middleware from './reduxMiddleware';
 
-/*=====reducer imports=====*/
+/* =====reducer imports===== */
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
 
