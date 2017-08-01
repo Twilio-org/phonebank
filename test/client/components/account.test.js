@@ -53,7 +53,6 @@ describe('<AccountPage />', () => {
   });
 });
 
-
 // Props + methods:
 describe('AccountPage props and methods:', () => {
   const props = {
