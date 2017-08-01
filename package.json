@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
+    "test": "npm run lint; npm run server:test; npm run client:test",
     "lint": "eslint .",
-    "test": "mocha --compilers js:babel-core/register",
+    "server:test": "mocha ./test/server/* --recursive --compilers js:babel-core/register",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",

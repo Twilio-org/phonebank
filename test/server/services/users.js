@@ -1,12 +1,12 @@
-import { test as testconfig } from '../knexfile';
+import { test as testconfig } from '../../../knexfile';
 import knexModule from 'knex';
 import { expect, Should} from 'chai';
 import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
 import bcrypt from 'bcrypt';
-import User from '../server/db/controllers/users';
-import bookshelf from '../server/db/init';
-import Model from '../server/db/models/users';
+import User from '../../../server/db/services/users';
+import bookshelf from '../../../server/db/init';
+import Model from '../../../server/db/models/users';
 const knex = knexModule(testconfig);
 const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
 const usersModel = Model(knexdb);
@@ -45,19 +45,19 @@ describe('Server-side tests', function() {
   describe('Data insertion', function() {
     beforeEach(() => {
       this.userSaveParams1 = {
-        first_name: 'John',
-        last_name: 'Doe',
+        firstName: 'John',
+        lastName: 'Doe',
         password: 'hatch',
-        phone_number: '+14441114444',
-        email: 'John@gmail.com' 
+        phoneNumber: '+14441114444',
+        email: 'John@gmail.com'
       };
 
       this.userSaveParams2 = {
-        first_name: 'Jane',
-        last_name: 'Doe',
+        firstName: 'Jane',
+        lastName: 'Doe',
         password: 'hatch1',
-        phone_number: '+14441114444',
-        email: 'Jane@gmail.com' 
+        phoneNumber: '+14441114444',
+        email: 'Jane@gmail.com'
       }
     })
 
@@ -124,7 +124,7 @@ describe('Server-side tests', function() {
           done();
         }, done);
     });
-    
+
     it ('should retrieve user by ID (test 1)', (done) => {
       User.getUserById({ id: 1 }, usersModel)
         .then((user) => {
@@ -153,19 +153,19 @@ describe('Server-side tests', function() {
     beforeEach(() => {
       this.userUpdateParams2 = {
         id: 2,
-        first_name: 'Jane',
-        last_name: 'Doe',
+        firstName: 'Jane',
+        lastName: 'Doe',
         password: 'smallowl',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'Jane@yahoo.com'
       };
 
       this.userUpdateParams1 = {
         id: 1,
-        first_name: 'John',
-        last_name: 'Wilson',
+        firstName: 'John',
+        lastName: 'Wilson',
         password: 'bigowl',
-        phone_number: '+14441114444',
+        phoneNumber: '+14441114444',
         email: 'John@yahoo.com'
       };
     });
@@ -173,7 +173,7 @@ describe('Server-side tests', function() {
     it('should update user email by ID', (done) => {
       User.updateUserById(this.userUpdateParams2, usersModel)
         .then((user) => user.attributes.email)
-          .then(email => { 
+          .then(email => {
             expect(email).to.equal('Jane@yahoo.com');
             done();
           }, done);
@@ -216,7 +216,7 @@ describe('Server-side tests', function() {
           .then((status) => {
             expect(status).to.be.false;
             done();
-          }, done) 
+          }, done)
     });
 
     it('should deactivate user when given an ID (test 2)', (done) => {
@@ -225,9 +225,8 @@ describe('Server-side tests', function() {
           .then((status) => {
             expect(status).to.be.false;
             done();
-          }, done) 
+          }, done)
     });
 
   });
 })
-
