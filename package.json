@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
-    "lint": "eslint .",
-    "test": "mocha --compilers js:babel-core/register",
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
+    "db": "psql -U $PG_USER -d $PG_USER",
+    "db:test": "psql -U $PG_USER -d phonebank_test",
+    "lint": "eslint .",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
-    "client:test": "jest",
-    "db": "psql -U $PG_USER -d $PG_USER",
-    "db:test": "psql -U $PG_USER -d phonebank_test"
+    "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
+    "test": "npm run lint && npm run test:server && npm run test:client",
+    "test:client": "jest",
+    "test:server": "mocha './test/server' --recursive --compilers js:babel-core/register"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -19,6 +20,7 @@
     "body-parser": "~1.17.1",
     "bookshelf": "^0.10.4",
     "bookshelf-bcrypt": "^2.1.0",
+    "chai": "^4.1.0",
     "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",
@@ -61,7 +63,6 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "bootstrap": "^3.3.7",
-    "chai": "^4.1.0",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
     "eslint": "^3.19.0",
