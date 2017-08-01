@@ -14,6 +14,9 @@
     "test:client": "jest",
     "test:server": "mocha './test/server' --recursive --compilers js:babel-core/register"
   },
+  "jest": {
+    "verbose": true
+  },
   "dependencies": {
     "axios": "^0.16.2",
     "bcrypt": "^1.0.2",

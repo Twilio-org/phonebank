@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { logoutUser } from './login';
 
-export default function updateUser(userId, userInfo, history) {
+export function updateUser(userId, userInfo, history) {
   const { first_name, last_name, email, phone_number } = userInfo;
 
   return dispatch => axios.put(`/users/${userId}`,
