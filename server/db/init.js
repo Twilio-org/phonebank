@@ -37,8 +37,8 @@ bookshelf.knex.schema.hasTable('campaign').then((exist) => {
       table.enu('status').notNullable();
       table.integer('contact_list_id').references('contact_lists.id');
       table.integer('script_id').references('scripts.id');
-      table.timestamp('date_created').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created users table'));
     });
