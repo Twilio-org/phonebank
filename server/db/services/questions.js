@@ -32,6 +32,7 @@ export default {
 
   //   return new Model({ updated_at }).fetch();
   // }
+
   // getQuestionCreatedBy: (params, Model) => {
     // TODO: wait for user relations
   // }
