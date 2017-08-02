@@ -73,6 +73,7 @@ describe('Question service tests', () => {
       this.paramsArray.forEach((questionObj) => {
         Question.saveNewQuestion(questionObj, questionsModel)
           .then((question) => {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@QUESTION: ', question)
             expect(question.attributes.title).to.equal(questionObj.title);
             expect(question.attributes.description).to.equal(questionObj.description);
             expect(question.attributes.type).to.equal(questionObj.type);
