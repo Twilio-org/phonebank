@@ -29,10 +29,8 @@ export default {
 
   // getQuestionByEditDate: (params, Model) => {
   //   const { updated_at } = params;
-
   //   return new Model({ updated_at }).fetch();
   // }
-
   // getQuestionCreatedBy: (params, Model) => {
     // TODO: wait for user relations
   // }
