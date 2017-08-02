@@ -43,3 +43,16 @@ bookshelf.knex.schema.hasTable('contacts').then((exist) => {
     });
   }
 });
+
+bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('contact_lists', (table) => {
+      table.increments();
+      table.string('name').notNullable();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created contact_lists table'));
+    });
+  }
+});
