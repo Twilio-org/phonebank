@@ -38,7 +38,7 @@ bookshelf.knex.schema.hasTable('scripts').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created scripts table');
-    });
+    }).catch(err => console.log('Error creating scripts table', err));
   }
 });
 
@@ -54,7 +54,7 @@ bookshelf.knex.schema.hasTable('questions').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created questions table');
-    });
+    }).catch(err => console.log('Error creating questions table', err));
   }
 });
 
@@ -69,7 +69,7 @@ bookshelf.knex.schema.hasTable('scripts_to_questions').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created scripts_to_questions table');
-    });
+    }).catch(err => console.log('Error creating scripts_to_questions table', err));
   }
 });
 
