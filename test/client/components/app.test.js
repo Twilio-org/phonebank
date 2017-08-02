@@ -9,7 +9,6 @@ import store from '../../../public/src/store';
 
 describe('<App />', () => {
   describe('rendering', () => {
-    // const wrapper = mount(<App />);
     it('should render correctly', () => {
       const tree = renderer.create(
         <Provider store = {store}>
@@ -19,6 +18,26 @@ describe('<App />', () => {
         </Provider>
       ).toJSON();
       expect(tree).toMatchSnapshot();
+    });
+    it('should render header', () => {
+      const wrapper = mount(
+        <Provider store = {store}>
+          <MemoryRouter>
+            <App />
+          </MemoryRouter>
+        </Provider>
+      );
+      expect(wrapper.find('Header').length).toBe(1);
+    });
+    it('should render children', () => {
+      const wrapper = mount(
+        <Provider store = {store}>
+          <MemoryRouter>
+            <App />
+          </MemoryRouter>
+        </Provider>
+      );
+      expect(wrapper.children().length).toBeGreaterThan(1);
     });
   });
 });
