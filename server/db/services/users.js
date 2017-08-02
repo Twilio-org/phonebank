@@ -34,7 +34,6 @@ export default {
       phone_number: params.phoneNumber,
       email: params.email
     };
-
     return new Model()
       .where({ id })
       .save(extractedParams, {

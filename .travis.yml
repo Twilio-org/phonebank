@@ -1,3 +1,11 @@
 language: node_js
 node_js:
   - "6.11.1"
+services:
+  - "postgresql"
+addons:
+  postgresql: "9.6"
+env:
+  - PG_USER=postgres
+before_script:
+  - psql -c 'create database phonebank_test;' -U postgres
