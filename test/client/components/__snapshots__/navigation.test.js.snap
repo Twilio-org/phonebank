@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Navigation /> rendering renders correctly 1`] = `
+<div
+  className="btn-toolbar"
+  role="toolbar"
+>
+  <div
+    className="dropdown btn-group"
+  >
+    <button
+      aria-expanded={false}
+      aria-haspopup={true}
+      className="dropdown-toggle btn btn-default"
+      disabled={false}
+      id="menu"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      type="button"
+    >
+      Menu
+       
+      <span
+        className="caret"
+      />
+    </button>
+    <ul
+      aria-labelledby="menu"
+      className="dropdown-menu"
+      role="menu"
+    >
+      <li
+        onKeyDown={[Function]}
+        onSelect={[Function]}
+        role="presentation"
+      >
+        <a
+          href="/registration"
+          onClick={[Function]}
+          role="menuitem"
+          tabIndex="-1"
+        >
+          Register
+        </a>
+      </li>
+      <li
+        onKeyDown={[Function]}
+        onSelect={[Function]}
+        role="presentation"
+      >
+        <a
+          href="/login"
+          onClick={[Function]}
+          role="menuitem"
+          tabIndex="-1"
+        >
+          Login
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

@@ -28,31 +28,32 @@ const Root = () => {
             <Route
               path="/registration"
               render={
-                () => !isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/" />)
+               () => (!isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/" />))
               }
             />
             <Route
               path="/login"
               render={
-                () => isLoggedIn() ? (<Redirect to="/account" />) : (<LogInForm />)
+               () => (isLoggedIn() ? (<Redirect to="/account" />) : (<LogInForm />))
               }
             />
             <Route
-              exact path="/account/:id/edit"
+              exact
+              path="/account/:id/edit"
               render={
-                () => isLoggedIn() ? (<EditAccountInfo />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<EditAccountInfo />) : (<Redirect to="/login" />))
               }
             />
             <Route
               path="/account"
               render={
-                () => isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />))
               }
             />
             <Route
               path="/"
               render={
-                () => isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
               }
             />
           </Switch>
