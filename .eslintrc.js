@@ -1,5 +1,5 @@
 module.exports = {
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:react/recommended"],
   "rules": {
     "comma-dangle": ["error", "never"],
     "react/prop-types": [0],
@@ -10,9 +10,15 @@ module.exports = {
     "jest/valid-expect": "error"
   },
   "plugins": [
-    "jest"
+    "jest",
+    "react"
   ],
   "env": {
     "jest/globals": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 };
