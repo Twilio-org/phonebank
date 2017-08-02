@@ -5,7 +5,6 @@ export default {
 
     return new Model({ title, description, type, responses }).save();
   },
-
   getAllQuestions: Model => Model.forge().orderBy('updated_at', 'DESC').fetchAll(),
 
   getQuestionById: (params, Model) => {
