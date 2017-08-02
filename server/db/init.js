@@ -27,9 +27,9 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
   }
 });
 
-bookshelf.knex.schema.hasTable('campaign').then((exist) => {
+bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
   if (!exist) {
-    bookshelf.knex.schema.createTable('campaign', (table) => {
+    bookshelf.knex.schema.createTable('campaigns', (table) => {
       table.increments();
       table.string('name').notNullable().unique().index();
       table.string('title').notNullable();
