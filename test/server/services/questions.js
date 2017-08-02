@@ -18,7 +18,7 @@ describe('Question service tests', () => {
     knexdb.knex.schema.hasTable('questions').then((exist) => {
       if (!exist) {
         knexdb.knex.schema.createTable('questions', (table) => {
-          table.increments().primary();
+          table.increments('id').primary();
           table.string('title').notNullable().index();
           table.text('description').notNullable().index();
           table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
@@ -64,6 +64,7 @@ describe('Question service tests', () => {
       this.paramsArray.forEach((questionObj) => {
         Question.saveNewQuestion(questionObj, questionsModel)
           .then((question) => {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@QUESTION: ', question)
             expect(question.attributes.title).to.equal(questionObj.title);
             expect(question.attributes.description).to.equal(questionObj.description);
             expect(question.attributes.type).to.equal(questionObj.type);
