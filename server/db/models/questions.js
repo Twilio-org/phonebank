@@ -1,8 +1,8 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
+import Script from './scripts';
 
 import { development as devconfig } from '../../../knexfile';
-import Script from './scripts';
 
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
