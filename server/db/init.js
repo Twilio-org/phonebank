@@ -56,3 +56,14 @@ bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
     });
   }
 });
+
+bookshelf.knex.schema.hasTable('contacts_to_contact_lists').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('contacts_to_contact_lists', (table) => {
+      table.integer('contact_id').references('contacts.id').notNullable();
+      table.integer('contact_list_id').references('contact_lists.id').notNullable();
+    }).then(() => {
+      console.log(('Created contacts_to_contact_lists table'));
+    });
+  }
+});
