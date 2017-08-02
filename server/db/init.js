@@ -36,8 +36,8 @@ bookshelf.knex.schema.hasTable('contacts').then((exist) => {
       table.string('email').nullable();
       table.string('phone_number').notNullable().unique().index();
       table.boolean('do_not_call').defaultTo(false);
-      table.timestamp('date_created').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created contacts table'));
     });
