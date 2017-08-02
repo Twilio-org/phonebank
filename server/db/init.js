@@ -42,7 +42,7 @@ bookshelf.knex.schema.hasTable('contacts').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created contacts table'));
-    });
+    }).catch(err => console.log('Error creating contacts table', err));
   }
 });
 
@@ -55,17 +55,20 @@ bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created contact_lists table'));
-    });
+    }).catch(err => console.log('Error creating contact_lists table', err));
   }
 });
 
 bookshelf.knex.schema.hasTable('contacts_to_contact_lists').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contacts_to_contact_lists', (table) => {
+      table.increments('id').primary();
       table.integer('contact_id').references('contacts.id').notNullable();
       table.integer('contact_list_id').references('contact_lists.id').notNullable();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created contacts_to_contact_lists table'));
-    });
+    }).catch(err => console.log('Error creating contacts_to_contact_lists table', err));
   }
 });
