@@ -31,10 +31,12 @@ bookshelf.knex.schema.hasTable('contacts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contacts', (table) => {
       table.increments('id').primary();
+      table.string('external_id').nullable();
       table.string('first_name').notNullable();
       table.string('last_name').nullable();
       table.string('email').nullable();
       table.string('phone_number').notNullable().unique().index();
+      table.boolean('is_invalid_number').defaultTo(false);
       table.boolean('do_not_call').defaultTo(false);
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
