@@ -10,7 +10,7 @@ bookshelf.plugin(bookshelfBcrypt);
 bookshelf.knex.schema.hasTable('users').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('users', (table) => {
-      table.increments();
+      table.increments('id').primary();
       table.string('email').notNullable().unique().index();
       table.string('first_name').notNullable();
       table.string('last_name').notNullable();
@@ -19,8 +19,8 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
       table.boolean('is_admin').defaultTo(false);
       table.boolean('is_banned').defaultTo(false);
       table.boolean('is_active').defaultTo(true);
-      table.timestamp('date_created').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log(('Created users table'));
     });
@@ -30,7 +30,7 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
 bookshelf.knex.schema.hasTable('contacts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contacts', (table) => {
-      table.increments();
+      table.increments('id').primary();
       table.string('first_name').notNullable();
       table.string('last_name').nullable();
       table.string('email').nullable();
@@ -47,7 +47,7 @@ bookshelf.knex.schema.hasTable('contacts').then((exist) => {
 bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contact_lists', (table) => {
-      table.increments();
+      table.increments('id').primary();
       table.string('name').notNullable();
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
