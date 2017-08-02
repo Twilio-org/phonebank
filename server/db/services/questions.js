@@ -20,7 +20,6 @@ export default {
   // },
   // getQuestionByCreationDate: (params, Model) => {
   //   const { created_at } = params;
-
   //   return new Model({ created_at }).fetch();
   // },
 
