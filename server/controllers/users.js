@@ -19,7 +19,21 @@ export function getUserByEmail(req, res, next) {
   return usersService.getUserByEmail(params, UsersModel)
     .then((user) => {
       if (user) {
-        res.status(200).json(user);
+        const { attributes } = user;
+        const cleanUserObject = {
+          id: attributes.id,
+          email: attributes.email,
+          first_name: attributes.first_name,
+          last_name: attributes.last_name,
+          phone_number: attributes.phone_number,
+          is_admin: attributes.is_admin,
+          is_banned: attributes.is_banned,
+          is_active: attributes.is_active,
+          date_created: attributes.date_created,
+          date_updated: attributes.date_updated
+        };
+
+        res.status(200).json(cleanUserObject);
       }
       next();
     }).catch((err) => {
@@ -35,7 +49,21 @@ export function getUserById(req, res, next) {
   return usersService.getUserById(params, UsersModel)
     .then((user) => {
       if (user) {
-        res.status(200).json(user);
+        const { attributes } = user;
+        const cleanUserObject = {
+          id: attributes.id,
+          email: attributes.email,
+          first_name: attributes.first_name,
+          last_name: attributes.last_name,
+          phone_number: attributes.phone_number,
+          is_admin: attributes.is_admin,
+          is_banned: attributes.is_banned,
+          is_active: attributes.is_active,
+          date_created: attributes.date_created,
+          date_updated: attributes.date_updated
+        };
+
+        res.status(200).json(cleanUserObject);
       } else {
         next();
       }
