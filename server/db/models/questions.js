@@ -1,5 +1,6 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
+
 import { development as devconfig } from '../../../knexfile';
 import Script from './scripts';
 
