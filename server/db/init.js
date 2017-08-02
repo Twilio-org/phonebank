@@ -23,25 +23,7 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
       table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created users table');
-    });
-  }
-});
-
-bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
-  if (!exist) {
-    bookshelf.knex.schema.createTable('campaigns', (table) => {
-      table.increments();
-      table.string('name').notNullable().unique().index();
-      table.string('title').notNullable();
-      table.string('description').notNullable();
-      table.enu('status').notNullable();
-      table.integer('contact_list_id').references('contact_lists.id');
-      table.integer('script_id').references('scripts.id');
-      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-    }).then(() => {
-      console.log(('Created users table'));
-    });
+    }).catch(err => console.log('Error creating users table', err));
   }
 });
 
@@ -73,6 +55,23 @@ bookshelf.knex.schema.hasTable('questions').then((exist) => {
     }).then(() => {
       console.log('Created questions table');
     }).catch(err => console.log('Error creating questions table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('campaigns', (table) => {
+      table.increments();
+      table.string('name').notNullable().unique().index();
+      table.string('title').notNullable();
+      table.string('description').notNullable();
+      table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
+      table.integer('script_id').references('scripts.id').notNullable();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created campaigns table'));
+    }).catch(err => console.log('Error creating campaigns table', err));
   }
 });
 
