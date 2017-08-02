@@ -1,6 +1,5 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
-import questionsService from '../services/questions';
 import { development as devconfig } from '../../../knexfile';
 import Question from './questions';
 

@@ -9,6 +9,27 @@ const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
 const ScriptModel = Script(bookshelf);
 
+export function saveNewScript(req, res, next) {
+  const params = {
+    name: req.body.params,
+    body: req.body.params,
+    description: req.body.params
+  };
+
+  scriptsService.saveNewScript(params, ScriptModel)
+    .then((script) => {
+      if (script) {
+        res.status(201).json(script);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(401).json({ message: 'Could not save script.' });
+    });
+}
+
 export function getScriptById(req, res, next) {
   const params = {
     id: req.params.id
