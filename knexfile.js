@@ -2,7 +2,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: `postgres://${process.env.PG_USER}@localhost/phonebank_test`,
+    connection: process.env.PG_CONNECTION_STRING_TEST,
     migrations: {
       directory: __dirname + '/server/src/db/migrations'
     },
