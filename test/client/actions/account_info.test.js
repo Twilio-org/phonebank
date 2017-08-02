@@ -1,31 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import nock from 'nock';
 import axios from 'axios';
-import sinon from 'sinon';
-import httpAdapter from 'axios/lib/adapters/http';
+import MockAdapter from 'axios-mock-adapter';
 import { setAccountInfo, fetchUser } from '../../../public/src/actions/account_info';
 import { SET_USER_ACCOUNT_INFO } from '../../../public/src/reducers/account_info';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-const localStorageMock = (() => {
-  let store = {};
-  return {
-    getItem(key) {
-      return store[key];
-    },
-    setItem(key, value) {
-      store[key] = value.toString();
-    },
-    clear() {
-      store = {};
-    }
-  };
-})();
-
-global.localStorage = localStorageMock;
 
 const initialState = {
   first_name: null,
@@ -34,14 +15,31 @@ const initialState = {
   phone_number: null
 };
 
+const store = mockStore(initialState);
+
+const localStorageMock = (() => {
+  let localstore = {};
+  return {
+    getItem(key) {
+      return localstore[key];
+    },
+    setItem(key, value) {
+      localstore[key] = value.toString();
+    },
+    clear() {
+      localstore = {};
+    }
+  };
+})();
+
+global.localStorage = localStorageMock;
+
 const user = {
   first_name: 'Oscar',
   last_name: 'Grouch',
   email: 'oscar@g.com',
   phone_number: '15555555555'
 };
-
-let store = mockStore(initialState);
 
 describe('accountInfoActions', () => {
   describe('setAccountInfoAction', () => {
@@ -62,60 +60,31 @@ describe('accountInfoActions', () => {
     });
   });
   describe('fetchUserAction', () => {
-    afterEach(() => {
-      nock.cleanAll();
-    });
-    it('should execute fetchUser data', () => {
-      nock('http://localhost:3000', {
-        reqheaders: {
-          Authorization: 'Basic Auth'
-        }
-      })
-        .get('/users/:id')
-        .reply(200, { body: {
-          id: 1,
-          first_name: 'Oscar',
-          last_name: 'Grouch',
-          email: 'oscar@g.com',
-          phone_number: '15555555555'
-        }
-        });
-      const expectedActions = { type: SET_USER_ACCOUNT_INFO, payload: user };
+    beforeEach(() => {
+      const mock = new MockAdapter(axios);
 
+      mock.onGet('/users/1').reply(200, {
+        first_name: 'Oscar',
+        last_name: 'Grouch',
+        email: 'oscar@g.com',
+        phone_number: '15555555555'
+      });
+    });
+    it('should add expected action to the store', () => {
+      const expectedActions = { type: SET_USER_ACCOUNT_INFO, payload: user };
       return store.dispatch(fetchUser(1))
         .then(() => {
           const actions = store.getActions();
           expect(actions[0]).toEqual(expectedActions);
+          expect(actions[0].payload).toEqual(user);
         });
     });
-    it('should add fetched data to the store', () => {
-      nock(host)
-      .get('/users/1')
-      .reply(200, 'Hello World!');
-
-      axios.get('/users/1')
-        .then((res) => {
-          console.log('the response is: ', res);
+    it('should add expected action payload to the store', () =>
+      store.dispatch(fetchUser(1))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].payload).toEqual(user);
         })
-        .catch((err) => {
-          console.log('the error is: ', err);
-        });
-      return store.dispatch(fetchUser(1))
-        .then(() => {
-          const storeState = store.getState();
-          expect(storeState).toEqual(user);
-        });
-    });
-    it('should add fetched data to the store - FOR REAL THIS TIME', () => {
-      const get = sinon.stub(axios, 'get');
-      const myPromise = new Promise(resolve => resolve('whatzzzup'));
-      get.withArgs('/users/1').resolves(myPromise);
-
-      return store.dispatch(fetchUser(1))
-        .then(() => {
-          const storeState = store.getState();
-          expect(storeState).toEqual(user);
-        });
-    });
+    );
   });
 });
