@@ -11,6 +11,8 @@ const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
 const UsersModel = User(bookshelf);
 
+function cleanUserObject(user) { return delete user.password_hash; }
+
 export function getUserByEmail(req, res, next) {
   const params = {
     email: req.body.email
@@ -19,21 +21,9 @@ export function getUserByEmail(req, res, next) {
   return usersService.getUserByEmail(params, UsersModel)
     .then((user) => {
       if (user) {
-        const { attributes } = user;
-        const cleanUserObject = {
-          id: attributes.id,
-          email: attributes.email,
-          first_name: attributes.first_name,
-          last_name: attributes.last_name,
-          phone_number: attributes.phone_number,
-          is_admin: attributes.is_admin,
-          is_banned: attributes.is_banned,
-          is_active: attributes.is_active,
-          date_created: attributes.date_created,
-          date_updated: attributes.date_updated
-        };
+        const userObject = cleanUserObject(user);
 
-        res.status(200).json(cleanUserObject);
+        res.status(200).json(userObject);
       }
       next();
     }).catch((err) => {
@@ -49,21 +39,9 @@ export function getUserById(req, res, next) {
   return usersService.getUserById(params, UsersModel)
     .then((user) => {
       if (user) {
-        const { attributes } = user;
-        const cleanUserObject = {
-          id: attributes.id,
-          email: attributes.email,
-          first_name: attributes.first_name,
-          last_name: attributes.last_name,
-          phone_number: attributes.phone_number,
-          is_admin: attributes.is_admin,
-          is_banned: attributes.is_banned,
-          is_active: attributes.is_active,
-          date_created: attributes.date_created,
-          date_updated: attributes.date_updated
-        };
+        const userObject = cleanUserObject(user);
 
-        res.status(200).json(cleanUserObject);
+        res.status(200).json(userObject);
       } else {
         next();
       }
