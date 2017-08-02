@@ -14,14 +14,13 @@ export function fetchUser(id) {
   })
   .then((res) => {
     const userData = res.data;
-    return dispatch(setAccountInfo(userData));
+    return dispatch(setAccountInfo(userData))
   })
   .catch((err) => {
     const customError = {
-      message: `1. error fetching user info in account_info action fetchUser: ${err}`,
+      message: `error fetching user info in account_info action fetchUser: ${err}`,
       name: 'user info post request from account_info component'
     };
-    // throw customError;
-    console.log(err.stack);
+    throw customError;
   });
 }
