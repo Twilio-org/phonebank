@@ -2,6 +2,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
 import indexRouter from './routes/index';
+import questionsRouter from './routes/questions';
 import usersRouter from './routes/users';
 import authRouter from './routes/authorization';
 import errorHandle from './errorHandle';
@@ -19,6 +20,7 @@ export default function middleware(app, express) {
   app.use(passport.initialize());
 
   // pass the router files for each route
+  app.use('/questions', questionsRouter);
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
   app.use('*', indexRouter);
