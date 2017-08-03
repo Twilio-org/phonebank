@@ -9,8 +9,8 @@ const router = express.Router();
 
 router.use(passport.authenticate('jwt', { session: false }));
 
-router.route('/').get(getAllQuestions);
-router.route('/:id').get(getQuestionById);
-router.route('/').post(saveNewQuestion);
+router.route('/').get(fetchAllQuestions);
+router.route('/:id').get(fetchQuestionById);
+router.route('/').post(createNewQuestion);
 
 export default router;
