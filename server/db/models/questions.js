@@ -1,6 +1,9 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
+<<<<<<< HEAD
 
+=======
+>>>>>>> ed281a909664b49ac5f8b78273452a04db534842
 import { development as devconfig } from '../../../knexfile';
 import Script from './scripts';
 
