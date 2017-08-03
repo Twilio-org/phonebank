@@ -2,7 +2,7 @@ module.exports = {
   "extends": ["airbnb", "plugin:react/recommended"],
   "rules": {
     "comma-dangle": ["error", "never"],
-    "camelcase": [2, {"properties": "never"}],
+    "camelcase": [0],
     "react/prop-types": [0],
     "react/prefer-stateless-function": [0],
     "jest/no-disabled-tests": "warn",
@@ -22,5 +22,9 @@ module.exports = {
     "ecmaFeatures": {
       "jsx": true
     }
+  },
+  "globals": {
+    "localStorage": true,
+    "document": true
   }
 };
