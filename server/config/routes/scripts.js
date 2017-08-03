@@ -1,14 +1,11 @@
 import express from 'express';
-import { passport } from '../auth/local';
 import { saveNewScript,
          getAllScripts,
          getScriptById,
          updateScriptById,
-         deleteScriptById } from '../../controllers/questions';
+         deleteScriptById } from '../../controllers/scripts';
 
 const router = express.Router();
-
-router.use(passport.authenticate('jwt', { session: false }));
 
 router.route('/').post(saveNewScript);
 router.route('/').get(getAllScripts);
