@@ -8,9 +8,9 @@ export default {
   },
   // addContactToContactList: (params, Model) => {
   //   const id = params.id;
-  //   const contactId = params.contactId;
+  //   const contact_id = params.contact_id;
   //   return new Model({ id })
-  //     .contacts().attach(contactId);
+  //     .contacts().attach({ contact_id : contact_id });
   // },
   getContactsInContactListById: (params, Model) => {
     const { id } = params;
@@ -30,13 +30,11 @@ export default {
       .fetch();
   },
   updateContactListById: (params, Model) => {
-    const { id } = params;
-    const extractedParams = {
-      name: params.name
-    };
+    const { id, name } = params;
+
     return new Model()
       .where({ id })
-      .save(extractedParams, {
+      .save({ name }, {
         method: 'update'
       });
   }
