@@ -5,6 +5,8 @@ import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/authorization';
 import errorHandle from './errorHandle';
+import contactsRouter from './routes/contacts';
+import contactListsRouter from './routes/contact_lists';
 import { passport, serializeLogin } from './auth/local';
 
 export default function middleware(app, express) {
@@ -19,6 +21,8 @@ export default function middleware(app, express) {
   app.use(passport.initialize());
 
   // pass the router files for each route
+  app.use('/contact_lists', contactListsRouter);
+  app.use('/contacts', contactsRouter);
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
   app.use('*', indexRouter);
