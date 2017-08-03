@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 
-import updateUser from '../actions/edit_account';
+import { updateUser } from '../actions/edit_account';
 
 class EditAccountInfo extends Component {
   constructor(props) {
@@ -32,12 +32,12 @@ class EditAccountInfo extends Component {
     return (
       <div className={className}>
         <label htmlFor={field.label}>{field.label}
-        <input
-          type={'text'}
-          className="form-control"
-          placeholder={account_info[mapToLabelNames[field.label]]}
-          {...field.input}
-        />
+          <input
+            type={'text'}
+            className="form-control"
+            placeholder={account_info[mapToLabelNames[field.label]]}
+            {...field.input}
+          />
         </label>
       </div>
     );
@@ -107,7 +107,6 @@ class EditAccountInfo extends Component {
 //   },
 //   history: { meow: 'meow' }
 // };
-
 
 function validate(values) {
   const errors = {};
