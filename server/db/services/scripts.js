@@ -5,7 +5,8 @@ export default {
     const extractedParams = {
       name: params.name,
       body: params.body,
-      description: params.description
+      description: params.description,
+      responses: params.responses
     };
 
     return new Model(extractedParams).save();
@@ -44,10 +45,10 @@ export default {
   },
 
   addQuestionToScript: (params, Model) => {
-    const { scriptId, questionId } = params;
+    const { questionId, id, sequenceNum } = params;
 
-    return new Model({ id: scriptId })
-    .questions().attach(questionId);
+    return new Model({ id })
+    .questions().attach({ question_id: questionId, sequence_number: sequenceNum });
   },
 
   getQuestionsByScriptId: (params, Model) => {
