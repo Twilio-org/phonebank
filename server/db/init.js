@@ -72,4 +72,3 @@ bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
     }).catch(err => console.log('Error creating scripts_to_questions table', err));
   }
 });
-
