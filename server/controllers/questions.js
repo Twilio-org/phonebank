@@ -30,7 +30,7 @@ export function createNewQuestion(req, res, next) {
 export function fetchAllQuestions(req, res, next) {
   return getAllQuestions()
     .then((questions) => {
-      if(questions) {
+      if (questions) {
         res.status(200).json(questions);
       } else {
         next();
