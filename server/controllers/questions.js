@@ -11,8 +11,8 @@ const bookshelf = bookshelfModule(knex);
 const QuestionsModel = Question(bookshelf);
 
 export function createNewQuestion(req, res, next) {
-  const { title, description, type } = req.body;
-  const params = { title, description, type };
+  const { title, description, type, responses } = req.body;
+  const params = { title, description, type, responses };
 
   return saveNewQuestion(params, QuestionsModel)
     .then((question) => {

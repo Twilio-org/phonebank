@@ -10,10 +10,11 @@ const bookshelf = bookshelfModule(knex);
 const ScriptModel = Script(bookshelf);
 
 export function saveNewScript(req, res, next) {
+  console.log(req.body, 'params in saveNewScript');
   const params = {
-    name: req.body.params,
-    body: req.body.params,
-    description: req.body.params
+    name: req.body.name,
+    body: req.body.body,
+    description: req.body.description
   };
 
   scriptsService.saveNewScript(params, ScriptModel)
@@ -101,9 +102,9 @@ export function deleteScriptById(req, res, next) {
 }
 
 export function addQuestionToScript(req, res, next) {
-  const { questionId, scriptId } = req.params;
-  const params = { questionId, scriptId };
-  return scriptsService.addQuestionToScript(params)
+  const { questionId, id, sequenceNum } = req.params;
+  const params = { questionId, id, sequenceNum };
+  return scriptsService.addQuestionToScript(params, ScriptModel)
     .then((scriptQuestion) => {
       if (scriptQuestion) {
         res.status(200).json(scriptQuestion);
@@ -119,7 +120,7 @@ export function addQuestionToScript(req, res, next) {
 export function getQuestionsByScriptId(req, res, next) {
   const { id } = req.params;
   const params = { id };
-  return scriptsService.getQuestionsByScriptId(params)
+  return scriptsService.getQuestionsByScriptId(params, ScriptModel)
     .then((questions) => {
       if (questions) {
         const { models } = questions;

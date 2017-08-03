@@ -58,9 +58,9 @@ bookshelf.knex.schema.hasTable('questions').then((exist) => {
   }
 });
 
-bookshelf.knex.schema.hasTable('scripts_to_questions').then((exist) => {
+bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
   if (!exist) {
-    bookshelf.knex.schema.createTable('scripts_to_questions', (table) => {
+    bookshelf.knex.schema.createTable('questions_scripts', (table) => {
       table.increments().primary();
       table.integer('script_id').references('scripts.id').notNullable();
       table.integer('question_id').references('questions.id').notNullable();
