@@ -1,3 +1,5 @@
+
+
 export default {
   saveNewScript: (params, Model) => {
     const extractedParams = {
@@ -39,5 +41,18 @@ export default {
     return new Model({ id })
       .destroy()
       .then(model => model);
+  },
+
+  addQuestionToScript: (params, Model) => {
+    const { scriptId, questionId } = params;
+
+    return new Model({ id: scriptId })
+    .questions().attach(questionId);
+  },
+
+  getQuestionsByScriptId: (params, Model) => {
+    const { id } = params;
+
+    return new Model({ id }).questions().fetchAll();
   }
 };

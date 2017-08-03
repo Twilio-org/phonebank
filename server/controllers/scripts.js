@@ -99,3 +99,37 @@ export function deleteScriptById(req, res, next) {
       console.log('could not delete script', err);
     });
 }
+
+export function addQuestionToScript(req, res, next) {
+  const { questionId, scriptId } = req.params;
+  const params = { questionId, scriptId };
+  return scriptsService.addQuestionToScript(params)
+    .then((scriptQuestion) => {
+      if (scriptQuestion) {
+        res.status(200).json(scriptQuestion);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('error adding question to script: ', err);
+    });
+}
+
+export function getQuestionsByScriptId(req, res, next) {
+  const { id } = req.params;
+  const params = { id };
+  return scriptsService.getQuestionsByScriptId(params)
+    .then((questions) => {
+      if (questions) {
+        const { models } = questions;
+        // parsing
+        res.status(200).json(models);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('error getting questions by script id: ', err);
+    });
+}
