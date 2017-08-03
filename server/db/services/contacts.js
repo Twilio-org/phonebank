@@ -1,11 +1,11 @@
 export default {
   saveNewContact: (params, Model) => {
     const extractedParams = {
-      first_name: params.firstName,
-      last_name: params.lastName,
-      phone_number: params.phoneNumber,
+      first_name: params.first_name,
+      last_name: params.last_name,
+      phone_number: params.phone_number,
       email: params.email,
-      external_id: params.externalId
+      external_id: params.external_id
     };
 
     return new Model(extractedParams).save();
@@ -13,7 +13,7 @@ export default {
 
   getContactByExternalId: (params, Model) => {
     const extractedParams = {
-      external_id: params.externalId
+      external_id: params.external_id
     };
 
     return new Model(extractedParams)
@@ -22,7 +22,7 @@ export default {
 
   getContactByPhoneNumber: (params, Model) => {
     const extractedParams = {
-      phone_number: params.phoneNumber
+      phone_number: params.phone_number
     };
 
     return new Model(extractedParams)
@@ -32,13 +32,13 @@ export default {
   updateContactById: (params, Model) => {
     const { id } = params;
     const extractedParams = {
-      first_name: params.firstName,
-      last_name: params.lastName,
-      phone_number: params.phoneNumber,
+      first_name: params.first_name,
+      last_name: params.last_name,
+      phone_number: params.phone_number,
       email: params.email,
-      external_id: params.externalId
-      // do_not_call: params.doNotCall,
-      // is_invalid_number: params.isInvalidNumber
+      external_id: params.external_id
+      // do_not_call: params.do_not_call,
+      // is_invalid_number: params.is_invalid_number
     };
     return new Model()
       .where({ id })
@@ -49,7 +49,7 @@ export default {
   updateContactDoNotCallById: (params, Model) => {
     const { id } = params;
     const extractedParams = {
-      do_not_call: !params.doNotCall
+      do_not_call: !params.do_not_call
     };
     return new Model()
       .where({ id })
@@ -60,7 +60,7 @@ export default {
   updateContactInvalidNumberById: (params, Model) => {
     const { id } = params;
     const extractedParams = {
-      is_invalid_number: !params.isInvalidNumber
+      is_invalid_number: !params.is_invalid_number
     };
     return new Model()
       .where({ id })
