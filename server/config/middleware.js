@@ -4,6 +4,7 @@ import path from 'path';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/authorization';
+import campaignsRouter from './routes/campaigns';
 import errorHandle from './errorHandle';
 import { passport, serializeLogin } from './auth/local';
 
@@ -21,6 +22,7 @@ export default function middleware(app, express) {
   // pass the router files for each route
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
+  app.use('/campaigns', campaignsRouter);
   app.use('*', indexRouter);
 
   // pass the logger

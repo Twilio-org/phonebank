@@ -19,8 +19,8 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
       table.boolean('is_admin').defaultTo(false);
       table.boolean('is_banned').defaultTo(false);
       table.boolean('is_active').defaultTo(true);
-      table.timestamp('date_created').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created users table');
     }).catch(err => console.log('Error creating users table', err));
