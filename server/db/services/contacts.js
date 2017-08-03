@@ -12,16 +12,20 @@ export default {
   },
 
   getContactByExternalId: (params, Model) => {
-    const { external_id } = params;
+    const extractedParams = {
+      external_id: params.externalId
+    };
 
-    return new Model({ external_id })
+    return new Model(extractedParams)
       .fetch();
   },
 
   getContactByPhoneNumber: (params, Model) => {
-    const { phone_number } = params;
+    const extractedParams = {
+      phone_number: params.phoneNumber
+    };
 
-    return new Model({ phone_number })
+    return new Model(extractedParams)
       .fetch();
   },
 
@@ -45,7 +49,7 @@ export default {
   updateContactDoNotCallById: (params, Model) => {
     const { id } = params;
     const extractedParams = {
-      do_not_call: !params.do_not_call
+      do_not_call: !params.doNotCall
     };
     return new Model()
       .where({ id })
@@ -56,7 +60,7 @@ export default {
   updateContactInvalidNumberById: (params, Model) => {
     const { id } = params;
     const extractedParams = {
-      is_invalid_number: !params.is_invalid_number
+      is_invalid_number: !params.isInvalidNumber
     };
     return new Model()
       .where({ id })
