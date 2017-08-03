@@ -30,7 +30,7 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
 bookshelf.knex.schema.hasTable('scripts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('scripts', (table) => {
-      table.increments().primary();
+      table.increments('id').primary();
       table.string('name').notNullable().index();
       table.text('body').notNullable();
       table.text('description').notNullable();
@@ -45,7 +45,7 @@ bookshelf.knex.schema.hasTable('scripts').then((exist) => {
 bookshelf.knex.schema.hasTable('questions').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('questions', (table) => {
-      table.increments().primary();
+      table.increments('id').primary();
       table.string('title').notNullable().index();
       table.text('description').notNullable().index();
       table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
@@ -61,7 +61,7 @@ bookshelf.knex.schema.hasTable('questions').then((exist) => {
 bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('questions_scripts', (table) => {
-      table.increments().primary();
+      table.increments('id').primary();
       table.integer('script_id').references('scripts.id').notNullable();
       table.integer('question_id').references('questions.id').notNullable();
       table.integer('sequence_number').notNullable();
