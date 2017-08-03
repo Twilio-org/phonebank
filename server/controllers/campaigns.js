@@ -26,7 +26,7 @@ export function saveNewCampaign(req, res) {
 export function getAllCampaigns(req, res) {
   return campaignsService.getAllCampaigns(null, campaignModel)
     .then((campaigns) => {
-      if (campaigns) {
+      if (campaigns.length) {
         res.status(200).json(campaigns);
       } else {
         res.status(200).json({ message: 'No campaigns found' });
