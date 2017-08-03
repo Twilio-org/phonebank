@@ -10,7 +10,7 @@ const QuestionModel = Question(bookshelf);
 
 export default function Script(bookshelfObj) {
   return bookshelfObj.Model.extend({
-    tableName: 'script',
+    tableName: 'scripts',
     hasTimestamps: true,
     questions() {
       return this.belongsToMany(QuestionModel);

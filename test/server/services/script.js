@@ -13,7 +13,7 @@ const ScriptsModel = Model(bookshelf);
 const should = Should();
 
 describe('Script service tests', () => {
-  before(() => {
+  beforeEach((done) => {
     bookshelf.knex.schema.hasTable('scripts').then((exist) => {
       if (!exist) {
         bookshelf.knex.schema.createTable('scripts', (table) => {
@@ -24,16 +24,22 @@ describe('Script service tests', () => {
           table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
           table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
         }).then(() => {
-          console.log(('Created scripts table'));
+          console.log('Created scripts table');
+          done();
         }).catch(err => console.log(err));
       }
     });
   });
 
-  after(() => bookshelf.knex.schema.dropTable('scripts'));
+  afterEach((done) => {
+    bookshelf.knex.schema.dropTable('scripts').then((table) => {
+      console.log('dropped scripts table');
+      done();
+    })
+  });
 
-  describe('Data insertion', () => {
-    beforeEach(() => {
+  describe('Data insertion', function() {
+    beforeEach((done) => {
       this.scriptSaveParams1 = {
         name: 'Script Name 1',
         body: 'Script Body 1',
@@ -45,7 +51,10 @@ describe('Script service tests', () => {
         body: 'Script Body 2',
         description: 'Script Description 2'
       };
-    });
+
+      scriptsService.saveNewScript(this.scriptSaveParams1, ScriptsModel)
+        .then(script => done());
+    }) ;
 
     it('should be able to save first script\'s name', (done) => {
       const params = this.scriptSaveParams1;
@@ -73,18 +82,18 @@ describe('Script service tests', () => {
 
       scriptsService.saveNewScript(params, ScriptsModel)
         .then((script) => {
-          expect(script.attributes.name).to.equal(params.description);
+          expect(script.attributes.description).to.equal(params.description);
           done();
         }, done);
     });
 
-    it('the first script should only have 5 attributes after saving',
+    it('the first script should only have 6 attributes after saving',
        (done) => {
          scriptsService.saveNewScript(this.scriptSaveParams1, ScriptsModel)
            .then((script) => {
-             const scriptProperties = Object.values(script.attributes);
+             const scriptProperties = Object.keys(script.attributes);
 
-             expect(scriptProperties.length).to.equal(5);
+             expect(scriptProperties.length).to.equal(6);
              done();
            }, done);
        });
@@ -115,12 +124,12 @@ describe('Script service tests', () => {
 
       scriptsService.saveNewScript(params, ScriptsModel)
         .then((script) => {
-          expect(script.attributes.name).to.equal(params.description);
+          expect(script.attributes.description).to.equal(params.description);
           done();
         }, done);
     });
 
-    it('the second script should only have 5 attributes after saving',
+    it('the second script should only have 6 attributes after saving',
        (done) => {
          const params = this.scriptSaveParams2;
 
@@ -128,13 +137,40 @@ describe('Script service tests', () => {
            .then((script) => {
              const scriptProprertyKeys = Object.keys(script.attributes);
 
-             expect(scriptProprertyKeys.length).to.equal(5);
+             expect(scriptProprertyKeys.length).to.equal(6);
              done();
            }, done);
        });
   });
 
-  describe('Data retrieval', () => {
+  describe('Data retrieval', function() {
+    beforeEach((done) => {
+      this.scriptSaveParams1 = {
+        name: 'Script Name 1',
+        body: 'Script Body 1',
+        description: 'Script Description 1'
+      };
+
+      this.scriptSaveParams2 = {
+        name: 'Script Name 2',
+        body: 'Script Body 2',
+        description: 'Script Description 2'
+      };
+
+      scriptsService.saveNewScript(this.scriptSaveParams1, ScriptsModel)
+        .then((script) => {
+          scriptsService.saveNewScript(this.scriptSaveParams2, ScriptsModel)
+            .then((script2) => {
+              console.log('saved second script');
+              this.secondScriptId = script2.attributes.id;
+              return script2;
+            }).then(thing => done());
+          console.log('saved first script');
+          this.firstScriptId = script.attributes.id;
+          return script;
+        });
+    });
+
     it('should retrieve all scripts', (done) => {
       scriptsService.getAllScripts(ScriptsModel)
         .then((scripts) => {
@@ -148,7 +184,7 @@ describe('Script service tests', () => {
        (done) => {
          const { name, body, description } = this.scriptSaveParams1;
 
-         scriptsService.getScriptById({ id: 1 }, ScriptsModel)
+         scriptsService.getScriptById({ id: this.firstScriptId }, ScriptsModel)
            .then((script) => {
              const attributes = script.attributes;
 
@@ -164,7 +200,7 @@ describe('Script service tests', () => {
        (done) => {
          const { name, body, description } = this.scriptSaveParams2;
 
-         scriptsService.getScriptById({ id: 2 }, ScriptsModel)
+         scriptsService.getScriptById({ id: this.secondScriptId }, ScriptsModel)
            .then((script) => {
              const attributes = script.attributes;
 
@@ -177,26 +213,49 @@ describe('Script service tests', () => {
        });
   });
 
-  describe('Data update', () => {
-    beforeEach(() => {
+  describe('Data update', function() {
+    beforeEach((done) => {
       this.scriptSaveParams1 = {
+        name: 'Script Name 1',
+        body: 'Script Body 1',
+        description: 'Script Description 1'
+      };
+
+      this.scriptSaveParams2 = {
+        name: 'Script Name 2',
+        body: 'Script Body 2',
+        description: 'Script Description 2'
+      };
+
+      this.scriptUpdateParams1 = {
         id: 1,
         name: 'New Script Name 1',
         body: 'New Script Body 1',
         description: 'New Script Description 1'
       };
 
-      this.scriptSaveParams2 = {
+      this.scriptUpdateParams2 = {
         id: 2,
         name: 'New Script Name 2',
         body: 'New Script Body 2',
         description: 'New Script Description 2'
       };
+
+      scriptsService.saveNewScript(this.scriptSaveParams1, ScriptsModel)
+        .then((script) => {
+          scriptsService.saveNewScript(this.scriptSaveParams2, ScriptsModel)
+            .then((script2) => {
+              console.log('saved second script');
+              return script2;
+            }).then(thing => done());
+          console.log('saved first script');
+          return script;
+        });
     });
 
 
     it('should update first script\'s name by ID', (done) => {
-      const params = this.scriptUpdateParams1;
+      const params = { id: this.scriptUpdateParams1.id };
 
       scriptsService.updateScriptById(params, ScriptsModel)
         .then(script => script.attributes.name)
@@ -207,7 +266,7 @@ describe('Script service tests', () => {
     });
 
     it('should update second script\'s description by ID', (done) => {
-      const params = this.scriptUpdateParams1;
+      const params = { id: this.scriptUpdateParams1.id };
 
       scriptsService.updateScriptById(params, ScriptsModel)
         .then(script => script.attributes.description)
@@ -218,20 +277,38 @@ describe('Script service tests', () => {
     });
   });
 
-  describe('data destruction', () => {
+  describe('data destruction', function() {
+    beforeEach(() => {
+      this.scriptDeleteParams1 = {
+        id: 1,
+        name: 'Script Name 1',
+        body: 'Script Body 1',
+        description: 'Script Description 1'
+      };
+
+      this.scriptDeleteParams2 = {
+        id: 2,
+        name: 'Script Name 2',
+        body: 'Script Body 2',
+        description: 'Script Description 2'
+      };
+    });
+
     it('should delete both records by ID', (done) => {
-      const params1 = this.scriptSaveParams1;
-      const params2 = this.scriptSaveParams2;
+      const params1 = { id: this.scriptDeleteParams1.id };
+      const params2 = { id: this.scriptDeleteParams2.id };
 
       scriptsService.deleteScriptById(params1, ScriptsModel)
         .then((script) => {
-          expect(script).to.equal(null);
-          done();
+          should.exist(script);
+          expect(script.attributes).to.be.empty;
         }, done);
 
       scriptsService.deleteScriptById(params2, ScriptsModel)
         .then((script) => {
-          expect(script).to.equal(null);
+          should.exist(script);
+          expect(script.attributes).to.be.empty;
+          done();
         }, done);
     });
   });

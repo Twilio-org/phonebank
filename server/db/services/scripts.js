@@ -9,7 +9,8 @@ export default {
     return new Model(extractedParams).save();
   },
 
-  getAllScripts: Model => Model.fetch(),
+  getAllScripts: Model => Model.forge()
+    .orderBy('updated_at', 'DESC').fetchAll(),
 
   getScriptById: (params, Model) => {
     const { id } = params;
