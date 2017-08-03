@@ -9,12 +9,12 @@ const knex = knexModule(testconfig);
 const knexdb = bookshelfModule(knex);
 const questionsModel = Model(knexdb);
 
-const assert = chai.assert;
-const should = chai.Should();
+// const assert = chai.assert;
+// const should = chai.Should();
 const expect = chai.expect;
 
 describe('Question service tests', () => {
-  before(() => {
+  before((done) => {
     knexdb.knex.schema.hasTable('questions').then((exist) => {
       if (!exist) {
         knexdb.knex.schema.createTable('questions', (table) => {
@@ -27,16 +27,25 @@ describe('Question service tests', () => {
           table.timestamp('updated_at').defaultTo(knex.fn.now());
         })
         .then(() => {
-          console.log('Created questions table');
+          console.log('Created questions table!');
+          done();
         })
         .catch(err => console.log('Error creating questions table', err));
       }
     });
   });
 
-  after(() => knexdb.knex.schema.dropTable('questions'));
-
+  after(() => {
+    return knexdb.knex.schema.dropTable('questions')
+      .then((meow) => {
+        console.log('Questions table dropped!');
+      })
+      .catch((err) => {
+        console.log('Error dropping questions table: ', err);
+      });
+  });
   describe('Data insertion', function() {
+    console.log('Now running questions service tests: ');
     beforeEach(() => {
       this.paramsArray = [
         {
@@ -64,16 +73,16 @@ describe('Question service tests', () => {
       this.paramsArray.forEach((questionObj) => {
         Question.saveNewQuestion(questionObj, questionsModel)
           .then((question) => {
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@QUESTION: ', question)
             expect(question.attributes.title).to.equal(questionObj.title);
             expect(question.attributes.description).to.equal(questionObj.description);
             expect(question.attributes.type).to.equal(questionObj.type);
             expect(question.attributes.responses).to.equal(questionObj.responses);
-          }, done)
+          })
           .catch((err) => {
             console.log('error with save question title, description, type, and responses options', err);
           });
       });
+      done();
     });
   });
 
@@ -83,30 +92,31 @@ describe('Question service tests', () => {
       Question.getAllQuestions(questionsModel)
         .then((questions) => {
           expect(questions.length).to.equal(3);
-          done();
-        }, done)
+        })
         .catch((err) => {
             console.log('error with should retrieve all questions in the table', err);
         });
+      done();
     });
 
     it('should return all questions in decending order from last update', (done) => {
       Question.getAllQuestions(questionsModel)
         .then((questions) => {
-          expect(questions[0].attributes.title).to.equal('Testing Tables');
-          expect(questions[2].attributes.title).to.equal('Still Testingggg Tablessss');
-        }, done)
+          const { models } = questions;
+          expect(models[0].attributes.title).to.equal('Still Testingggg Tablessss');
+          expect(models[2].attributes.title).to.equal('Testing Tables');
+        })
         .catch((err) => {
             console.log('error with return all questions in decending order from last update', err);
         });
+      done();
     });
 
     it('should retrieve a question by id', (done) => {
       Question.getQuestionById({ id: 1 }, questionsModel)
         .then((question) => {
           expect(question.attributes.title).to.equal('Testing Tables');
-          done();
-        }, done)
+        })
         .catch((err) => {
             console.log('error with should retrieve a question by id', err);
         });
@@ -114,8 +124,7 @@ describe('Question service tests', () => {
       Question.getQuestionById({ id: 2 }, questionsModel)
         .then((question) => {
           expect(question.attributes.title).to.equal('Still Testing Tables');
-          done();
-        }, done)
+        })
         .catch((err) => {
             console.log('error with should retrieve a question by id', err);
         });
@@ -123,11 +132,11 @@ describe('Question service tests', () => {
       Question.getQuestionById({ id: 3 }, questionsModel)
         .then((question) => {
           expect(question.attributes.title).to.equal('Still Testingggg Tablessss');
-          done();
-        }, done)
+        })
         .catch((err) => {
             console.log('error with should retrieve a question by id', err);
         });
+      done();
     });
   });
 });
