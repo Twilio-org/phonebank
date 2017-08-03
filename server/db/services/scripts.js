@@ -45,7 +45,6 @@ export default {
 
   addQuestionToScript: (params, Model) => {
     const { questionId, id, sequenceNum } = params;
-    console.log(params, 'params in addQuestionToScript##################')
 
     return new Model({ id })
     .questions().attach({ question_id: questionId, sequence_number: sequenceNum });
