@@ -10,11 +10,11 @@ const ContactsModel = Contact(bookshelf);
 
 export function saveNewContact(req, res, next) {
   const contactParams = {
-    firstName: req.body.first_name,
-    lastName: req.body.last_name,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     email: req.body.last_name,
-    phoneNumber: req.body.phone_number,
-    externalId: req.body.external_id
+    phone_number: req.body.phone_number,
+    external_id: req.body.external_id
   };
 
   contactsService.saveNewContact(contactParams, ContactsModel)
@@ -33,7 +33,7 @@ export function saveNewContact(req, res, next) {
 
 export function getContactByExternalId(req, res, next) {
   const params = {
-    externalId: req.params.external_id
+    external_id: req.body.external_id
   };
 
   return contactsService.getContactByExternalId(params, ContactsModel)
@@ -51,7 +51,7 @@ export function getContactByExternalId(req, res, next) {
 
 export function getContactByPhoneNumber(req, res, next) {
   const params = {
-    phoneNumber: req.params.phone_number
+    phone_number: req.body.phone_number
   };
 
   return contactsService.getContactByPhoneNumber(params, ContactsModel)
@@ -70,11 +70,11 @@ export function getContactByPhoneNumber(req, res, next) {
 export function updateContactById(req, res, next) {
   const params = {
     id: req.body.id,
-    firstName: req.body.first_name,
-    lastName: req.body.last_name,
-    phoneNumber: req.body.phone_number,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone_number: req.body.phone_number,
     email: req.body.email,
-    externalId: req.body.external_id
+    external_id: req.body.external_id
   };
   return contactsService.updateContactById(params, ContactsModel)
     .then((contact) => {
@@ -92,7 +92,7 @@ export function updateContactById(req, res, next) {
 export function updateContactDoNotCallById(req, res, next) {
   const params = {
     id: req.body.id,
-    doNotCall: req.body.do_not_call
+    do_not_call: req.body.do_not_call
   };
   return contactsService.updateContactDoNotCallById(params, ContactsModel)
     .then((contact) => {
@@ -110,7 +110,7 @@ export function updateContactDoNotCallById(req, res, next) {
 export function updateContactInvalidNumberById(req, res, next) {
   const params = {
     id: req.body.id,
-    isInvalidNumber: req.body.is_invalid_number
+    is_invalid_number: req.body.is_invalid_number
   };
   return contactsService.updateContactInvalidNumberById(params, ContactsModel)
     .then((contact) => {
