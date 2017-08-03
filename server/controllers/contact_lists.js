@@ -13,7 +13,7 @@ export function saveNewContactList(req, res, next) {
     name: req.body.name
   };
 
-  contactListsService.saveNewContactList(contactListParams, ContactListsModel)
+  return contactListsService.saveNewContactList(contactListParams, ContactListsModel)
     .then((contactList) => {
       if (contactList) {
         res.status(201).json({ message: 'Contact List creation successful' });
@@ -33,7 +33,7 @@ export function saveNewContactList(req, res, next) {
 
 export function getContactsInContactListById(req, res, next) {
   const params = {
-    id: req.body.id
+    id: req.params.id
   };
   return contactListsService.getContactsInContactListById(params, ContactListsModel)
     .then((contactList) => {
@@ -50,7 +50,7 @@ export function getContactsInContactListById(req, res, next) {
 
 export function getContactListById(req, res, next) {
   const params = {
-    id: req.body.id
+    id: req.params.id
   };
 
   return contactListsService.getContactListById(params, ContactListsModel)
@@ -86,7 +86,7 @@ export function getContactListByName(req, res, next) {
 
 export function updateContactListById(req, res, next) {
   const params = {
-    id: req.body.id,
+    id: req.params.id,
     name: req.body.name
   };
   return contactListsService.updateContactListById(params, ContactListsModel)
