@@ -11,7 +11,10 @@ const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
 const UsersModel = User(bookshelf);
 
-function cleanUserObject(user) { return delete user.password_hash; }
+function cleanUserObject(user) {
+  const cleanUser = user;
+  return delete cleanUser.password_hash;
+}
 
 export function getUserByEmail(req, res, next) {
   const params = {
