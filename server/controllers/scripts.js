@@ -48,6 +48,20 @@ export function getScriptById(req, res, next) {
     });
 }
 
+export function getAllScripts(req, res, next) {
+  return scriptsService.getAllScripts(ScriptModel)
+    .then((scripts) => {
+      if (scripts) {
+        res.status(200).json(scripts);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not fetch all scripts: ', err);
+    });
+}
+
 export function updateScriptById(req, res, next) {
   const params = {
     name: req.params.name,
