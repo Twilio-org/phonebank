@@ -6,13 +6,13 @@ export default {
 
     return new Model(extractedParams).save();
   },
-  addContactToContactList: (params, Model) => {
-    const id = params.id;
-    const contactId = params.contactId;
-    return new Model({ id })
-      .contacts().attach(contactId);
-  },
-  getContactsInContactList: (params, Model) => {
+  // addContactToContactList: (params, Model) => {
+  //   const id = params.id;
+  //   const contactId = params.contactId;
+  //   return new Model({ id })
+  //     .contacts().attach(contactId);
+  // },
+  getContactsInContactListById: (params, Model) => {
     const { id } = params;
     return new Model({ id })
       .contacts().fetch();
