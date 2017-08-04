@@ -3,15 +3,13 @@ export default {
     const extractedParams = {
       name: params.name
     };
-
     return new Model(extractedParams).save();
   },
-  // addContactToContactList: (params, Model) => {
-  //   const id = params.id;
-  //   const contact_id = params.contact_id;
-  //   return new Model({ id })
-  //     .contacts().attach({ contact_id : contact_id });
-  // },
+  addContactToContactList: (params, Model) => {
+    const { id, contact_id } = params;
+    return new Model({ id })
+      .contacts().attach({ contact_id });
+  },
   getContactsInContactListById: (params, Model) => {
     const { id } = params;
     return new Model({ id })
