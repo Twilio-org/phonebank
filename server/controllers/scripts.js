@@ -101,8 +101,8 @@ export function deleteScriptById(req, res, next) {
 }
 
 export function addQuestionToScript(req, res, next) {
-  const { questionId, id, sequenceNum } = req.params;
-  const params = { questionId, id, sequenceNum };
+  const { question_id, id, sequence_number } = req.params;
+  const params = { question_id, id, sequence_number };
   return scriptsService.addQuestionToScript(params, ScriptModel)
     .then((scriptQuestion) => {
       if (scriptQuestion) {
@@ -124,6 +124,7 @@ export function getQuestionsByScriptId(req, res, next) {
       if (questions) {
         const { models } = questions;
         // parsing
+        console.log('result from join query: ', models);
         res.status(200).json(models);
       } else {
         next();
