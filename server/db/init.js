@@ -122,7 +122,7 @@ bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
   }
 });
 
-bookshelf.knex.schema.hasTable('contacts_to_contact_lists').then((exist) => {
+bookshelf.knex.schema.hasTable('contacts_contact_lists').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contacts_to_contact_lists', (table) => {
       table.increments('id').primary();
