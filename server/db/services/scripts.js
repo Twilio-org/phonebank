@@ -47,7 +47,7 @@ export default {
     const { questionId, id, sequenceNum } = params;
 
     return new Model({ id })
-    .questions().attach({ question_id: questionId, sequence_number: sequenceNum });
+    .questions().attach({ script_id: id, question_id: questionId, sequence_number: sequenceNum });
   },
 
   getQuestionsByScriptId: (params, Model) => {
