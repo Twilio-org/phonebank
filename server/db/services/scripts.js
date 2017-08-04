@@ -42,15 +42,21 @@ export default {
   },
 
   addQuestionToScript: (params, Model) => {
-    const { questionId, id, sequenceNum } = params;
+    const { question_id, id, sequence_number } = params;
 
     return new Model({ id })
-    .questions().attach({ question_id: questionId, sequence_number: sequenceNum });
+    .questions().attach({ question_id, sequence_number });
   },
 
   getQuestionsByScriptId: (params, Model) => {
     const { id } = params;
-
-    return new Model({ id }).questions().fetchAll().orderBy('sequence_number', 'DESC');
+    return new Model().query((q) => {
+      q.from('questions')
+        .select('*')
+        .leftJoin('questions_scripts', 'questions.id', 'questions_scripts.question_id')
+        .where({ script_id: id })
+        .orderByRaw('sequence_number asc');
+    })
+    .fetchAll({});
   }
 };
