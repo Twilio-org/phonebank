@@ -1,5 +1,3 @@
-
-
 export default {
   saveNewScript: (params, Model) => {
     const extractedParams = {
