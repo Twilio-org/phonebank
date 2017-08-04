@@ -51,6 +51,7 @@ export default {
 
   getQuestionsByScriptId: (params, Model) => {
     const { id } = params;
+
     return new Model().query((q) => {
       q.from('questions')
         .select('*')
