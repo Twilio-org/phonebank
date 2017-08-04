@@ -170,7 +170,7 @@ describe('questions_scripts services from scripts', function() {
         }, done);
     });
 
-    it('the saved join-entry only has 6 attributes after saving', (done) => {
+    it('the saved join-entry only has 3 attributes after saving', (done) => {
       scriptsService.addQuestionToScript(this.questionScriptParams,
         ScriptsModel).then((scriptQuestion) => {
           const scriptQuestionProps = Object.keys(scriptQuestion.models[0].attributes);
