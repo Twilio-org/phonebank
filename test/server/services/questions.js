@@ -6,16 +6,16 @@ import Question from '../../../server/db/services/questions';
 import Model from '../../../server/db/models/questions';
 
 const knex = knexModule(testconfig);
-const knexdb = bookshelfModule(knex);
-const questionsModel = Model(knexdb);
+const bookshelf = bookshelfModule(knex);
+const questionsModel = Model(bookshelf);
 
 const expect = chai.expect;
 
 describe('Question service tests', () => {
   before((done) => {
-    knexdb.knex.schema.hasTable('questions').then((exist) => {
+    bookshelf.knex.schema.hasTable('questions').then((exist) => {
       if (!exist) {
-        knexdb.knex.schema.createTable('questions', (table) => {
+        bookshelf.knex.schema.createTable('questions', (table) => {
           table.increments('id').primary();
           table.string('title').notNullable().index();
           table.text('description').notNullable().index();
@@ -34,7 +34,7 @@ describe('Question service tests', () => {
   });
 
   after(() => {
-    return knexdb.knex.schema.dropTable('questions')
+    return bookshelf.knex.schema.dropTable('questions')
       .then((meow) => {
         console.log('Questions table dropped!');
       })
