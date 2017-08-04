@@ -92,7 +92,9 @@ export function updateContactById(req, res, next) {
     last_name: req.body.last_name,
     phone_number: req.body.phone_number,
     email: req.body.email,
-    external_id: req.body.external_id
+    external_id: req.body.external_id,
+    do_not_call: req.body.do_not_call,
+    is_invalid_number: req.body.is_invalid_number
   };
   return contactsService.updateContactById(params, ContactsModel)
     .then((contact) => {
