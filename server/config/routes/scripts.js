@@ -15,7 +15,7 @@ router.route('/').get(getAllScripts);
 router.route('/:id').get(getScriptById);
 router.route('/:id').put(updateScriptById);
 router.route('/:id').delete(deleteScriptById);
-router.route('/addQuestionToScript/:id/:questionId/:sequenceNum').post(addQuestionToScript);
-router.route('/getQuestionsInScript/:id').get(getQuestionsByScriptId);
+router.route('/:id/scriptQuestions/:questionId/:sequenceNum').post(addQuestionToScript);
+router.route('/:id/scriptQuestions/').get(getQuestionsByScriptId);
 
 export default router;

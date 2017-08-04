@@ -51,6 +51,6 @@ export default {
   getQuestionsByScriptId: (params, Model) => {
     const { id } = params;
 
-    return new Model({ id }).questions().fetchAll();
+    return new Model({ id }).questions().fetchAll().orderBy('sequence_number', 'DESC');
   }
 };
