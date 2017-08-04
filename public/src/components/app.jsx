@@ -7,14 +7,15 @@ import { logoutUser } from '../actions/login';
 
 export class App extends Component {
   render() {
-    const { auth, account_info, logoutUser, history } = this.props;
+    const { auth, account_info, history } = this.props;
+    const logoutUserAction = this.props.logoutUser;
     const { id } = auth;
     return (
       <div>
         <Header
           userId={id}
           userInfo={account_info}
-          logout={logoutUser}
+          logout={logoutUserAction}
           history={history}
         />
         <section id="content">

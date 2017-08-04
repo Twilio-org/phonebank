@@ -10,11 +10,12 @@ export function setAccountInfo(user) {
 
 export function fetchUser(id) {
   return dispatch => axios.get(`/users/${id}`, {
-    headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` }
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((res) => {
     const userData = res.data;
-    return dispatch(setAccountInfo(userData));
+    dispatch(setAccountInfo(userData));
+    return userData;
   })
   .catch((err) => {
     const customError = {
