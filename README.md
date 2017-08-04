@@ -7,6 +7,7 @@ A phone banking solution powered by Twilio
 - node v6.11.1
 - npm v3.10.10
 - postgres v9.6.3
+- set env var `secretOrKey`
 
 ## npm commands
 - `npm install` - install deps
