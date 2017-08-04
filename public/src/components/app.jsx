@@ -5,7 +5,7 @@ import { Grid } from 'react-bootstrap';
 import Header from './header';
 import { logoutUser } from '../actions/login';
 
-export class App extends Component {
+class App extends Component {
   render() {
     const { auth, account_info, history } = this.props;
     const logoutUserAction = this.props.logoutUser;
