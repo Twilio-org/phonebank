@@ -9,8 +9,6 @@ const knex = knexModule(testconfig);
 const bookshelf = bookshelfModule(knex);
 const questionsModel = Model(bookshelf);
 
-// const assert = chai.assert;
-// const should = chai.Should();
 const expect = chai.expect;
 
 describe('Question service tests', () => {

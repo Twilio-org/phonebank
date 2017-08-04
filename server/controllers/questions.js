@@ -1,10 +1,8 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
-import questionsService from '../db/services/questions';
-import { development as devconfig } from '../../knexfile';
+import { saveNewQuestion, getAllQuestions, getQuestionById } from '../db/services/questions';
 import Question from '../db/models/questions';
-
-const { saveNewQuestion, getAllQuestions, getQuestionById } = questionsService;
+import { development as devconfig } from '../../knexfile';
 
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);

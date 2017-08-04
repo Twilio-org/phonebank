@@ -3,6 +3,7 @@ import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
 import { development as devconfig } from '../../knexfile';
 
+console.log(process.env.NODE_ENV, 'NODEEEE ENNNNV');
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
