@@ -45,6 +45,7 @@ export default {
     const { question_id, id, sequence_number } = params;
 
     return new Model({ id })
+
     .questions().attach({ question_id, sequence_number });
   },
 
