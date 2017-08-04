@@ -5,7 +5,6 @@ import renderer from 'react-test-renderer';
 import Navigation from '../../../public/src/components/navigation';
 
 describe('<Navigation />', () => {
-  // test variables
   const testUser = {
     first_name: 'Beyonce',
     last_name: 'Cat',

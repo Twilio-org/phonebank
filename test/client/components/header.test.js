@@ -5,7 +5,6 @@ import renderer from 'react-test-renderer';
 import Header from '../../../public/src/components/header';
 
 describe('<Header />', () => {
-  // test variables
   const testUser = {
     first_name: 'Mr.',
     last_name: 'Cat',
@@ -42,17 +41,17 @@ describe('<Header />', () => {
   });
   describe('props', () => {
     const wrapper = shallow(<Header />);
-    it('should receive a userInfo that is null',() => {
+    it('should return undefined for userInfo if logged out',() => {
       expect(wrapper.instance().props['userInfo']).toBe(undefined);
     });
-    it('should receive a userId prop of null',() => {
+    it('should return undefined for userId if logged out',() => {
       expect(wrapper.instance().props['userId']).toBe(undefined);
     });
-    it('should receive a userId prop of 1',() => {
+    it('should return value of userId if user is logged in',() => {
       wrapper.setProps(props);
       expect(wrapper.instance().props['userId']).toBe(1);
     });
-    it('should receive userInfo',() => {
+    it('should return data of userInfo if user is logged in',() => {
       wrapper.setProps(props);
       expect(wrapper.instance().props['userInfo']).toEqual(testUser);
     });
