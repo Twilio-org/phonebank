@@ -120,15 +120,17 @@ describe('questions_scripts services from scripts', function() {
       scriptsService.getAllScripts(ScriptsModel)
         .then((fetchedScripts) => {
           script_id = fetchedScripts.models[0].id;
+          // console.log('////////////////////////// SCRIPT ID: ', script_id)
 
           questionsService.getAllQuestions(QuestionsModel)
             .then((fetchedQuestions) => {
               question_id = fetchedQuestions.models[0].id;
+              // console.log('////////////////////////// QUESTION ID: ', question_id)
 
               this.questionScriptParams = {
                 id: script_id.toString(),
-                questionId: question_id.toString(),
-                sequenceNum: '1'
+                question_id: question_id.toString(),
+                sequence_number: '1'
               };
               done();
             });
@@ -138,6 +140,7 @@ describe('questions_scripts services from scripts', function() {
     it('Saves the join-entry\'s script id', (done) => {
       const params = this.questionScriptParams;
       const { id } = params;
+      console.log('////////////////////////// PARAMS: ', params)
 
       scriptsService.addQuestionToScript(params, ScriptsModel)
         .then((scriptQuestion) => {
@@ -148,24 +151,24 @@ describe('questions_scripts services from scripts', function() {
 
     it('Saves the join-entry\'s question id', (done) => {
       const params = this.questionScriptParams;
-      const { questionId } = params;
+      const { question_id } = params;
 
       scriptsService.addQuestionToScript(params, ScriptsModel)
         .then((scriptQuestion) => {
           expect(scriptQuestion.models[0].attributes.question_id)
-            .to.equal(questionId);
+            .to.equal(question_id);
           done();
         }, done);
     });
 
     it('Saves the join-entry\'s sequence number', (done) => {
       const params = this.questionScriptParams;
-      const { sequenceNum } = params;
+      const { sequence_number } = params;
 
       scriptsService.addQuestionToScript(params, ScriptsModel)
         .then((scriptQuestion) => {
           expect(scriptQuestion.models[0].attributes.sequence_number)
-            .to.equal(sequenceNum);
+            .to.equal(sequence_number);
           done();
         }, done);
     });
@@ -185,8 +188,8 @@ describe('questions_scripts services from scripts', function() {
     beforeEach((done) => {
       this.questionScriptParams = {
         id: '1',
-        questionId: '1',
-        sequenceNum: '1'
+        question_id: '1',
+        sequence_number: '1'
       };
       const params = this.questionScriptParams;
 
