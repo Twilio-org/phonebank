@@ -27,9 +27,25 @@ export function saveNewContactList(req, res, next) {
     });
 }
 
-// export function addContactToContactList(req, res, next) {
+export function addContactToContactList(req, res, next) {
+  const params = {
+    id: req.params.id,
+    contact_id: req.params.contact_id
+  };
 
-// }
+  return contactListsService.addContactToContactList(params, ContactListsModel)
+    .then((contactList) => {
+      if (contactList) {
+        res.status(201).json({ message: 'Contact added to Contact List successfully' });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(401).json({ message: 'Contact added to Contact List unsuccessful' });
+    });
+}
 
 export function getContactsInContactListById(req, res, next) {
   const params = {
