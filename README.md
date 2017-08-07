@@ -7,7 +7,6 @@ A phone banking solution powered by Twilio
 - node v6.11.1
 - npm v3.10.10
 - postgres v9.6.3
-- set env var `secretOrKey`
 
 ## npm commands
 - `npm install` - install deps
@@ -26,6 +25,7 @@ export PG_DB_TEST="${PG_DB}_test"
 export PG_PORT="5432"
 export PG_CONNECTION_STRING="postgres://$PG_USER:$PG_PASSWORD@localhost:$PG_PORT/$PG_DB"
 export PG_CONNECTION_STRING_TEST="${PG_CONNECTION_STRING}_test"
+export secretOrKey="a secret key should be entered here"
 ```
 
 Set up the database.
