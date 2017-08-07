@@ -14,7 +14,7 @@ A phone banking solution powered by Twilio
 - `npm test` - lint + run tests
 - `npm start` - start webserver
 
-## postgres setup
+## environment setup
 Add the following to your ~/.bash_profile, ~/.bashrc or other environment variable store.
 ``` 
 export PGDATA="/usr/local/var/postgres/"
