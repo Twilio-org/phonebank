@@ -12,6 +12,8 @@ const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
 const usersModel = Model(knexdb);
 const should = Should();
 
+console.log('****************testconfig****************\n', testconfig)
+
 describe('User service tests', () => {
   before(() => {
     knexdb.knex.schema.hasTable('users').then((exist) => {
@@ -123,7 +125,7 @@ describe('User service tests', () => {
           done();
         }, done);
     });
-    
+
     it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
       User.getUserById({ id: 1 }, usersModel)
         .then((user) => {
@@ -181,7 +183,7 @@ describe('User service tests', () => {
     it('should update second user\'s email by ID', (done) => {
       User.updateUserById(this.userUpdateParams2, usersModel)
         .then(user => user.attributes.email)
-        .then((email) => { 
+        .then((email) => {
           expect(email).to.equal('Jane@yahoo.com');
           done();
         }, done);
