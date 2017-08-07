@@ -26,9 +26,8 @@ describe('questions_scripts services from scripts', function() {
             table.text('description').notNullable();
             table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
             table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-          }).then(() => {
-            console.log('Created scripts table');
-          }).catch(err => console.log(err));
+          }).then(() => console.log('created scripts table'))
+            .catch(err => console.log(err));
         }
       });
     }
@@ -46,9 +45,7 @@ describe('questions_scripts services from scripts', function() {
             table.timestamp('created_at').defaultTo(knex.fn.now());
             table.timestamp('updated_at').defaultTo(knex.fn.now());
           })
-          .then(() => {
-            console.log('Created questions table!');
-          })
+          .then(() => console.log('Created questions table!'))
           .catch(err => console.log('Error creating questions table', err));
         }
       });
@@ -65,51 +62,73 @@ describe('questions_scripts services from scripts', function() {
             table.integer('sequence_number').notNullable();
             table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
             table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-          }).then((table) => {
-            console.log('Created scripts_to_questions table');
-            return table;
-          }).catch(err =>
-            console.log('Error creating scripts_to_questions table', err));
+          }).then(() => console.log('Created scripts_to_questions table'))
+            .catch(err => console.log('Error creating scripts_to_questions table', err));
         }
       });
     }
 
-    const scriptParams = {
-      name: 'Script Name 1',
-      body: 'Script Body 1',
-      description: 'Script Description 1'
-    };
+    function makeNewScript() {
+      const scriptParams = {
+        name: 'Script Name 1',
+        body: 'Script Body 1',
+        description: 'Script Description 1'
+      };
 
-    const questionParams = {
-      title: 'Testing Tables',
-      description: 'Test description',
-      type: 'paragraph',
-      responses: 'resp1,resp2,resp3'
-    };
+      return scriptsService.saveNewScript(scriptParams, ScriptsModel);
+    }
 
-    makeScriptsTable().then(() => {
-      makeQuestionsTable().then(() => {
-        scriptsService.saveNewScript(scriptParams, ScriptsModel)
-        .then(() => {
-          questionsService.saveNewQuestion(questionParams, QuestionsModel)
+    function makeNewQuestion() {
+      const questionParams = {
+        title: 'Testing Tables',
+        description: 'Test description',
+        type: 'paragraph',
+        responses: 'resp1,resp2,resp3'
+      };
+
+      return questionsService.saveNewQuestion(questionParams, QuestionsModel);
+    }
+
+    Promise.all([makeScriptsTable(), makeQuestionsTable()])
+      .then(() => {
+        Promise.all([makeNewScript(), makeNewQuestion()])
           .then(() => {
-            makeQuestionsScripts().then(() => {
-              done();
-            });
-          });
-        });
-      });
-    });
+            makeQuestionsScripts()
+              .then(() => {
+                done();
+              })
+              .catch(err => console.log('***inside error table creation: ', err));
+          })
+          .catch(err => console.log('***err creating records :', err));
+      })
+      .catch(err => console.log('***outside error table creation: ', err));
   });
 
   after((done) => {
-    bookshelf.knex.schema.dropTable('questions_scripts').then(() => {
-      bookshelf.knex.schema.dropTable('scripts').then(() => {
-        bookshelf.knex.schema.dropTable('questions').then(() => {
+    function dropQuestionsScripts() {
+      return bookshelf.knex.schema.dropTable('questions_scripts');
+    }
+
+    function dropScripts() {
+      return bookshelf.knex.schema.dropTable('scripts');
+    }
+
+    function dropQuestions() {
+      return bookshelf.knex.schema.dropTable('questions');
+    }
+
+    dropQuestionsScripts()
+      .then(() => {
+        Promise.all([
+          dropScripts(),
+          dropQuestions()
+        ])
+        .then(() => {
           done();
-        });
-      });
-    });
+        })
+        .catch(err => console.log('***error dropping table: ', err));
+      })
+        .catch(err => console.log('***error dropping table: ', err));
   });
 
   describe('Creates Join Entries', function() {
@@ -117,30 +136,36 @@ describe('questions_scripts services from scripts', function() {
       let script_id;
       let question_id;
 
-      scriptsService.getAllScripts(ScriptsModel)
-        .then((fetchedScripts) => {
-          script_id = fetchedScripts.models[0].id;
-          // console.log('////////////////////////// SCRIPT ID: ', script_id)
+      function retrieveAllScripts() {
+        return scriptsService.getAllScripts(ScriptsModel);
+      }
 
-          questionsService.getAllQuestions(QuestionsModel)
-            .then((fetchedQuestions) => {
-              question_id = fetchedQuestions.models[0].id;
-              // console.log('////////////////////////// QUESTION ID: ', question_id)
+      function retrieveAllQuestions() {
+        return questionsService.getAllQuestions(QuestionsModel);
+      }
 
-              this.questionScriptParams = {
-                id: script_id.toString(),
-                question_id: question_id.toString(),
-                sequence_number: '1'
-              };
-              done();
-            });
-        });
+      Promise.all([
+        retrieveAllScripts(),
+        retrieveAllQuestions()
+      ])
+        .then((results) => {
+          script_id = results[0].models[0].id;
+          question_id = results[1].models[0].id;
+
+          this.questionScriptParams = {
+            id: script_id.toString(),
+            question_id: question_id.toString(),
+            sequence_number: '1'
+          };
+
+          done();
+        })
+        .catch(err => console.log('***error creating save entries: ', err));
     });
 
     it('Saves the join-entry\'s script id', (done) => {
       const params = this.questionScriptParams;
       const { id } = params;
-      console.log('////////////////////////// PARAMS: ', params)
 
       scriptsService.addQuestionToScript(params, ScriptsModel)
         .then((scriptQuestion) => {
@@ -185,16 +210,35 @@ describe('questions_scripts services from scripts', function() {
   });
 
   describe('Data retrieval', function() {
-    beforeEach((done) => {
-      this.questionScriptParams = {
-        id: '1',
-        question_id: '1',
-        sequence_number: '1'
-      };
-      const params = this.questionScriptParams;
+    before((done) => {
+      let script_id;
+      let question_id;
 
-      scriptsService.addQuestionToScript(params, ScriptsModel)
-        .then(() => done());
+      function retrieveAllScripts() {
+        return scriptsService.getAllScripts(ScriptsModel);
+      }
+
+      function retrieveAllQuestions() {
+        return questionsService.getAllQuestions(QuestionsModel);
+      }
+
+      Promise.all([
+        retrieveAllScripts(),
+        retrieveAllQuestions()
+      ])
+        .then((results) => {
+          script_id = results[0].models[0].id;
+          question_id = results[1].models[0].id;
+
+          this.questionScriptParams = {
+            id: script_id.toString(),
+            question_id: question_id.toString(),
+            sequence_number: '1'
+          };
+
+          done();
+        })
+        .catch(err => console.log('***error creating save entries: ', err));
     });
 
     it('should return all questions for a script', (done) => {
