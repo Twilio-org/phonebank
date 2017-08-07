@@ -4,7 +4,7 @@ import bookshelfBcrypt from 'bookshelf-bcrypt';
 import bcrypt from 'bcrypt';
 import { expect, Should } from 'chai';
 import { test as testconfig } from '../../../knexfile';
-import campaignService from '../../../server/db/services/campaigns';
+import campaignsService from '../../../server/db/services/campaigns';
 import Campaign from '../../../server/db/models/campaigns';
 import Script from '../../../server/db/models/scripts';
 
@@ -106,13 +106,27 @@ describe('Campaign service tests', () => {
     });
 
     it('should save new campaign', (done) => {
-      campaignService.saveNewCampaign(this.campaignParams1, campaignModel)
+      campaignsService.saveNewCampaign(this.campaignParams1, campaignModel)
         .then((campaign) => {
           expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
           expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
           expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
           expect(campaign.attributes.status).to.equal(this.campaignParams1.status);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
+          done();
+        });
+    });
+
+    it('should get all campaigns', (done) => {
+      campaignsService.getAllCampaigns(null, campaignModel)
+        .then((campaigns) => {
+          const { models } = campaigns;
+          expect(models).to.have.length(1);
+          expect(models[0].attributes.name).to.equal(this.campaignParams1.name);
+          expect(models[0].attributes.title).to.equal(this.campaignParams1.title);
+          expect(models[0].attributes.description).to.equal(this.campaignParams1.description);
+          expect(models[0].attributes.status).to.equal(this.campaignParams1.status);
+          expect(models[0].attributes.script_id).to.equal(this.campaignParams1.script_id);
           done();
         });
     });
