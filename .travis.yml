@@ -6,6 +6,8 @@ services:
 addons:
   postgresql: "9.6"
 env:
-  - PG_USER=postgres
+  - PG_CONNECTION_STRING_TEST="postgres://postgres@localhost:5432/phonebank_test"
 before_script:
   - psql -c 'create database phonebank_test;' -U postgres
+cache:
+  - node_modules
