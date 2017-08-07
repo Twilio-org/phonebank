@@ -11,7 +11,14 @@ const campaignModel = Campaign(bookshelf);
 
 export function saveNewCampaign(req, res) {
   const { name, title, description, status, script_id } = req.body;
-  return campaignsService.saveNewCampaign({ name, title, description, status, script_id }, campaignModel)
+  return campaignsService.saveNewCampaign(
+    {
+      name,
+      title,
+      description,
+      status,
+      script_id
+    }, campaignModel)
     .then(() => {
       res.status(201).json({ message: 'Campaign successfully created' });
     })
