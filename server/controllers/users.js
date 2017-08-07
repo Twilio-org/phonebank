@@ -26,7 +26,6 @@ export function getUserByEmail(req, res, next) {
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
-
         res.status(200).json(userObject);
       }
       next();
@@ -44,7 +43,6 @@ export function getUserById(req, res, next) {
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
-
         res.status(200).json(userObject);
       } else {
         next();
