@@ -13,7 +13,7 @@ const UsersModel = User(bookshelf);
 
 function cleanUserObject(user) {
   const cleanUser = user;
-  delete cleanUser.password_hash;
+  delete cleanUser.attributes.password_hash;
   return cleanUser;
 }
 
