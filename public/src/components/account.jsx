@@ -75,6 +75,6 @@ function mapStateToProps(state) {
   return { auth: state.auth, account_info: state.account_info };
 }
 
-export default withRouter(
+export const ConnectedAccountPage = withRouter(
   connect(mapStateToProps, { fetchUser, deleteUser })(AccountPage)
 );

@@ -13,7 +13,8 @@ const UsersModel = User(bookshelf);
 
 function cleanUserObject(user) {
   const cleanUser = user;
-  return delete cleanUser.password_hash;
+  delete cleanUser.password_hash;
+  return cleanUser;
 }
 
 export function getUserByEmail(req, res, next) {
