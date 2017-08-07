@@ -14,6 +14,8 @@ const bookshelf = bookshelfModule(knex);
 const ScriptsModel = Script(bookshelf);
 const QuestionsModel = Question(bookshelf);
 
+console.log('****************testconfig****************\n', testconfig)
+
 describe('questions_scripts services from scripts', function() {
   before((done) => {
     function makeScriptsTable() {

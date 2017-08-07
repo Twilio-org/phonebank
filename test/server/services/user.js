@@ -12,8 +12,6 @@ const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
 const usersModel = Model(knexdb);
 const should = Should();
 
-console.log('****************testconfig****************\n', testconfig)
-
 describe('User service tests', () => {
   before(() => {
     knexdb.knex.schema.hasTable('users').then((exist) => {
