@@ -69,13 +69,14 @@ describe('Campaign service tests', () => {
       });
     }
 
-    createCampaignsTable().then(() => {
-      createScriptsTable().then(() => {
-        createQuestionsTable().then(() => {
-          done();
-        });
+    Promise.all([createCampaignsTable(), createScriptsTable(), createQuestionsTable()])
+      .then((message) => {
+        console.log(message);
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   });
 
 
@@ -100,7 +101,7 @@ describe('Campaign service tests', () => {
         script_id: 1
       };
 
-      return knexdb.knex.schema.raw(`INSERT INTO scripts (name, body, description) VALUES ('testScript', 'Hello, My name is Joe', 'Greetings!')`)
+      return knexdb.knex.schema.raw(`INSERT INTO scripts (name, body, description) VALUES ('testScript', 'Hello, My name is Joe', 'Greetings!')`);
     });
 
     it('should save new campaign', (done) => {
