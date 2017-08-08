@@ -53,14 +53,14 @@ const Root = () => {
             <Route
               path="/campaigns"
               render={
-                () => (isAdmin() ? (<CampaignsContainer />) : (<Redirect to="/" />))
+                () => (isLoggedIn() ? (<CampaignsContainer />) : (<Redirect to="/login" />))
               }
             />
             <Route
               exact
               path="/"
               render={
-               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
+               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/" />))
               }
             />
           </Switch>
