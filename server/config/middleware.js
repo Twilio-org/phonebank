@@ -21,7 +21,7 @@ export default function middleware(app, express) {
   app.use(passport.initialize());
 
   // pass the router files for each route
-  app.use('/contact_lists', contactListsRouter);
+  app.use('/contactLists', contactListsRouter);
   app.use('/contacts', contactsRouter);
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
