@@ -3,7 +3,6 @@ import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
 import { development as devconfig } from '../../knexfile';
 
-console.log(process.env.NODE_ENV, 'NODEEEE ENNNNV');
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
@@ -32,7 +31,7 @@ bookshelf.knex.schema.hasTable('scripts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('scripts', (table) => {
       table.increments('id').primary();
-      table.string('name').notNullable().index();
+      table.string('name').notNullable().unique().index();
       table.text('body').notNullable();
       table.text('description').notNullable();
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
@@ -46,8 +45,8 @@ bookshelf.knex.schema.hasTable('scripts').then((exist) => {
 bookshelf.knex.schema.hasTable('questions').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('questions', (table) => {
-      table.increments('id').primary();
-      table.string('title').notNullable().index();
+      table.increments('id').primary().unique();
+      table.string('title').notNullable().unique().index();
       table.text('description').notNullable().index();
       table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
       table.text('responses').notNullable();
@@ -68,6 +67,7 @@ bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
       table.integer('sequence_number').notNullable();
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+      table.unique(['script_id', 'question_id']);
     }).then(() => {
       console.log('Created scripts_to_questions table');
     }).catch(err => console.log('Error creating scripts_to_questions table', err));
