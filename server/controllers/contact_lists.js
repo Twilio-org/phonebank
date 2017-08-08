@@ -47,6 +47,20 @@ export function addContactToContactList(req, res, next) {
     });
 }
 
+export function getAllContactLists(req, res, next) {
+  return contactListsService.getAllContactLists(ContactListsModel)
+    .then((contactLists) => {
+      if (contactLists) {
+        res.status(200).json(contactLists);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not get all contact lists: ', err);
+    });
+}
+
 export function getContactsInContactListById(req, res, next) {
   const params = {
     id: req.params.id
