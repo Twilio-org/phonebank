@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { PhoneBanksView } from '../components/campaign_list';
+import CampaignList from '../components/campaign_list';
 
-import { fetchAllCampaigns } from '../actions/campaign';
+import { fetchAllCampaigns, setCurrentCampaign } from '../actions/campaign';
 
 
 class CampaignsContainer extends Component {
@@ -14,21 +14,23 @@ class CampaignsContainer extends Component {
 
   render() {
     return (
-      <PhoneBanksView {...this.props} />
+      <div>
+        <CampaignList {...this.props} />
+        {this.props.children}
+      </div>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    current_campaign: state.campaigns.current_campaign,
+    all_campaigns: state.campaigns.all_campaigns,
+    account_info: state.account_info,
+    auth: state.auth
+  };
+}
+
 export default withRouter(
-  connect(
-    (state) => {
-      return {
-        // active_campaigns: state.active_campaigns,
-        all_campaigns: state.campaigns,
-        account_info: state.account_info,
-        auth: state.auth
-      };
-    },
-    { fetchAllCampaigns }
-  )(CampaignsContainer)
+  connect(mapStateToProps, { fetchAllCampaigns, setCurrentCampaign })(CampaignsContainer)
 );

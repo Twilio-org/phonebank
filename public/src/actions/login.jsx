@@ -66,7 +66,11 @@ export function authTransition(storeInstance) {
 }
 
 export function checkIfAdmin(storeInstance) {
+  const storeState = storeInstance.getState();
+  console.log('%%%%%%%%%%%', storeState);
   const { account_info } = storeInstance.getState();
+  console.log(account_info);
   const { is_admin } = account_info;
+  console.log('###########', is_admin)
   return is_admin;
 }
