@@ -18,3 +18,9 @@ const TableRow = (props) => {
 TableRow.displayName = 'TableRow';
 
 export default TableRow;
+
+// note: add mock buttons for campaign edit!!
+
+// on edit button click it shoud:
+  // "redirect" to campaign edit view
+  // dispatch: set current campaign, {fetch script and questions on component mount}
