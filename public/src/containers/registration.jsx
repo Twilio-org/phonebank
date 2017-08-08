@@ -3,44 +3,17 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import renderField from '../helpers/formHelpers';
 import registerNewUser from '../actions/registration';
 
 class RegistrationForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.renderField = this.renderField.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   onSubmit(values) {
     const { history } = this.props;
     this.props.registerNewUser(values, history);
-  }
-
-  renderField(field) {
-    const className = `form-group ${field.meta.touched
-                                    && field.meta.error
-                                    ? 'has-error'
-                                    : ''}`;
-
-    return (
-      <div className={className}>
-        <label htmlFor={field.label}>{field.label}
-          <input
-            type={!!field.label
-                  && (field.label === "Password"
-                      || field.label === "Confirm Password")
-                  ? 'password'
-                  : 'text'}
-            className="form-control"
-            placeholder={field.label}
-            {...field.input}
-          />
-        </label>
-        <div className="text-danger">
-          {field.meta.touched ? field.meta.error : ''}
-        </div>
-      </div>
-    );
   }
 
   render() {
@@ -52,36 +25,36 @@ class RegistrationForm extends Component {
             <Field
               name="first_name"
               label="First Name"
-              component={this.renderField}
+              component={renderField}
             />
           </div>
           <div className="col-md-6">
             <Field
               name="last_name"
               label="Last Name"
-              component={this.renderField}
+              component={renderField}
             />
           </div>
         </div>
         <Field
           name="email"
           label="Email"
-          component={this.renderField}
+          component={renderField}
         />
         <Field
           name="phone_number"
           label="Phone Number"
-          component={this.renderField}
+          component={renderField}
         />
         <Field
           name="password"
           label="Password"
-          component={this.renderField}
+          component={renderField}
         />
         <Field
           name="password_confirm"
           label="Confirm Password"
-          component={this.renderField}
+          component={renderField}
         />
         <button type="submit">Sign Up</button>
       </form>
