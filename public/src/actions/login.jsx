@@ -64,3 +64,9 @@ export function authTransition(storeInstance) {
   const token = localStorage.getItem('auth_token');
   return !!id && !!token;
 }
+
+export function checkIfAdmin(storeInstance) {
+  const { account_info } = storeInstance.getState();
+  const { is_admin } = account_info;
+  return is_admin;
+}
