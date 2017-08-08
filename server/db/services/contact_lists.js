@@ -10,6 +10,8 @@ export default {
     return new Model({ id })
       .contacts().attach({ contact_id });
   },
+  getAllContactLists: Model => new Model()
+    .orderBy('name', 'DESC').fetchAll(),
   getContactsInContactListById: (params, Model) => {
     const { id } = params;
     return new Model({ id })
@@ -28,11 +30,13 @@ export default {
       .fetch();
   },
   updateContactListById: (params, Model) => {
-    const { id, name } = params;
-
+    const { id } = params;
+    const extractedParams = {
+      name: params.name
+    };
     return new Model()
       .where({ id })
-      .save({ name }, {
+      .save(extractedParams, {
         method: 'update'
       });
   }
