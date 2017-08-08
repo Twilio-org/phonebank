@@ -1,12 +1,23 @@
-export const SET_CAMPAIGNS_LIST = 'SET_CAMPAIGNS_LIST';
+export const SET_CAMPAIGNS = 'SET_CAMPAIGNS';
+export const SET_CAMPAIGN_CURRENT = 'SET_CAMPAIGN_CURRENT';
 
-export function campaignListReducer(state = {}, action) {
+const defaultCampaigns = {
+  all_campaigns: [],
+  current_campaign: {}
+};
+
+export function campaignListReducer(state = defaultCampaigns, action) {
   const { type, payload } = action;
   switch (type) {
-    case SET_CAMPAIGNS_LIST:
+    case SET_CAMPAIGNS:
       return {
         ...state,
-        all_campaigns: payload.all_campaigns
+        all_campaigns: payload
+      };
+    case SET_CAMPAIGN_CURRENT:
+      return {
+        ...state,
+        current_campaign: payload.current_campaign
       };
     default:
       return state;

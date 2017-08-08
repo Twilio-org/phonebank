@@ -1,36 +1,46 @@
 
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
-import _ from 'lodash';
+// import _ from 'lodash';
 
-import TableRow from './components/campaign_table_row';
+import TableRow from './campaign_table_row';
 
-export class PhoneBanksView extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default class CampaignList extends Component {
 
   render() {
-    <div>
-      <Button>Create New Phone Bank</Button>
-    </div>
+    const { all_campaigns } = this.props;
+    return (
+      <div>
+        <Button>Create New Phone Bank</Button>
 
-    <Table responsive>
-      <thead>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Created Date</th>
-      </thead>
+        <Table responsive>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Script Id</th>
+              <th>Date Created</th>
+            </tr>
+          </thead>
 
-      <tbody>
-        {
-          for(let key in props.all_campaigns) {
-            (<TableRow campaign={all_campaigns[key]} key={key} />)
-          }
-        }
-      </tbody>
-    </Table>
+          <tbody>
+            {!!all_campaigns ?
+              all_campaigns.map(campaign =>
+                (<TableRow
+                  campaign={campaign}
+                  handleEditClick={this.props.setCurrentCampaign}
+                  key={campaign.id}
+                />)
+              ) :
+              ''
+            }
+          </tbody>
+        </Table>
+      </div>
+    );
   }
 }
