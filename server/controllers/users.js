@@ -13,7 +13,8 @@ const UsersModel = User(bookshelf);
 
 function cleanUserObject(user) {
   const cleanUser = user;
-  return delete cleanUser.password_hash;
+  delete cleanUser.attributes.password_hash;
+  return cleanUser;
 }
 
 export function getUserByEmail(req, res, next) {
@@ -25,7 +26,6 @@ export function getUserByEmail(req, res, next) {
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
-
         res.status(200).json(userObject);
       }
       next();
@@ -43,7 +43,6 @@ export function getUserById(req, res, next) {
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
-
         res.status(200).json(userObject);
       } else {
         next();
