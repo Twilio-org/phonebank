@@ -4,7 +4,6 @@ import React from 'react';
 const TableRow = (props) => {
   const { name, title, description, status, script_id, created_at, id } = props.campaign;
   return (
-    // rewrite as a .map function
     <tr>
       <td>{name}</td>
       <td>{title}</td>
@@ -19,9 +18,3 @@ const TableRow = (props) => {
 TableRow.displayName = 'TableRow';
 
 export default TableRow;
-
-// note: add mock buttons for campaign edit!!
-
-// on edit button click it shoud:
-  // "redirect" to campaign edit view
-  // dispatch: set current campaign, {fetch script and questions on component mount}

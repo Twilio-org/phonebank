@@ -6,7 +6,6 @@ import CampaignList from '../components/campaign_list';
 
 import { fetchAllCampaigns, setCurrentCampaign } from '../actions/campaign';
 
-
 class CampaignsContainer extends Component {
   componentDidMount() {
     this.props.fetchAllCampaigns();
