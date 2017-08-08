@@ -45,7 +45,7 @@ bookshelf.knex.schema.hasTable('scripts').then((exist) => {
 bookshelf.knex.schema.hasTable('questions').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('questions', (table) => {
-      table.increments('id').primary().unique();
+      table.increments('id').primary();
       table.string('title').notNullable().unique().index();
       table.text('description').notNullable().index();
       table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
