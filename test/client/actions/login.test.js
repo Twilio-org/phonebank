@@ -21,66 +21,31 @@ const authStatus = {
 
 const store = mockStore(initialState, authStatus);
 
-// const localStorageMock = (() => {
-//   let localstore = {};
-//   return {
-//     getItem(key) {
-//       return localstore[key];
-//     },
-//     setItem(key, value) {
-//       localstore[key] = value.toString();
-//     },
-//     clear() {
-//       localstore = {};
-//     }
-//   };
-// });
-
-// const storageMock = (() => {
-//   const storage = {};
-
-//   return {
-//     setItem(key, value) {
-//       storage[key] = value || '';
-//     },
-//     getItem(key) {
-//       return key in storage ? storage[key] : null;
-//     },
-//     removeItem(key) {
-//       delete storage[key];
-//     },
-//     get length() {
-//       return Object.keys(storage).length;
-//     },
-//     key(i) {
-//       const keys = Object.keys(storage);
-//       return keys[i] || null;
-//     }
-//   };
-// });
-
-// global.localStorage = storageMock();
-// window.localStorage = localStorageMock();
-
 class LocalStorageMock {
   constructor() {
-    this.store = {};
+    this._store = {};
   }
   clear() {
-    this.store = {};
+    this._store = {};
   }
   getItem(key) {
-    return this.store[key] || null;
+    return this._store[key] || null;
   }
   setItem(key, value) {
-    this.store[key] = value.toString();
+    this._store[key] = value.toString();
   }
   removeItem(key) {
-    delete this.store[key];
+    delete this._store[key];
   }
 }
 
-global.localStorage = new LocalStorageMock;
+const history = {
+  push: function (value) {
+    console.log(value);
+  }
+};
+
+global.localStorage = new LocalStorageMock();
 
 const user = {
   first_name: 'Oscar',
@@ -109,37 +74,43 @@ describe('loginActions', () => {
     });
   });
   describe('loginUser', () => {
-    beforeEach(() => {
+    beforeEach(done => {
       const mock = new MockAdapter(axios);
       const newUser = {
         email: 'oscar@g.com',
         password: '1234'
       };
-      mock.onPost('/auth/login', newUser).reply(200, {
+      mock.onPost('/auth/login', newUser, history).reply(200, {
         token: 'token',
         id: 1
       });
-      // let myStorage = window.localStorage;
-      // let store = {};
-      // sinon.spy(window.localStorage, 'getItem').andCallFake(function (key) {
-      //   return store[key];
-      // });
-      // sinon.spy(window.localStorage, 'setItem').andCallFake(function (key, value) {
-      //   store[key] = value + '';
-      // });
-      // sinon.spy(window.localStorage, 'removeItem').andCallFake(function () {
-      //   store = {};
-      // });
+      loginUser(newUser, history);
+      done();
     });
-    console.log('localstorage is: ', localStorage);
-    it('should set the localStorage auth_token', () => {
-      const newUser = {
-        email: 'oscar@g.com',
-        password: '1234'
-      };
-      loginUser(newUser, store);
-      expect(localStorage.auth_token).toEqual('token');
+    // test('loginUser updates localStorage', async () => {
+    //   expect.assertions(1);
+    //   const newUser = {
+    //     email: 'oscar@g.com',
+    //     password: '1234'
+    //   };
+    //   await loginUser(newUser, history);
+    //   console.log('localStorage is: ', global.localStorage);
+    //   expect(global.localStorage.auth_token).toEqual('token');
+    // });
+    // const newUser = {
+    //   email: 'oscar@g.com',
+    //   password: '1234'
+    // };
+    test('updating localStorage with loginUser', () => {
+      expect(global.localStorage.auth_token).toEqual('token');
     });
+    // loginUser(newUser, history);
+    // describe('updating localStorage with loginUser', () => {
+    //   it('should set the localStorage auth_token', () => {
+    //     console.log('localstorage is: ', global.localStorage);
+    //     expect(global.localStorage.auth_token).toEqual('token');
+    //   });
+    // });
   });
 });
 
