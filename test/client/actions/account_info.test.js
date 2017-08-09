@@ -76,7 +76,6 @@ describe('accountInfoActions', () => {
         .then(() => {
           const actions = store.getActions();
           expect(actions[0]).toEqual(expectedActions);
-          expect(actions[0].payload).toEqual(user);
         });
     });
     it('should add expected action payload to the store', () =>

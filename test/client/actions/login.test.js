@@ -74,7 +74,7 @@ describe('loginActions', () => {
     });
   });
   describe('loginUser', () => {
-    beforeEach(done => {
+    beforeEach((done) => {
       const mock = new MockAdapter(axios);
       const newUser = {
         email: 'oscar@g.com',
@@ -87,7 +87,17 @@ describe('loginActions', () => {
       loginUser(newUser, history);
       done();
     });
-    // test('loginUser updates localStorage', async () => {
+    test('updating localStorage with loginUser', () => {
+      expect(global.localStorage.auth_token).toEqual('token');
+    });
+    test('history should have "/" as argument', () => {
+      expect(history[0]).toEqual('/');
+    });
+  });
+});
+
+
+// test('loginUser updates localStorage', async () => {
     //   expect.assertions(1);
     //   const newUser = {
     //     email: 'oscar@g.com',
@@ -101,9 +111,7 @@ describe('loginActions', () => {
     //   email: 'oscar@g.com',
     //   password: '1234'
     // };
-    test('updating localStorage with loginUser', () => {
-      expect(global.localStorage.auth_token).toEqual('token');
-    });
+
     // loginUser(newUser, history);
     // describe('updating localStorage with loginUser', () => {
     //   it('should set the localStorage auth_token', () => {
@@ -111,6 +119,3 @@ describe('loginActions', () => {
     //     expect(global.localStorage.auth_token).toEqual('token');
     //   });
     // });
-  });
-});
-

@@ -12,14 +12,17 @@ import renderer from 'react-test-renderer';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
+import mock from 'jest';
 import MockAdapter from 'axios-mock-adapter';
 import { registerNewUser } from '../../../public/src/actions/registration.jsx';
 
 let mockPromise;
 
-jest.mock('../../../public/src/actions/registration.jsx', () => {
-  registerNewUser: jest.fn(() => mockPromise)
-});
+// jest.mock('../../../public/src/actions/registration.jsx', () => {
+//   registerNewUser: jest.fn(() => mockPromise);
+// });
+
+jest.mock('../../../public/src/actions/registration', () => jest.fn());
 
 const newMockStore = {
   auth: {
@@ -56,7 +59,8 @@ const user = {
 
 describe('registrationAction', () => {
   describe('registerNewUserAction', () => {
-    mock.onPost('/auth/register').reply(200, {
+    const mocker = new MockAdapter(axios);
+    mocker.onPost('/auth/register').reply(200, {
       first_name: 'Hermione',
       last_name: 'Granger',
       email: 'griff4life@hogwarts.com',
@@ -68,6 +72,12 @@ describe('registrationAction', () => {
       console.log(numberOfMockCalls);
       expect(registerNewUser).toHaveBeenCalledTimes(1);
       expect(numberOfMockCalls).toBe(1);
+    });
+    it('should call registerNewUser with 5 arguments', () => {
+      const mockCallsArray = registerNewUser.mock.calls[0];
+      expect(mockCallsArray.length).toBe(5);
+      // expect(mockCallsArray[0]).toBe(31);
+      // expect(mockCallsArray[1]).toBe('history');
     });
   });
 });

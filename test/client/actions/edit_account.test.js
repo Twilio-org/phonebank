@@ -40,6 +40,8 @@ const user = {
   phone_number: '15555555555'
 };
 
+jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
+
 describe('editAccountActions', () => {
   describe('updateUser', () => {
     beforeEach(() => {
@@ -53,16 +55,24 @@ describe('editAccountActions', () => {
       });
     });
     it('should update user account', () => {
-      const newUserInfo = {
-        first_name: 'Mickey',
-        last_name: 'Mouse',
-        email: 'oscar@g.com',
-        phone_number: '15555555555'
-      };
-      return store.dispatch(updateUser(1, newUserInfo))
+      // const newUserInfo = {
+      //   first_name: 'Mickey',
+      //   last_name: 'Mouse',
+      //   email: 'oscar@g.com',
+      //   phone_number: '15555555555'
+      // };
+      return store.dispatch(updateUser(1, user))
         .then(() => {
-          expect(store.payload).toEqual(newUserInfo);
+          expect(store.payload).toEqual(user);
         });
+    });
+    it('should have a method called updateUser', () => {
+      expect(typeof updateUser).toBe('function');
+    });
+    it('should call updateUser once', () => {
+      const numberOfMockCalls = updateUser.mock.calls.length;
+      expect(updateUser).toHaveBeenCalledTimes(1);
+      expect(numberOfMockCalls).toBe(1);
     });
   });
 });
