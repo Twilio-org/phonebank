@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class Dropdown extends Component {
   constructor(props) {
     super(props);
 
     this.renderSelectOptions = this.renderSelectOptions.bind(this);
-    this.onSelect = this.
   }
-
-
 
   renderSelectOptions() {
     return (
       this.props.options.map((option) => {
-        return <option key={option.name} value={option.name}>{option.name}</option>
+        return <MenuItem eventKey={option.name} value={option.name}>{option.name}</MenuItem>
       })
     );
   }
 
   render() {
-    const { options } = this.props;
     return (
-      <Field>
-      <ButtonToolbar>
-        <DropdownButton title="Select an Option">
-          {this.renderSelectOptions()}
-        </DropdownButton>
-      </ButtonToolbar>
+        <div className="row form-group">
+          <label>{this.props.label}</label>
+          <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
+            <MenuItem eventKey='1'>meow</MenuItem>
+            <MenuItem eventKey='2'>woof</MenuItem>
+          </DropdownButton>
+        </div>
     );
   }
 }
+// Update above MenuItems to user question data from the backend through SelectOptions()
+
+// {this.renderSelectOptions}
 
 export default Dropdown;

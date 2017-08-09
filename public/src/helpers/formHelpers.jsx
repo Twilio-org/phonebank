@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function renderField(field) {
+export function renderField(field) {
   const className = `form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
   return (
     <div className={className}>
@@ -10,6 +10,27 @@ export default function renderField(field) {
                 && field.label === 'Confirm Password'
                 ? 'password'
                 : field.label}
+          className="form-control"
+          size="51"
+          placeholder={field.label}
+          {...field.input}
+        />
+      </label>
+      <div className="text-danger">
+        {field.meta.touched ? field.meta.error : ''}
+      </div>
+    </div>
+  );
+}
+
+export function renderTextArea(field) {
+  const className = `form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
+  return (
+    <div className={className}>
+      <label htmlFor={field.label}>{field.label}
+        <textarea
+          cols="50"
+          rows="6"
           className="form-control"
           placeholder={field.label}
           {...field.input}
@@ -22,7 +43,7 @@ export default function renderField(field) {
   );
 }
 
-export default function renderSelectOptions(option) {
+export function renderSelectOptions(option) {
   return (
     <option key={option} value={option}>{option}</option>
   );

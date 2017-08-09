@@ -16,7 +16,8 @@ export default class Header extends Component {
     if (userId) { // user is logged in aka id present
       links = [
         { title: 'Account', href: `/account/${userId}` },
-        { title: 'Logout', href: '/logout' }
+        { title: 'Logout', href: '/logout' },
+        { title: 'New Script', href: '/scripts/new' }
       ];
     } else {
       links = [

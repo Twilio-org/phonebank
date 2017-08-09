@@ -12,6 +12,7 @@ import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import AccountPage from './components/account';
 import EditAccountInfo from './components/edit_account';
+import ScriptForm from './components/script_form';
 
 import { authTransition } from './actions/login';
 
@@ -25,6 +26,10 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Switch>
+            <Route
+              path="/scripts/new"
+              render={() => (<ScriptForm />)}
+            />
             <Route
               path="/registration"
               render={
