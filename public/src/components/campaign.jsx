@@ -27,6 +27,7 @@ class CampaignPage extends Component {
           <input
             type={'text'}
             className="form-control"
+            {...field.input}
           />
         </label>
       </div>
@@ -71,7 +72,6 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  console.log('STATE ----->', state);
   return { auth: state.auth };
 }
 
