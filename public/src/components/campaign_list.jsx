@@ -24,6 +24,7 @@ export default class CampaignList extends Component {
               <th>Status</th>
               <th>Script Id</th>
               <th>Date Created</th>
+              <th />
             </tr>
           </thead>
 

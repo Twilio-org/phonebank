@@ -47,7 +47,7 @@ const campaignArray = [
     title: 'meow',
     description: 'meow meow',
     status: 'active',
-    script_id: 1,
+    script_id: 3,
     created_at: '1234-2345',
     id: 2
   },
@@ -56,7 +56,7 @@ const campaignArray = [
     title: 'meow',
     description: 'meow meow',
     status: 'active',
-    script_id: 8,
+    script_id: 4,
     created_at: '1234-2345',
     id: 7
   },
@@ -65,7 +65,7 @@ const campaignArray = [
     title: 'meow',
     description: 'meow meow',
     status: 'active',
-    script_id: 6,
+    script_id: 5,
     created_at: '1234-2345',
     id: 4
   }
