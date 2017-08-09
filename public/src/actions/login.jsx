@@ -43,8 +43,10 @@ export function loginUser(loginInfo, history) {
 }
 
 export function logoutUser(history) {
+  console.log(history, '&&&&&&&&&&&');
   return dispatch => axios.get('/logout')
-  .then(() => {
+  .then((history) => {
+    console.log(history, '%%%%%%%%%%%')
     localStorage.removeItem('auth_token');
     dispatch(logout());
     history.push('/login');
