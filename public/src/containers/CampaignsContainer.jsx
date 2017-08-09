@@ -12,10 +12,14 @@ class CampaignsContainer extends Component {
   }
 
   render() {
+    const { first_name, last_name } = this.props.account_info;
     return (
       <div>
-        <CampaignList {...this.props} />
-        {this.props.children}
+        <h3>Welcome {first_name} {last_name} to your Campaign Dashboard!</h3>
+        <div>
+          <CampaignList {...this.props} />
+          {this.props.children}
+        </div>
       </div>
     );
   }

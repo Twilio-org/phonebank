@@ -13,7 +13,7 @@ export default class CampaignList extends Component {
     const { all_campaigns } = this.props;
     return (
       <div>
-        <Button>Create New Phone Bank</Button>
+        <Button primary bsSize="xsmall">Create New Phone Bank</Button>
 
         <Table responsive>
           <thead>
