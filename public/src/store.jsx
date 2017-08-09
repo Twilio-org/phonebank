@@ -1,6 +1,5 @@
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import { persistStore, autoRehydrate } from 'redux-persist';
 
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
@@ -24,8 +23,6 @@ const rootReducer = (state, action) => {
 
 const middleware = [immutable(), createLogger(), promise(), thunk];
 
-const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
-
-persistStore(store);
+const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
 
 export default store;
