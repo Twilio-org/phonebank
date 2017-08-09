@@ -105,7 +105,6 @@ class ScriptForm extends Component {
   }
 }
 
-// export default ScriptForm;
 export default withRouter(
   reduxForm({
     form: 'ScriptForm'

@@ -1,0 +1,519 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ScriptForm /> rendering renders correctly 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <h1>
+      Create Script
+    </h1>
+  </div>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-6"
+      >
+        <div
+          className="form-group "
+        >
+          <label
+            htmlFor="Name (internal)"
+          >
+            Name (internal)
+            <input
+              className="form-control"
+              name="name"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onDragStart={[Function]}
+              onDrop={[Function]}
+              onFocus={[Function]}
+              placeholder="Name (internal)"
+              size="51"
+              type="Name (internal)"
+              value=""
+            />
+          </label>
+          <div
+            className="text-danger"
+          >
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-xs-6"
+      >
+        <br />
+        <p>
+          This is the name that admin will see when selecting a script
+        </p>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-6"
+      >
+        <div
+          className="form-group "
+        >
+          <label
+            htmlFor="Description (public)"
+          >
+            Description (public)
+            <textarea
+              className="form-control"
+              cols="50"
+              name="description"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onDragStart={[Function]}
+              onDrop={[Function]}
+              onFocus={[Function]}
+              placeholder="Description (public)"
+              rows="6"
+              value=""
+            />
+          </label>
+          <div
+            className="text-danger"
+          >
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-xs-6"
+      >
+        <br />
+        <p>
+          Provides details on how to use the script.
+        </p>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-6"
+      >
+        <div
+          className="form-group "
+        >
+          <label
+            htmlFor="Body"
+          >
+            Body
+            <textarea
+              className="form-control"
+              cols="50"
+              name="body"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onDragStart={[Function]}
+              onDrop={[Function]}
+              onFocus={[Function]}
+              placeholder="Body"
+              rows="6"
+              value=""
+            />
+          </label>
+          <div
+            className="text-danger"
+          >
+            
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-xs-6"
+      >
+        <br />
+        <p>
+          Script text that volunteer will read before asking questions.
+        </p>
+      </div>
+    </div>
+    <div
+      className="page-header"
+    >
+      <h1>
+        Assign Script Questions
+      </h1>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-6"
+      >
+        <div
+          className="row form-group"
+        >
+          <label>
+            Question 1:
+          </label>
+          <div
+            className="dropdown btn-group"
+          >
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              className="dropdown-toggle btn btn-default"
+              disabled={false}
+              id="dropdown-basic-1"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              type="button"
+            >
+              Select an Option
+               
+              <span
+                className="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="dropdown-basic-1"
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  meow
+                </a>
+              </li>
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  woof
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="row form-group"
+        >
+          <label>
+            Question 2:
+          </label>
+          <div
+            className="dropdown btn-group"
+          >
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              className="dropdown-toggle btn btn-default"
+              disabled={false}
+              id="dropdown-basic-2"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              type="button"
+            >
+              Select an Option
+               
+              <span
+                className="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="dropdown-basic-2"
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  meow
+                </a>
+              </li>
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  woof
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="row form-group"
+        >
+          <label>
+            Question 3:
+          </label>
+          <div
+            className="dropdown btn-group"
+          >
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              className="dropdown-toggle btn btn-default"
+              disabled={false}
+              id="dropdown-basic-3"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              type="button"
+            >
+              Select an Option
+               
+              <span
+                className="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="dropdown-basic-3"
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  meow
+                </a>
+              </li>
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  woof
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="row form-group"
+        >
+          <label>
+            Question 4:
+          </label>
+          <div
+            className="dropdown btn-group"
+          >
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              className="dropdown-toggle btn btn-default"
+              disabled={false}
+              id="dropdown-basic-4"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              type="button"
+            >
+              Select an Option
+               
+              <span
+                className="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="dropdown-basic-4"
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  meow
+                </a>
+              </li>
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  woof
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          className="row form-group"
+        >
+          <label>
+            Question 5:
+          </label>
+          <div
+            className="dropdown btn-group"
+          >
+            <button
+              aria-expanded={false}
+              aria-haspopup={true}
+              className="dropdown-toggle btn btn-default"
+              disabled={false}
+              id="dropdown-basic-5"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              type="button"
+            >
+              Select an Option
+               
+              <span
+                className="caret"
+              />
+            </button>
+            <ul
+              aria-labelledby="dropdown-basic-5"
+              className="dropdown-menu"
+              role="menu"
+            >
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  meow
+                </a>
+              </li>
+              <li
+                className=""
+                role="presentation"
+                style={undefined}
+              >
+                <a
+                  href="#"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                  role="menuitem"
+                  tabIndex="-1"
+                >
+                  woof
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col-xs-4"
+      >
+        <button
+          className="btn btn-success"
+          disabled={false}
+          type="button"
+        >
+          Create New Question
+        </button>
+      </div>
+      <div
+        className="col-xs-6"
+      >
+        <div
+          className="btn-toolbar"
+          role="toolbar"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            type="submit"
+          >
+            Save Script
+          </button>
+          <button
+            className="btn btn-default"
+            disabled={false}
+            type="button"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;
