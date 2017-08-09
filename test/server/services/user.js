@@ -26,8 +26,8 @@ describe('User service tests', () => {
           table.boolean('is_admin').defaultTo(false);
           table.boolean('is_banned').defaultTo(false);
           table.boolean('is_active').defaultTo(true);
-          table.timestamp('date_created').defaultTo(knex.fn.now());
-          table.timestamp('date_updated').defaultTo(knex.fn.now());
+          table.timestamp('created_at').defaultTo(knex.fn.now());
+          table.timestamp('updated_at').defaultTo(knex.fn.now());
         }).then(() => {
           console.log(('Created users table'));
         }).catch((err) => {

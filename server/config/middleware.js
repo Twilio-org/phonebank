@@ -7,6 +7,8 @@ import questionsRouter from './routes/questions';
 import usersRouter from './routes/users';
 import authRouter from './routes/authorization';
 import errorHandle from './errorHandle';
+import contactsRouter from './routes/contacts';
+import contactListsRouter from './routes/contact_lists';
 import { passport, serializeLogin } from './auth/local';
 
 export default function middleware(app, express) {
@@ -21,6 +23,8 @@ export default function middleware(app, express) {
   app.use(passport.initialize());
 
   // pass the router files for each route
+  app.use('/contactLists', contactListsRouter);
+  app.use('/contacts', contactsRouter);
   app.use('/scripts', scriptsRouter);
   app.use('/questions', questionsRouter);
   app.use('/users', usersRouter);
