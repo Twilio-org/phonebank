@@ -12,6 +12,7 @@ import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import AccountPage from './components/account';
 import EditAccountInfo from './components/edit_account';
+import CampaignPage from './components/campaign';
 
 import { authTransition } from './actions/login';
 
@@ -50,11 +51,16 @@ const Root = () => {
               }
             />
             <Route
+              path="/campaign"
+              component={CampaignPage}
+            />
+            <Route
               path="/"
               render={
                 () => isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />)
               }
             />
+           
           </Switch>
         </App>
       </BrowserRouter>

@@ -14,6 +14,7 @@ class EditAccountInfo extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onSubmit(values) {
+    console.log('VALUES=====>', values);
     const { history } = this.props;
     const { id } = this.props.auth;
     this.props.updateUser(id, values, history);

@@ -3,15 +3,19 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import  saveNewCampaign from '../actions/campaign';
 
 class CampaignPage extends Component {
   constructor(props) {
     super(props);
     this.renderField = this.renderField.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(values) {
-
+    console.log('VALUES ----->', values);
+    const { history } = this.props;
+    this.props.saveNewCampaign(values, history);
   }
 
 
@@ -34,12 +38,12 @@ class CampaignPage extends Component {
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Field
-          name="name_internal"
+          name="name"
           label="Name (internal)"
           component={this.renderField}
         />
         <Field
-          name="title_public"
+          name="title"
           label="Title (public)"
           component={this.renderField}
         />
@@ -67,6 +71,7 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
+  console.log('STATE ----->', state);
   return { auth: state.auth };
 }
 
@@ -75,6 +80,6 @@ export default withRouter(
     validate,
     form: 'CampaignPage'
   })(
-    connect(mapStateToProps, {})(CampaignPage)
+    connect(mapStateToProps, { saveNewCampaign })(CampaignPage)
   )
 );
