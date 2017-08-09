@@ -13,9 +13,9 @@ export default function Script(bookshelfObj) {
     hasTimestamps: true,
     questions() {
       return this.belongsToMany(Question(bookshelf));
-    },
-    campaigns() {
-      return this.belongsTo(Campaign);
     }
+    // campaigns() {
+    //   return this.belongsTo(Campaign(bookshelf));
+    // }
   });
 }
