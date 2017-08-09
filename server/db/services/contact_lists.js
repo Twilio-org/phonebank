@@ -8,7 +8,7 @@ export default {
   addContactToContactList: (params, Model) => {
     const { id, contact_id } = params;
     return new Model({ id })
-      .contacts().attach({ contact_id });
+      .contacts().attach({ contact_id, contact_list_id: id });
   },
   getAllContactLists: Model => new Model()
     .orderBy('name', 'DESC').fetchAll(),

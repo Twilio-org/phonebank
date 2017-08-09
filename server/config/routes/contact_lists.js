@@ -11,6 +11,6 @@ router.route('/').get(getAllContactLists);
 router.route('/').post(saveNewContactList);
 router.route('/:id').get(getContactListById);
 router.route('/:id').put(updateContactListById);
-router.route('/:id/contacts/:contact_id').post(addContactToContactList);
+router.route('/:id/contacts').post(addContactToContactList);
 
 export default router;

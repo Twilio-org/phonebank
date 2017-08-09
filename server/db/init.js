@@ -128,6 +128,7 @@ bookshelf.knex.schema.hasTable('contacts_contact_lists').then((exist) => {
       table.increments('id').primary();
       table.integer('contact_id').references('contacts.id').notNullable();
       table.integer('contact_list_id').references('contact_lists.id').notNullable();
+      table.unique(['contact_id', 'contact_list_id']);
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {

@@ -124,7 +124,6 @@ describe('Contact service tests', function () {
         .catch((err) => {
           console.log('Error in retrieving first contact by id: ', err);
         });
-        // });
     });
     it('should retrieve second contact\'s first name, phone, number status, and do not call status', (done) => {
       const secondContact = this.contactSaveParams2;
@@ -165,7 +164,6 @@ describe('Contact service tests', function () {
       .catch((err) => {
         console.log('Error in updating first contact do not call by id: ', err);
       });
-        // });
     });
     it('should update second contact\'s is_invalid_number status', (done) => {
       const secondContactUpdate = this.contactUpdateParams2;
@@ -178,7 +176,6 @@ describe('Contact service tests', function () {
       .catch((err) => {
         console.log('Error in updating second contact is_invalid_number by id: ', err);
       });
-        // });
     });
   });
 });

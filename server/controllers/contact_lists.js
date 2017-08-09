@@ -30,7 +30,7 @@ export function saveNewContactList(req, res, next) {
 export function addContactToContactList(req, res, next) {
   const params = {
     id: req.params.id,
-    contact_id: req.params.contact_id
+    contact_id: req.body.contact_id
   };
 
   return contactListsService.addContactToContactList(params, ContactListsModel)
