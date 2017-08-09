@@ -61,7 +61,7 @@ const Root = () => {
               exact
               path="/"
               render={
-               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
+               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/" />))
               }
             />
           </Switch>
