@@ -11,6 +11,12 @@ const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
 const UsersModel = User(bookshelf);
 
+function cleanUserObject(user) {
+  const cleanUser = user;
+  delete cleanUser.attributes.password_hash;
+  return cleanUser;
+}
+
 export function getUserByEmail(req, res, next) {
   const params = {
     email: req.body.email
@@ -19,7 +25,8 @@ export function getUserByEmail(req, res, next) {
   return usersService.getUserByEmail(params, UsersModel)
     .then((user) => {
       if (user) {
-        res.status(200).json(user);
+        const userObject = cleanUserObject(user);
+        res.status(200).json(userObject);
       }
       next();
     }).catch((err) => {
@@ -35,7 +42,8 @@ export function getUserById(req, res, next) {
   return usersService.getUserById(params, UsersModel)
     .then((user) => {
       if (user) {
-        res.status(200).json(user);
+        const userObject = cleanUserObject(user);
+        res.status(200).json(userObject);
       } else {
         next();
       }
