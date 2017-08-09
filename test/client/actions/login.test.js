@@ -74,7 +74,7 @@ describe('loginActions', () => {
     });
   });
   describe('loginUser', () => {
-    beforeEach((done) => {
+    beforeEach(() => {
       const mock = new MockAdapter(axios);
       const newUser = {
         email: 'oscar@g.com',
@@ -84,10 +84,11 @@ describe('loginActions', () => {
         token: 'token',
         id: 1
       });
-      loginUser(newUser, history);
-      done();
+      setTimeout(loginUser(newUser, history), 5000);
+      // setTimeout(() => done(), 10000);
     });
     test('updating localStorage with loginUser', () => {
+      console.log('global.localstorage is: ', global.localStorage);
       expect(global.localStorage.auth_token).toEqual('token');
     });
     test('history should have "/" as argument', () => {

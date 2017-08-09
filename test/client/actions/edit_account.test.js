@@ -46,8 +46,8 @@ describe('editAccountActions', () => {
   describe('updateUser', () => {
     beforeEach(() => {
       const mock = new MockAdapter(axios);
-
-      mock.onPut('/users/1').reply(200, {
+      //mock.onPost()...
+      mock.onPut('/users/1', {DATA HERE!!!}).reply(200, {
         first_name: 'Oscar',
         last_name: 'Grouch',
         email: 'oscar@g.com',
@@ -55,12 +55,12 @@ describe('editAccountActions', () => {
       });
     });
     it('should update user account', () => {
-      // const newUserInfo = {
-      //   first_name: 'Mickey',
-      //   last_name: 'Mouse',
-      //   email: 'oscar@g.com',
-      //   phone_number: '15555555555'
-      // };
+      const newUserInfo = {
+        first_name: 'Mickey',
+        last_name: 'Mouse',
+        email: 'oscar@g.com',
+        phone_number: '15555555555'
+      };
       return store.dispatch(updateUser(1, user))
         .then(() => {
           expect(store.payload).toEqual(user);
