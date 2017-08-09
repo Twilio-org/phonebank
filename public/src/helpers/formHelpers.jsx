@@ -21,3 +21,9 @@ export default function renderField(field) {
     </div>
   );
 }
+
+export default function renderSelectOptions(option) {
+  return (
+    <option key={option} value={option}>{option}</option>
+  );
+}
