@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AccountPage /> renders correctly 1`] = `
+<div>
+  <h6>
+    Name:
+  </h6>
+  <h3>
+    Harry Potter
+  </h3>
+  <h6>
+    Email:
+  </h6>
+  <h3>
+    goldensnitch@hogwarts.com
+  </h3>
+  <h6>
+    Phone:
+  </h6>
+  <h3>
+    12224448888
+  </h3>
+  <div
+    className="text-xs-right"
+  >
+    <a
+      className="btn btn-primary"
+      href="/account/31/edit"
+      onClick={[Function]}
+    >
+      Edit Account
+    </a>
+  </div>
+  <div>
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+      type="button"
+    >
+      Delete Account
+    </button>
+  </div>
+</div>
+`;
