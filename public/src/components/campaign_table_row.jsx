@@ -1,4 +1,5 @@
 import React from 'react';
+import CampaignButtonGroup from './campaigns_btngrp';
 // import { Button, Table } from 'react-bootstrap';
 
 const TableRow = (props) => {
@@ -12,6 +13,7 @@ const TableRow = (props) => {
       <td>{status}</td>
       <td>{script_id}</td>
       <td>{created_at}</td>
+      <td><CampaignButtonGroup {...props} /></td>
     </tr>
   );
 };

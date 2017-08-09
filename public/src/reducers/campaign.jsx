@@ -17,7 +17,7 @@ export function campaignListReducer(state = defaultCampaigns, action) {
     case SET_CAMPAIGN_CURRENT:
       return {
         ...state,
-        current_campaign: payload.current_campaign
+        current_campaign: payload
       };
     default:
       return state;
