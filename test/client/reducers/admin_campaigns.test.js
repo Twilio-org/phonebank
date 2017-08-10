@@ -1,4 +1,3 @@
-
 import { campaignListReducer, SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../../../public/src/reducers/campaign';
 
 describe('campaignListReducer tests: ', () => {
