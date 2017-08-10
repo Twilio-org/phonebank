@@ -10,14 +10,15 @@ const bookshelf = bookshelfModule(knex);
 const campaignModel = Campaign(bookshelf);
 
 export function saveNewCampaign(req, res) {
-  const { name, title, description, status, script_id } = req.body;
+  const { name, title, description, status, script_id, contact_lists_id } = req.body;
   return campaignsService.saveNewCampaign(
     {
       name,
       title,
       description,
       status,
-      script_id
+      script_id,
+      contact_lists_id
     }, campaignModel)
     .then(() => {
       res.status(201).json({ message: 'Campaign successfully created' });
