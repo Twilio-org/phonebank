@@ -27,7 +27,7 @@ const Root = () => {
         <App>
           <Switch>
             <Route
-              path="/scripts/new"
+              path="/newScript"
               render={() => (<ScriptForm />)}
             />
             <Route
