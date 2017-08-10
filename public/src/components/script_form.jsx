@@ -13,6 +13,11 @@ class ScriptForm extends Component {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    this.props.fetchAllQuestions();
+  }
+
   onSubmit(values) {
     const { history } = this.props;
     this.props.createNewScript(values, history);
@@ -67,6 +72,7 @@ class ScriptForm extends Component {
           <Row>
             <Col xs={6}>
               <Dropdown
+                name="question1"
                 label="Question 1:"
                 id="1"
               />
@@ -105,10 +111,34 @@ class ScriptForm extends Component {
   }
 }
 
-export default withRouter(
-  reduxForm({
-    form: 'ScriptForm'
-  })(
-    connect(null, null)(ScriptForm)
-  )
-);
+function validate(values) {
+  const errors = {};
+  if (!values.name) {
+    errors.name = 'Please enter a name for your script.';
+  }
+  if (!values.description) {
+    errors.description = 'Please enter a description for your script.';
+  }
+  if (!values.body) {
+    errors.body = 'Please enter a body for your script.';
+  }
+  if (!values.question1) {
+    errors.question1 = 'Please select at least one question for your script.';
+  }
+  return errors;
+}
+
+export default reduxForm({
+  validate,
+  form: 'ScriptForm'
+});
+
+
+// export default withRouter(
+//   reduxForm({
+//     validate,
+//     form: 'ScriptForm'
+//   })(
+//     connect(null, null)(ScriptForm)
+//   )
+// );

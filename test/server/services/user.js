@@ -26,8 +26,8 @@ describe('User service tests', () => {
           table.boolean('is_admin').defaultTo(false);
           table.boolean('is_banned').defaultTo(false);
           table.boolean('is_active').defaultTo(true);
-          table.timestamp('date_created').defaultTo(knex.fn.now());
-          table.timestamp('date_updated').defaultTo(knex.fn.now());
+          table.timestamp('created_at').defaultTo(knex.fn.now());
+          table.timestamp('updated_at').defaultTo(knex.fn.now());
         }).then(() => {
           console.log(('Created users table'));
         }).catch((err) => {
@@ -123,7 +123,7 @@ describe('User service tests', () => {
           done();
         }, done);
     });
-    
+
     it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
       User.getUserById({ id: 1 }, usersModel)
         .then((user) => {
@@ -181,7 +181,7 @@ describe('User service tests', () => {
     it('should update second user\'s email by ID', (done) => {
       User.updateUserById(this.userUpdateParams2, usersModel)
         .then(user => user.attributes.email)
-        .then((email) => { 
+        .then((email) => {
           expect(email).to.equal('Jane@yahoo.com');
           done();
         }, done);

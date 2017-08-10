@@ -21,8 +21,7 @@ class Dropdown extends Component {
         <div className="row form-group">
           <label>{this.props.label}</label>
           <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
-            <MenuItem eventKey='1'>meow</MenuItem>
-            <MenuItem eventKey='2'>woof</MenuItem>
+            {this.renderSelectOptions}
           </DropdownButton>
         </div>
     );
