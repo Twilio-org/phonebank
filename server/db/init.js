@@ -129,6 +129,7 @@ bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
       table.string('title').notNullable();
       table.string('description').notNullable();
       table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
+      table.integer('contact_lists_id').references('contact_lists.id').notNullable();
       table.integer('script_id').references('scripts.id').notNullable();
       table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
