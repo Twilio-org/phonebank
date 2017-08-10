@@ -3,7 +3,6 @@ import bookshelfModule from 'bookshelf';
 import campaignsService from '../db/services/campaigns';
 import { development as devconfig } from '../../knexfile';
 import Campaign from '../db/models/campaigns';
-// import bookshelfCreateTable from '../db/init';
 
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
@@ -24,7 +23,7 @@ export function saveNewCampaign(req, res) {
       res.status(201).json({ message: 'Campaign successfully created' });
     })
     .catch((err) => {
-      res.status(401).json({
+      res.status(500).json({
         message: 'Campaign creation unsuccessful',
         error: err
       });
