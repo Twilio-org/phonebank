@@ -13,7 +13,6 @@ class LandingPage extends Component {
           <PageHeader>Phonebank</PageHeader>
           <p className="lead">A phone banking solution powered by Twilio</p>
           <Link to={`/account/${id}`}>View Account Details</Link><br />
-          <Link to="/campaign">Add Campaign</Link>
         </Col>
       </Row>
     );
