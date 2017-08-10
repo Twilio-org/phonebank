@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Button, PageHeader, DropdownButton, ButtonToolbar, Row, Col } from 'react-bootstrap';
+import { fetchAllQuestions } from '../actions/script_form';
 
 import { renderField, renderTextArea } from '../helpers/formHelpers';
 // import createNewScript from '../actions/script_form';
@@ -12,6 +14,7 @@ class ScriptForm extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.renderDropdowns = this.renderDropdowns.bind(this);
   }
 
   componentDidMount() {
@@ -21,6 +24,44 @@ class ScriptForm extends Component {
   onSubmit(values) {
     const { history } = this.props;
     this.props.createNewScript(values, history);
+  }
+
+  renderDropdowns() {
+    if (this.props.questionOptions !== undefined) {
+      return (
+        <Row>
+          <Col xs={6}>
+            <Dropdown
+              name="question1"
+              label="Question 1:"
+              id="1"
+              options={this.props.questionOptions}
+            />
+            <Dropdown
+              label="Question 2:"
+              id="2"
+              options={this.props.questionOptions}
+            />
+            <Dropdown
+              label="Question 3:"
+              id="3"
+              options={this.props.questionOptions}
+            />
+            <Dropdown
+              label="Question 4:"
+              id="4"
+              options={this.props.questionOptions}
+            />
+            <Dropdown
+              label="Question 5:"
+              id="5"
+              options={this.props.questionOptions}
+            />
+          </Col>
+        </Row>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -69,31 +110,7 @@ class ScriptForm extends Component {
             </Col>
           </Row>
           <PageHeader>Assign Script Questions</PageHeader>
-          <Row>
-            <Col xs={6}>
-              <Dropdown
-                name="question1"
-                label="Question 1:"
-                id="1"
-              />
-              <Dropdown
-                label="Question 2:"
-                id="2"
-              />
-              <Dropdown
-                label="Question 3:"
-                id="3"
-              />
-              <Dropdown
-                label="Question 4:"
-                id="4"
-              />
-              <Dropdown
-                label="Question 5:"
-                id="5"
-              />
-            </Col>
-          </Row>
+          {this.renderDropdowns()}
           <Row>
             <Col xs={4}>
               <Button bsStyle="success">Create New Question</Button>
@@ -128,17 +145,26 @@ function validate(values) {
   return errors;
 }
 
-export default reduxForm({
-  validate,
-  form: 'ScriptForm'
-});
+// export default reduxForm({
+//   validate,
+//   form: 'ScriptForm'
+// });
 
 
-// export default withRouter(
-//   reduxForm({
-//     validate,
-//     form: 'ScriptForm'
-//   })(
-//     connect(null, null)(ScriptForm)
-//   )
-// );
+function mapStateToProps(state) {
+  return { questionOptions: state.script_form.questionOptions };
+}
+
+// so fetchAllQuestions get into state, so we can call it in componentDidMount
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchAllQuestions }, dispatch);
+}
+
+export default withRouter(
+  reduxForm({
+    validate,
+    form: 'ScriptForm'
+  })(
+    connect(mapStateToProps, mapDispatchToProps)(ScriptForm)
+  )
+);

@@ -10,18 +10,21 @@ class Dropdown extends Component {
 
   renderSelectOptions() {
     return (
-      this.props.options.map((option) => {
-        return <MenuItem eventKey={option.name} value={option.name}>{option.name}</MenuItem>
+      this.props.options.map((option, index) => {
+        return <MenuItem key={index} eventKey={option.title} value={option.title}>{option.title}</MenuItem>
       })
     );
   }
 
   render() {
+    console.log('this.props.options is: ', this.props.options);
     return (
         <div className="row form-group">
           <label>{this.props.label}</label>
           <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
-            {this.renderSelectOptions}
+            <div>
+              {this.renderSelectOptions()}
+            </div>
           </DropdownButton>
         </div>
     );

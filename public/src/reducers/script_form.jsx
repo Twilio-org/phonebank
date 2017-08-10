@@ -8,7 +8,7 @@ export function questionOptionsReducer(state = questions, action) {
     case SET_SCRIPT_FORM_QUESTION_OPTIONS:
       return {
         ...state,
-        questionsOptions: payload.questions
+        questionOptions: payload
       };
     default:
       return state;

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import ScriptForm from '../components/script_form';
 import { fetchAllQuestions } from '../actions/script_form';
 
-function mapStateToProps() {
-  return { questions: state.questions }
+function mapStateToProps(state) {
+  return { questionOptions: state.questionOptions };
 }
 
 export default withRouter(

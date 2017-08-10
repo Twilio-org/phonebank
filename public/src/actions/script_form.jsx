@@ -11,7 +11,7 @@ export function setQuestionOptions(questions) {
 export function fetchAllQuestions() {
   return dispatch => axios.get('/questions')
     .then((res) => {
-      const questions = res.questions;
+      const questions = res.data;
       dispatch(setQuestionOptions(questions));
       return questions;
     })
