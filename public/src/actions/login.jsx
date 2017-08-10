@@ -42,14 +42,11 @@ export function loginUser(loginInfo, history) {
   });
 }
 
-export function logoutUser(history) {
-  console.log(history, '&&&&&&&&&&&');
+export function logoutUser() {
   return dispatch => axios.get('/logout')
-  .then((history) => {
-    console.log(history, '%%%%%%%%%%%')
+  .then(() => {
     localStorage.removeItem('auth_token');
     dispatch(logout());
-    history.push('/login');
   })
   .catch((err) => {
     const customError = {

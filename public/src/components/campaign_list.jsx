@@ -8,6 +8,9 @@ import { Button, Table } from 'react-bootstrap';
 import TableRow from './campaign_table_row';
 
 export default class CampaignList extends Component {
+  componentDidMount() {
+    this.props.fetchAllCampaigns();
+  }
 
   render() {
     const { all_campaigns } = this.props;
