@@ -33,14 +33,10 @@ export function saveNewCampaign(req, res) {
 export function getAllCampaigns(req, res) {
   return campaignsService.getAllCampaigns(null, campaignModel)
     .then((campaigns) => {
-      if (campaigns.length) {
-        res.status(200).json(campaigns);
-      } else {
-        res.status(200).json({ message: 'No campaigns found' });
-      }
+      res.status(200).send(campaigns);
     })
     .catch((err) => {
-      res.status(401).json({
+      res.status(500).json({
         message: 'Cannot retrieve campaigns',
         error: err
       });
