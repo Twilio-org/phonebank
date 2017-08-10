@@ -44,7 +44,6 @@ export default class Header extends Component {
               title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name}
               links={this.getLinks()}
               logout={this.props.logout}
-              history={this.props.history}
             />
           </Col>
         </Row>

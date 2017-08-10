@@ -7,7 +7,7 @@ import { logoutUser } from '../actions/login';
 
 class App extends Component {
   render() {
-    const { auth, account_info, history } = this.props;
+    const { auth, account_info } = this.props;
     const logoutUserAction = this.props.logoutUser;
     const { id } = auth;
     return (
@@ -16,7 +16,6 @@ class App extends Component {
           userId={id}
           userInfo={account_info}
           logout={logoutUserAction}
-          history={history}
         />
         <section id="content">
           <Grid>
