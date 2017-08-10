@@ -10,10 +10,9 @@ import App from './components/app';
 import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
-import AccountPage from './components/account';
 import EditAccountInfo from './components/edit_account';
 import CampaignPage from './components/campaign';
-
+import { ConnectedAccountPage } from './components/account';
 import { authTransition } from './actions/login';
 
 const Root = () => {
@@ -29,25 +28,26 @@ const Root = () => {
             <Route
               path="/registration"
               render={
-                () => !isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/" />)
+               () => (!isLoggedIn() ? (<RegistrationForm />) : (<Redirect to="/" />))
               }
             />
             <Route
               path="/login"
               render={
-                () => isLoggedIn() ? (<Redirect to="/account" />) : (<LogInForm />)
+               () => (isLoggedIn() ? (<Redirect to="/account" />) : (<LogInForm />))
               }
             />
             <Route
-              exact path="/account/:id/edit"
+              exact
+              path="/account/:id/edit"
               render={
-                () => isLoggedIn() ? (<EditAccountInfo />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<EditAccountInfo />) : (<Redirect to="/login" />))
               }
             />
             <Route
               path="/account"
               render={
-                () => isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<ConnectedAccountPage />) : (<Redirect to="/login" />))
               }
             />
             <Route
@@ -57,10 +57,9 @@ const Root = () => {
             <Route
               path="/"
               render={
-                () => isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />)
+               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
               }
             />
-           
           </Switch>
         </App>
       </BrowserRouter>

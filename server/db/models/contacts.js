@@ -1,17 +1,17 @@
 import knexModule from 'knex';
 import bookshelfModule from 'bookshelf';
-import Script from './scripts';
+import ContactList from './contact_lists';
 import { development as devconfig } from '../../../knexfile';
 
 const knex = knexModule(devconfig);
 const bookshelf = bookshelfModule(knex);
 
-export default function Question(bookshelfObj) {
+export default function Contact(bookshelfObj) {
   return bookshelfObj.Model.extend({
-    tableName: 'questions',
+    tableName: 'contacts',
     hasTimestamps: true,
-    scripts() {
-      return this.belongsToMany(Script(bookshelf));
+    contact_lists() {
+      return this.belongsToMany(ContactList(bookshelf));
     }
   });
 }

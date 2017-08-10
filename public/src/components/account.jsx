@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import { fetchUser } from '../actions/account_info';
 import { deleteUser } from '../actions/edit_account';
 
-class AccountPage extends Component {
+export class AccountPage extends Component {
   constructor(props) {
     super(props);
     this.onDeleteClick = this.onDeleteClick.bind(this);
@@ -25,7 +25,6 @@ class AccountPage extends Component {
   onDeleteClick() {
     const { id } = this.props.auth;
     const { history } = this.props;
-    console.log(history);
     this.props.deleteUser(id, history);
   }
 
@@ -37,11 +36,11 @@ class AccountPage extends Component {
     return (
       <div>
         <h6>Name:</h6>
-        <h3>{!!account_info ? `${first_name} ${last_name}` : ''}</h3>
+        <h3>{account_info ? `${first_name} ${last_name}` : ''}</h3>
         <h6>Email:</h6>
-        <h3>{!!account_info ? email : ''}</h3>
+        <h3>{account_info ? email : ''}</h3>
         <h6>Phone:</h6>
-        <h3>{!!account_info ? phone_number : ''}</h3>
+        <h3>{account_info ? phone_number : ''}</h3>
         <div className="text-xs-right">
           <Link className="btn btn-primary" to={`/account/${id}/edit`}>
             Edit Account
@@ -76,6 +75,6 @@ function mapStateToProps(state) {
   return { auth: state.auth, account_info: state.account_info };
 }
 
-export default withRouter(
+export const ConnectedAccountPage = withRouter(
   connect(mapStateToProps, { fetchUser, deleteUser })(AccountPage)
 );

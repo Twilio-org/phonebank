@@ -3,36 +3,17 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import renderField from '../helpers/formHelpers';
 import { loginUser } from '../actions/login';
 
 class LogInForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.renderField = this.renderField.bind(this);
   }
   onSubmit(values) {
     const { history } = this.props;
     this.props.loginUser(values, history);
-  }
-
-  renderField(field) {
-    const className = `form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
-
-    return (
-      <div className={className}>
-        <label>{field.label}</label>
-        <input
-          className="form-control"
-          placeholder={field.label}
-          type={field.label}
-          {...field.input}
-        />
-        <div className="text-danger">
-          {field.meta.touched ? field.meta.error : ''}
-        </div>
-      </div>
-    );
   }
 
   render() {
@@ -43,12 +24,12 @@ class LogInForm extends Component {
           <Field
             name="email"
             label="email"
-            component={this.renderField}
+            component={renderField}
           />
           <Field
             name="password"
             label="password"
-            component={this.renderField}
+            component={renderField}
           />
         </div>
         <button type="submit">Log In</button>
