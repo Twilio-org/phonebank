@@ -9,7 +9,8 @@ describe('<Header />', () => {
     first_name: 'Mr.',
     last_name: 'Cat',
     email: 'mrcat@gmail.com',
-    phone_number: '15555555555'
+    phone_number: '15555555555',
+    is_admin: true
   };
   const props = {
     userId: 1,
