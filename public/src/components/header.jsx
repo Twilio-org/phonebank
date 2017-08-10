@@ -12,14 +12,13 @@ export default class Header extends Component {
   getLinks() {
     // links to pass into the navigation based on session info
     const { userId } = this.props;
-    const { is_admin } = this.props.userInfo;
     let links = [];
     if (userId) { // user is logged in aka id present
       links = [
         { title: 'Account', href: `/account/${userId}` },
         { title: 'Logout', href: '/logout' }
       ];
-      if (is_admin) {
+      if (this.props.userInfo && this.props.userInfo.is_admin) {
         links.push({ title: 'All Campaigns', href: '/campaigns' });
       }
     } else {

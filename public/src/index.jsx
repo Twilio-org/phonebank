@@ -20,7 +20,7 @@ const Root = () => {
   const isLoggedIn = authTransition.bind(null, store);
   const isAdmin = checkIfAdmin.bind(null, store);
 
-  const landingPage = isAdmin ? (<CampaignsContainer />) : (<LandingPage />);
+  const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
 
   return (
     <Provider store={store}>
@@ -63,7 +63,7 @@ const Root = () => {
               exact
               path="/"
               render={
-               () => (isLoggedIn() ? landingPage : (<Redirect to="/login" />))
+               () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
               }
             />
           </Switch>

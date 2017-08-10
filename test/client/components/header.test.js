@@ -42,22 +42,22 @@ describe('<Header />', () => {
   });
   describe('props', () => {
     const wrapper = shallow(<Header />);
-    it('should return undefined for userInfo if logged out',() => {
-      expect(wrapper.instance().props['userInfo']).toBe(undefined);
+    it('should return undefined for userInfo if logged out', () => {
+      expect(wrapper.instance().props.userInfo).toBe(undefined);
     });
-    it('should return undefined for userId if logged out',() => {
-      expect(wrapper.instance().props['userId']).toBe(undefined);
+    it('should return undefined for userId if logged out', () => {
+      expect(wrapper.instance().props.userId).toBe(undefined);
     });
-    it('should return value of userId if user is logged in',() => {
+    it('should return value of userId if user is logged in', () => {
       wrapper.setProps(props);
-      expect(wrapper.instance().props['userId']).toBe(1);
+      expect(wrapper.instance().props.userId).toBe(1);
     });
-    it('should return data of userInfo if user is logged in',() => {
+    it('should return data of userInfo if user is logged in', () => {
       wrapper.setProps(props);
-      expect(wrapper.instance().props['userInfo']).toEqual(testUser);
+      expect(wrapper.instance().props.userInfo).toEqual(testUser);
     });
   });
-  describe('getLinks()',() => {
+  describe('getLinks()', () => {
     const wrapper = shallow(<Header />);
     const loggedOutLinks = [{ title: 'Register', href: '/registration' },
     { title: 'Login', href: '/login' }];

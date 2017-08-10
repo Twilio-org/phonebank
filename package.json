@@ -12,6 +12,7 @@
     "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
     "test": "npm run lint && npm run test:server && npm run test:client",
     "test:client": "jest",
+    "test:client:refresh": "jest --updateSnapshot",
     "test:server": "mocha './test/server' --recursive --compilers js:babel-core/register"
   },
   "jest": {
