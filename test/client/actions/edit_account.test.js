@@ -36,34 +36,34 @@ global.localStorage = localStorageMock;
 const user = {
   first_name: 'Oscar',
   last_name: 'Grouch',
-  email: 'oscar@g.com',
-  phone_number: '15555555555'
+  phone_number: '15555555555',
+  email: 'oscar@g.com'
 };
 
-jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
+// jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
+updateUser = jest.fn();
 
 describe('editAccountActions', () => {
   describe('updateUser', () => {
     beforeEach(() => {
-      const mock = new MockAdapter(axios);
-      //mock.onPost()...
-      mock.onPut('/users/1', {DATA HERE!!!}).reply(200, {
-        first_name: 'Oscar',
-        last_name: 'Grouch',
-        email: 'oscar@g.com',
-        phone_number: '15555555555'
-      });
+      const mocker = new MockAdapter(axios);
+      mocker.onPut('/users/:id', { params: {
+        first_name: 'Mickey',
+        last_name: 'Mouse',
+        phone_number: '15555555555',
+        email: 'oscar@g.com'
+      } }).reply(200);
     });
     it('should update user account', () => {
       const newUserInfo = {
         first_name: 'Mickey',
         last_name: 'Mouse',
-        email: 'oscar@g.com',
-        phone_number: '15555555555'
+        phone_number: '15555555555',
+        email: 'oscar@g.com'
       };
-      return store.dispatch(updateUser(1, user))
+      return store.dispatch(updateUser(1, newUserInfo))
         .then(() => {
-          expect(store.payload).toEqual(user);
+          expect(store.payload).toEqual(newUserInfo);
         });
     });
     it('should have a method called updateUser', () => {
@@ -73,6 +73,12 @@ describe('editAccountActions', () => {
       const numberOfMockCalls = updateUser.mock.calls.length;
       expect(updateUser).toHaveBeenCalledTimes(1);
       expect(numberOfMockCalls).toBe(1);
+    });
+    it('should call this.props.deleteUser with two arguments: id (31) and history', () => {
+      const mockCallsArray = deleteUser.mock.calls[0];
+      expect(mockCallsArray.length).toBe(2);
+      // expect(mockCallsArray[0]).toBe(31);
+      // expect(mockCallsArray[1]).toBe('history');
     });
   });
 });
