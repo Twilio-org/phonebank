@@ -11,7 +11,6 @@ import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
-import CampaignPage from './components/campaign';
 import { ConnectedAccountPage } from './components/account';
 import { authTransition } from './actions/login';
 
@@ -49,10 +48,6 @@ const Root = () => {
               render={
                () => (isLoggedIn() ? (<ConnectedAccountPage />) : (<Redirect to="/login" />))
               }
-            />
-            <Route
-              path="/campaign"
-              component={CampaignPage}
             />
             <Route
               path="/"
