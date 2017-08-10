@@ -14,7 +14,6 @@ const scriptModel = Script(knexdb);
 const contactListModel = ContactList(knexdb);
 const should = Should();
 
-
 describe('Campaign service tests', () => {
   before((done) => {
     function createCampaignsTable() {
