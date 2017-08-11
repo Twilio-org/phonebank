@@ -10,8 +10,8 @@ class Navigation extends Component {
     this.renderLinks = this.renderLinks.bind(this);
   }
   logoutOnClick() {
-    const { userInfo, history } = this.props;
-    this.props.logout(userInfo, history);
+    const { userInfo } = this.props;
+    this.props.logout(userInfo);
   }
   // Render all current links
   renderLinks() {
