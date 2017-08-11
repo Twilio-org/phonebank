@@ -11,7 +11,7 @@ import RegistrationForm from './containers/registration';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
-import ScriptForm from './components/script_form';
+import ScriptNewFormContainer from './containers/script_form';
 import { ConnectedAccountPage } from './components/account';
 import { authTransition } from './actions/login';
 
@@ -27,7 +27,7 @@ const Root = () => {
           <Switch>
             <Route
               path="/newScript"
-              render={() => (<ScriptForm />)}
+              render={() => (<ScriptNewFormContainer />)}
             />
             <Route
               path="/registration"

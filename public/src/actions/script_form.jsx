@@ -17,21 +17,33 @@ export function fetchAllQuestions() {
     })
     .catch((err) => {
       const customError = {
-        message: `error fetching questions: ${error}`,
+        message: `error fetching questions: ${err}`,
         name: 'question get request from script_form component'
       };
       throw customError;
     });
 }
 
-export function postNewScript(script, questions, history) {
+export function postScript(script, questions, history) {
   const { name, description, body } = script;
-  return dispatch => axios.post('/scripts', {
+
+
+  return () => axios.post('/scripts', {
     name,
     body,
     description
   })
     .then((res) => {
+      const script_id = res.data.id;
+
+      questions.forEach((question) => {
+        axios.post(`/scripts/${script_id}/scriptQuestions`, {
+          question_id: question.question_id,
+          sequence_number: question.sequence_number
+        });
+      });
+    })
+    .then(() => {
       history.push('/campaigns');
     })
     .catch((err) => {

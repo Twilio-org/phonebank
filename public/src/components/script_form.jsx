@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Button, PageHeader, DropdownButton, ButtonToolbar, Row, Col } from 'react-bootstrap';
-import { fetchAllQuestions } from '../actions/script_form';
+import { Field } from 'redux-form';
+import { Button, PageHeader, ButtonToolbar, Row, Col } from 'react-bootstrap';
 
-import { renderField, renderTextArea } from '../helpers/formHelpers';
-// import createNewScript from '../actions/script_form';
-import Dropdown from './dropdown';
+import { renderField, renderTextArea, renderDropdown } from '../helpers/formHelpers';
 
-class ScriptForm extends Component {
+export default class ScriptForm extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -23,7 +17,24 @@ class ScriptForm extends Component {
 
   onSubmit(values) {
     const { history } = this.props;
-    this.props.createNewScript(values, history);
+    const script = {
+      name: values.name,
+      body: values.body,
+      description: values.description
+    };
+    const keys = Object.keys(values);
+    const questions = [];
+    const filteredKeys = keys.filter(key => key.includes('question'));
+
+    filteredKeys.forEach((key) => {
+      const sequence_num = key.slice(-1);
+      questions.push({
+        question_id: values[key],
+        sequence_number: sequence_num
+      });
+    });
+
+    this.props.postScript(script, questions, history);
   }
 
   renderDropdowns() {
@@ -31,35 +42,44 @@ class ScriptForm extends Component {
       return (
         <Row>
           <Col xs={6}>
-            <Dropdown
+            <Field
               name="question1"
               label="Question 1:"
               id="1"
               keyToUse="title"
+              component={renderDropdown}
               options={this.props.questionOptions}
             />
-            <Dropdown
+            <Field
+              name="question2"
               label="Question 2:"
               id="2"
               keyToUse="title"
+              component={renderDropdown}
               options={this.props.questionOptions}
             />
-            <Dropdown
+            <Field
+              name="question3"
               label="Question 3:"
               id="3"
               keyToUse="title"
+              component={renderDropdown}
               options={this.props.questionOptions}
             />
-            <Dropdown
+            <Field
+              name="question4"
               label="Question 4:"
               id="4"
               keyToUse="title"
+              component={renderDropdown}
               options={this.props.questionOptions}
             />
-            <Dropdown
+            <Field
+              name="question5"
               label="Question 5:"
               id="5"
               keyToUse="title"
+              component={renderDropdown}
               options={this.props.questionOptions}
             />
           </Col>
@@ -132,44 +152,3 @@ class ScriptForm extends Component {
     );
   }
 }
-
-function validate(values) {
-  const errors = {};
-  if (!values.name) {
-    errors.name = 'Please enter a name for your script.';
-  }
-  if (!values.description) {
-    errors.description = 'Please enter a description for your script.';
-  }
-  if (!values.body) {
-    errors.body = 'Please enter a body for your script.';
-  }
-  if (!values.question1) {
-    errors.question1 = 'Please select at least one question for your script.';
-  }
-  return errors;
-}
-
-// export default reduxForm({
-//   validate,
-//   form: 'ScriptForm'
-// });
-
-
-function mapStateToProps(state) {
-  return { questionOptions: state.script_form.questionOptions };
-}
-
-// so fetchAllQuestions get into state, so we can call it in componentDidMount
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchAllQuestions }, dispatch);
-}
-
-export default withRouter(
-  reduxForm({
-    validate,
-    form: 'ScriptForm'
-  })(
-    connect(mapStateToProps, mapDispatchToProps)(ScriptForm)
-  )
-);

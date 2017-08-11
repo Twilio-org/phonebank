@@ -12,13 +12,12 @@ class Dropdown extends Component {
     return (
       this.props.options.map(option =>
         (
-          <MenuItem
+          <option
             key={option[prop]}
-            eventKey={option[prop]}
             value={option[prop]}
           >
             {option[prop]}
-          </MenuItem>
+          </option>
         )
       )
     );
@@ -28,11 +27,10 @@ class Dropdown extends Component {
     return (
       <div className="row form-group">
         <label htmlFor={`dropdown-basic-${this.props.id}`}>{this.props.label}</label>
-        <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
-          <div>
-            {this.renderSelectOptions(this.props.keyToUse)}
-          </div>
-        </DropdownButton>
+        <select title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
+          <option>Select Question</option>
+          {this.renderSelectOptions(this.props.keyToUse)}
+        </select>
       </div>
     );
   }
