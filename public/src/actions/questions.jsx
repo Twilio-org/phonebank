@@ -2,13 +2,10 @@ import axios from 'axios';
 
 export default function createQuestion(questionInfo, history) {
   const { title, description, type } = questionInfo;
-  let responses = '';
+  // let responses = questionInfo.option1;
   // refactor responses later
-  if (questionInfo.option1 && questionInfo.option2 &&
-    questionInfo.option3 && questionInfo.option4 &&
-    questionInfo.option5) {
-    responses = `${questionInfo.option1},${questionInfo.option2},${questionInfo.option3},${questionInfo.option4},${questionInfo.option5}`;
-  }
+  const responses = `${questionInfo.option1},${questionInfo.option2},${questionInfo.option3},${questionInfo.option4},${questionInfo.option5}`;
+
   console.log('THIS IS RESPONSES FROM ACTION \n ====================================== \n', responses);
   return () => axios.post('/questions', {
     title,
@@ -17,7 +14,8 @@ export default function createQuestion(questionInfo, history) {
     responses
   })
   .then((res) => {
-    history.push('/');
+    // history.push('../');
+    console.log(res);
     return res;
   })
   .catch((err) => {
