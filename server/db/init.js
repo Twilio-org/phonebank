@@ -27,69 +27,6 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
   }
 });
 
-bookshelf.knex.schema.hasTable('scripts').then((exist) => {
-  if (!exist) {
-    bookshelf.knex.schema.createTable('scripts', (table) => {
-      table.increments().primary();
-      table.string('name').notNullable().index();
-      table.text('body').notNullable();
-      table.text('description').notNullable();
-      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-    }).then(() => {
-      console.log('Created scripts table');
-    }).catch(err => console.log('Error creating scripts table', err));
-  }
-});
-
-bookshelf.knex.schema.hasTable('questions').then((exist) => {
-  if (!exist) {
-    bookshelf.knex.schema.createTable('questions', (table) => {
-      table.increments().primary();
-      table.string('title').notNullable().index();
-      table.text('description').notNullable().index();
-      table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
-      table.text('responses').notNullable();
-      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-    }).then(() => {
-      console.log('Created questions table');
-    }).catch(err => console.log('Error creating questions table', err));
-  }
-});
-
-bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
-  if (!exist) {
-    bookshelf.knex.schema.createTable('campaigns', (table) => {
-      table.increments();
-      table.string('name').notNullable().unique().index();
-      table.string('title').notNullable();
-      table.string('description').notNullable();
-      table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
-      table.integer('script_id').references('scripts.id').notNullable();
-      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-    }).then(() => {
-      console.log(('Created campaigns table'));
-    }).catch(err => console.log('Error creating campaigns table', err));
-  }
-});
-
-bookshelf.knex.schema.hasTable('scripts_to_questions').then((exist) => {
-  if (!exist) {
-    bookshelf.knex.schema.createTable('scripts_to_questions', (table) => {
-      table.increments().primary();
-      table.integer('script_id').references('scripts.id').notNullable();
-      table.integer('question_id').references('questions.id').notNullable();
-      table.integer('sequence_number').notNullable();
-      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-    }).then(() => {
-      console.log('Created scripts_to_questions table');
-    }).catch(err => console.log('Error creating scripts_to_questions table', err));
-  }
-});
-
 bookshelf.knex.schema.hasTable('contacts').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('contacts', (table) => {
@@ -179,7 +116,25 @@ bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
       table.unique(['script_id', 'question_id']);
     }).then(() => {
-      console.log('Created scripts_to_questions table');
-    }).catch(err => console.log('Error creating scripts_to_questions table', err));
+      console.log('Created questions_scripts table');
+    }).catch(err => console.log('Error creating questions_scripts table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('campaigns', (table) => {
+      table.increments('id').primary();
+      table.string('name').notNullable().unique().index();
+      table.string('title').notNullable();
+      table.string('description').notNullable();
+      table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
+      table.integer('contact_lists_id').references('contact_lists.id').notNullable();
+      table.integer('script_id').references('scripts.id').notNullable();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created campaigns table'));
+    }).catch(err => console.log('Error creating campaigns table', err));
   }
 });

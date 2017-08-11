@@ -13,7 +13,6 @@ import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
 import ScriptForm from './components/script_form';
 import { ConnectedAccountPage } from './components/account';
-
 import { authTransition } from './actions/login';
 
 const Root = () => {
