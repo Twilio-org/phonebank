@@ -4,16 +4,6 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { renderQuestionField, renderQuestionTextArea, renderQuestionTypeDropdown, renderQuestionOption } from '../helpers/question_form_helpers';
 
 export default class QuestionForm extends Component {
-  constructor(props) {
-    super(props);
-    this.removeOption = this.removeOption.bind(this);
-  }
-  removeOption(e) {
-    const currentOptionDiv = e.target.parentNode.parentNode.parentNode;
-    const optionName = currentOptionDiv.getElementsByTagName('input')[0].name;
-    this.props.change(optionName, '');
-    currentOptionDiv.remove();
-  }
   render() {
     const { handleSubmit } = this.props;
     const titleProps = {
@@ -36,8 +26,7 @@ export default class QuestionForm extends Component {
     };
     const optionProps = {
       label: 'Option',
-      component: renderQuestionOption,
-      removeOnClick: this.removeOption
+      component: renderQuestionOption
     };
     const type = this.props.questionType;
     return (
@@ -55,7 +44,7 @@ export default class QuestionForm extends Component {
               <Row>
                 <Col md={12}>
                   <h2>Responses</h2>
-                  <Field num={'1'} name={'option1'}{...optionProps} />
+                  <Field num={'1'} name={'option1'} {...optionProps} />
                   <Field num={'2'} name={'option2'} {...optionProps} />
                   <Field num={'3'} name={'option3'} {...optionProps} />
                   <Field num={'4'} name={'option4'} {...optionProps} />
@@ -65,8 +54,12 @@ export default class QuestionForm extends Component {
             }
           </Col>
         </Row>
-        <Button type="submit" bsStyle="primary">Create question</Button>
+        <Button type="submit" bsStyle="primary">{this.props.buttonText}</Button>
       </form>
     );
   }
 }
+
+QuestionForm.defaultProps = {
+  buttonText: 'Create question'
+};

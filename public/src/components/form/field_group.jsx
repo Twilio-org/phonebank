@@ -5,14 +5,14 @@ const FieldGroup = (fieldProps) => {
   const { label, help, errorClass, errorText, ...props } = fieldProps;
   return (
     <Row>
-      <Col md={8}>
+      <Col xs={8}>
         <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''}>
           <ControlLabel>{label}</ControlLabel>
           {help && <HelpBlock>{help}</HelpBlock>}
           <FormControl {...props} />
         </FormGroup>
       </Col>
-      <Col md={4}>
+      <Col xs={4}>
         {errorText && <Popover
           id={`popover${label}`}
           placement="right"

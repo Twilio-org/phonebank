@@ -2,16 +2,10 @@ import React from 'react';
 import FieldGroup from '../components/form/field_group';
 import TextArea from '../components/form/text_area';
 import Dropdown from '../components/form/dropdown';
-import OptionPlus from '../components/form/option_plus';
 
 module.exports = {
   renderQuestionField(field) {
-    let errorClass = '';
-    if (field.meta.touched && field.meta.error) {
-      errorClass = 'error';
-    } else if (field.meta.touched) {
-      errorClass = 'success';
-    }
+    const errorClass = field.meta.touched && field.meta.error ? 'error' : '';
     const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <FieldGroup
@@ -27,12 +21,7 @@ module.exports = {
     );
   },
   renderQuestionTextArea(field) {
-    let errorClass = '';
-    if (field.meta.touched && field.meta.error) {
-      errorClass = 'error';
-    } else if (field.meta.touched) {
-      errorClass = 'success';
-    }
+    const errorClass = field.meta.touched && field.meta.error ? 'error' : '';
     const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <TextArea
@@ -47,12 +36,7 @@ module.exports = {
     );
   },
   renderQuestionTypeDropdown(field) {
-    let errorClass = '';
-    if (field.meta.touched && field.meta.error) {
-      errorClass = 'error';
-    } else if (field.meta.touched) {
-      errorClass = 'success';
-    }
+    const errorClass = field.meta.touched && field.meta.error ? 'error' : '';
     const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <Dropdown
@@ -69,14 +53,12 @@ module.exports = {
   },
   renderQuestionOption(field) {
     return (
-      <OptionPlus
+      <FieldGroup
         type="text"
         name={`${field.name}-${field.num}`}
-        label={field.label}
+        label={`${field.label} ${field.num}`}
         help={field.helpText}
-        placeholder={field.label}
-        num={field.num}
-        removeOnClick={field.removeOnClick}
+        placeholder={'ex. yes, no, maybe'}
         {...field.input}
       />
     );

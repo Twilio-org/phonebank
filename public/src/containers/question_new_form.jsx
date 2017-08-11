@@ -6,13 +6,6 @@ import createQuestion from '../actions/questions';
 
 const FORM_NAME = 'QuestionNew';
 
-function mapStateToProps(state) {
-  const selector = formValueSelector(FORM_NAME);
-  return {
-    questionType: selector(state, 'type')
-  };
-}
-
 function validate(values) {
   const errors = {};
   if (!values.title) {
@@ -25,6 +18,12 @@ function validate(values) {
     errors.type = 'Please select a question type.';
   }
   return errors;
+}
+function mapStateToProps(state) {
+  const selector = formValueSelector(FORM_NAME);
+  return {
+    questionType: selector(state, 'type')
+  };
 }
 const QuestionNewFormContainer = withRouter(
   reduxForm({

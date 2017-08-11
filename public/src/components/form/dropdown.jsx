@@ -11,7 +11,7 @@ const Dropdown = (dropdownProps) => {
   }
   return (
     <Row>
-      <Col md={8}>
+      <Col xs={8}>
         <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''}>
           <ControlLabel>{label}</ControlLabel>
           {help && <HelpBlock>{help}</HelpBlock>}
@@ -24,7 +24,7 @@ const Dropdown = (dropdownProps) => {
           </FormControl>
         </FormGroup>
       </Col>
-      <Col md={4}>
+      <Col xs={4}>
         {errorText && <Popover
           id={`popover${label}`}
           placement="right"

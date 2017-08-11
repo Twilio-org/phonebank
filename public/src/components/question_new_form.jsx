@@ -11,11 +11,11 @@ export default class QuestionNewForm extends Component {
     this.props.createQuestion(values, history);
   }
   render() {
-    const props = this.props;
+    const storeProps = this.props;
     return (
       <div>
         <h1>Create a Question</h1>
-        <QuestionForm onSubmit={this.formSubmit} {...props} />
+        <QuestionForm onSubmit={this.formSubmit} buttonText={'Create Question'} {...storeProps} />
       </div>
     );
   }

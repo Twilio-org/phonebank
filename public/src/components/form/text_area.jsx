@@ -5,7 +5,7 @@ const TextArea = (textAreaProps) => {
   const { label, help, placeholder, errorClass, errorText, ...props } = textAreaProps;
   return (
     <Row>
-      <Col md={8}>
+      <Col xs={8}>
         <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''} >
           <ControlLabel>{label}</ControlLabel>
           {help && <HelpBlock>{help}</HelpBlock>}
@@ -16,7 +16,7 @@ const TextArea = (textAreaProps) => {
           />
         </FormGroup>
       </Col>
-      <Col md={4}>
+      <Col xs={4}>
         <FormGroup>
           {errorText && <Popover
             id={`popover${label}`}
