@@ -1,9 +1,6 @@
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 import { Button, Table } from 'react-bootstrap';
-// import _ from 'lodash';
 
 import TableRow from './campaign_table_row';
 
@@ -13,10 +10,11 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns } = this.props;
+    const { all_campaigns, account_info: { last_name, first_name } } = this.props;
     return (
       <div>
-        <Button primary bsSize="xsmall">Create New Phone Bank</Button>
+        <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
+        <Button bsSize="xsmall">Create New Phone Bank</Button>
 
         <Table responsive>
           <thead>
@@ -32,7 +30,7 @@ export default class CampaignList extends Component {
           </thead>
 
           <tbody>
-            {!!all_campaigns ?
+            {!!all_campaigns.length ?
               all_campaigns.map(campaign =>
                 (<TableRow
                   campaign={campaign}
@@ -40,7 +38,7 @@ export default class CampaignList extends Component {
                   key={campaign.id}
                 />)
               ) :
-              ''
+              (<tr />)
             }
           </tbody>
         </Table>
