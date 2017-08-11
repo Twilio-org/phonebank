@@ -8,30 +8,42 @@ class Dropdown extends Component {
     this.renderSelectOptions = this.renderSelectOptions.bind(this);
   }
 
-  renderSelectOptions() {
+  renderSelectOptions(prop) {
     return (
-      this.props.options.map((option, index) => {
-        return <MenuItem key={index} eventKey={option.title} value={option.title}>{option.title}</MenuItem>
-      })
+      this.props.options.map(option =>
+        (
+          <MenuItem
+            key={option[prop]}
+            eventKey={option[prop]}
+            value={option[prop]}
+          >
+            {option[prop]}
+          </MenuItem>
+        )
+      )
     );
   }
 
   render() {
-    console.log('this.props.options is: ', this.props.options);
+    let prop;
+    switch (Object.keys(this.props.options)) {
+      case 'title':
+        prop = 'title';
+        break;
+      default:
+        prop = 'label';
+    }
     return (
-        <div className="row form-group">
-          <label>{this.props.label}</label>
-          <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
-            <div>
-              {this.renderSelectOptions()}
-            </div>
-          </DropdownButton>
-        </div>
+      <div className="row form-group">
+        <label htmlFor={`dropdown-basic-${this.props.id}`}>{this.props.label}</label>
+        <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
+          <div>
+            {this.renderSelectOptions(prop)}
+          </div>
+        </DropdownButton>
+      </div>
     );
   }
 }
-// Update above MenuItems to user question data from the backend through SelectOptions()
-
-// {this.renderSelectOptions}
 
 export default Dropdown;
