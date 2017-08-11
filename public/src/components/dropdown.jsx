@@ -25,20 +25,12 @@ class Dropdown extends Component {
   }
 
   render() {
-    let prop;
-    switch (Object.keys(this.props.options)) {
-      case 'title':
-        prop = 'title';
-        break;
-      default:
-        prop = 'label';
-    }
     return (
       <div className="row form-group">
         <label htmlFor={`dropdown-basic-${this.props.id}`}>{this.props.label}</label>
         <DropdownButton title="Select an Option" id={`dropdown-basic-${this.props.id}`}>
           <div>
-            {this.renderSelectOptions(prop)}
+            {this.renderSelectOptions(this.props.keyToUse)}
           </div>
         </DropdownButton>
       </div>

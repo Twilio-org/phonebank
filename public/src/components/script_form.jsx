@@ -35,26 +35,31 @@ class ScriptForm extends Component {
               name="question1"
               label="Question 1:"
               id="1"
+              keyToUse="title"
               options={this.props.questionOptions}
             />
             <Dropdown
               label="Question 2:"
               id="2"
+              keyToUse="title"
               options={this.props.questionOptions}
             />
             <Dropdown
               label="Question 3:"
               id="3"
+              keyToUse="title"
               options={this.props.questionOptions}
             />
             <Dropdown
               label="Question 4:"
               id="4"
+              keyToUse="title"
               options={this.props.questionOptions}
             />
             <Dropdown
               label="Question 5:"
               id="5"
+              keyToUse="title"
               options={this.props.questionOptions}
             />
           </Col>
