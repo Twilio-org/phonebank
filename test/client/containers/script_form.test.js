@@ -3,7 +3,6 @@ import { mount, shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
-// import ScriptForm from '../../../public/src/components/script_form';
 import ScriptNewFormContainer from '../../../public/src/containers/script_form';
 import store from '../../../public/src/store';
 
