@@ -6,10 +6,17 @@ import OptionPlus from '../components/form/option_plus';
 
 module.exports = {
   renderQuestionField(field) {
-    const errorClass = `${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
+    let errorClass = '';
+    if (field.meta.touched && field.meta.error) {
+      errorClass = 'error';
+    } else if (field.meta.touched) {
+      errorClass = 'success';
+    }
+    const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <FieldGroup
-        className={errorClass}
+        errorClass={errorClass}
+        errorText={errorText}
         type="text"
         name={field.name}
         label={field.label}
@@ -20,10 +27,17 @@ module.exports = {
     );
   },
   renderQuestionTextArea(field) {
-    const errorClass = `${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
+    let errorClass = '';
+    if (field.meta.touched && field.meta.error) {
+      errorClass = 'error';
+    } else if (field.meta.touched) {
+      errorClass = 'success';
+    }
+    const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <TextArea
-        className={errorClass}
+        errorClass={errorClass}
+        errorText={errorText}
         name={field.name}
         label={field.label}
         help={field.helpText}
@@ -33,10 +47,17 @@ module.exports = {
     );
   },
   renderQuestionTypeDropdown(field) {
-    const errorClass = `${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
+    let errorClass = '';
+    if (field.meta.touched && field.meta.error) {
+      errorClass = 'error';
+    } else if (field.meta.touched) {
+      errorClass = 'success';
+    }
+    const errorText = field.meta.touched ? field.meta.error : '';
     return (
       <Dropdown
-        className={errorClass}
+        errorClass={errorClass}
+        errorText={errorText}
         name={field.name}
         label={field.label}
         help={field.helpText}
@@ -47,10 +68,8 @@ module.exports = {
     );
   },
   renderQuestionOption(field) {
-    const errorClass = `${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
     return (
       <OptionPlus
-        className={errorClass}
         type="text"
         name={`${field.name}-${field.num}`}
         label={field.label}

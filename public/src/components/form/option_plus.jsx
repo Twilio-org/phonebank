@@ -11,7 +11,7 @@ const OptionPlus = (fieldProps) => {
           <FormControl {...props} />
         </Col>
         <Col md={4}>
-          <Button onClick={removeOnClick} id={`remove-option-btn-${num}`} bsStyle="danger" bsSize="small">Remove</Button>
+          <Button onClick={removeOnClick} id={`remove-option-btn-${num}`} bsStyle="danger" bsSize="xsmall">Remove</Button>
         </Col>
       </Row>
     </FormGroup>

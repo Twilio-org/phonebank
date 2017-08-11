@@ -1,12 +1,15 @@
 import axios from 'axios';
 
 export default function createQuestion(questionInfo, history) {
-  const { title, description, type } = questionInfo;
-  // let responses = questionInfo.option1;
-  // refactor responses later
-  const responses = `${questionInfo.option1},${questionInfo.option2},${questionInfo.option3},${questionInfo.option4},${questionInfo.option5}`;
-
-  console.log('THIS IS RESPONSES FROM ACTION \n ====================================== \n', responses);
+  const { title, description } = questionInfo;
+  const type = questionInfo.type.toLowerCase();
+  // Create single string for all options
+  const keys = Object.keys(questionInfo);
+  const options = keys.filter(key => key.indexOf('option') >= 0);
+  let responses = '';
+  if (options.length > 0) {
+    responses = options.reduce((response, option) => `${response + questionInfo[option]},`, responses);
+  }
   return () => axios.post('/questions', {
     title,
     description,

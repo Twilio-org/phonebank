@@ -9,8 +9,9 @@ export default class QuestionForm extends Component {
     this.removeOption = this.removeOption.bind(this);
   }
   removeOption(e) {
-    const clickedButton = e.target;
-    const currentOptionDiv = clickedButton.parentNode.parentNode.parentNode;
+    const currentOptionDiv = e.target.parentNode.parentNode.parentNode;
+    const optionName = currentOptionDiv.getElementsByTagName('input')[0].name;
+    this.props.change(optionName, '');
     currentOptionDiv.remove();
   }
   render() {
@@ -31,8 +32,7 @@ export default class QuestionForm extends Component {
       name: 'type',
       label: 'Type',
       component: renderQuestionTypeDropdown,
-      helpText: 'Select type of question',
-      options: ['Select', 'Paragraph', 'Multi select', 'Single select']
+      options: ['Select', 'Paragraph', 'Singleselect', 'Multiselect']
     };
     const optionProps = {
       label: 'Option',
@@ -51,7 +51,7 @@ export default class QuestionForm extends Component {
         </Row>
         <Row>
           <Col md={12}>
-            { type && type !== 'Paragraph' && type !== 'Select' &&
+            { type && type !== 'paragraph' && type !== 'select' &&
               <Row>
                 <Col md={12}>
                   <h2>Responses</h2>

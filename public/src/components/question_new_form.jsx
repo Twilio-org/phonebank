@@ -7,7 +7,6 @@ export default class QuestionNewForm extends Component {
     this.formSubmit = this.formSubmit.bind(this);
   }
   formSubmit(values) {
-    console.log('This is value =====>', values);
     const { history } = this.props;
     this.props.createQuestion(values, history);
   }

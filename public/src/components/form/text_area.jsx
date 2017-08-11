@@ -1,18 +1,34 @@
 import React from 'react';
-import { FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { FormControl, FormGroup, ControlLabel, HelpBlock, Row, Col, Popover } from 'react-bootstrap';
 
 const TextArea = (textAreaProps) => {
-  const { label, help, placeholder, ...props } = textAreaProps;
+  const { label, help, placeholder, errorClass, errorText, ...props } = textAreaProps;
   return (
-    <FormGroup>
-      <ControlLabel>{label}</ControlLabel>
-      {help && <HelpBlock>{help}</HelpBlock>}
-      <FormControl
-        componentClass="textarea"
-        placeholder={placeholder}
-        {...props}
-      />
-    </FormGroup>
+    <Row>
+      <Col md={8}>
+        <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''} >
+          <ControlLabel>{label}</ControlLabel>
+          {help && <HelpBlock>{help}</HelpBlock>}
+          <FormControl
+            componentClass="textarea"
+            placeholder={placeholder}
+            {...props}
+          />
+        </FormGroup>
+      </Col>
+      <Col md={4}>
+        <FormGroup>
+          {errorText && <Popover
+            id={`popover${label}`}
+            placement="right"
+            positionLeft={20}
+            positionTop={50}
+          >
+            {errorText}
+          </Popover>}
+        </FormGroup>
+      </Col>
+    </Row>
   );
 };
 

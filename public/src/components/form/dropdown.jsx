@@ -1,26 +1,40 @@
 import React from 'react';
-import { FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { FormControl, FormGroup, ControlLabel, HelpBlock, Popover, Row, Col } from 'react-bootstrap';
 
 const Dropdown = (dropdownProps) => {
-  const { label, help, options, placeholder, ...props } = dropdownProps;
+  const { label, help, options, placeholder, errorClass, errorText, ...props } = dropdownProps;
   function renderOptions() {
     if (options) {
-      return options.map(op => (<option id={op} key={op} value={op}>{op}</option>));
+      return options.map(op => (<option id={op} key={op} value={op.toLowerCase()}>{op}</option>));
     }
     return '';
   }
   return (
-    <FormGroup>
-      <ControlLabel>{label}</ControlLabel>
-      {help && <HelpBlock>{help}</HelpBlock>}
-      <FormControl
-        componentClass="select"
-        placeholder={placeholder}
-        {...props}
-      >
-        {renderOptions()}
-      </FormControl>
-    </FormGroup>
+    <Row>
+      <Col md={8}>
+        <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''}>
+          <ControlLabel>{label}</ControlLabel>
+          {help && <HelpBlock>{help}</HelpBlock>}
+          <FormControl
+            componentClass="select"
+            placeholder={placeholder}
+            {...props}
+          >
+            {renderOptions()}
+          </FormControl>
+        </FormGroup>
+      </Col>
+      <Col md={4}>
+        {errorText && <Popover
+          id={`popover${label}`}
+          placement="right"
+          positionLeft={20}
+          positionTop={20}
+        >
+          {errorText}
+        </Popover>}
+      </Col>
+    </Row>
   );
 };
 export default Dropdown;
