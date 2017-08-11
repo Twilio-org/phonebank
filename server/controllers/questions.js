@@ -18,7 +18,7 @@ export function createNewQuestion(req, res, next) {
 }
 
 export function fetchAllQuestions(req, res, next) {
-  return questionsService.getAllQuestions(QuestionsModel)
+  return questionsService.getAllQuestions()
     .then((questions) => {
       if (questions) {
         res.status(200).json(questions);

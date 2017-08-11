@@ -10,7 +10,7 @@ export function saveNewCampaign(req, res) {
       status,
       script_id,
       contact_lists_id
-    }, campaignModel)
+    })
     .then((campaign) => {
       if (campaign) {
         res.status(201).json({ message: 'Campaign successfully created' });
