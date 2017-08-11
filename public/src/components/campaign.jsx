@@ -5,12 +5,22 @@ import { withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import renderField from '../helpers/formHelpers';
 import saveNewCampaign from '../actions/campaign';
+import fetchAllScripts from '../actions/campaign_form';
+import Dropdown from './Dropdown'
 
 class CampaignPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+
+  componentWillMount() {
+    this.props.fetchAllScripts();
+    // console.log(this.props);
+  }
+
+
 
   onSubmit(values) {
     const { history } = this.props;
@@ -63,6 +73,6 @@ export default withRouter(
     validate,
     form: 'CampaignPage'
   })(
-    connect(mapStateToProps, { saveNewCampaign })(CampaignPage)
+    connect(mapStateToProps, { saveNewCampaign, fetchAllScripts })(CampaignPage)
   )
 );
