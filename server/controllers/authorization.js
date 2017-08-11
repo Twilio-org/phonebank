@@ -1,15 +1,5 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
-import bookshelfBcrypt from 'bookshelf-bcrypt';
 import genToken from '../config/auth/jwt';
 import usersService from '../db/services/users';
-import { development as devconfig } from '../../knexfile';
-import User from '../db/models/users';
-// import bookshelfCreateTable from '../db/init';
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-bookshelf.plugin(bookshelfBcrypt);
-const UsersModel = User(bookshelf);
 
 export function register(req, res, next) {
   const userParams = {
@@ -20,7 +10,7 @@ export function register(req, res, next) {
     phoneNumber: req.body.phone_number
   };
 
-  usersService.saveNewUser(userParams, UsersModel)
+  usersService.saveNewUser(userParams)
     .then((user) => {
       if (user) {
         res.status(201).json({ message: 'Registration Successful' });

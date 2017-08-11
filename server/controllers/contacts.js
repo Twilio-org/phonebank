@@ -1,12 +1,4 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import contactsService from '../db/services/contacts';
-import { development as devconfig } from '../../knexfile';
-import Contact from '../db/models/contacts';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-const ContactsModel = Contact(bookshelf);
 
 export function saveNewContact(req, res, next) {
   const contactParams = {
@@ -17,7 +9,7 @@ export function saveNewContact(req, res, next) {
     external_id: req.body.external_id
   };
 
-  return contactsService.saveNewContact(contactParams, ContactsModel)
+  return contactsService.saveNewContact(contactParams)
     .then((contact) => {
       if (contact) {
         res.status(201).json({ message: 'Contact creation successful' });
@@ -36,7 +28,7 @@ export function getContactById(req, res, next) {
     id: req.params.id
   };
 
-  return contactsService.getContactByExternalId(params, ContactsModel)
+  return contactsService.getContactByExternalId(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
@@ -54,7 +46,7 @@ export function getContactByExternalId(req, res, next) {
     external_id: req.body.external_id
   };
 
-  return contactsService.getContactByExternalId(params, ContactsModel)
+  return contactsService.getContactByExternalId(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
@@ -72,7 +64,7 @@ export function getContactByPhoneNumber(req, res, next) {
     phone_number: req.body.phone_number
   };
 
-  return contactsService.getContactByPhoneNumber(params, ContactsModel)
+  return contactsService.getContactByPhoneNumber(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
@@ -96,7 +88,7 @@ export function updateContactById(req, res, next) {
     do_not_call: req.body.do_not_call,
     is_invalid_number: req.body.is_invalid_number
   };
-  return contactsService.updateContactById(params, ContactsModel)
+  return contactsService.updateContactById(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
@@ -114,7 +106,7 @@ export function updateContactDoNotCallById(req, res, next) {
     id: req.params.id,
     do_not_call: true
   };
-  return contactsService.updateContactById(params, ContactsModel)
+  return contactsService.updateContactById(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
@@ -132,7 +124,7 @@ export function updateContactInvalidNumberById(req, res, next) {
     id: req.params.id,
     is_invalid_number: true
   };
-  return contactsService.updateContactById(params, ContactsModel)
+  return contactsService.updateContactById(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);

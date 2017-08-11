@@ -1,18 +1,10 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import { saveNewQuestion, getAllQuestions, getQuestionById } from '../db/services/questions';
-import Question from '../db/models/questions';
-import { development as devconfig } from '../../knexfile';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-const QuestionsModel = Question(bookshelf);
 
 export function createNewQuestion(req, res, next) {
   const { title, description, type, responses } = req.body;
   const params = { title, description, type, responses };
 
-  return saveNewQuestion(params, QuestionsModel)
+  return saveNewQuestion(params)
     .then((question) => {
       if (question) {
         res.status(200).json(question);

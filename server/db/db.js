@@ -1,9 +1,13 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
-import { development as devconfig } from '../../knexfile';
+import bookshelfModule from 'bookshelf';
+import knexModule from 'knex';
 
-const knex = knexModule(devconfig);
+const config = {
+  client: 'pg',
+  connection: process.env.PG_CONNECTION_STRING,
+  debug: process.env.DEBUG
+};
+const knex = knexModule(config);
 const bookshelf = bookshelfModule(knex);
 bookshelf.plugin(bookshelfBcrypt);
 
@@ -138,3 +142,5 @@ bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
     }).catch(err => console.log('Error creating campaigns table', err));
   }
 });
+
+export default bookshelf;

@@ -1,10 +1,11 @@
+import Campaign from '../models/campaigns';
+
 export default {
-  saveNewCampaign: (params, Model) => {
+  saveNewCampaign: (params) => {
     const { name, title, description, status, script_id, contact_lists_id } = params;
 
-    return new Model({ name, title, description, status, script_id, contact_lists_id }).save();
+    return new Campaign({ name, title, description, status, script_id, contact_lists_id }).save();
   },
 
-  getAllCampaigns: (params, Model) =>
-    new Model().fetchAll()
+  getAllCampaigns: () => new Campaign().fetchAll()
 };
