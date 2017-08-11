@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import renderField from '../helpers/formHelpers';
 import saveNewCampaign from '../actions/campaign';
-import fetchAllScripts from '../actions/campaign_form';
-import Dropdown from './Dropdown'
+import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
+// import Dropdown from './Dropdown';
 
 class CampaignPage extends Component {
   constructor(props) {
@@ -15,11 +15,10 @@ class CampaignPage extends Component {
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchAllScripts();
-    // console.log(this.props);
+    this.props.fetchAllContactLists();
   }
-
 
 
   onSubmit(values) {
@@ -73,6 +72,6 @@ export default withRouter(
     validate,
     form: 'CampaignPage'
   })(
-    connect(mapStateToProps, { saveNewCampaign, fetchAllScripts })(CampaignPage)
+    connect(mapStateToProps, { saveNewCampaign, fetchAllScripts, fetchAllContactLists })(CampaignPage)
   )
 );
