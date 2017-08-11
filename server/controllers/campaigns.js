@@ -10,9 +10,11 @@ export function saveNewCampaign(req, res) {
       status,
       script_id,
       contact_lists_id
-    })
-    .then(() => {
-      res.status(201).json({ message: 'Campaign successfully created' });
+    }, campaignModel)
+    .then((campaign) => {
+      if (campaign) {
+        res.status(201).json({ message: 'Campaign successfully created' });
+      }
     })
     .catch((err) => {
       res.status(500).json({

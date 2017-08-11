@@ -8,16 +8,19 @@ import '../stylesheets/app.less';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
+import CampaignsContainer from './containers/CampaignsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
 import { ConnectedAccountPage } from './components/account';
-import { authTransition } from './actions/login';
+
+import { authTransition, checkIfAdmin } from './actions/login';
 
 const Root = () => {
-  // checks if user id !==null and if authToken exists in localStorage;
-  // will refactor to separate concerns;
   const isLoggedIn = authTransition.bind(null, store);
+  const isAdmin = checkIfAdmin.bind(null, store);
+
+  const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
 
   return (
     <Provider store={store}>
@@ -50,9 +53,17 @@ const Root = () => {
               }
             />
             <Route
+              path="/campaigns"
+              render={
+                () => (isLoggedIn() && isAdmin() ?
+                  (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              exact
               path="/"
               render={
-               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
+               () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
               }
             />
           </Switch>
