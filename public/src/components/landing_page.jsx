@@ -12,8 +12,7 @@ class LandingPage extends Component {
         <Col md={12}>
           <PageHeader>Phonebank</PageHeader>
           <p className="lead">A phone banking solution powered by Twilio</p>
-          <Link to={`/account/${id}`}>View Account Details</Link>
-          <Link to={'/campaigns'}>View Campaigns</Link>
+          <Link to={`/account/${id}`}>View Account Details</Link><br />
         </Col>
       </Row>
     );
