@@ -3,7 +3,7 @@ import CampaignButtonGroup from './campaigns_btngrp';
 // import { Button, Table } from 'react-bootstrap';
 
 const TableRow = (props) => {
-  const { name, title, description, status, script_id, created_at } = props.campaign;
+  const { name, title, description, status, script_id, created_at, contact_lists_id } = props.campaign;
   return (
     <tr>
       <td>{name}</td>
@@ -11,6 +11,7 @@ const TableRow = (props) => {
       <td>{description}</td>
       <td>{status}</td>
       <td>{script_id}</td>
+      <td>{contact_lists_id}</td>
       <td>{created_at}</td>
       <td><CampaignButtonGroup {...props} /></td>
     </tr>
