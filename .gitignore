@@ -44,6 +44,9 @@ typings/
 # Optional npm cache directory
 .npm
 
+# knexfile
+knexfile.js
+
 # Optional eslint cache
 .eslintcache
 

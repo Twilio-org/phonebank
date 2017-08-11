@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import thunk from 'redux-thunk';
@@ -23,4 +23,6 @@ const rootReducer = (state, action) => {
 
 const middleware = [immutable(), createLogger(), promise(), thunk];
 
-module.exports = createStore(rootReducer, applyMiddleware(...middleware));
+const store = createStore(rootReducer, compose(applyMiddleware(...middleware)));
+
+export default store;

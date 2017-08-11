@@ -10,7 +10,7 @@ bookshelf.plugin(bookshelfBcrypt);
 bookshelf.knex.schema.hasTable('users').then((exist) => {
   if (!exist) {
     bookshelf.knex.schema.createTable('users', (table) => {
-      table.increments();
+      table.increments('id').primary();
       table.string('email').notNullable().unique().index();
       table.string('first_name').notNullable();
       table.string('last_name').notNullable();
@@ -19,11 +19,58 @@ bookshelf.knex.schema.hasTable('users').then((exist) => {
       table.boolean('is_admin').defaultTo(false);
       table.boolean('is_banned').defaultTo(false);
       table.boolean('is_active').defaultTo(true);
-      table.timestamp('date_created').defaultTo(bookshelf.knex.fn.now());
-      table.timestamp('date_updated').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
     }).then(() => {
       console.log('Created users table');
-    });
+    }).catch(err => console.log('Error creating users table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('contacts').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('contacts', (table) => {
+      table.increments('id').primary();
+      table.string('external_id').nullable();
+      table.string('first_name').notNullable();
+      table.string('last_name').nullable();
+      table.string('email').nullable();
+      table.string('phone_number').notNullable().unique().index();
+      table.boolean('is_invalid_number').defaultTo(false);
+      table.boolean('do_not_call').defaultTo(false);
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created contacts table'));
+    }).catch(err => console.log('Error creating contacts table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('contact_lists').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('contact_lists', (table) => {
+      table.increments('id').primary();
+      table.string('name').notNullable().unique();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created contact_lists table'));
+    }).catch(err => console.log('Error creating contact_lists table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('contacts_contact_lists').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('contacts_contact_lists', (table) => {
+      table.increments('id').primary();
+      table.integer('contact_id').references('contacts.id').notNullable();
+      table.integer('contact_list_id').references('contact_lists.id').notNullable();
+      table.unique(['contact_id', 'contact_list_id']);
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created contacts_contact_lists table'));
+    }).catch(err => console.log('Error creating contacts_to_contact_lists table', err));
   }
 });
 
@@ -69,7 +116,25 @@ bookshelf.knex.schema.hasTable('questions_scripts').then((exist) => {
       table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
       table.unique(['script_id', 'question_id']);
     }).then(() => {
-      console.log('Created scripts_to_questions table');
-    }).catch(err => console.log('Error creating scripts_to_questions table', err));
+      console.log('Created questions_scripts table');
+    }).catch(err => console.log('Error creating questions_scripts table', err));
+  }
+});
+
+bookshelf.knex.schema.hasTable('campaigns').then((exist) => {
+  if (!exist) {
+    bookshelf.knex.schema.createTable('campaigns', (table) => {
+      table.increments('id').primary();
+      table.string('name').notNullable().unique().index();
+      table.string('title').notNullable();
+      table.string('description').notNullable();
+      table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
+      table.integer('contact_lists_id').references('contact_lists.id').notNullable();
+      table.integer('script_id').references('scripts.id').notNullable();
+      table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+      table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+    }).then(() => {
+      console.log(('Created campaigns table'));
+    }).catch(err => console.log('Error creating campaigns table', err));
   }
 });
