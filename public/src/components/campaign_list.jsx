@@ -30,7 +30,7 @@ export default class CampaignList extends Component {
           </thead>
 
           <tbody>
-            {!!all_campaigns.length ?
+            {all_campaigns.length ?
               all_campaigns.map(campaign =>
                 (<TableRow
                   campaign={campaign}
