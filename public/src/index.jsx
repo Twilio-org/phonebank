@@ -13,6 +13,7 @@ import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
 import { ConnectedAccountPage } from './components/account';
+import { ScriptPage } from './components/script';
 
 import { authTransition, checkIfAdmin } from './actions/login';
 
@@ -58,6 +59,10 @@ const Root = () => {
                 () => (isLoggedIn() && isAdmin() ?
                   (<CampaignsContainer />) : (<Redirect to="/login" />))
               }
+            />
+            <Route
+              path="/scripts/:id"
+              render={() => <ScriptPage />}
             />
             <Route
               exact

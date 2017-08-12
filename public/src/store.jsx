@@ -9,12 +9,14 @@ import { createLogger } from 'redux-logger';
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
 import { campaignListReducer } from './reducers/campaign';
+import { scriptInfoReducer } from './reducers/script';
 
 const appReducer = combineReducers({
   form: formReducer,
   auth: authStatusReducer,
   account_info: accountInfoReducer,
-  campaigns: campaignListReducer
+  campaigns: campaignListReducer,
+  script: scriptInfoReducer
 });
 
 const rootReducer = (state, action) => {
