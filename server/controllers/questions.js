@@ -40,8 +40,8 @@ export function fetchAllQuestions(req, res, next) {
 }
 
 export function fetchQuestionById(req, res, next) {
-  const { id } = req.body;
-  return questionsService.getQuestionById({ id })
+  const { id } = req.params;
+  return questionsService.getQuestionById({ id }, QuestionsModel)
     .then((question) => {
       if (question) {
         res.status(200).json(question);

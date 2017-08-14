@@ -1,37 +1,26 @@
 import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
-const CampaignButtonGroup = (props) => {
+const QuestionsButtonGroup = (props) => {
   const buttons = [
     {
       key: 1,
-      text: 'Call Page',
+      text: 'View',
       size: 'xsmall',
       style: 'primary',
-      handler: () => {}
+      handler: () => {
+        const { question } = props;
+        props.handleEditClick(question);
+      }
     },
     {
       key: 2,
-      text: 'Call Report',
-      size: 'xsmall',
-      style: 'success',
-      handler: () => {}
-    },
-    {
-      key: 3,
-      text: 'Release Calls',
-      size: 'xsmall',
-      style: 'warning',
-      hanlder: () => {}
-    },
-    {
-      key: 4,
       text: 'Edit',
       size: 'xsmall',
       style: 'danger',
       handler: () => {
-        const { campaign } = props;
-        props.handleEditClick(campaign);
+        const { question } = props;
+        props.handleEditClick(question);
       }
     }
   ];
@@ -55,6 +44,6 @@ const CampaignButtonGroup = (props) => {
   );
 };
 
-CampaignButtonGroup.displayName = 'CampaignButtonGroup';
+QuestionsButtonGroup.displayName = 'QuestionsButtonGroup';
 
-export default CampaignButtonGroup;
+export default QuestionsButtonGroup;

@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-import TableRow from './campaign_table_row';
+import ScriptsTableRow from './scripts_table_row';
 import AdminDashboardButtonGroup from './admin_nav_btn_group';
 import AdminBanner from './admin_welcome_banner';
 import CreateNewButton from './admin_createNew_btn';
 
-export default class CampaignList extends Component {
+export default class ScriptsList extends Component {
   componentDidMount() {
-    this.props.fetchAllCampaigns();
+    this.props.fetchAllScripts();
   }
 
   render() {
-    const { all_campaigns, account_info: { last_name, first_name }, history } = this.props;
-    const thisPage = 'Campaign';
-
+    const { all_scripts, account_info: { last_name, first_name }, history } = this.props;
+    const thisPage = 'Script';
     return (
       <div>
         <AdminBanner
@@ -26,40 +25,37 @@ export default class CampaignList extends Component {
         <div>
           <AdminDashboardButtonGroup history={this.props.history} />
         </div>
-
         <Table responsive>
           <thead>
             <tr>
               <th>Name</th>
-              <th>Title</th>
+              <th>Body</th>
               <th>Description</th>
-              <th>Status</th>
-              <th>Script Id</th>
-              <th>Contact List</th>
-              <th>Date Created</th>
+              <th>Created At</th>
+              <th>Updated At</th>
               <th />
             </tr>
           </thead>
 
           <tbody>
-            {all_campaigns.length ?
-              all_campaigns.map(campaign =>
-                (<TableRow
-                  campaign={campaign}
-                  handleEditClick={this.props.setCurrentCampaign}
-                  key={campaign.id}
-                />)
+            {all_scripts && all_scripts.length ?
+              all_scripts.map(script =>
+                (
+                  <ScriptsTableRow
+                    script={script}
+                    key={script.id}
+                    handleEditClick={this.props.setCurrentScript}
+                  />
+                )
               ) :
               (<tr />)
             }
           </tbody>
         </Table>
         <div>
-          <CreateNewButton {...this.props} page={thisPage} />
+          <CreateNewButton {...this.props} page={thisPage} path={'/admin/scripts/new'} />
         </div>
       </div>
     );
   }
 }
-
-// admin/campaign/new (create new campaign redirect)
