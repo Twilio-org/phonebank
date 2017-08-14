@@ -44,7 +44,7 @@ export function postScript(script, questions, history) {
       });
     })
     .then(() => {
-      history.push('/campaigns');
+      history.goBack();
     })
     .catch((err) => {
       const customError = {

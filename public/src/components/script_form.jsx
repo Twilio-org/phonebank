@@ -8,6 +8,7 @@ export default class ScriptForm extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleCreateQuestion = this.handleCreateQuestion.bind(this);
     this.renderDropdowns = this.renderDropdowns.bind(this);
   }
 
@@ -35,6 +36,10 @@ export default class ScriptForm extends Component {
     });
 
     this.props.postScript(script, questions, history);
+  }
+
+  handleCreateQuestion() {
+    this.props.history.push('/admin/questions/new');
   }
 
   renderDropdowns() {
@@ -138,7 +143,12 @@ export default class ScriptForm extends Component {
           {this.renderDropdowns()}
           <Row>
             <Col xs={4}>
-              <Button bsStyle="success">Create New Question</Button>
+              <Button
+                bsStyle="success"
+                onClick={this.handleCreateQuestion}
+              >
+                Create New Question
+              </Button>
             </Col>
             <Col xs={6}>
               <ButtonToolbar>
