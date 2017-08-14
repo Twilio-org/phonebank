@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import renderField from '../helpers/formHelpers';
+import { renderField } from '../helpers/formHelpers';
 import { loginUser } from '../actions/login';
 
 class LogInForm extends Component {
