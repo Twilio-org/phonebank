@@ -1,18 +1,19 @@
 import axios from 'axios';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
 import { destroy } from 'redux-form';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
 
 export function saveNewCampaign(campaignInfo, history) {
   const { name, title, description, script_id, contact_lists_id } = campaignInfo;
+  const status = 'draft';
 
   return dispatch => axios.post('/campaigns',
     {
-      name: name,
-      title: title,
-      description: description,
-      status: 'draft',
-      script_id: script_id,
-      contact_lists_id: contact_lists_id
+      name,
+      title,
+      description,
+      script_id,
+      contact_lists_id,
+      status
     },
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )
@@ -28,8 +29,7 @@ export function saveNewCampaign(campaignInfo, history) {
     };
     throw customError;
   });
-} 
-
+}
 
 export function setCampaignsList(campaignsList) {
   return {
