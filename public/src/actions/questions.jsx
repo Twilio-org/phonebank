@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
 
 export default function createQuestion(questionInfo, history) {
   const { title, description } = questionInfo;
@@ -10,14 +11,15 @@ export default function createQuestion(questionInfo, history) {
   if (options.length > 0) {
     responses = options.reduce((response, option) => `${response + questionInfo[option]},`, responses);
   }
-  return () => axios.post('/questions', {
+  return dispatch => axios.post('/questions', {
     title,
     description,
     type,
     responses
   })
   .then((res) => {
-    history.back();
+    history.goBack();
+    dispatch(destroy('QuestionNew'));
     return res;
   })
   .catch((err) => {
