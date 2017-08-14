@@ -11,7 +11,6 @@ import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
 import { scriptOptionsReducer, contactListOptionsReducer, campaignListReducer } from './reducers/campaign';
 import { questionOptionsReducer } from './reducers/script_form';
-import { campaignListReducer } from './reducers/campaign';
 import { adminQuestionsReducer } from './reducers/admin_questions';
 import { adminScriptsReducer } from './reducers/admin_scripts';
 

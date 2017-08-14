@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
-
 export default class CreateNewButton extends Component {
   constructor(props) {
     super(props);
