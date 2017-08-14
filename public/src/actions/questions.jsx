@@ -17,8 +17,7 @@ export default function createQuestion(questionInfo, history) {
     responses
   })
   .then((res) => {
-    history.push('/');
-    console.log(res);
+    history.back();
     return res;
   })
   .catch((err) => {
