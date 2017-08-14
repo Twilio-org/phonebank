@@ -1,8 +1,8 @@
 import React from 'react';
-// import { Button, Table } from 'react-bootstrap';
+import QuestionsButtonGroup from './questions_btngrp';
 
 const QuestionTableRow = (props) => {
-  const { title, description, type, responses } = props.question;
+  const { title, description, type, responses, created_at, updated_at } = props.question;
   
   return (
     <tr>
@@ -10,7 +10,9 @@ const QuestionTableRow = (props) => {
       <td>{description}</td>
       <td>{type}</td>
       <td>{responses}</td>
-      <td>Buttons to edit here</td>
+      <td>{created_at}</td>
+      <td>{updated_at}</td>
+      <td> <QuestionsButtonGroup {...props} /></td>
     </tr>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Button, Table } from 'react-bootstrap';
+import ScriptButtonGroup from './scripts_btngrp';
 
 const ScriptsTableRow = (props) => {
   const { name, body, description, created_at, updated_at } = props.script;
@@ -11,7 +11,7 @@ const ScriptsTableRow = (props) => {
       <td>{description}</td>
       <td>{created_at}</td>
       <td>{updated_at}</td>
-
+      <td> <ScriptButtonGroup {...props} /> </td>
     </tr>
   );
 };

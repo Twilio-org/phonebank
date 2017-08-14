@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 import TableRow from './campaign_table_row';
+import AdminDashboardButtonGroup from './admin_nav_btn_group';
+import AdminBanner from './admin_welcome_banner';
+import CreateNewButton from './admin_createNew_btn';
 
 export default class CampaignList extends Component {
   componentDidMount() {
@@ -10,13 +12,18 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns, account_info: { last_name, first_name } } = this.props;
+    const { all_campaigns, account_info: { last_name, first_name }, history } = this.props;
+    const thisPage = 'Campaign';
     return (
       <div>
-        <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
-        <Button bsSize="xsmall">Create New Campaign</Button>
+        <AdminBanner
+          first_name={first_name}
+          last_name={last_name}
+          history={history}
+          page={thisPage}
+        />
         <div>
-          <Link to="/admin_questions">View All Questions</Link>
+          <AdminDashboardButtonGroup history={this.props.history} />
         </div>
 
         <Table responsive>
@@ -46,6 +53,9 @@ export default class CampaignList extends Component {
             }
           </tbody>
         </Table>
+        <div>
+          <CreateNewButton {...this.props} page={thisPage} />
+        </div>
       </div>
     );
   }

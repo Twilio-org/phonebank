@@ -8,7 +8,7 @@ export function setQuestionList(questionList) {
   };
 }
 
-export function setCurentQuestion(questionDataObj) {
+export function setCurrentQuestion(questionDataObj) {
   return {
     type: SET_QUESTION_CURRENT,
     payload: questionDataObj

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 import QuestionTableRow from './questions_table_row';
+import AdminDashboardButtonGroup from './admin_nav_btn_group';
+import AdminBanner from './admin_welcome_banner';
+import CreateNewButton from './admin_createNew_btn';
 
 export default class QuestionsList extends Component {
   componentDidMount() {
@@ -10,15 +12,19 @@ export default class QuestionsList extends Component {
   }
 
   render() {
-    const { all_questions, account_info: { last_name, first_name } } = this.props;
+    const { all_questions, account_info: { last_name, first_name }, history } = this.props;
+    const thisPage = 'Question';
 
     return (
       <div>
-        <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
-        <Button bsSize="xsmall">Create New Phone Bank</Button>
+        <AdminBanner
+          first_name={first_name}
+          last_name={last_name}
+          history={history}
+          page={thisPage}
+        />
         <div>
-          <Link to="/campaigns">View All Questions</Link>
-          <Link to="/admin_scripts">View All Scripts</Link>
+          <AdminDashboardButtonGroup history={history} />
         </div>
         <Table responsive>
           <thead>
@@ -40,6 +46,7 @@ export default class QuestionsList extends Component {
                   <QuestionTableRow
                     question={question}
                     key={question.id}
+                    handleEditClick={this.props.setCurrentQuestion}
                   />
                 )
               ) :
@@ -47,6 +54,9 @@ export default class QuestionsList extends Component {
             }
           </tbody>
         </Table>
+        <div>
+          <CreateNewButton {...this.props} page={thisPage} />
+        </div>
       </div>
     );
   }

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 
 import ScriptsTableRow from './scripts_table_row';
+import AdminDashboardButtonGroup from './admin_nav_btn_group';
+import AdminBanner from './admin_welcome_banner';
+import CreateNewButton from './admin_createNew_btn';
 
 export default class ScriptsList extends Component {
   componentDidMount() {
@@ -10,17 +12,18 @@ export default class ScriptsList extends Component {
   }
 
   render() {
-    console.log(this.props, '&&&&&&&')
-    const { all_scripts, account_info: { last_name, first_name } } = this.props;
-    // console.log(all_scripts, '%%%%%%%%' )
-
+    const { all_scripts, account_info: { last_name, first_name }, history } = this.props;
+    const thisPage = 'Script';
     return (
       <div>
-        <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
-        <Button bsSize="xsmall">Create New Phone Bank</Button>
+        <AdminBanner
+          first_name={first_name}
+          last_name={last_name}
+          history={history}
+          page={thisPage}
+        />
         <div>
-          <Link to="/campaigns">View All Campaigns</Link>
-          <Link to="/admin_questions">View All Questions</Link>
+          <AdminDashboardButtonGroup history={this.props.history} />
         </div>
         <Table responsive>
           <thead>
@@ -41,6 +44,7 @@ export default class ScriptsList extends Component {
                   <ScriptsTableRow
                     script={script}
                     key={script.id}
+                    handleEditClick={this.props.setCurrentScript}
                   />
                 )
               ) :
@@ -48,6 +52,9 @@ export default class ScriptsList extends Component {
             }
           </tbody>
         </Table>
+        <div>
+          <CreateNewButton {...this.props} page={thisPage} />
+        </div>
       </div>
     );
   }
