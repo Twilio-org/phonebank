@@ -20,7 +20,6 @@ export function fetchAllScripts() {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((scripts) => {
-    console.log(scripts, '##### succesfully grabed scrpts')
     const { data: scriptList } = scripts;
     return dispatch(setScriptsList(scriptList));
   })

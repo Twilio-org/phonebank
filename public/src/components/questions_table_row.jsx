@@ -3,7 +3,7 @@ import QuestionsButtonGroup from './questions_btngrp';
 
 const QuestionTableRow = (props) => {
   const { title, description, type, responses, created_at, updated_at } = props.question;
-  
+
   return (
     <tr>
       <td>{title}</td>

@@ -18,11 +18,12 @@ import ScriptNewFormContainer from './containers/script_form';
 import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
 
-import { authTransition, checkIfAdmin } from './actions/login';
+// import { authTransition, checkIfAdmin } from './actions/login';
+import { authTransition } from './actions/login';
 
 const Root = () => {
   const isLoggedIn = authTransition.bind(null, store);
-  const isAdmin = checkIfAdmin.bind(null, store);
+  // const isAdmin = checkIfAdmin.bind(null, store);
 
   // const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
 
@@ -31,7 +32,7 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Switch>
-            <Route 
+            <Route
               path="/admin/questions/new"
               render={() => (isLoggedIn() ?
                 (<QuestionNewFormContainer />) : (<Redirect to="/login" />))}
@@ -104,11 +105,11 @@ const Root = () => {
 
 ReactDOM.render(<Root />, document.getElementById('root'));
 
-
-            // <Route
-            //   exact
-            //   path="/"
-            //   render={
-            //    () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
-            //   }
-            // />
+// TODO: Will be added back later:
+// <Route
+//   exact
+//   path="/"
+//   render={
+//    () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
+//   }
+// />
