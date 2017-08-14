@@ -14,7 +14,7 @@ export default class CampaignList extends Component {
     return (
       <div>
         <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
-        <Button bsSize="xsmall">Create New Phone Bank</Button>
+        <Button bsSize="xsmall">Create New Campaign</Button>
         <div>
           <Link to="/admin_questions">View All Questions</Link>
         </div>
@@ -51,3 +51,4 @@ export default class CampaignList extends Component {
   }
 }
 
+// admin/campaign/new (create new campaign redirect)

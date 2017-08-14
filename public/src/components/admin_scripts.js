@@ -2,31 +2,32 @@ import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import QuestionTableRow from './questions_table_row';
+import ScriptsTableRow from './scripts_table_row';
 
-export default class QuestionsList extends Component {
+export default class ScriptsList extends Component {
   componentDidMount() {
-    this.props.fetchAllQuestions();
+    this.props.fetchAllScripts();
   }
 
   render() {
-    const { all_questions, account_info: { last_name, first_name } } = this.props;
+    console.log(this.props, '&&&&&&&')
+    const { all_scripts, account_info: { last_name, first_name } } = this.props;
+    // console.log(all_scripts, '%%%%%%%%' )
 
     return (
       <div>
         <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
         <Button bsSize="xsmall">Create New Phone Bank</Button>
         <div>
-          <Link to="/campaigns">View All Questions</Link>
-          <Link to="/admin_scripts">View All Scripts</Link>
+          <Link to="/campaigns">View All Campaigns</Link>
+          <Link to="/admin_questions">View All Questions</Link>
         </div>
         <Table responsive>
           <thead>
             <tr>
-              <th>Title</th>
+              <th>Name</th>
+              <th>Body</th>
               <th>Description</th>
-              <th>Type</th>
-              <th>Response Options</th>
               <th>Created At</th>
               <th>Updated At</th>
               <th />
@@ -34,12 +35,12 @@ export default class QuestionsList extends Component {
           </thead>
 
           <tbody>
-            {all_questions && all_questions.length ?
-              all_questions.map(question =>
+            {all_scripts && all_scripts.length ?
+              all_scripts.map(script =>
                 (
-                  <QuestionTableRow
-                    question={question}
-                    key={question.id}
+                  <ScriptsTableRow
+                    script={script}
+                    key={script.id}
                   />
                 )
               ) :

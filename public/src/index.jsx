@@ -10,6 +10,7 @@ import App from './components/app';
 import RegistrationForm from './containers/registration';
 import CampaignsContainer from './containers/CampaignsContainer';
 import AdminQuestionsContainer from './containers/AdminQuestionsContainer';
+import AdminScriptsContainer from './containers/AdminScriptsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
@@ -65,6 +66,13 @@ const Root = () => {
               render={
                 () => (isLoggedIn() && isAdmin() ?
                   (<AdminQuestionsContainer />) : (<Redirect to="/" />))
+              }
+            />
+            <Route
+              path="/admin_scripts"
+              render={
+                () => (isLoggedIn() && isAdmin() ?
+                  (<AdminScriptsContainer />) : (<Redirect to="/" />))
               }
             />
             <Route

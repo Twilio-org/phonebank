@@ -3,7 +3,7 @@ import React from 'react';
 
 const QuestionTableRow = (props) => {
   const { title, description, type, responses } = props.question;
-  console.log('%%%%%',props.question);
+  
   return (
     <tr>
       <td>{title}</td>
