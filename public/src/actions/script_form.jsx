@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { destroy } from 'redux-form'
 import { SET_SCRIPT_FORM_QUESTION_OPTIONS } from '../reducers/script_form';
 
 export function setQuestionOptions(questions) {
@@ -28,7 +29,7 @@ export function postScript(script, questions, history) {
   const { name, description, body } = script;
 
 
-  return () => axios.post('/scripts', {
+  return dispatch => axios.post('/scripts', {
     name,
     body,
     description
@@ -45,6 +46,7 @@ export function postScript(script, questions, history) {
     })
     .then(() => {
       history.goBack();
+      dispatch(destroy(''));
     })
     .catch((err) => {
       const customError = {
