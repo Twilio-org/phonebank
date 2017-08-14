@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
 import { renderField, renderDropdown, renderTextArea } from '../helpers/formHelpers';
-import saveNewCampaign from '../actions/campaign';
+import { saveNewCampaign } from '../actions/campaign';
 import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
 // import Dropdown from './Dropdown';
 

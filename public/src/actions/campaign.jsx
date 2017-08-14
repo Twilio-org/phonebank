@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
+import { destroy } from 'redux-form';
 
-export default function saveNewCampaign(campaignInfo, history) {
+export function saveNewCampaign(campaignInfo, history) {
   const { name, title, description, script_id, contact_lists_id } = campaignInfo;
 
   return dispatch => axios.post('/campaigns',
@@ -14,8 +16,10 @@ export default function saveNewCampaign(campaignInfo, history) {
     },
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )
-  .then(() => {
-    history.push(`/campaign`);
+  .then((res) => {
+    history.goBack();
+    dispatch(destroy('CampaignPage'));
+    return res;
   })
   .catch((err) => {
     const customError = {
@@ -26,19 +30,30 @@ export default function saveNewCampaign(campaignInfo, history) {
   });
 } 
 
-export function getAllCampaigns(history) {
-  return dispatch => axios.get('/campaigns',
-  null,
-  { headers: { 'Authorization': ` JWT ${localStorage.getItem('auth_token')}` } }
-  )
-  .then((res) => {
-    console.log(res);
+
+export function setCampaignsList(campaignsList) {
+  return {
+    type: SET_CAMPAIGNS,
+    payload: campaignsList
+  };
+}
+
+export function setCurrentCampaign(campaignDataObj) {
+  return {
+    type: SET_CAMPAIGN_CURRENT,
+    payload: campaignDataObj
+  };
+}
+
+export function fetchAllCampaigns() {
+  return dispatch => axios.get('/campaigns', {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((campaigns) => {
+    const { data: campaignsList } = campaigns;
+    return dispatch(setCampaignsList(campaignsList));
   })
   .catch((err) => {
-    const customError = {
-      message: `error fetching campaign information: ${err}`,
-      name: 'campaign get request from the campaign component'
-    };
-    throw customError;
+    console.log('error fetching all campaigns from the db: ', err);
   });
 }
