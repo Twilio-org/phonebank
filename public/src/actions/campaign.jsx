@@ -1,5 +1,35 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
 import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
+
+export function saveNewCampaign(campaignInfo, history) {
+  const { name, title, description, script_id, contact_lists_id } = campaignInfo;
+  const status = 'draft';
+
+  return dispatch => axios.post('/campaigns',
+    {
+      name,
+      title,
+      description,
+      script_id,
+      contact_lists_id,
+      status
+    },
+    { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
+  )
+  .then((res) => {
+    history.goBack();
+    dispatch(destroy('CampaignPage'));
+    return res;
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in saving campaign into database: ${err}`,
+      name: 'campaign data post request to campaign component'
+    };
+    throw customError;
+  });
+}
 
 export function setCampaignsList(campaignsList) {
   return {
