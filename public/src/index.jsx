@@ -9,6 +9,7 @@ import '../stylesheets/app.less';
 import App from './components/app';
 import RegistrationForm from './containers/registration';
 import CampaignsContainer from './containers/CampaignsContainer';
+import AdminQuestionsContainer from './containers/AdminQuestionsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
@@ -57,6 +58,13 @@ const Root = () => {
               render={
                 () => (isLoggedIn() && isAdmin() ?
                   (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              path="/admin_questions"
+              render={
+                () => (isLoggedIn() && isAdmin() ?
+                  (<AdminQuestionsContainer />) : (<Redirect to="/" />))
               }
             />
             <Route

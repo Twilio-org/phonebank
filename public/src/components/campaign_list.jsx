@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import TableRow from './campaign_table_row';
 
@@ -14,6 +15,9 @@ export default class CampaignList extends Component {
       <div>
         <h2>Welcome, {first_name} {last_name} to the Admin Campaigns Dashboard!</h2>
         <Button bsSize="xsmall">Create New Phone Bank</Button>
+        <div>
+          <Link to="/admin_questions">View All Questions</Link>
+        </div>
 
         <Table responsive>
           <thead>
