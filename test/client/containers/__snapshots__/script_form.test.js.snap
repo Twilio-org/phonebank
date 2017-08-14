@@ -157,6 +157,7 @@ exports[`<ScriptNewFormContainer /> rendering renders correctly 1`] = `
         <button
           className="btn btn-success"
           disabled={false}
+          onClick={[Function]}
           type="button"
         >
           Create New Question
