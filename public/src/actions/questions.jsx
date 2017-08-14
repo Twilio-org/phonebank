@@ -1,7 +1,32 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
+import { SET_QUESTION_INFO } from '../reducers/question_info';
 
-export default function createQuestion(questionInfo, history) {
+export function setQuestionInfo(question) {
+  return {
+    type: SET_QUESTION_INFO,
+    payload: question
+  };
+}
+export default function fetchQuestion(id) {
+  return dispatch => axios.get(`/questions/${id}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const questionData = res.data;
+    console.log(questionData);
+    return dispatch(setQuestionInfo(questionData));
+    // return questionData;
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error fetching question info in questions action fetchQuestion: ${err}`,
+      name: 'question info get request'
+    };
+    throw customError;
+  });
+}
+export function createQuestion(questionInfo, history) {
   const { title, description } = questionInfo;
   const type = questionInfo.type.toLowerCase();
   // Create single string for all options
