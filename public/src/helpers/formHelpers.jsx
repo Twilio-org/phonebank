@@ -57,6 +57,9 @@ function renderSelectOptions(options, prop) {
   );
 }
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export function renderDropdown(field) {
   const className = `row form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
@@ -68,7 +71,7 @@ export function renderDropdown(field) {
         className="form-control"
         {...field.input}
       >
-        <option>Select Question</option>
+        <option>Select {capitalizeFirstLetter(field.label)}</option>
         {renderSelectOptions(field.options, field.keyToUse)}
       </select>
     </div>
