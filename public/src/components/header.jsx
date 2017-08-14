@@ -16,8 +16,7 @@ export default class Header extends Component {
     if (userId) { // user is logged in aka id present
       links = [
         { title: 'Account', href: `/account/${userId}` },
-        { title: 'Logout', href: '/logout' },
-        { title: 'New Script', href: '/scripts/new' }
+        { title: 'Logout', href: '/logout' }
       ];
       if (this.props.userInfo && this.props.userInfo.is_admin) {
         links.push({ title: 'All Campaigns', href: '/campaigns' });

@@ -29,7 +29,7 @@ const Root = () => {
         <App>
           <Switch>
             <Route
-              path="/newScript"
+              path="/admin/scripts/new"
               render={() => (<ScriptNewFormContainer />)}
             />
             <Route
