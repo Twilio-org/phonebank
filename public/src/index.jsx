@@ -12,6 +12,7 @@ import CampaignsContainer from './containers/CampaignsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
+import ScriptNewFormContainer from './containers/script_form';
 import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
 
@@ -29,6 +30,10 @@ const Root = () => {
         <App>
           <Switch>
             <Route path="/admin/questions/new" component={QuestionNewFormContainer} />
+            <Route
+              path="/admin/scripts/new"
+              render={() => (<ScriptNewFormContainer />)}
+            />
             <Route
               path="/registration"
               render={
