@@ -20,7 +20,6 @@ export function fetchAllScripts() {
     .then((res) => {
       const scripts = res.data;
       dispatch(setScriptOptions(scripts));
-      console.log('SCRIPTS ----->', scripts);
       return scripts;
     })
     .catch((err) => {
@@ -37,7 +36,6 @@ export function fetchAllContactLists() {
     .then((res) => {
       const contactLists = res.data;
       dispatch(setContactListOptions(contactLists));
-      console.log('CONTACT LISTS -------->', contactLists);
       return contactLists;
     })
     .catch((err) => {
