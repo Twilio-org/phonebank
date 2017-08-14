@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Button, ButtonToolbar } from 'react-bootstrap';
-import renderField from '../helpers/formHelpers';
+import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
+import { renderField, renderDropdown, renderTextArea } from '../helpers/formHelpers';
 import saveNewCampaign from '../actions/campaign';
 import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
 // import Dropdown from './Dropdown';
@@ -29,26 +29,43 @@ class CampaignPage extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field
-          name="name"
-          label="Name (internal)"
-          component={renderField}
-        />
-        <Field
-          name="title"
-          label="Title (public)"
-          component={renderField}
-        />
-        <Field
-          name="description"
-          label="Description"
-          component={renderField}
-        />
-        <ButtonToolbar>
-          <Button bsStyle="primary" type="submit">Save Campaign</Button>
-        </ButtonToolbar>
-      </form>
+      <div>
+        <PageHeader>Add Campaign</PageHeader>
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            name="name"
+            label="Name (internal)"
+            component={renderField}
+          />
+          <Field
+            name="title"
+            label="Title (public)"
+            component={renderField}
+          />
+          <Field
+            name="description"
+            label="Description"
+            component={renderTextArea}
+          />
+          {this.props.scriptOptions ? (<Field
+            name="script_id"
+            label="Script"
+            keyToUse="name"
+            component={renderDropdown}
+            options={this.props.scriptOptions}
+          />) : null }
+          {this.props.contactListOptions ? (<Field
+            name="contact_lists_id"
+            label="Contact List"
+            keyToUse="name"
+            component={renderDropdown}
+            options={this.props.contactListOptions}
+          />) : null }
+          <ButtonToolbar>
+            <Button bsStyle="primary" type="submit">Save Campaign</Button>
+          </ButtonToolbar>
+        </form>
+      </div>
     );
   }
 }
@@ -64,7 +81,11 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { auth: state.auth };
+  return {
+    auth: state.auth,
+    scriptOptions: state.campaign_form_scripts.scriptOptions,
+    contactListOptions: state.campaign_form_contact_lists.contactListOptions
+  };
 }
 
 export default withRouter(
@@ -72,6 +93,10 @@ export default withRouter(
     validate,
     form: 'CampaignPage'
   })(
-    connect(mapStateToProps, { saveNewCampaign, fetchAllScripts, fetchAllContactLists })(CampaignPage)
+    connect(mapStateToProps, {
+      saveNewCampaign,
+      fetchAllScripts,
+      fetchAllContactLists
+    })(CampaignPage)
   )
 );

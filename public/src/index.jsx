@@ -51,7 +51,7 @@ const Root = () => {
               }
             />
             <Route
-              path="/addCampaign"
+              path="/admin/campaigns/new"
               component={CampaignPage}
             />
             <Route

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default function saveNewCampaign(campaignInfo, history) {
-  const { name, title, description, status, script_id } = campaignInfo;
+  const { name, title, description, script_id, contact_lists_id } = campaignInfo;
 
   return dispatch => axios.post('/campaigns',
     {
@@ -9,8 +9,8 @@ export default function saveNewCampaign(campaignInfo, history) {
       title: title,
       description: description,
       status: 'draft',
-      script_id: 1,
-      contact_lists_id: 1
+      script_id: script_id,
+      contact_lists_id: contact_lists_id
     },
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )

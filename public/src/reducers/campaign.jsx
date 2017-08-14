@@ -8,6 +8,7 @@ export function scriptOptionsReducer(state = scripts, action) {
   const { type, payload } = action;
   switch (type) {
     case SET_CAMPAIGN_FORM_SCRIPT_OPTIONS:
+      console.log('in Reducer****, payload is', payload);
       return {
         ...state,
         scriptOptions: payload
