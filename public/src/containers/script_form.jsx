@@ -36,6 +36,7 @@ function mapDispatchToProps(dispatch) {
 const ScriptNewFormContainer = withRouter(
   reduxForm({
     validate,
+    destroyOnUnmount: false,
     form: FORM_NAME
   })(
     connect(mapStateToProps, mapDispatchToProps)(ScriptForm)
