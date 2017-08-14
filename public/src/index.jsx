@@ -11,7 +11,7 @@ import RegistrationForm from './containers/registration';
 import CampaignsContainer from './containers/CampaignsContainer';
 import AdminQuestionsContainer from './containers/AdminQuestionsContainer';
 import AdminScriptsContainer from './containers/AdminScriptsContainer';
-import LandingPage from './components/landing_page';
+// import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
 import ScriptNewFormContainer from './containers/script_form';
@@ -24,17 +24,22 @@ const Root = () => {
   const isLoggedIn = authTransition.bind(null, store);
   const isAdmin = checkIfAdmin.bind(null, store);
 
-  const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
+  // const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
 
   return (
     <Provider store={store}>
       <BrowserRouter>
         <App>
           <Switch>
-            <Route path="/admin/questions/new" component={QuestionNewFormContainer} />
+            <Route 
+              path="/admin/questions/new"
+              render={() => (isLoggedIn() ?
+                (<QuestionNewFormContainer />) : (<Redirect to="/login" />))}
+            />
             <Route
               path="/admin/scripts/new"
-              render={() => (<ScriptNewFormContainer />)}
+              render={() => (isLoggedIn() ?
+                (<ScriptNewFormContainer />) : (<Redirect to="/login" />))}
             />
             <Route
               path="/registration"
@@ -64,29 +69,30 @@ const Root = () => {
             <Route
               path="/campaigns"
               render={
-                () => (isLoggedIn() && isAdmin() ?
+                () => (isLoggedIn() ?
                   (<CampaignsContainer />) : (<Redirect to="/login" />))
-              }
-            />
-            <Route
-              path="/admin_questions"
-              render={
-                () => (isLoggedIn() && isAdmin() ?
-                  (<AdminQuestionsContainer />) : (<Redirect to="/" />))
-              }
-            />
-            <Route
-              path="/admin_scripts"
-              render={
-                () => (isLoggedIn() && isAdmin() ?
-                  (<AdminScriptsContainer />) : (<Redirect to="/" />))
               }
             />
             <Route
               exact
               path="/"
               render={
-               () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
+                () => (isLoggedIn() ?
+                  (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              path="/admin_questions"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminQuestionsContainer />) : (<Redirect to="/" />))
+              }
+            />
+            <Route
+              path="/admin_scripts"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminScriptsContainer />) : (<Redirect to="/" />))
               }
             />
           </Switch>
@@ -97,3 +103,12 @@ const Root = () => {
 };
 
 ReactDOM.render(<Root />, document.getElementById('root'));
+
+
+            // <Route
+            //   exact
+            //   path="/"
+            //   render={
+            //    () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
+            //   }
+            // />

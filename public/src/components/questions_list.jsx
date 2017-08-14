@@ -55,7 +55,7 @@ export default class QuestionsList extends Component {
           </tbody>
         </Table>
         <div>
-          <CreateNewButton {...this.props} page={thisPage} />
+          <CreateNewButton {...this.props} page={thisPage} path={'/admin/questions/new'} />
         </div>
       </div>
     );

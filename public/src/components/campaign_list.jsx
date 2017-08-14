@@ -14,6 +14,7 @@ export default class CampaignList extends Component {
   render() {
     const { all_campaigns, account_info: { last_name, first_name }, history } = this.props;
     const thisPage = 'Campaign';
+
     return (
       <div>
         <AdminBanner

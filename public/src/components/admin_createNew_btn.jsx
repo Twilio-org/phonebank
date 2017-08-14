@@ -8,8 +8,8 @@ export default class CreateNewButton extends Component {
     this.handleRedirectClick = this.handleRedirectClick.bind(this);
   }
   handleRedirectClick() {
-    const { history } = this.props;
-    // history.push('/createCampaign');
+    const { history, path } = this.props;
+    history.push(path);
   }
 
   render() {

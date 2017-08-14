@@ -53,7 +53,7 @@ export default class ScriptsList extends Component {
           </tbody>
         </Table>
         <div>
-          <CreateNewButton {...this.props} page={thisPage} />
+          <CreateNewButton {...this.props} page={thisPage} path={'/admin/scripts/new'} />
         </div>
       </div>
     );
