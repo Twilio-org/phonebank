@@ -1,0 +1,17 @@
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { fetchScript, fetchScriptQuestions } from '../actions/script';
+import ScriptPage from '../components/script';
+
+
+function mapStateToProps(state) {
+  return {
+    script_id: state.script_id,
+    script_info: state.script,
+    questions: state.script_questions.questions
+  };
+}
+
+export default withRouter(
+  connect(mapStateToProps, { fetchScript, fetchScriptQuestions })(ScriptPage)
+);

@@ -1,36 +1,45 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { fetchScript } from '../actions/script';
 
-export class ScriptPage extends Component {
+export default class ScriptPage extends Component {
   constructor(props) {
     super(props);
+    this.renderQuestions = this.renderQuestions.bind(this);
   }
 
   componentDidMount() {
-    const { id } = this.props.script_info;
-    this.props.fetchScript(id);
+    // const { script_id } = this.props.script_id;
+    const script_id = 6;
+    this.props.fetchScript(script_id);
+    this.props.fetchScriptQuestions(script_id);
+  }
+
+  renderQuestions() {
+    const { questions } = this.props;
+    return questions.map(question =>
+      (<li key={question.id}>{question.title}
+        <ul>
+          <li>Description: {question.description}</li>
+          <li>Type: {question.type}</li>
+          <li>Responses: {question.responses ? question.responses : 'Text Paragraph'}</li>
+        </ul>
+      </li>));
   }
 
   render() {
-    const { script_info } = this.props;
+    const { script_info, questions } = this.props;
     const { name, body, description } = script_info;
     return (
       <div>
-        <h1>Script Details</h1>
-        <h3>Name: {script_info ? name : ''}</h3>
-        <h3>Body: {script_info ? body : ''}</h3>
-        <h3>Description: {script_info ? description : ''}</h3>
+        <h1>{script_info ? name : null} Script Details</h1>
+        <h4>Body:</h4>
+        {script_info ? (<p>{body}</p>) : null}
+        <h4>Description:</h4>
+        {script_info ? (<p>{description}</p>) : null}
+        <h4>Questions:</h4>
+        <ol>
+          {questions ? this.renderQuestions() : null}
+        </ol>
       </div>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return { script_info: state.script_info };
-}
-
-export default withRouter(
-  connect(mapStateToProps, { fetchScript })(ScriptPage)
-);
