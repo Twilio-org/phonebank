@@ -12,10 +12,10 @@ import CampaignsContainer from './containers/CampaignsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
+import CampaignPage from './components/campaign';
 import ScriptNewFormContainer from './containers/script_form';
 import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
-
 import { authTransition, checkIfAdmin } from './actions/login';
 
 const Root = () => {
@@ -58,6 +58,10 @@ const Root = () => {
               render={
                () => (isLoggedIn() ? (<ConnectedAccountPage />) : (<Redirect to="/login" />))
               }
+            />
+            <Route
+              path="/admin/campaigns/new"
+              component={CampaignPage}
             />
             <Route
               path="/campaigns"

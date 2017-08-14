@@ -9,13 +9,15 @@ import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
+import { scriptOptionsReducer, contactListOptionsReducer, campaignListReducer } from './reducers/campaign';
 import { questionOptionsReducer } from './reducers/script_form';
-import { campaignListReducer } from './reducers/campaign';
 
 const appReducer = combineReducers({
   form: formReducer,
   auth: authStatusReducer,
   account_info: accountInfoReducer,
+  campaign_form_scripts: scriptOptionsReducer,
+  campaign_form_contact_lists: contactListOptionsReducer,
   script_form: questionOptionsReducer,
   campaigns: campaignListReducer
 });
