@@ -12,6 +12,7 @@ import CampaignsContainer from './containers/CampaignsContainer';
 import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
+import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
 
 import { authTransition, checkIfAdmin } from './actions/login';
@@ -27,6 +28,7 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Switch>
+            <Route path="/admin/questions/new" component={QuestionNewFormContainer} />
             <Route
               path="/registration"
               render={
