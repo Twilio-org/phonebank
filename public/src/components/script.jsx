@@ -7,8 +7,7 @@ export default class ScriptPage extends Component {
   }
 
   componentDidMount() {
-    // const { script_id } = this.props.script_id;
-    const script_id = 6;
+    const { script_id } = this.props.script_id;
     this.props.fetchScript(script_id);
     this.props.fetchScriptQuestions(script_id);
   }
