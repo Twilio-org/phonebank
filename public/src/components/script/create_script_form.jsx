@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { Button, PageHeader, ButtonToolbar, Row, Col } from 'react-bootstrap';
 
-import { renderField, renderTextArea, renderDropdown } from '../helpers/formHelpers';
+import { renderField, renderTextArea, renderDropdown } from '../common/form_helpers';
 
 export default class ScriptForm extends Component {
   constructor(props) {
