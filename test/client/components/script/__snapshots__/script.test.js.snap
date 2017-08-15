@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ScriptPage /> renders correctly 1`] = `
+<div>
+  <h1>
+    ScriptName
+     Script Details
+  </h1>
+  <h4>
+    Body:
+  </h4>
+  <p>
+    ScriptBody
+  </p>
+  <h4>
+    Description:
+  </h4>
+  <p>
+    ScriptDescription
+  </p>
+  <h4>
+    Questions:
+  </h4>
+  <ol>
+    <li>
+      Age
+      <ul>
+        <li>
+          Description: 
+          What is your age?
+        </li>
+        <li>
+          Type: 
+          singleselect
+        </li>
+        <li>
+          Responses: 
+          0-10,11-20,21-30,31-40,41-50,51-60,61+
+        </li>
+      </ul>
+    </li>
+    <li>
+      Hobbies
+      <ul>
+        <li>
+          Description: 
+          What are your hobbies?
+        </li>
+        <li>
+          Type: 
+          multiselect
+        </li>
+        <li>
+          Responses: 
+          swimming,running,biking,sleeping,eating,weaving
+        </li>
+      </ul>
+    </li>
+    <li>
+      Ice Cream
+      <ul>
+        <li>
+          Description: 
+          How do you feel about ice cream?
+        </li>
+        <li>
+          Type: 
+          paragraph
+        </li>
+        <li>
+          Responses: 
+          Text Paragraph
+        </li>
+      </ul>
+    </li>
+  </ol>
+</div>
+`;
