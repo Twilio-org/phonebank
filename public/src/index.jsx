@@ -20,7 +20,8 @@ import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
 import ScriptPage from './containers/view_script';
 
-import { authTransition, checkIfAdmin } from './actions/login';
+// import { authTransition, checkIfAdmin } from './actions/login';
+import { authTransition } from './actions/login';
 
 const Root = () => {
   const isLoggedIn = authTransition.bind(null, store);

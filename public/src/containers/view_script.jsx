@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchScript, fetchScriptQuestions } from '../actions/script';
-import ScriptPage from '../components/script';
+import ScriptPage from '../components/script/script';
 
 
 function mapStateToProps(state) {
