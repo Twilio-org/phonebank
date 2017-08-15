@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
-import ScriptForm from '../components/script_form';
+import ScriptForm from '../components/script/create_script_form';
 import { fetchAllQuestions, postScript } from '../actions/script_form';
 
 const FORM_NAME = 'ScriptForm';
