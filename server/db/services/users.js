@@ -1,5 +1,7 @@
+import User from '../models/users';
+
 export default {
-  saveNewUser: (params, Model) => {
+  saveNewUser: (params) => {
     const extractedParams = {
       first_name: params.firstName,
       last_name: params.lastName,
@@ -8,24 +10,24 @@ export default {
       email: params.email
     };
 
-    return new Model(extractedParams).save();
+    return new User(extractedParams).save();
   },
 
-  getUserByEmail: (params, Model) => {
+  getUserByEmail: (params) => {
     const { email } = params;
 
-    return new Model({ email })
+    return new User({ email })
       .fetch();
   },
 
-  getUserById: (params, Model) => {
+  getUserById: (params) => {
     const { id } = params;
 
-    return new Model({ id })
+    return new User({ id })
       .fetch();
   },
 
-  updateUserById: (params, Model) => {
+  updateUserById: (params) => {
     const { id } = params;
     const extractedParams = {
       first_name: params.firstName,
@@ -34,17 +36,17 @@ export default {
       phone_number: params.phoneNumber,
       email: params.email
     };
-    return new Model()
+    return new User()
       .where({ id })
       .save(extractedParams, {
         method: 'update'
       });
   },
 
-  deactivateUserById: (params, Model) => {
+  deactivateUserById: (params) => {
     const { id } = params;
 
-    return new Model()
+    return new User()
       .where({ id })
       .save({
         is_active: false
