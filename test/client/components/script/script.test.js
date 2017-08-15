@@ -29,7 +29,8 @@ const mockStore = {
       title: 'Ice Cream',
       description: 'How do you feel about ice cream?',
       type: 'paragraph'
-    }]
+    }
+  ]
 };
 
 describe('<ScriptPage />', () => {
