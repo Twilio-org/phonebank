@@ -1,106 +1,10 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import { expect, Should } from 'chai';
-import { test as testconfig } from '../../../knexfile';
+import db from '../../../server/db/db';
 import campaignsService from '../../../server/db/services/campaigns';
-import Campaign from '../../../server/db/models/campaigns';
-import Script from '../../../server/db/models/scripts';
-import ContactList from '../../../server/db/models/contact_lists';
 
-const knex = knexModule(testconfig);
-const knexdb = bookshelfModule(knex);
-const campaignModel = Campaign(knexdb);
-const scriptModel = Script(knexdb);
-const contactListModel = ContactList(knexdb);
 const should = Should();
 
 describe('Campaign service tests', () => {
-  before((done) => {
-    function createCampaignsTable() {
-      return knexdb.knex.schema.hasTable('campaigns').then((exist) => {
-        if (!exist) {
-          knexdb.knex.schema.createTable('campaigns', (table) => {
-            table.increments('id').primary();
-            table.string('name').notNullable().unique().index();
-            table.string('title').notNullable();
-            table.string('description').notNullable();
-            table.enu('status', ['draft', 'active', 'pause', 'completed']).notNullable();
-            table.integer('contact_lists_id').references('contact_lists.id').notNullable();
-            table.integer('script_id').references('scripts.id').notNullable();
-            table.timestamp('created_at').defaultTo(knexdb.knex.fn.now());
-            table.timestamp('updated_at').defaultTo(knexdb.knex.fn.now());
-          }).then(() => {
-            console.log(('Created campaigns table'));
-          }).catch(err => console.log('Error creating campaigns table', err));
-        }
-      });
-    }
-    function createScriptsTable() {
-      return knexdb.knex.schema.hasTable('scripts').then((exist) => {
-        if (!exist) {
-          knexdb.knex.schema.createTable('scripts', (table) => {
-            table.increments('id').primary();
-            table.string('name').notNullable().index();
-            table.text('body').notNullable();
-            table.text('description').notNullable();
-            table.timestamp('created_at').defaultTo(knexdb.knex.fn.now());
-            table.timestamp('updated_at').defaultTo(knexdb.knex.fn.now());
-          }).then(() => {
-            console.log('Created scripts table');
-          }).catch(err => console.log('Error creating scripts table', err));
-        }
-      });
-    }
-    function createQuestionsTable() {
-      return knexdb.knex.schema.hasTable('questions').then((exist) => {
-        if (!exist) {
-          knexdb.knex.schema.createTable('questions', (table) => {
-            table.increments('id').primary();
-            table.string('title').notNullable().index();
-            table.text('description').notNullable().index();
-            table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
-            table.text('responses').notNullable();
-            table.timestamp('created_at').defaultTo(knexdb.knex.fn.now());
-            table.timestamp('updated_at').defaultTo(knexdb.knex.fn.now());
-          }).then(() => {
-            console.log('Created questions table');
-          }).catch(err => console.log('Error creating questions table', err));
-        }
-      });
-    }
-
-    function createContactListsTable() {
-      return knexdb.knex.schema.hasTable('contact_lists').then((exist) => {
-        if (!exist) {
-          knexdb.knex.schema.createTable('contact_lists', (table) => {
-            table.increments('id').primary();
-            table.string('name').notNullable().unique();
-            table.timestamp('created_at').defaultTo(knexdb.knex.fn.now());
-            table.timestamp('updated_at').defaultTo(knexdb.knex.fn.now());
-          }).then(() => {
-            console.log(('Created contact_lists table'));
-          }).catch(err => console.log('Error creating contact_lists table', err));
-        }
-      });
-    }
-
-    createContactListsTable().then(() => {
-      createScriptsTable().then(() => {
-        createQuestionsTable().then(() => {
-          createCampaignsTable().then(() => {
-            done();
-          });
-        });
-      });
-    });
-  });
-
-
-  after(() => {
-    const queryString = 'DROP TABLE campaigns, scripts, questions, contact_lists';
-    return knexdb.knex.schema.raw(queryString);
-  });
-
   describe('Data insertion', function() {
     before(() => {
       this.scriptParams = {
@@ -133,14 +37,14 @@ describe('Campaign service tests', () => {
 
       const { name, body, description } = this.scriptParams;
 
-      return knexdb.knex.schema.raw(
+      return db.knex.schema.raw(
         `INSERT INTO scripts (name, body, description) VALUES ('${name}', '${body}', '${description}');
         INSERT INTO contact_lists (name) VALUES ('${this.contactListParams.name}');`
       );
     });
 
     it('should save new campaign', (done) => {
-      campaignsService.saveNewCampaign(this.campaignParams1, campaignModel)
+      campaignsService.saveNewCampaign(this.campaignParams1)
         .then((campaign) => {
           expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
           expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
@@ -153,7 +57,7 @@ describe('Campaign service tests', () => {
     });
 
     it('should save another new campaign', (done) => {
-      campaignsService.saveNewCampaign(this.campaignParams2, campaignModel)
+      campaignsService.saveNewCampaign(this.campaignParams2)
         .then((campaign) => {
           expect(campaign.attributes.name).to.equal(this.campaignParams2.name);
           expect(campaign.attributes.title).to.equal(this.campaignParams2.title);
@@ -166,7 +70,7 @@ describe('Campaign service tests', () => {
     });
 
     it('should get all campaigns', (done) => {
-      campaignsService.getAllCampaigns(null, campaignModel)
+      campaignsService.getAllCampaigns(null)
         .then((campaigns) => {
           const { models } = campaigns;
           expect(models).to.have.length(2);
@@ -185,6 +89,13 @@ describe('Campaign service tests', () => {
           done();
         });
     });
-  });
 
+    after(() => db.knex.schema.raw(
+        `
+        DELETE FROM campaigns;
+        DELETE FROM scripts;
+        DELETE FROM contact_lists;
+        `
+      ))
+  });
 });

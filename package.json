@@ -6,14 +6,16 @@
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "db": "psql -U $PG_USER -d $PG_USER",
     "db:test": "psql -U $PG_USER -d phonebank_test",
+    "db:setup": "babel-node --presets env,es2015,stage-1 server/db/setup.js",
+    "db:teardown": "babel-node --presets env,es2015,stage-1 server/db/teardown.js",
     "lint": "eslint --ext js --ext jsx .",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
-    "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
+    "start": "nodemon server/app.js --exec babel-node --presets env,es2015,stage-1",
     "test": "npm run lint && npm run test:server && npm run test:client",
     "test:client": "jest",
     "test:client:refresh": "jest --updateSnapshot",
-    "test:server": "mocha './test/server' --recursive --compilers js:babel-core/register"
+    "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register"
   },
   "jest": {
     "verbose": true

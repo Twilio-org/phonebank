@@ -1,47 +1,9 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import * as chai from 'chai';
-import { test as testconfig } from '../../../knexfile';
 import Question from '../../../server/db/services/questions';
-import Model from '../../../server/db/models/questions';
-
-const knex = knexModule(testconfig);
-const bookshelf = bookshelfModule(knex);
-const questionsModel = Model(bookshelf);
 
 const expect = chai.expect;
 
 describe('Question service tests', () => {
-  before((done) => {
-    bookshelf.knex.schema.hasTable('questions').then((exist) => {
-      if (!exist) {
-        bookshelf.knex.schema.createTable('questions', (table) => {
-          table.increments('id').primary();
-          table.string('title').notNullable().index();
-          table.text('description').notNullable().index();
-          table.enu('type', ['multiselect', 'singleselect', 'paragraph']).notNullable();
-          table.text('responses').notNullable();
-          table.timestamp('created_at').defaultTo(knex.fn.now());
-          table.timestamp('updated_at').defaultTo(knex.fn.now());
-        })
-        .then(() => {
-          console.log('Created questions table!');
-          done();
-        })
-        .catch(err => console.log('Error creating questions table', err));
-      }
-    });
-  });
-
-  after(() => {
-    return bookshelf.knex.schema.dropTable('questions')
-      .then((meow) => {
-        console.log('Questions table dropped!');
-      })
-      .catch((err) => {
-        console.log('Error dropping questions table: ', err);
-      });
-  });
   describe('Data insertion', function() {
     console.log('Now running questions service tests: ');
     beforeEach(() => {
@@ -69,7 +31,7 @@ describe('Question service tests', () => {
 
     it('should be able to save question title, description, type, and responses options', (done) => {
       this.paramsArray.forEach((questionObj) => {
-        Question.saveNewQuestion(questionObj, questionsModel)
+        Question.saveNewQuestion(questionObj)
           .then((question) => {
             expect(question.attributes.title).to.equal(questionObj.title);
             expect(question.attributes.description).to.equal(questionObj.description);
@@ -87,7 +49,7 @@ describe('Question service tests', () => {
   describe('Data retrieval', function() {
 
     it('should retrieve all questions in the table', (done) => {
-      Question.getAllQuestions(questionsModel)
+      Question.getAllQuestions()
         .then((questions) => {
           expect(questions.length).to.equal(3);
         })
@@ -98,7 +60,7 @@ describe('Question service tests', () => {
     });
 
     it('should return all questions in decending order from last update', (done) => {
-      Question.getAllQuestions(questionsModel)
+      Question.getAllQuestions()
         .then((questions) => {
           const { models } = questions;
           expect(models[0].attributes.title).to.equal('Still Testingggg Tablessss');
@@ -111,7 +73,7 @@ describe('Question service tests', () => {
     });
 
     it('should retrieve a question by id', (done) => {
-      Question.getQuestionById({ id: 1 }, questionsModel)
+      Question.getQuestionById({ id: 1 })
         .then((question) => {
           expect(question.attributes.title).to.equal('Testing Tables');
         })
@@ -119,7 +81,7 @@ describe('Question service tests', () => {
             console.log('error with should retrieve a question by id', err);
         });
 
-      Question.getQuestionById({ id: 2 }, questionsModel)
+      Question.getQuestionById({ id: 2 })
         .then((question) => {
           expect(question.attributes.title).to.equal('Still Testing Tables');
         })
@@ -127,7 +89,7 @@ describe('Question service tests', () => {
             console.log('error with should retrieve a question by id', err);
         });
 
-      Question.getQuestionById({ id: 3 }, questionsModel)
+      Question.getQuestionById({ id: 3 })
         .then((question) => {
           expect(question.attributes.title).to.equal('Still Testingggg Tablessss');
         })
