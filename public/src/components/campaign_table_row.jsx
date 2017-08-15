@@ -1,10 +1,11 @@
 import React from 'react';
-import CampaignButtonGroup from './campaigns_btngrp';
-// import { Button, Table } from 'react-bootstrap';
+import AdminListBtnGroup from './admin_list_btngrp';
 
-const TableRow = (props) => {
+const CampaignTableRow = (props) => {
   const { name, title, description, status, script_id,
           created_at, contact_lists_id } = props.campaign;
+  const { buttons } = props;
+  const button = buttons(props);
   return (
     <tr>
       <td>{name}</td>
@@ -14,17 +15,13 @@ const TableRow = (props) => {
       <td>{script_id}</td>
       <td>{contact_lists_id}</td>
       <td>{created_at}</td>
-      <td><CampaignButtonGroup {...props} /></td>
+      <td>
+        <AdminListBtnGroup {...props} buttons={button} />
+      </td>
     </tr>
   );
 };
 
-TableRow.displayName = 'TableRow';
+CampaignTableRow.displayName = 'CampaignTableRow';
 
-export default TableRow;
-
-// note: add mock buttons for campaign edit!!
-
-// on edit button click it shoud:
-  // "redirect" to campaign edit view
-  // dispatch: set current campaign, {fetch script and questions on component mount}
+export default CampaignTableRow;
