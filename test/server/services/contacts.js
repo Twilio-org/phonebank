@@ -1,51 +1,10 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import { expect, Should } from 'chai';
 import * as chai from 'chai';
-import { test as testconfig } from '../../../knexfile';
 import Contact from '../../../server/db/services/contacts';
-import Model from '../../../server/db/models/contacts';
 
-const knex = knexModule(testconfig);
-const bookshelf = bookshelfModule(knex);
-const contactsModel = Model(bookshelf);
 const should = Should();
 
 describe('Contact service tests', function () {
-  before((done) => {
-    bookshelf.knex.schema.hasTable('contacts').then((exist) => {
-      if (!exist) {
-        bookshelf.knex.schema.createTable('contacts', (table) => {
-          table.increments('id').primary();
-          table.string('external_id').nullable();
-          table.string('first_name').notNullable();
-          table.string('last_name').nullable();
-          table.string('email').nullable();
-          table.string('phone_number').notNullable().unique().index();
-          table.boolean('is_invalid_number').defaultTo(false);
-          table.boolean('do_not_call').defaultTo(false);
-          table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
-          table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
-        }).then(() => {
-          console.log(('Created contacts table'));
-          done();
-        }).catch((err) => {
-          console.log('Error creating contacts table', err);
-        });
-      }
-    });
-  });
-
-  after(() =>
-    bookshelf.knex.schema.dropTable('contacts')
-      .then(() => {
-        console.log('Dropped contacts table');
-      })
-      .catch((err) => {
-        console.log('Error dropping contacts table: ', err);
-      })
-  );
-
   describe('Data insertion', function () {
     console.log('Now running contact service tests: ');
     beforeEach(() => {
@@ -64,7 +23,7 @@ describe('Contact service tests', function () {
 
     it('should be able to save first contact\'s first name, last name, phone, email, and external_id', (done) => {
       const firstContact = this.contactSaveParams1;
-      Contact.saveNewContact(firstContact, contactsModel)
+      Contact.saveNewContact(firstContact)
         .then((contact) => {
           expect(contact.attributes.first_name).to.equal(firstContact.first_name);
           expect(contact.attributes.last_name).to.equal(firstContact.last_name);
@@ -81,7 +40,7 @@ describe('Contact service tests', function () {
     });
     it('should be able to save second contact\'s first name and phone', (done) => {
       const secondContact = this.contactSaveParams2;
-      Contact.saveNewContact(secondContact, contactsModel)
+      Contact.saveNewContact(secondContact)
         .then((contact) => {
           expect(contact.attributes.first_name).to.equal(secondContact.first_name);
           expect(contact.attributes.phone_number).to.equal(secondContact.phone_number);
@@ -110,7 +69,7 @@ describe('Contact service tests', function () {
     });
     it('should retrieve first contact\'s first name, last name, email, phone, external_id, number status, and do not call status', (done) => {
       const firstContact = this.contactSaveParams1;
-      Contact.getContactById({ id: 1 }, contactsModel)
+      Contact.getContactById({ id: 1 })
         .then((contact) => {
           expect(contact.attributes.first_name).to.equal(firstContact.first_name);
           expect(contact.attributes.last_name).to.equal(firstContact.last_name);
@@ -127,7 +86,7 @@ describe('Contact service tests', function () {
     });
     it('should retrieve second contact\'s first name, phone, number status, and do not call status', (done) => {
       const secondContact = this.contactSaveParams2;
-      Contact.getContactById({ id: 2 }, contactsModel)
+      Contact.getContactById({ id: 2 })
         .then((contact) => {
           expect(contact.attributes.first_name).to.equal(secondContact.first_name);
           expect(contact.attributes.phone).to.equal(secondContact.phone);
@@ -155,7 +114,7 @@ describe('Contact service tests', function () {
     });
     it('should update first contact\'s do not call status', (done) => {
       const firstContactUpdate = this.contactUpdateParams1;
-      Contact.updateContactById(firstContactUpdate, contactsModel)
+      Contact.updateContactById(firstContactUpdate)
       .then((contact) => {
         expect(contact.attributes.first_name).to.equal(firstContactUpdate.first_name);
         expect(contact.attributes.do_not_call).to.equal(firstContactUpdate.do_not_call);
@@ -167,7 +126,7 @@ describe('Contact service tests', function () {
     });
     it('should update second contact\'s is_invalid_number status', (done) => {
       const secondContactUpdate = this.contactUpdateParams2;
-      Contact.updateContactById(secondContactUpdate, contactsModel)
+      Contact.updateContactById(secondContactUpdate)
       .then((contact) => {
         expect(contact.attributes.last_name).to.equal(secondContactUpdate.last_name);
         expect(contact.attributes.is_invalid_number).to.equal(secondContactUpdate.is_invalid_number);

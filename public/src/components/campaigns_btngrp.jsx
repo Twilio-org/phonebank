@@ -26,7 +26,7 @@ const CampaignButtonGroup = (props) => {
     },
     {
       key: 4,
-      text: 'Edit Campaign',
+      text: 'Edit',
       size: 'xsmall',
       style: 'danger',
       handler: () => {
