@@ -33,7 +33,7 @@ export function fetchAllQuestions(req, res, next) {
 
 export function fetchQuestionById(req, res, next) {
   const { id } = req.params;
-  return questionsService.getQuestionById({ id }, QuestionsModel)
+  return questionsService.getQuestionById({ id })
     .then((question) => {
       if (question) {
         res.status(200).json(question);
