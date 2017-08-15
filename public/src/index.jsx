@@ -8,9 +8,9 @@ import '../stylesheets/app.less';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
-import CampaignsContainer from './containers/CampaignsContainer';
-import AdminQuestionsContainer from './containers/AdminQuestionsContainer';
-import AdminScriptsContainer from './containers/AdminScriptsContainer';
+import CampaignsContainer from './containers/list_campaigns';
+import AdminQuestionsContainer from './containers/list_questions';
+import AdminScriptsContainer from './containers/list_scripts';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';

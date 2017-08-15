@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminListBtnGroup from './admin_list_btngrp';
+import AdminListBtnGroup from '../common/admin_list_btngrp';
 
 const CampaignTableRow = (props) => {
   const { name, title, description, status, script_id,
