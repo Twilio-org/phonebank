@@ -59,7 +59,7 @@ export default class CampaignList extends Component {
           </tbody>
         </Table>
         <div>
-          <CreateNewButton {...this.props} page={thisPage} />
+          <CreateNewButton {...this.props} page={thisPage} path={'/admin/campaigns/new'} />
         </div>
       </div>
     );

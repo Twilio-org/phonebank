@@ -14,7 +14,7 @@ import AdminScriptsContainer from './containers/list_scripts';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
-import CampaignPage from './components/campaign/campaign';
+import CreateCampaignContainer from './containers/create_campaign';
 import CreateScriptContainer from './containers/create_script';
 import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';
@@ -69,7 +69,9 @@ const Root = () => {
             />
             <Route
               path="/admin/campaigns/new"
-              component={CampaignPage}
+              render={
+               () => (isLoggedIn() ? (<CreateCampaignContainer />) : (<Redirect to="/login" />))
+              }
             />
             <Route
               path="/campaigns"
