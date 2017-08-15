@@ -61,12 +61,12 @@ describe('<CreateScriptForm />', () => {
       expect(numberOfRowComponents).toEqual(5);
     });
 
-    it('should have eight <Col /> components', () => {
+    it('should have nine <Col /> components', () => {
       const numberOfColComponents = wrapper.find('Col').length;
       expect(numberOfColComponents).toEqual(9);
     });
 
-    it('should have three <Field /> components', () => {
+    it('should have eight <Field /> components', () => {
       const numberOfFieldComponents = wrapper.find('Field').length;
       expect(numberOfFieldComponents).toEqual(8);
     });
