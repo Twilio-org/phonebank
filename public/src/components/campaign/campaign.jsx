@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar, PageHeader, Row, Col } from 'react-bootstrap';
 import { renderField, renderDropdown, renderTextArea } from '../common/form_helpers';
+import { saveNewCampaign } from '../../actions/campaign';
+import { fetchAllScripts, fetchAllContactLists } from '../../actions/campaign_form';
 
-export default class CampaignPage extends Component {
+class CampaignPage extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleCreateScript = this.handleCreateScript.bind(this);
   }
 
+
   componentDidMount() {
     this.props.fetchAllScripts();
     this.props.fetchAllContactLists();
   }
+
 
   onSubmit(values) {
     const { history } = this.props;
@@ -77,3 +83,35 @@ export default class CampaignPage extends Component {
     );
   }
 }
+
+
+function validate(values) {
+  const errors = {};
+  const { password, password_confirm } = values;
+  if (!!password && !!password_confirm && password !== password_confirm) {
+    errors.password_confirm = 'the passwords must match.';
+  }
+  return errors;
+}
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+    scriptOptions: state.admin_campaign.scripts,
+    contactListOptions: state.admin_campaign.contact_list
+  };
+}
+
+export default withRouter(
+  reduxForm({
+    validate,
+    form: 'CampaignPage',
+    destroyOnUnmount: false
+  })(
+    connect(mapStateToProps, {
+      saveNewCampaign,
+      fetchAllScripts,
+      fetchAllContactLists
+    })(CampaignPage)
+  )
+);
