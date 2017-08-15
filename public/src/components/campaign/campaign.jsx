@@ -10,7 +10,8 @@ import { fetchAllScripts, fetchAllContactLists } from '../../actions/campaign_fo
 class CampaignPage extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
+    this.saveCampaign = this.saveCampaign.bind(this);
     this.handleCreateScript = this.handleCreateScript.bind(this);
   }
 
@@ -20,10 +21,14 @@ class CampaignPage extends Component {
     this.props.fetchAllContactLists();
   }
 
-
-  onSubmit(values) {
+  saveDraft(values) {
     const { history } = this.props;
-    this.props.saveNewCampaign(values, history);
+    this.props.saveNewCampaign([values, 'draft'], history);
+  }
+
+  saveCampaign(values) {
+    const { history } = this.props;
+    this.props.saveNewCampaign([values, 'active'], history);
   }
 
   handleCreateScript() {
@@ -35,7 +40,7 @@ class CampaignPage extends Component {
     return (
       <div>
         <PageHeader>Add Campaign</PageHeader>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
+        <form>
           <Field
             name="name"
             label="Name (internal)"
@@ -76,7 +81,20 @@ class CampaignPage extends Component {
             </Col>
           </Row>
           <ButtonToolbar>
-            <Button bsStyle="primary" type="submit">Save Campaign</Button>
+            <Button
+              bsStyle="primary"
+              type="submit"
+              onClick={handleSubmit(this.saveDraft)}
+            >
+              Save as Draft
+            </Button>
+            <Button
+              bsStyle="primary"
+              type="submit"
+              onClick={handleSubmit(this.saveCampaign)}
+            >
+              Start Campaign
+            </Button>
           </ButtonToolbar>
         </form>
       </div>
