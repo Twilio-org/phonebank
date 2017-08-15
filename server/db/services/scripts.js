@@ -1,58 +1,60 @@
+import Script from '../models/scripts';
+
 export default {
-  saveNewScript: (params, Model) => {
+  saveNewScript: (params) => {
     const extractedParams = {
       name: params.name,
       body: params.body,
       description: params.description
     };
 
-    return new Model(extractedParams).save();
+    return new Script(extractedParams).save();
   },
 
-  getAllScripts: Model => Model.forge()
+  getAllScripts: () => Script.forge()
     .orderBy('updated_at', 'DESC').fetchAll(),
 
-  getScriptById: (params, Model) => {
+  getScriptById: (params) => {
     const { id } = params;
 
-    return new Model({ id })
+    return new Script({ id })
       .fetch();
   },
 
-  updateScriptById: (params, Model) => {
+  updateScriptById: (params) => {
     const { id } = params;
     const extractedParams = {
       name: params.name,
       body: params.body,
       description: params.description
     };
-    return new Model()
+    return new Script()
       .where({ id })
       .save(extractedParams, {
         method: 'update'
       });
   },
 
-  deleteScriptById: (params, Model) => {
+  deleteScriptById: (params) => {
     const { id } = params;
 
-    return new Model({ id })
+    return new Script({ id })
       .destroy()
       .then(model => model);
   },
 
-  addQuestionToScript: (params, Model) => {
+  addQuestionToScript: (params) => {
     const { question_id, id, sequence_number } = params;
 
-    return new Model({ id })
+    return new Script({ id })
 
     .questions().attach({ script_id: id, question_id, sequence_number });
   },
 
-  getQuestionsByScriptId: (params, Model) => {
+  getQuestionsByScriptId: (params) => {
     const { id } = params;
 
-    return new Model().query((q) => {
+    return new Script().query((q) => {
       q.from('questions')
         .select('*')
         .leftJoin('questions_scripts', 'questions.id', 'questions_scripts.question_id')
