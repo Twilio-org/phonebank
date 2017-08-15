@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-import ScriptsTableRow from './scripts_table_row';
-import AdminDashboardButtonGroup from './admin_nav_btn_group';
-import AdminBanner from './admin_welcome_banner';
-import CreateNewButton from './admin_createNew_btn';
-import buttons_obj from './admin_button_objs';
+import ScriptsTableRow from './script_table_row';
+import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
+import AdminBanner from '../common/admin_welcome_banner';
+import CreateNewButton from '../common/admin_createNew_btn';
+import buttons_obj from '../common/admin_button_objs';
 
 export default class ScriptsList extends Component {
   componentDidMount() {

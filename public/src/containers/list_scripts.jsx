@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import ScriptsList from '../components/admin_scripts';
+import ScriptsList from '../components/script/script_list';
 
 import { fetchAllScripts, setCurrentScript } from '../actions/admin_scripts';
 

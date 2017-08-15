@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminListBtnGroup from './admin_list_btngrp';
+import AdminListBtnGroup from '../common/admin_list_btngrp';
 
 const QuestionTableRow = (props) => {
   const { title, description, type, responses, created_at, updated_at } = props.question;
