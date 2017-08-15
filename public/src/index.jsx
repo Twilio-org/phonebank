@@ -14,7 +14,7 @@ import AdminScriptsContainer from './containers/list_scripts';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
-import CampaignPage from './components/campaign';
+import CampaignPage from './components/campaign/campaign';
 import CreateScriptContainer from './containers/create_script';
 import QuestionNewFormContainer from './containers/question_new_form';
 import { ConnectedAccountPage } from './components/account';

@@ -3,9 +3,9 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar, PageHeader, Row, Col } from 'react-bootstrap';
-import { renderField, renderDropdown, renderTextArea } from './common/form_helpers';
-import { saveNewCampaign } from '../actions/campaign';
-import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
+import { renderField, renderDropdown, renderTextArea } from '../common/form_helpers';
+import { saveNewCampaign } from '../../actions/campaign';
+import { fetchAllScripts, fetchAllContactLists } from '../../actions/campaign_form';
 
 class CampaignPage extends Component {
   constructor(props) {
