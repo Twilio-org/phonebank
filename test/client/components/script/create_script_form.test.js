@@ -81,11 +81,6 @@ describe('<CreateScriptForm />', () => {
       expect(numberOfButtonComponents).toEqual(3);
     });
 
-    it('should have three br elements', () => {
-      const numberOfBrElements = wrapper.find('br').length;
-      expect(numberOfBrElements).toEqual(3);
-    });
-
     it('should have one <ButtonToolbar /> component', () => {
       const numberOfButtonToolbarComponents = wrapper.find('ButtonToolbar').length;
       expect(numberOfButtonToolbarComponents).toEqual(1);
