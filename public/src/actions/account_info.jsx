@@ -14,8 +14,7 @@ export function fetchUser(id) {
   })
   .then((res) => {
     const userData = res.data;
-    dispatch(setAccountInfo(userData));
-    return userData;
+    return dispatch(setAccountInfo(userData));
   })
   .catch((err) => {
     const customError = {

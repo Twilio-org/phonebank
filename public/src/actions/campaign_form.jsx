@@ -1,16 +1,16 @@
 import axios from 'axios';
-import { SET_CAMPAIGN_FORM_SCRIPT_OPTIONS, SET_CAMPAIGN_FORM_CONTACT_LIST_OPTIONS } from '../reducers/campaign';
+import { SET_CAMPAIGN_FORM_SCRIPT, SET_CAMPAIGN_FORM_CONTACT_LIST } from '../reducers/create_campaign';
 
 export function setScriptOptions(scripts) {
   return {
-    type: SET_CAMPAIGN_FORM_SCRIPT_OPTIONS,
+    type: SET_CAMPAIGN_FORM_SCRIPT,
     payload: scripts
   };
 }
 
 export function setContactListOptions(contactLists) {
   return {
-    type: SET_CAMPAIGN_FORM_CONTACT_LIST_OPTIONS,
+    type: SET_CAMPAIGN_FORM_CONTACT_LIST,
     payload: contactLists
   };
 }
