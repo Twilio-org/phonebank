@@ -1,9 +1,10 @@
 import React from 'react';
-import QuestionsButtonGroup from './questions_btngrp';
+import AdminListBtnGroup from './admin_list_btngrp';
 
 const QuestionTableRow = (props) => {
   const { title, description, type, responses, created_at, updated_at } = props.question;
-
+  const { buttons } = props;
+  const button = buttons(props);
   return (
     <tr>
       <td>{title}</td>
@@ -12,7 +13,9 @@ const QuestionTableRow = (props) => {
       <td>{responses}</td>
       <td>{created_at}</td>
       <td>{updated_at}</td>
-      <td> <QuestionsButtonGroup {...props} /></td>
+      <td>
+        <AdminListBtnGroup {...props} buttons={button} />
+      </td>
     </tr>
   );
 };
