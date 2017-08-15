@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-import ScriptsTableRow from './scripts_table_row';
+import QuestionTableRow from './question_table_row';
 import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
 import AdminBanner from '../common/admin_welcome_banner';
 import CreateNewButton from '../common/admin_createNew_btn';
 import buttons_obj from '../common/admin_button_objs';
 
-export default class ScriptsList extends Component {
+export default class QuestionsList extends Component {
   componentDidMount() {
-    this.props.fetchAllScripts();
+    this.props.fetchAllQuestions();
   }
 
   render() {
-    const { all_scripts, account_info: { last_name, first_name }, history } = this.props;
-    const thisPage = 'Script';
+    const { all_questions, account_info: { last_name, first_name }, history } = this.props;
+    const thisPage = 'Question';
     const { view_edit } = buttons_obj;
+
     return (
       <div>
         <AdminBanner
@@ -25,14 +26,15 @@ export default class ScriptsList extends Component {
           page={thisPage}
         />
         <div>
-          <AdminDashboardButtonGroup history={this.props.history} />
+          <AdminDashboardButtonGroup history={history} />
         </div>
         <Table responsive>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Body</th>
+              <th>Title</th>
               <th>Description</th>
+              <th>Type</th>
+              <th>Response Options</th>
               <th>Created At</th>
               <th>Updated At</th>
               <th />
@@ -40,13 +42,13 @@ export default class ScriptsList extends Component {
           </thead>
 
           <tbody>
-            {all_scripts && all_scripts.length ?
-              all_scripts.map(script =>
+            {all_questions && all_questions.length ?
+              all_questions.map(question =>
                 (
-                  <ScriptsTableRow
-                    key={script.id}
-                    script={script}
-                    handleEditClick={this.props.setCurrentScript}
+                  <QuestionTableRow
+                    key={question.id}
+                    question={question}
+                    handleEditClick={this.props.setCurrentQuestion}
                     buttons={view_edit}
                     page={thisPage}
                   />
@@ -57,7 +59,7 @@ export default class ScriptsList extends Component {
           </tbody>
         </Table>
         <div>
-          <CreateNewButton {...this.props} page={thisPage} path={'/admin/scripts/new'} />
+          <CreateNewButton {...this.props} page={thisPage} path={'/admin/questions/new'} />
         </div>
       </div>
     );
