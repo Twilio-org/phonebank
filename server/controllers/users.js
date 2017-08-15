@@ -1,15 +1,4 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
-import bookshelfBcrypt from 'bookshelf-bcrypt';
 import usersService from '../db/services/users';
-import { development as devconfig } from '../../knexfile';
-import User from '../db/models/users';
-// import bookshelfCreateTable from '../db/init';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-bookshelf.plugin(bookshelfBcrypt);
-const UsersModel = User(bookshelf);
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -22,7 +11,7 @@ export function getUserByEmail(req, res, next) {
     email: req.body.email
   };
 
-  return usersService.getUserByEmail(params, UsersModel)
+  return usersService.getUserByEmail(params)
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
@@ -39,7 +28,7 @@ export function getUserById(req, res, next) {
     id: req.params.id
   };
 
-  return usersService.getUserById(params, UsersModel)
+  return usersService.getUserById(params)
     .then((user) => {
       if (user) {
         const userObject = cleanUserObject(user);
@@ -63,7 +52,7 @@ export function updateUserById(req, res, next) {
     email: req.body.email
   };
 
-  return usersService.updateUserById(params, UsersModel)
+  return usersService.updateUserById(params)
     .then((user) => {
       if (user) {
         res.status(200).json(user);
@@ -81,7 +70,7 @@ export function deactivateUserById(req, res, next) {
     id: req.params.id
   };
 
-  return usersService.deactivateUserById(params, UsersModel)
+  return usersService.deactivateUserById(params)
     .then((user) => {
       if (user) {
         res.status(200).json(user);

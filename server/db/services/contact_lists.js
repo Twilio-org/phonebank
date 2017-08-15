@@ -1,40 +1,42 @@
+import ContactList from '../models/contact_lists';
+
 export default {
-  saveNewContactList: (params, Model) => {
+  saveNewContactList: (params) => {
     const extractedParams = {
       name: params.name
     };
-    return new Model(extractedParams).save();
+    return new ContactList(extractedParams).save();
   },
-  addContactToContactList: (params, Model) => {
+  addContactToContactList: (params) => {
     const { id, contact_id } = params;
-    return new Model({ id })
+    return new ContactList({ id })
       .contacts().attach({ contact_id, contact_list_id: id });
   },
-  getAllContactLists: Model => new Model()
+  getAllContactLists: () => new ContactList()
     .orderBy('name', 'DESC').fetchAll(),
-  getContactsInContactListById: (params, Model) => {
+  getContactsInContactListById: (params) => {
     const { id } = params;
-    return new Model({ id })
+    return new ContactList({ id })
       .contacts().fetch();
   },
-  getContactListById: (params, Model) => {
+  getContactListById: (params) => {
     const { id } = params;
 
-    return new Model({ id })
+    return new ContactList({ id })
       .fetch();
   },
-  getContactListByName: (params, Model) => {
+  getContactListByName: (params) => {
     const { name } = params;
 
-    return new Model({ name })
+    return new ContactList({ name })
       .fetch();
   },
-  updateContactListById: (params, Model) => {
+  updateContactListById: (params) => {
     const { id } = params;
     const extractedParams = {
       name: params.name
     };
-    return new Model()
+    return new ContactList()
       .where({ id })
       .save(extractedParams, {
         method: 'update'

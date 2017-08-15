@@ -1,46 +1,10 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
-import bookshelfBcrypt from 'bookshelf-bcrypt';
-import bcrypt from 'bcrypt';
 import { expect, Should } from 'chai';
-import { test as testconfig } from '../../../knexfile';
+import bcrypt from 'bcrypt';
 import User from '../../../server/db/services/users';
-import Model from '../../../server/db/models/users';
 
-const knex = knexModule(testconfig);
-const knexdb = bookshelfModule(knex).plugin(bookshelfBcrypt);
-const usersModel = Model(knexdb);
 const should = Should();
 
 describe('User service tests', () => {
-  before(() => {
-    knexdb.knex.schema.hasTable('users').then((exist) => {
-      if (!exist) {
-        knexdb.knex.schema.createTable('users', (table) => {
-          table.increments('id');
-          table.string('email').notNullable().unique('email').index();
-          table.string('first_name').notNullable();
-          table.string('last_name').notNullable();
-          table.string('phone_number').notNullable();
-          table.string('password_hash').notNullable();
-          table.boolean('is_admin').defaultTo(false);
-          table.boolean('is_banned').defaultTo(false);
-          table.boolean('is_active').defaultTo(true);
-          table.timestamp('created_at').defaultTo(knex.fn.now());
-          table.timestamp('updated_at').defaultTo(knex.fn.now());
-        }).then(() => {
-          console.log(('Created users table'));
-        }).catch((err) => {
-          console.log(err);
-        });
-      }
-    });
-  });
-
-  after(() => {
-    return knexdb.knex.schema.dropTable('users');
-  });
-
   describe('Data insertion', function() {
     beforeEach(() => {
       this.userSaveParams1 = {
@@ -61,7 +25,7 @@ describe('User service tests', () => {
     });
 
     it('should be able to save first user\'s first name and last name', (done) => {
-      User.saveNewUser(this.userSaveParams1, usersModel)
+      User.saveNewUser(this.userSaveParams1)
         .then((user) => {
           expect(user.attributes.first_name).to.equal('John');
           expect(user.attributes.last_name).to.equal('Doe');
@@ -70,7 +34,7 @@ describe('User service tests', () => {
     });
 
     it('should hash first user\'s password', (done) => {
-      User.getUserByEmail({ email: 'John@gmail.com' }, usersModel)
+      User.getUserByEmail({ email: 'John@gmail.com' })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('hatch', passwordHash, (err, match) => {
@@ -81,7 +45,7 @@ describe('User service tests', () => {
     });
 
     it('should be able to save second user\'s first name and last name', (done) => {
-      User.saveNewUser(this.userSaveParams2, usersModel)
+      User.saveNewUser(this.userSaveParams2)
         .then((user) => {
           expect(user.attributes.first_name).to.equal('Jane');
           expect(user.attributes.last_name).to.equal('Doe');
@@ -90,7 +54,7 @@ describe('User service tests', () => {
     });
 
     it('should hash second user\'s password', (done) => {
-      User.getUserByEmail({ email: 'Jane@gmail.com' }, usersModel)
+      User.getUserByEmail({ email: 'Jane@gmail.com' })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('hatch1', passwordHash, (err, match) => {
@@ -103,7 +67,7 @@ describe('User service tests', () => {
 
   describe('Data retrieval', function() {
     it('should retrieve first user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'John@gmail.com'}, usersModel)
+      User.getUserByEmail({ email: 'John@gmail.com'})
         .then((user) => {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('John');
@@ -114,7 +78,7 @@ describe('User service tests', () => {
     });
 
     it('should retrieve second user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'Jane@gmail.com'}, usersModel)
+      User.getUserByEmail({ email: 'Jane@gmail.com'})
         .then((user) => {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('Jane');
@@ -125,7 +89,7 @@ describe('User service tests', () => {
     });
 
     it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 1 }, usersModel)
+      User.getUserById({ id: 1 })
         .then((user) => {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('John');
@@ -136,7 +100,7 @@ describe('User service tests', () => {
     });
 
     it('should retrieve second user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 2 }, usersModel)
+      User.getUserById({ id: 2 })
         .then((user) => {
           should.exist(user);
           expect(user.attributes.first_name).to.equal('Jane');
@@ -170,7 +134,7 @@ describe('User service tests', () => {
 
 
     it('should update first user\'s email by ID', (done) => {
-      User.updateUserById(this.userUpdateParams1, usersModel)
+      User.updateUserById(this.userUpdateParams1)
         .then(user => user.attributes.last_name)
         .then((lastName) => {
           expect(lastName).to.equal('Wilson');
@@ -179,7 +143,7 @@ describe('User service tests', () => {
     });
 
     it('should update second user\'s email by ID', (done) => {
-      User.updateUserById(this.userUpdateParams2, usersModel)
+      User.updateUserById(this.userUpdateParams2)
         .then(user => user.attributes.email)
         .then((email) => {
           expect(email).to.equal('Jane@yahoo.com');
@@ -188,7 +152,7 @@ describe('User service tests', () => {
     });
 
     it('should rehash first user\'s password upon update by ID', (done) => {
-      User.getUserById({ id: 1 }, usersModel)
+      User.getUserById({ id: 1 })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('bigowl', passwordHash, (err, match) => {
@@ -199,7 +163,7 @@ describe('User service tests', () => {
     });
 
     it('should rehash second user\'s password upon update by ID', (done) => {
-      User.getUserById({ id: 2 }, usersModel)
+      User.getUserById({ id: 2 })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('smallowl', passwordHash, (err, match) => {
@@ -210,7 +174,7 @@ describe('User service tests', () => {
     });
 
     it('should deactivate first user\'s account by ID', (done) => {
-      User.deactivateUserById({ id: 1 }, usersModel)
+      User.deactivateUserById({ id: 1 })
         .then(user => user.attributes.is_active)
         .then((status) => {
           expect(status).to.be.false;
@@ -219,7 +183,7 @@ describe('User service tests', () => {
     });
 
     it('should deactivate second user\'s account by ID', (done) => {
-      User.deactivateUserById({ id: 2 }, usersModel)
+      User.deactivateUserById({ id: 2 })
         .then(user => user.attributes.is_active)
         .then((status) => {
           expect(status).to.be.false;

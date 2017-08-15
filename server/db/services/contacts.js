@@ -1,5 +1,7 @@
+import Contact from '../models/contacts';
+
 export default {
-  saveNewContact: (params, Model) => {
+  saveNewContact: (params) => {
     const extractedParams = {
       first_name: params.first_name,
       last_name: params.last_name,
@@ -8,35 +10,35 @@ export default {
       external_id: params.external_id
     };
 
-    return new Model(extractedParams).save();
+    return new Contact(extractedParams).save();
   },
 
-  getContactById: (params, Model) => {
+  getContactById: (params) => {
     const { id } = params;
 
-    return new Model({ id })
+    return new Contact({ id })
       .fetch();
   },
 
-  getContactByExternalId: (params, Model) => {
+  getContactByExternalId: (params) => {
     const extractedParams = {
       external_id: params.external_id
     };
 
-    return new Model(extractedParams)
+    return new Contact(extractedParams)
       .fetch();
   },
 
-  getContactByPhoneNumber: (params, Model) => {
+  getContactByPhoneNumber: (params) => {
     const extractedParams = {
       phone_number: params.phone_number
     };
 
-    return new Model(extractedParams)
+    return new Contact(extractedParams)
       .fetch();
   },
 
-  updateContactById: (params, Model) => {
+  updateContactById: (params) => {
     const { id } = params;
     const extractedParams = {
       first_name: params.first_name,
@@ -47,7 +49,7 @@ export default {
       do_not_call: params.do_not_call,
       is_invalid_number: params.is_invalid_number
     };
-    return new Model()
+    return new Contact()
       .where({ id })
       .save(extractedParams, {
         method: 'update'

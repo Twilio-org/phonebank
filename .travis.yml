@@ -10,4 +10,5 @@ env:
 before_script:
   - psql -c 'create database phonebank_test;' -U postgres
 cache:
-  - node_modules
+  directories:
+    - node_modules
