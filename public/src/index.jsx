@@ -13,7 +13,7 @@ import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/edit_account';
 import { ConnectedAccountPage } from './components/account';
-import ScriptPage from './containers/script';
+import ScriptPage from './containers/view_script';
 
 import { authTransition, checkIfAdmin } from './actions/login';
 
