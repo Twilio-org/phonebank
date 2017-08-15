@@ -1,6 +1,6 @@
 const defaultScriptsContactsForm = {
   scripts: [],
-  contacts: []
+  contact_lists: []
 };
 
 export const SET_CAMPAIGN_FORM_SCRIPT = 'SET_CAMPAIGN_FORM_SCRIPT';
@@ -17,7 +17,7 @@ export function campaignFormReducer(state = defaultScriptsContactsForm, action) 
     case SET_CAMPAIGN_FORM_CONTACT_LIST:
       return {
         ...state,
-        contacts: payload
+        contact_lists: payload
       };
     default:
       return state;

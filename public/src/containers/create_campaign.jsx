@@ -22,8 +22,8 @@ function validate(values) {
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    scriptOptions: state.campaign_form.scripts,
-    contactListOptions: state.campaign_form.contacts
+    scripts: state.campaign_form.scripts,
+    contact_lists: state.campaign_form.contact_lists
   };
 }
 

@@ -54,12 +54,12 @@ export default class CampaignPage extends Component {
                 label="Description"
                 component={renderTextArea}
               />
-              {this.props.scriptOptions ? (<Field
+              {this.props.scripts ? (<Field
                 name="script_id"
                 label="Script"
                 keyToUse="name"
                 component={renderDropdown}
-                options={this.props.scriptOptions}
+                options={this.props.scripts}
               />) : null }
               <Button
                 bsStyle="success"
@@ -67,12 +67,12 @@ export default class CampaignPage extends Component {
               >
                 Add Script
               </Button>
-              {this.props.contactListOptions ? (<Field
+              {this.props.contact_lists ? (<Field
                 name="contact_lists_id"
                 label="Contact List"
                 keyToUse="name"
                 component={renderDropdown}
-                options={this.props.contactListOptions}
+                options={this.props.contact_lists}
               />) : null }
             </Col>
           </Row>
