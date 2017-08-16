@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, destroy } from 'redux-form';
 
 import CampaignPage from '../components/campaign/campaign';
 
@@ -37,7 +37,8 @@ export default withRouter(
       {
         saveNewCampaign,
         fetchAllScripts,
-        fetchAllContactLists
+        fetchAllContactLists,
+        destroy
       }
     )(CampaignPage)
   )

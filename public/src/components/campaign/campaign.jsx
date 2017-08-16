@@ -8,6 +8,7 @@ export default class CampaignPage extends Component {
     super(props);
     this.saveDraft = this.saveDraft.bind(this);
     this.saveCampaign = this.saveCampaign.bind(this);
+    this.cancelForm = this.cancelForm.bind(this);
     this.handleCreateScript = this.handleCreateScript.bind(this);
   }
 
@@ -25,6 +26,12 @@ export default class CampaignPage extends Component {
   saveCampaign(values) {
     const { history } = this.props;
     this.props.saveNewCampaign([values, 'active'], history);
+  }
+
+  cancelForm() {
+    const { history, destroy } = this.props;
+    destroy('CampaignPage');
+    history.goBack();
   }
 
   handleCreateScript() {
@@ -90,6 +97,12 @@ export default class CampaignPage extends Component {
               onClick={handleSubmit(this.saveCampaign)}
             >
               Start Campaign
+            </Button>
+            <Button
+              bsStyle="primary"
+              onClick={this.cancelForm}
+            >
+              Cancel
             </Button>
           </ButtonToolbar>
         </form>
