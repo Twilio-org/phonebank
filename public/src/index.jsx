@@ -33,11 +33,13 @@ const Root = () => {
         <App>
           <Switch>
             <Route
+              exact
               path="/admin/questions/new"
               render={() => (isLoggedIn() ?
                 (<QuestionNewFormContainer />) : (<Redirect to="/login" />))}
             />
             <Route
+              exact
               path="/admin/scripts/new"
               render={() => (isLoggedIn() ?
                 (<CreateScriptContainer />) : (<Redirect to="/login" />))}
@@ -68,13 +70,14 @@ const Root = () => {
               }
             />
             <Route
+              exact
               path="/admin/campaigns/new"
               render={
                () => (isLoggedIn() ? (<CreateCampaignContainer />) : (<Redirect to="/login" />))
               }
             />
             <Route
-              path="/campaigns"
+              path="/admin/campaigns"
               render={
                 () => (isLoggedIn() ?
                   (<CampaignsContainer />) : (<Redirect to="/login" />))
@@ -89,14 +92,14 @@ const Root = () => {
               }
             />
             <Route
-              path="/admin_questions"
+              path="/admin/questions"
               render={
                 () => (isLoggedIn() ?
                   (<AdminQuestionsContainer />) : (<Redirect to="/" />))
               }
             />
             <Route
-              path="/admin_scripts"
+              path="/admin/scripts"
               render={
                 () => (isLoggedIn() ?
                   (<AdminScriptsContainer />) : (<Redirect to="/" />))
