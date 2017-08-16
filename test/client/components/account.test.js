@@ -1,8 +1,8 @@
 import React from 'react';
-import { mount, shallow, render } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
-import { AccountPage } from '../../../public/src/components/account';
+import { AccountPage } from '../../../public/src/components/account/account';
 import { fetchUser } from '../../../public/src/actions/account_info';
 import deleteUser from '../../../public/src/actions/edit_account';
 

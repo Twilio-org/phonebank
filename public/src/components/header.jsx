@@ -19,7 +19,7 @@ export default class Header extends Component {
         { title: 'Logout', href: '/logout' }
       ];
       if (this.props.userInfo && this.props.userInfo.is_admin) {
-        links.push({ title: 'All Campaigns', href: '/campaigns' });
+        links.push({ title: 'All Campaigns', href: '/admin/campaigns' });
       }
     } else {
       links = [

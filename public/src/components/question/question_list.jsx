@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-import QuestionTableRow from './questions_table_row';
-import AdminDashboardButtonGroup from './admin_nav_btn_group';
-import AdminBanner from './admin_welcome_banner';
-import CreateNewButton from './admin_createNew_btn';
+import QuestionTableRow from './question_table_row';
+import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
+import AdminBanner from '../common/admin_welcome_banner';
+import CreateNewButton from '../common/admin_createNew_btn';
+import buttons_obj from '../common/admin_button_objs';
 
 export default class QuestionsList extends Component {
   componentDidMount() {
@@ -14,6 +15,7 @@ export default class QuestionsList extends Component {
   render() {
     const { all_questions, account_info: { last_name, first_name }, history } = this.props;
     const thisPage = 'Question';
+    const { view_edit } = buttons_obj;
 
     return (
       <div>
@@ -44,9 +46,11 @@ export default class QuestionsList extends Component {
               all_questions.map(question =>
                 (
                   <QuestionTableRow
-                    question={question}
                     key={question.id}
+                    question={question}
                     handleEditClick={this.props.setCurrentQuestion}
+                    buttons={view_edit}
+                    page={thisPage}
                   />
                 )
               ) :
