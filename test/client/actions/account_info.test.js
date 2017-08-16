@@ -41,6 +41,8 @@ const user = {
   phone_number: '15555555555'
 };
 
+let mock;
+
 describe('accountInfoActions', () => {
   describe('setAccountInfoAction', () => {
     it('should have a type of "SET_USER_ACCOUNT_INFO"', () => {
@@ -61,14 +63,8 @@ describe('accountInfoActions', () => {
   });
   describe('fetchUserAction', () => {
     beforeEach(() => {
-      const mock = new MockAdapter(axios);
-
-      mock.onGet('/users/1').reply(200, {
-        first_name: 'Oscar',
-        last_name: 'Grouch',
-        email: 'oscar@g.com',
-        phone_number: '15555555555'
-      });
+      mock = new MockAdapter(axios);
+      mock.onGet('/users/1').reply(200, user);
     });
     it('should add expected action to the store', () => {
       const expectedActions = { type: SET_USER_ACCOUNT_INFO, payload: user };
