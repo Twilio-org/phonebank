@@ -14,8 +14,6 @@ const initialState = {
   description: null
 };
 
-const store = mockStore(initialState);
-
 const newScript = {
   id: 1,
   name: 'ScriptName',
@@ -63,11 +61,8 @@ const scriptQuestions = [
     sequence_number: 3
   }
 ];
-
-const mock = new MockAdapter(axios);
-mock
-  .onGet('/scripts/1').reply(200, newScript)
-  .onGet('/scripts/1/scriptQuestions/').reply(200, scriptQuestions);
+let mock;
+let store;
 
 describe('script actions', () => {
   describe('setScriptInfo', () => {
@@ -97,6 +92,14 @@ describe('script actions', () => {
     });
   });
   describe('fetchScript', () => {
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+      mock.onGet('/scripts/1').reply(200, newScript);
+      store = mockStore(initialState);
+    });
+    afterEach(() => {
+      mock.restore();
+    });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_INFO, payload: newScript };
       return store.dispatch(fetchScript(1))
@@ -108,13 +111,21 @@ describe('script actions', () => {
     });
   });
   describe('fetchScriptQuestions', () => {
+    beforeEach(() => {
+      mock = new MockAdapter(axios);
+      mock.onGet('/scripts/1/scriptQuestions/').reply(200, scriptQuestions);
+      store = mockStore(initialState);
+    });
+    afterEach(() => {
+      mock.restore();
+    });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_QUESTIONS, payload: scriptQuestions };
       return store.dispatch(fetchScriptQuestions(1))
         .then(() => {
           const actions = store.getActions();
-          expect(actions[1]).toEqual(expectedAction);
-          expect(actions[1].payload).toEqual(scriptQuestions);
+          expect(actions[0]).toEqual(expectedAction);
+          expect(actions[0].payload).toEqual(scriptQuestions);
         });
     });
   });

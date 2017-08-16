@@ -27,7 +27,7 @@ exports[`<ScriptPage /> renders correctly 1`] = `
       <ul>
         <li>
           Description: 
-          What is your age?
+          What is your age range?
         </li>
         <li>
           Type: 
@@ -35,7 +35,7 @@ exports[`<ScriptPage /> renders correctly 1`] = `
         </li>
         <li>
           Responses: 
-          0-10,11-20,21-30,31-40,41-50,51-60,61+
+          0-10,11-20,21-40,41-60,61+
         </li>
       </ul>
     </li>

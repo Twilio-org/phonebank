@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 import ScriptPage from '../../../../public/src/components/script/script';
 import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/script';
 
-const mockStore = {
+const props = {
   script_id: 1,
   script_info: {
     name: 'ScriptName',
@@ -14,72 +14,57 @@ const mockStore = {
   },
   questions: [
     {
+      id: 4,
       title: 'Age',
-      description: 'What is your age?',
+      description: 'What is your age range?',
       type: 'singleselect',
-      responses: '0-10,11-20,21-30,31-40,41-50,51-60,61+'
+      responses: '0-10,11-20,21-40,41-60,61+',
+      created_at: '2017-08-11T21:36:45.387Z',
+      updated_at: '2017-08-11T21:36:45.387Z',
+      script_id: 1,
+      question_id: 3,
+      sequence_number: 1
     },
     {
+      id: 5,
       title: 'Hobbies',
       description: 'What are your hobbies?',
       type: 'multiselect',
-      responses: 'swimming,running,biking,sleeping,eating,weaving'
+      responses: 'swimming,running,biking,sleeping,eating,weaving',
+      created_at: '2017-08-11T21:36:45.398Z',
+      updated_at: '2017-08-11T21:36:45.398Z',
+      script_id: 1,
+      question_id: 2,
+      sequence_number: 2
     },
     {
+      id: 6,
       title: 'Ice Cream',
       description: 'How do you feel about ice cream?',
-      type: 'paragraph'
+      type: 'paragraph',
+      responses: null,
+      created_at: '2017-08-11T21:36:45.514Z',
+      updated_at: '2017-08-11T21:36:45.514Z',
+      script_id: 1,
+      question_id: 1,
+      sequence_number: 3
     }
-  ]
+  ],
+  fetchScript,
+  fetchScriptQuestions
 };
 
 describe('<ScriptPage />', () => {
-  const { script_id, script_info, questions } = mockStore;
   it('renders correctly', () => {
     const tree = renderer.create(
       <MemoryRouter>
-        <ScriptPage
-          script_id={script_id}
-          script_info={script_info}
-          questions={questions}
-          fetchScript={fetchScript}
-          fetchScriptQuestions={fetchScriptQuestions}
-        />
+        <ScriptPage {...props} />
       </MemoryRouter>
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
 describe('ScriptPage props and methods', () => {
-  const props = {
-    script_id: 1,
-    script_info: {
-      name: 'ScriptName',
-      body: 'ScriptBody',
-      description: 'ScriptDescription'
-    },
-    questions: [
-      {
-        title: 'Age',
-        description: 'What is your age?',
-        type: 'singleselect',
-        responses: '0-10,11-20,21-30,31-40,41-50,51-60,61+'
-      },
-      {
-        title: 'Hobbies',
-        description: 'What are your hobbies?',
-        type: 'multiselect',
-        responses: 'swimming,running,biking,sleeping,eating,weaving'
-      },
-      {
-        title: 'Ice Cream',
-        description: 'How do you feel about ice cream?',
-        type: 'paragraph'
-      }
-    ],
-    fetchScript,
-    fetchScriptQuestions
-  };
   const wrapper = shallow(<ScriptPage {...props} />).instance();
   describe('renderQuestions method', () => {
     it('should have a method named renderQuestions', () => {
