@@ -6,10 +6,8 @@ export default function createQuestion(questionInfo, history) {
   // Create single string for all options
   const keys = Object.keys(questionInfo);
   const options = keys.filter(key => key.indexOf('option') >= 0);
-  let responses = '';
-  if (options.length > 0) {
-    responses = options.reduce((response, option) => `${response + questionInfo[option]},`, responses);
-  }
+  const responses = options.join(',');
+
   return dispatch => axios.post('/questions', {
     title,
     description,
