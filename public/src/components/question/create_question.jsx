@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import QuestionForm from '../components/question_form';
+import QuestionForm from './form';
 
-export default class QuestionNewForm extends Component {
+export default class CreateQuestion extends Component {
   constructor(props) {
     super(props);
     this.formSubmit = this.formSubmit.bind(this);
