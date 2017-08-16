@@ -23,9 +23,9 @@ describe('<CreateQuestion />', () => {
     });
   });
   describe('props', () => {
-    const wrapper = shallow(<CreateQuestion />);
+    const wrapperNoProps = shallow(<CreateQuestion />);
     it('should return undefined if redux-form handleSubmit not in props', () => {
-      expect(wrapper.instance().props.handleSubmit).toBe(undefined);
+      expect(wrapperNoProps.instance().props.handleSubmit).toBe(undefined);
     });
   });
   describe('formSubmit()', () => {
