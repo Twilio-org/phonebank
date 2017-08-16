@@ -10,13 +10,13 @@ export default class AdminDashboardButtonGroup extends Component {
   }
 
   handleQuestionsClick() {
-    this.props.history.push('/admin_questions');
+    this.props.history.push('/admin/questions');
   }
   handleCampaignsClick() {
-    this.props.history.push('/campaigns');
+    this.props.history.push('/admin/campaigns');
   }
   handleScriptsClick() {
-    this.props.history.push('/admin_scripts');
+    this.props.history.push('/admin/scripts');
   }
 
   render() {
