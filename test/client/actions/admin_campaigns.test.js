@@ -151,6 +151,7 @@ describe('campaign actions', () => {
 
   describe('fetchAllCampaigns: ', () => {
     mock = new MockAdapter(axios);
+
     beforeEach(() => {
       mock.onGet('/campaigns').reply(200, campaignListFixtures
       );
