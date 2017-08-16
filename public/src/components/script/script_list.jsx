@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-import ScriptsTableRow from './scripts_table_row';
-import AdminDashboardButtonGroup from './admin_nav_btn_group';
-import AdminBanner from './admin_welcome_banner';
-import CreateNewButton from './admin_createNew_btn';
+import ScriptsTableRow from './script_table_row';
+import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
+import AdminBanner from '../common/admin_welcome_banner';
+import CreateNewButton from '../common/admin_createNew_btn';
+import buttons_obj from '../common/admin_button_objs';
 
 export default class ScriptsList extends Component {
   componentDidMount() {
@@ -14,6 +15,7 @@ export default class ScriptsList extends Component {
   render() {
     const { all_scripts, account_info: { last_name, first_name }, history } = this.props;
     const thisPage = 'Script';
+    const { view_edit } = buttons_obj;
     return (
       <div>
         <AdminBanner
@@ -42,9 +44,11 @@ export default class ScriptsList extends Component {
               all_scripts.map(script =>
                 (
                   <ScriptsTableRow
-                    script={script}
                     key={script.id}
+                    script={script}
                     handleEditClick={this.props.setCurrentScript}
+                    buttons={view_edit}
+                    page={thisPage}
                   />
                 )
               ) :

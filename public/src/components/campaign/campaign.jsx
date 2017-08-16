@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Field } from 'redux-form';
 import { Button, ButtonToolbar, PageHeader, Row, Col } from 'react-bootstrap';
-import { renderField, renderDropdown, renderTextArea } from './common/form_helpers';
-import { saveNewCampaign } from '../actions/campaign';
-import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
+import { renderField, renderDropdown, renderTextArea } from '../common/form_helpers';
 
-class CampaignPage extends Component {
+export default class CampaignPage extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
+    this.saveCampaign = this.saveCampaign.bind(this);
     this.handleCreateScript = this.handleCreateScript.bind(this);
   }
 
@@ -20,10 +17,14 @@ class CampaignPage extends Component {
     this.props.fetchAllContactLists();
   }
 
-
-  onSubmit(values) {
+  saveDraft(values) {
     const { history } = this.props;
-    this.props.saveNewCampaign(values, history);
+    this.props.saveNewCampaign([values, 'draft'], history);
+  }
+
+  saveCampaign(values) {
+    const { history } = this.props;
+    this.props.saveNewCampaign([values, 'active'], history);
   }
 
   handleCreateScript() {
@@ -35,7 +36,7 @@ class CampaignPage extends Component {
     return (
       <div>
         <PageHeader>Add Campaign</PageHeader>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
+        <form>
           <Field
             name="name"
             label="Name (internal)"
@@ -53,12 +54,12 @@ class CampaignPage extends Component {
                 label="Description"
                 component={renderTextArea}
               />
-              {this.props.scriptOptions ? (<Field
+              {this.props.scripts ? (<Field
                 name="script_id"
                 label="Script"
                 keyToUse="name"
                 component={renderDropdown}
-                options={this.props.scriptOptions}
+                options={this.props.scripts}
               />) : null }
               <Button
                 bsStyle="success"
@@ -66,52 +67,33 @@ class CampaignPage extends Component {
               >
                 Add Script
               </Button>
-              {this.props.contactListOptions ? (<Field
+              {this.props.contact_lists ? (<Field
                 name="contact_lists_id"
                 label="Contact List"
                 keyToUse="name"
                 component={renderDropdown}
-                options={this.props.contactListOptions}
+                options={this.props.contact_lists}
               />) : null }
             </Col>
           </Row>
           <ButtonToolbar>
-            <Button bsStyle="primary" type="submit">Save Campaign</Button>
+            <Button
+              bsStyle="primary"
+              type="submit"
+              onClick={handleSubmit(this.saveDraft)}
+            >
+              Save as Draft
+            </Button>
+            <Button
+              bsStyle="primary"
+              type="submit"
+              onClick={handleSubmit(this.saveCampaign)}
+            >
+              Start Campaign
+            </Button>
           </ButtonToolbar>
         </form>
       </div>
     );
   }
 }
-
-
-function validate(values) {
-  const errors = {};
-  const { password, password_confirm } = values;
-  if (!!password && !!password_confirm && password !== password_confirm) {
-    errors.password_confirm = 'the passwords must match.';
-  }
-  return errors;
-}
-
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-    scriptOptions: state.campaign_form_scripts.scriptOptions,
-    contactListOptions: state.campaign_form_contact_lists.contactListOptions
-  };
-}
-
-export default withRouter(
-  reduxForm({
-    validate,
-    form: 'CampaignPage',
-    destroyOnUnmount: false
-  })(
-    connect(mapStateToProps, {
-      saveNewCampaign,
-      fetchAllScripts,
-      fetchAllContactLists
-    })(CampaignPage)
-  )
-);

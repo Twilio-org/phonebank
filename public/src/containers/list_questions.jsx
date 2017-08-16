@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import QuestionsList from '../components/questions_list';
+import QuestionsList from '../components/question/question_list';
 
 import { fetchAllQuestions, setCurrentQuestion } from '../actions/admin_questions';
 

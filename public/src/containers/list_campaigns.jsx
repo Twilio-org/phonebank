@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import CampaignList from '../components/campaign_list';
+import CampaignList from '../components/campaign/campaign_list';
 
 import { fetchAllCampaigns, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
   return {
-    current_campaign: state.campaigns.current_campaign,
-    all_campaigns: state.campaigns.all_campaigns,
+    current_campaign: state.admin_campaigns.current_campaign,
+    all_campaigns: state.admin_campaigns.all_campaigns,
     account_info: state.account_info,
     auth: state.auth
   };
