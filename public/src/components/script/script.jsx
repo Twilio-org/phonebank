@@ -8,18 +8,18 @@ export default class ScriptPage extends Component {
 
   componentDidMount() {
     const { script_id } = this.props;
-    this.props.fetchScript(script_id);
-    this.props.fetchScriptQuestions(script_id);
+    this.props.fetchScript(6);
+    this.props.fetchScriptQuestions(6);
   }
 
   renderQuestions() {
     const { questions } = this.props;
     return questions.map(question =>
       (<li key={question.id}>{question.title}
-        <ul key={question.title}>
-          <li key="description">Description: {question.description}</li>
-          <li key="type">Type: {question.type}</li>
-          <li key="responses">Responses: {question.responses ? question.responses : 'Text Paragraph'}</li>
+        <ul>
+          <li>Description: {question.description}</li>
+          <li>Type: {question.type}</li>
+          <li>Responses: {question.responses ? question.responses : 'Text Paragraph'}</li>
         </ul>
       </li>));
   }

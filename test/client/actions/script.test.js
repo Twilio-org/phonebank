@@ -65,6 +65,9 @@ const scriptQuestions = [
 ];
 
 const mock = new MockAdapter(axios);
+mock
+  .onGet('/scripts/1').reply(200, newScript)
+  .onGet('/scripts/1/scriptQuestions/').reply(200, scriptQuestions);
 
 describe('script actions', () => {
   describe('setScriptInfo', () => {
@@ -94,12 +97,6 @@ describe('script actions', () => {
     });
   });
   describe('fetchScript', () => {
-    beforeEach(() => {
-      mock.onGet('/scripts/1').reply(200, newScript);
-    });
-    afterEach(() => {
-      mock.restore();
-    });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_INFO, payload: newScript };
       return store.dispatch(fetchScript(1))
@@ -107,68 +104,18 @@ describe('script actions', () => {
           const actions = store.getActions();
           expect(actions[0]).toEqual(expectedAction);
           expect(actions[0].payload).toEqual(newScript);
-        })
-        .catch((err) => {
-          console.log('the error in fetchScript was: ', err);
         });
     });
   });
   describe('fetchScriptQuestions', () => {
-    beforeEach(() => {
-      // mock.onGet('/scripts/1/scriptQuestions').reply(200, [
-      //   {
-      //     "id": 4,
-      //     "title": "Age",
-      //     "description": "What is your age range?",
-      //     "type": "singleselect",
-      //     "responses": "0-10,11-20,21-40,41-60,61+",
-      //     "created_at": "2017-08-11T21:36:45.387Z",
-      //     "updated_at": "2017-08-11T21:36:45.387Z",
-      //     "script_id": 6,
-      //     "question_id": 3,
-      //     "sequence_number": 1
-      //   },
-      //   {
-      //     "id": 5,
-      //     "title": "Hobbies",
-      //     "description": "What are your hobbies?",
-      //     "type": "multiselect",
-      //     "responses": "swimming,running,biking,sleeping,eating,weaving",
-      //     "created_at": "2017-08-11T21:36:45.398Z",
-      //     "updated_at": "2017-08-11T21:36:45.398Z",
-      //     "script_id": 6,
-      //     "question_id": 2,
-      //     "sequence_number": 2
-      //   },
-      //   {
-      //     "id": 6,
-      //     "title": "Ice Cream",
-      //     "description": "How do you feel about ice cream?",
-      //     "type": "paragraph",
-      //     "responses": null,
-      //     "created_at": "2017-08-11T21:36:45.514Z",
-      //     "updated_at": "2017-08-11T21:36:45.514Z",
-      //     "script_id": 6,
-      //     "question_id": 1,
-      //     "sequence_number": 3
-      //   }
-      // ]);
-      mock.onGet('/scripts/1/scriptQuestions/').reply(200, scriptQuestions);
-    });
-    afterEach(() => {
-      mock.restore();
-    });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_QUESTIONS, payload: scriptQuestions };
       return store.dispatch(fetchScriptQuestions(1))
         .then(() => {
           const actions = store.getActions();
-          expect(actions[0]).toEqual(expectedAction);
-          expect(actions[0].payload).toEqual(scriptQuestions);
+          expect(actions[1]).toEqual(expectedAction);
+          expect(actions[1].payload).toEqual(scriptQuestions);
         });
-        // .catch((err) => {
-        //   console.log('the error in fetchScriptQuestions was: ', err);
-        // });
     });
   });
 });
