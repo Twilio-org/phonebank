@@ -1,8 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { MemoryRouter } from 'react-router-dom';
-import Form from 'redux-form';
-import renderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
 import CreateQuestion from '../../../../public/src/components/question/create_question';
 
 describe('<CreateQuestion />', () => {
@@ -18,7 +15,6 @@ describe('<CreateQuestion />', () => {
   const wrapper = shallow(<CreateQuestion {...props}/>);
 
   describe('rendering', () => {
-    const wrapper = shallow(<CreateQuestion {...props}/>);
     it('should render <QuestionForm />', () => {
       expect(wrapper.find('QuestionForm').length).toBe(1);
     });
