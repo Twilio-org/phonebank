@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
 import FieldGroup from '../../components/common/form/field_group';
 import Dropdown from '../../components/common/form/dropdown';
 
@@ -61,7 +61,10 @@ export default class QuestionForm extends Component {
             }
           </Col>
         </Row>
-        <Button type="submit" bsStyle="primary">{this.props.buttonText}</Button>
+        <ButtonToolbar>
+          <Button type="submit" bsStyle="primary">{this.props.buttonText}</Button>
+          <Button type="button" onClick={this.props.history.goBack}>Cancel</Button>
+        </ButtonToolbar>
       </form>
     );
   }
