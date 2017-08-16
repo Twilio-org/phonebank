@@ -1,11 +1,19 @@
 import React from 'react';
 import { FormControl, FormGroup, ControlLabel, HelpBlock, Popover, Row, Col } from 'react-bootstrap';
 
-const Dropdown = (dropdownProps) => {
-  const { label, help, options, placeholder, errorClass, errorText, ...props } = dropdownProps;
+const Dropdown = (props) => {
+  const { label, helpText, options, placeholder, input, meta } = props;
+  const errorClass = meta.touched && meta.error ? 'error' : '';
+  const errorText = meta.touched ? meta.error : '';
+  // Renders options passed in from props
+  // Should be an an array of objects
   function renderOptions() {
     if (options) {
-      return options.map(op => (<option id={op} key={op} value={op.toLowerCase()}>{op}</option>));
+      return options.map(op =>
+        (<option id={op.value} key={op.value} value={op.value}>
+          {op.label}
+        </option>)
+      );
     }
     return '';
   }
@@ -14,12 +22,13 @@ const Dropdown = (dropdownProps) => {
       <Col xs={8}>
         <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''}>
           <ControlLabel>{label}</ControlLabel>
-          {help && <HelpBlock>{help}</HelpBlock>}
+          {helpText && <HelpBlock>{helpText}</HelpBlock>}
           <FormControl
             componentClass="select"
             placeholder={placeholder}
-            {...props}
+            {...input}
           >
+            <option value="select">Select</option>
             {renderOptions()}
           </FormControl>
         </FormGroup>
