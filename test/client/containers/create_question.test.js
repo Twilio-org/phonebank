@@ -7,10 +7,9 @@ import thunk from 'redux-thunk';
 import CreateQuestionContainer from '../../../public/src/containers/create_question';
 
 describe('<CreateQuestionContainer />', () => {
-  // Mock Store setup:
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
-
+  
   describe('rendering', () => {
     const store = mockStore();
     it('renders correctly', () => {
