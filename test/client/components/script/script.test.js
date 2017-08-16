@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { MemoryRouter } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import ScriptPage from '../../../../public/src/components/script/script';
 import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/script';
@@ -57,9 +56,7 @@ const props = {
 describe('<ScriptPage />', () => {
   it('renders correctly', () => {
     const tree = renderer.create(
-      <MemoryRouter>
         <ScriptPage {...props} />
-      </MemoryRouter>
     ).toJSON();
     expect(tree).toMatchSnapshot();
   });
