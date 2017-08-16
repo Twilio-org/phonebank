@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, formValueSelector } from 'redux-form';
+import { reduxForm, formValueSelector, destroy } from 'redux-form';
 import CreateQuestion from '../components/question/create_question';
 import createQuestion from '../actions/questions';
 import validate from '../helpers/question_validation';
@@ -18,7 +18,7 @@ const CreateQuestionContainer = withRouter(
     validate,
     form: FORM_NAME
   })(
-    connect(mapStateToProps, { createQuestion })(CreateQuestion)
+    connect(mapStateToProps, { createQuestion, destroy })(CreateQuestion)
   )
 );
 export default CreateQuestionContainer;

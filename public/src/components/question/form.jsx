@@ -63,7 +63,7 @@ export default class QuestionForm extends Component {
         </Row>
         <ButtonToolbar>
           <Button type="submit" bsStyle="primary">{this.props.buttonText}</Button>
-          <Button type="button" onClick={this.props.history.goBack}>Cancel</Button>
+          <Button type="button" onClick={this.props.onCancel}>Cancel</Button>
         </ButtonToolbar>
       </form>
     );
