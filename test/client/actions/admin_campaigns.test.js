@@ -38,9 +38,9 @@ describe('campaign actions', () => {
   beforeEach(() => {
     store = mockStore(initialState);
   });
-  function checkObjectProps(obj) {
-    const expectedCampaignProps = ['id', 'name', 'title', 'description', 'status', 'contact_lists_id', 'script_id', 'updated_at', 'created_at'];
-    return expectedCampaignProps.reduce((accum, curr) => {
+  const expectedCampaignProps = ['id', 'name', 'title', 'description', 'status', 'contact_lists_id', 'script_id', 'updated_at', 'created_at'];
+  function checkObjectProps(expectedProps, obj) {
+    return expectedProps.reduce((accum, curr) => {
       const propertyExists = Object.prototype.hasOwnProperty.call(obj, curr);
       return accum && propertyExists;
     }, true);
@@ -113,9 +113,9 @@ describe('campaign actions', () => {
         expect(Array.isArray(payload)).toBe(true);
       });
       it('should contain 3 objects', () => {
-        const firstObjectProps = checkObjectProps(payload[0]);
-        const secondObjectProps = checkObjectProps(payload[1]);
-        const thirdObjectProps = checkObjectProps(payload[2]);
+        const firstObjectProps = checkObjectProps(expectedCampaignProps, payload[0]);
+        const secondObjectProps = checkObjectProps(expectedCampaignProps, payload[1]);
+        const thirdObjectProps = checkObjectProps(expectedCampaignProps, payload[2]);
         expect(payload.length).toBe(3);
         expect(thirdObjectProps && secondObjectProps && firstObjectProps).toBe(true);
       });
@@ -143,7 +143,7 @@ describe('campaign actions', () => {
         expect(typeof payload).toBe('object');
       });
       it('should have all properties: ', () => {
-        expect(checkObjectProps(payload)).toBe(true);
+        expect(checkObjectProps(expectedCampaignProps, payload)).toBe(true);
         expect(Object.keys(payload).length).toBe(9);
       });
     });
