@@ -13,11 +13,11 @@ import AdminQuestionsContainer from './containers/list_questions';
 import AdminScriptsContainer from './containers/list_scripts';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
-import EditAccountInfo from './components/edit_account';
+import EditAccountInfo from './components/account/edit_account';
 import CreateCampaignContainer from './containers/create_campaign';
 import CreateScriptContainer from './containers/create_script';
 import CreateQuestionContainer from './containers/create_question';
-import { ConnectedAccountPage } from './components/account';
+import { ConnectedAccountPage } from './components/account/account';
 // import { authTransition, checkIfAdmin } from './actions/login';
 import { authTransition } from './actions/login';
 
