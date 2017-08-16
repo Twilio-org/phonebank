@@ -51,7 +51,8 @@ export function fetchAllCampaigns() {
   })
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
-    return dispatch(setCampaignsList(campaignsList));
+    dispatch(setCampaignsList(campaignsList));
+    return campaigns;
   })
   .catch((err) => {
     console.log('error fetching all campaigns from the db: ', err);
