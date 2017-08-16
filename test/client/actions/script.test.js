@@ -1,4 +1,9 @@
-import { setScriptInfo, setScriptQuestions } from '../../../public/src/actions/script';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { setScriptInfo, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../../../public/src/actions/script';
+import { SET_SCRIPT_INFO, SET_SCRIPT_QUESTIONS } from '../../../public/src/reducers/script';
 
 describe('script actions', () => {
   describe('setScriptInfo', () => {
@@ -50,5 +55,8 @@ describe('script actions', () => {
         expect(setScriptQuestions(questions).payload).toEqual(questions);
       });
     });
+  });
+  describe('fetchScript', () => {
+
   });
 });
