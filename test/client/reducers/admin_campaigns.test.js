@@ -1,11 +1,11 @@
 import { campaignListReducer, SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../../../public/src/reducers/campaign';
 
 describe('campaignListReducer tests: ', () => {
+  const expectedState = {
+    all_campaigns: [],
+    current_campaign: {}
+  };
   describe('default behavior', () => {
-    const expectedState = {
-      all_campaigns: [],
-      current_campaign: {}
-    };
     const defaultState = campaignListReducer(undefined, {});
     const { all_campaigns, current_campaign } = defaultState;
     it('should return the default state if the action type does not match any cases: ', () => {
@@ -87,19 +87,19 @@ describe('campaignListReducer tests: ', () => {
     ];
 
     describe('Should add an array of campaign all_campaigns when \'SET_CAMPAIGNS\' is called: ', () => {
-      const testResult = campaignListReducer({}, testActions[0]);
-      const { all_campaigns } = testResult;
+      const testResult = campaignListReducer(expectedState, testActions[0]);
+      const { all_campaigns, current_campaign } = testResult;
       it('should update all_campaigns to be an array of campaigns: ', () => {
         expect(all_campaigns.length).toBe(4);
       });
       it('should not update current_campaign: ', () => {
-        expect(!!testResult.current_campaign).toBe(false);
+        expect(!!Object.keys(current_campaign).length).toBe(false);
       });
     });
 
     describe('should add a campaign object to current_campaign when \'SET_CAMPAIGN_CURRENT\' is called: ', () => {
-      const testResult2 = campaignListReducer({}, testActions[1]);
-      const { current_campaign } = testResult2;
+      const testResult2 = campaignListReducer(expectedState, testActions[1]);
+      const { current_campaign, all_campaigns } = testResult2;
       it('should update current campaign with a (non-empty) campaign object', () => {
         expect(current_campaign).toEqual(testActions[1].payload);
         expect(!!Object.keys(current_campaign).length).toBe(true);
@@ -112,16 +112,15 @@ describe('campaignListReducer tests: ', () => {
         }, true);
         expect(allProps).toBe(true);
       });
+      it('should not update all_campaigns: ', () => {
+        expect(!!Object.keys(all_campaigns).length).toBe(false);
+      });
     });
 
     describe('it should handle non-matching action types: ', () => {
-      const defaultState = {
-        all_campaigns: [],
-        current_campaign: {}
-      };
       it('should return the default if the action type is not a case in the reducer: ', () => {
-        const testResult3 = campaignListReducer(defaultState, testActions[2]);
-        expect(testResult3).toEqual(defaultState);
+        const testResult3 = campaignListReducer(expectedState, testActions[2]);
+        expect(testResult3).toEqual(expectedState);
       });
     });
   });
