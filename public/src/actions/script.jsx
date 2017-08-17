@@ -33,7 +33,7 @@ export function fetchScript(id) {
 export function fetchScriptQuestions(id) {
   return dispatch => axios.get(`/scripts/${id}/scriptQuestions/`)
     .then((res) => {
-      const { data: scriptQuestions } = res.data;
+      const { data: scriptQuestions } = res;
       return dispatch(setScriptQuestions(scriptQuestions));
     })
     .catch((err) => {

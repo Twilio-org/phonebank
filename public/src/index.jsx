@@ -86,7 +86,7 @@ const Root = () => {
               }
             />
             <Route
-              path="/admin/scripts"
+              path="/admin/scripts/:id"
               render={
                 () => (isLoggedIn() ?
                   (<ScriptPage />) : (<Redirect to="/login" />))
