@@ -69,7 +69,7 @@ describe('question actions', () => {
       it('should have a type property (not undefined): ', () => {
         expect(type).toBeDefined();
       });
-      it('should have the type property "SET_CAMPAIGNS"', () => {
+      it('should have the type property "SET_QUESTIONS"', () => {
         expect(type).toEqual('SET_QUESTIONS');
       });
       it('should not be null: ', () => {
