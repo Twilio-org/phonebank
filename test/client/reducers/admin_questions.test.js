@@ -61,7 +61,7 @@ describe('script list view reducer tests: ', () => {
     const { current_question, all_questions } = testResult;
     it('should update current_question when "SET_QUESTION_CURRENT" is dispatched ', () => {
       expect(current_question).toEqual(questionFixture);
-      expect(!!Object.keys(current_question).length).toBe(true);
+      expect(isObjectEmpty(current_question)).toBe(false);
     });
     it(`Should have the following props: ${expectedQuestionProps.join(', ')}`, () => {
       expect(checkObjectProps(expectedQuestionProps, current_question)).toBe(true);
