@@ -1,58 +1,25 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { mockStore, exposeLocalStorageMock, checkObjectProps } from './action_test_helpers';
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import { setScriptsList, setCurrentScript, fetchAllScripts } from '../../../public/src/actions/admin_scripts';
+import fixtures from '../client_fixtures';
 
+// localStorage:
 exposeLocalStorageMock();
 
-const initialState = {
-  current_script: {},
-  all_scripts: []
-};
-
-let mock;
+// scriptFixtures:
+const { defaultScripts: initialState,
+        listFixture: scriptListFixtures,
+        mapFixture: scriptFixture } = fixtures.scriptFixtures;
 
 describe('script actions', () => {
+  let mock;
   let store;
   beforeEach(() => {
     store = mockStore(initialState);
   });
 
-  const scriptListFixtures = [
-    {
-      id: 1,
-      name: 'Script 1',
-      description: 'test script 1',
-      body: 'meow',
-      created_at: '2017-08-15T21:35:30.321Z',
-      updated_at: '2017-08-15T21:35:30.321Z'
-    },
-    {
-      id: 2,
-      name: 'Script 2',
-      description: 'test script 2',
-      body: 'meow',
-      created_at: '2017-08-15T21:35:30.321Z',
-      updated_at: '2017-08-15T21:35:30.321Z'
-    },
-    {
-      id: 3,
-      name: 'Script 3',
-      description: 'test script 3',
-      body: 'meow',
-      created_at: '2017-08-15T21:35:30.321Z',
-      updated_at: '2017-08-15T21:35:30.321Z'
-    }
-  ];
-  const scriptFixture = {
-    id: 7,
-    name: 'Script 1',
-    description: 'test script 1',
-    body: 'meow',
-    created_at: '2017-08-15T21:35:30.321Z',
-    updated_at: '2017-08-15T21:35:30.321Z'
-  };
   const expectedScriptProps = Object.keys(scriptFixture);
   const numberOfProps = expectedScriptProps.length;
 

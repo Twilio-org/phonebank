@@ -29,3 +29,11 @@ export function checkObjectProps(expectedProps, obj) {
     return accum && propertyExists;
   }, true);
 }
+
+export function isObjectEmpty(targetObj) {
+  if (Array.isArray(targetObj)) {
+    return !targetObj.length;
+  }
+  return !Object.keys(targetObj).length;
+}
+
