@@ -60,7 +60,6 @@ describe('question actions', () => {
   };
   const expectedQuestionProps = Object.keys(questionFixture);
   const numberOfProps = expectedQuestionProps.length;
-  // left off
 
   describe('setQuestionList: ', () => {
     const setQuestionListResult = setQuestionList(questionListFixtures);
