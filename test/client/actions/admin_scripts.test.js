@@ -1,33 +1,15 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from './action_test_helpers';
 import { setScriptsList, setCurrentScript, fetchAllScripts } from '../../../public/src/actions/admin_scripts';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+exposeLocalStorageMock();
+
 const initialState = {
   current_script: {},
   all_scripts: []
 };
-// mock local storage
-const localStorageMock = (() => {
-  let localstore = {};
-  return {
-    getItem(key) {
-      return localstore[key];
-    },
-    setItem(key, value) {
-      localstore[key] = value.toString();
-    },
-    clear() {
-      localstore = {};
-    }
-  };
-})();
-
-global.localStorage = localStorageMock;
 
 let mock;
 
@@ -36,12 +18,6 @@ describe('script actions', () => {
   beforeEach(() => {
     store = mockStore(initialState);
   });
-  function checkObjectProps(expectedProps, obj) {
-    return expectedProps.reduce((accum, curr) => {
-      const propertyExists = Object.prototype.hasOwnProperty.call(obj, curr);
-      return accum && propertyExists;
-    }, true);
-  }
 
   const scriptListFixtures = [
     {
@@ -79,7 +55,6 @@ describe('script actions', () => {
   };
   const expectedScriptProps = Object.keys(scriptFixture);
   const numberOfProps = expectedScriptProps.length;
-  // left off
 
   describe('setScriptList: ', () => {
     const setScriptListResult = setScriptsList(scriptListFixtures);
