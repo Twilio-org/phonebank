@@ -3,7 +3,6 @@ import { SET_SCRIPTS, SET_SCRIPT_CURRENT, adminScriptsReducer } from '../../../p
 import fixtures from '../client_fixtures';
 import { checkObjectProps, isObjectEmpty } from '../client_test_helpers';
 
-// scriptFixtures:
 const { defaultScripts: initialState,
         listFixture: scriptListFixtures,
         mapFixture: scriptFixture } = fixtures.scriptFixtures;

@@ -1,4 +1,3 @@
-
 import { SET_QUESTIONS, SET_QUESTION_CURRENT, adminQuestionsReducer } from '../../../public/src/reducers/admin_questions';
 
 import fixtures from '../client_fixtures';
