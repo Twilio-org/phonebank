@@ -1,97 +1,25 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { destroy } from 'redux-form';
 
-
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
+import fixtures from '../client_fixtures';
 import { saveNewCampaign, setCampaignsList, setCurrentCampaign, fetchAllCampaigns } from '../../../public/src/actions/campaign';
 
-// Mock Store setup:
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const initialState = {
-  all_campaigns: [],
-  current_campaign: {}
-};
-// mock local storage
-const localStorageMock = (() => {
-  let localstore = {};
-  return {
-    getItem(key) {
-      return localstore[key];
-    },
-    setItem(key, value) {
-      localstore[key] = value.toString();
-    },
-    clear() {
-      localstore = {};
-    }
-  };
-})();
+exposeLocalStorageMock();
 
-global.localStorage = localStorageMock;
-let mock;
+const { defaultScripts: initialState,
+        listFixture: campaignListFixtures,
+        mapFixture: campaignFixture } = fixtures.campaignFixtures;
 
 describe('campaign actions', () => {
+  let mock;
   let store;
   beforeEach(() => {
     store = mockStore(initialState);
   });
-  const expectedCampaignProps = ['id', 'name', 'title', 'description', 'status', 'contact_lists_id', 'script_id', 'updated_at', 'created_at'];
-  function checkObjectProps(expectedProps, obj) {
-    return expectedProps.reduce((accum, curr) => {
-      const propertyExists = Object.prototype.hasOwnProperty.call(obj, curr);
-      return accum && propertyExists;
-    }, true);
-  }
-
-  const campaignListFixtures = [
-    {
-      id: 1,
-      name: 'Campaign 3',
-      title: 'Campaign 3 Title',
-      description: 'ice cream',
-      status: 'active',
-      contact_lists_id: 1,
-      script_id: 1,
-      updated_at: '4321',
-      created_at: '1234'
-    },
-    {
-      id: 2,
-      name: 'Campaign 3',
-      title: 'Campaign 3 Title',
-      description: 'ice cream',
-      status: 'active',
-      contact_lists_id: 2,
-      script_id: 2,
-      updated_at: '4321',
-      created_at: '1234'
-    },
-    {
-      id: 3,
-      name: 'Campaign 3',
-      title: 'Campaign 3 Title',
-      description: 'ice cream',
-      status: 'active',
-      contact_lists_id: 3,
-      script_id: 3,
-      updated_at: '4321',
-      created_at: '1234'
-    }
-  ];
-  const campaignFixture = {
-    id: 3,
-    name: 'Campaign 3',
-    title: 'Campaign 3 Title',
-    description: 'ice cream',
-    status: 'active',
-    contact_lists_id: 3,
-    script_id: 3,
-    updated_at: '4321',
-    created_at: '1234'
-  };
+  const expectedCampaignProps = Object.keys(campaignFixture);
+  const numberOfProps = expectedCampaignProps.length;
 
   describe('setCampaignsList: ', () => {
     const setCampaingsListResult = setCampaignsList(campaignListFixtures);
@@ -144,7 +72,7 @@ describe('campaign actions', () => {
       });
       it('should have all properties: ', () => {
         expect(checkObjectProps(expectedCampaignProps, payload)).toBe(true);
-        expect(Object.keys(payload).length).toBe(9);
+        expect(Object.keys(payload).length).toBe(numberOfProps);
       });
     });
   });
@@ -164,9 +92,9 @@ describe('campaign actions', () => {
         const expectedAction = setCampaignsList(campaignListFixtures);
         return store.dispatch(fetchAllCampaigns())
           .then(() => {
-            const dispatchedActions = store.getActions();
-            const { type, payload } = dispatchedActions[0];
-            expect(dispatchedActions[0]).toEqual(expectedAction);
+            const [dispatchedActions] = store.getActions();
+            const { type, payload } = dispatchedActions;
+            expect(dispatchedActions).toEqual(expectedAction);
             expect(type).toBe('SET_CAMPAIGNS');
             expect(payload).toEqual(campaignListFixtures);
           });
@@ -191,9 +119,9 @@ describe('campaign actions', () => {
         };
         return store.dispatch(saveNewCampaign([campaignFixture], history))
           .then(() => {
-            const dispatchedActions = store.getActions();
-            const { type, meta } = dispatchedActions[0];
-            expect(dispatchedActions[0]).toEqual(expectedAction);
+            const [dispatchedActions] = store.getActions();
+            const { type, meta } = dispatchedActions;
+            expect(dispatchedActions).toEqual(expectedAction);
             expect(type).toBe('@@redux-form/DESTROY');
             expect(meta).toEqual({
               form: [
