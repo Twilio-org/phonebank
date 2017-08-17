@@ -22,9 +22,9 @@ describe('campaign actions', () => {
   const numberOfProps = expectedCampaignProps.length;
 
   describe('setCampaignsList: ', () => {
-    const setCampaingsListResult = setCampaignsList(campaignListFixtures);
+    const setCampaignsListResult = setCampaignsList(campaignListFixtures);
     describe('type: ', () => {
-      const { type } = setCampaingsListResult;
+      const { type } = setCampaignsListResult;
       it('should have a type property (not undefined): ', () => {
         expect(type).toBeDefined();
       });
@@ -36,7 +36,7 @@ describe('campaign actions', () => {
       });
     });
     describe('payload: ', () => {
-      const { payload } = setCampaingsListResult;
+      const { payload } = setCampaignsListResult;
       it('should have a payload that is an array of objects: ', () => {
         expect(Array.isArray(payload)).toBe(true);
       });
