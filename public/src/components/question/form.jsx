@@ -5,6 +5,13 @@ import FieldGroup from '../../components/common/form/field_group';
 import Dropdown from '../../components/common/form/dropdown';
 
 export default class QuestionForm extends Component {
+  componentDidMount() {
+    if (!this.props.onSubmit) {
+      throw new Error('onSubmit is not passed. Pass in a function.');
+    } else if (!this.props.onCancel) {
+      throw new Error('onCancel is not passed. Pass in a function.');
+    }
+  }
   render() {
     const { handleSubmit } = this.props;
     const type = this.props.questionType;
