@@ -8,8 +8,19 @@ import CreateNewButton from '../common/admin_createNew_btn';
 import buttons_obj from '../common/admin_button_objs';
 
 export default class ScriptsList extends Component {
+  constructor(props) {
+    super(props);
+    this.handleViewClick = this.handleViewClick.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchAllScripts();
+  }
+
+  handleViewClick(script) {
+    this.props.setCurrentScript(script);
+    const { history } = this.props;
+    history.push(`/admin/scripts/${script.id}`);
   }
 
   render() {
@@ -47,6 +58,7 @@ export default class ScriptsList extends Component {
                     key={script.id}
                     script={script}
                     handleEditClick={this.props.setCurrentScript}
+                    handleRedirectClick={this.handleViewClick(script)}
                     buttons={view_edit}
                     page={thisPage}
                   />
