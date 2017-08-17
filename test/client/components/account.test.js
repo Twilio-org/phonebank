@@ -107,7 +107,7 @@ describe('AccountPage props and methods:', () => {
         const accountInfoKeys = Object.keys(props.account_info);
         expect(accountInfoKeys.length).toBe(4);
         accountInfoKeys.forEach((key) => {
-          expect(props.account_info.hasOwnProperty(key)).toBe(true);
+          expect(Object.prototype.hasOwnProperty.call(props.account_info, key)).toBe(true);
         });
       });
     });
