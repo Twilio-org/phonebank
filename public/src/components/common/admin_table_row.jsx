@@ -4,7 +4,6 @@ import AdminListBtnGroup from '../common/admin_list_btngrp';
 const AdminTableRow = (props) => {
   const { item, headers } = props;
   const { buttons } = props;
-  console.log(item.id, '77777')
   const button = buttons(props);
   return (
     <tr>
