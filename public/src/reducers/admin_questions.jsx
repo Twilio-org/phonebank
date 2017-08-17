@@ -1,7 +1,7 @@
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_QUESTION_CURRENT = 'SET_QUESTION_CURRENT';
 
-const defaultQuestions = {
+export const defaultQuestions = {
   current_question: {},
   all_questions: []
 };
