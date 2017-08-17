@@ -31,7 +31,7 @@ export function checkObjectProps(expectedProps, obj) {
 }
 
 export function isObjectEmpty(targetObj) {
-  if (!!targetObj) {
+  if (!targetObj) {
     return 'this function must recieve an object or array';
   }
   if (Array.isArray(targetObj)) {
