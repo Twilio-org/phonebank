@@ -1,10 +1,10 @@
 const tableInfo = {
   campaigns: {
-    headers: ['Name', 'Title', 'Description', 'Status', 'Script Id', 'Contact List', 'Date Created'],
+    headers: [['Name', 'name'], ['Title', 'title'], ['Description', 'description'], ['Status', 'status'], ['Script Id', 'script_id'], ['Contact List', 'contact_lists_id'], ['Date Created', 'created_at']],
     redirect_path: '/admin/campaigns/new'
   },
   scripts: {
-    headers: ['Name', 'Body', 'Description', 'Created At', 'Updated At'],
+    headers: [['Name', 'name'], ['Body', 'body'], ['Description', 'created_at'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
     redirect_path: '/admin/scripts/new'
   },
   questions: {
