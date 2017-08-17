@@ -1,63 +1,23 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import { setQuestionList, setCurrentQuestion, fetchAllQuestions } from '../../../public/src/actions/admin_questions';
+import fixtures from '../client_fixtures';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const initialState = {
-  current_question: {},
-  all_questions: []
-};
-// mock local storage
-const localStorageMock = (() => {
-  let localstore = {};
-  return {
-    getItem(key) {
-      return localstore[key];
-    },
-    setItem(key, value) {
-      localstore[key] = value.toString();
-    },
-    clear() {
-      localstore = {};
-    }
-  };
-})();
+exposeLocalStorageMock();
 
-global.localStorage = localStorageMock;
-
-let mock;
+const { defaultScripts: initialState,
+        listFixture: questionListFixtures,
+        mapFixture: questionFixture } = fixtures.questionFixtures;
 
 describe('question actions', () => {
+  let mock;
   let store;
   beforeEach(() => {
     store = mockStore(initialState);
   });
-  function checkObjectProps(expectedProps, obj) {
-    return expectedProps.reduce((accum, curr) => {
-      const propertyExists = Object.prototype.hasOwnProperty.call(obj, curr);
-      return accum && propertyExists;
-    }, true);
-  }
 
-  const questionListFixtures = [
-    { id: 4, title: 'Question', description: 'test question 1', type: 'singleselect', responses: 'no,yes,who cares,', created_at: '', updated_at: '' },
-    { id: 3, title: 'Question 2', description: 'test question 2', type: 'paragraph', responses: '', created_at: '', updated_at: '' },
-    { id: 2, title: 'Question 3', description: 'test question 3', type: 'multiselect', responses: 'meow,meow2', created_at: '', updated_at: '' },
-    { id: 1, title: 'Question 4', description: 'test question 4', type: 'multiselect', responses: 'meow,meow', created_at: '', updated_at: '' }
-  ];
-  const questionFixture = {
-    id: 1,
-    title: 'meow questions',
-    description: 'meow',
-    type: 'multiselect',
-    responses: 'meow,meow',
-    created_at: '',
-    updated_at: ''
-  };
   const expectedQuestionProps = Object.keys(questionFixture);
   const numberOfProps = expectedQuestionProps.length;
 

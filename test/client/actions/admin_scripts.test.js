@@ -5,10 +5,8 @@ import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_t
 import { setScriptsList, setCurrentScript, fetchAllScripts } from '../../../public/src/actions/admin_scripts';
 import fixtures from '../client_fixtures';
 
-// localStorage:
 exposeLocalStorageMock();
 
-// scriptFixtures:
 const { defaultScripts: initialState,
         listFixture: scriptListFixtures,
         mapFixture: scriptFixture } = fixtures.scriptFixtures;

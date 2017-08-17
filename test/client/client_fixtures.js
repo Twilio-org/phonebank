@@ -1,4 +1,5 @@
 import { defaultScripts } from '../../public/src/reducers/admin_scripts';
+import { defaultQuestions } from '../../public/src/reducers/admin_questions';
 
 export default {
   scriptFixtures: {
@@ -38,7 +39,24 @@ export default {
       updated_at: '2017-08-15T21:35:30.321Z'
     }
   },
-  questionFixtures: {},
+  questionFixtures: {
+    defaultQuestions,
+    listFixture: [
+      { id: 4, title: 'Question', description: 'test question 1', type: 'singleselect', responses: 'no,yes,who cares,', created_at: '', updated_at: '' },
+      { id: 3, title: 'Question 2', description: 'test question 2', type: 'paragraph', responses: '', created_at: '', updated_at: '' },
+      { id: 2, title: 'Question 3', description: 'test question 3', type: 'multiselect', responses: 'meow,meow2', created_at: '', updated_at: '' },
+      { id: 1, title: 'Question 4', description: 'test question 4', type: 'multiselect', responses: 'meow,meow', created_at: '', updated_at: '' }
+    ],
+    mapFixture: {
+      id: 1,
+      title: 'meow questions',
+      description: 'meow',
+      type: 'multiselect',
+      responses: 'meow,meow',
+      created_at: '',
+      updated_at: ''
+    }
+  },
   campaignFixtures: {}
 };
 
