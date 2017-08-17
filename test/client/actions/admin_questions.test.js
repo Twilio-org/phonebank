@@ -8,8 +8,8 @@ import { setQuestionList, setCurrentQuestion, fetchAllQuestions } from '../../..
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
-  all_campaigns: [],
-  current_campaign: {}
+  current_question: {},
+  all_questions: []
 };
 // mock local storage
 const localStorageMock = (() => {
