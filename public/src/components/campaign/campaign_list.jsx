@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
 
-import CampaignTableRow from './campaign_table_row';
-import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
-import AdminBanner from '../common/admin_welcome_banner';
-import CreateNewButton from '../common/admin_createNew_btn';
 import buttons_obj from '../common/admin_button_objs';
+import TableListView from '../common/admin_list_view';
+import tableHeaders from '../common/list_table_headers';
+
+const { campaigns: campaignHeaders } = tableHeaders;
 
 export default class CampaignList extends Component {
   componentDidMount() {
@@ -13,57 +12,31 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns, account_info: { last_name, first_name }, history } = this.props;
+    const { all_campaigns, account_info, history } = this.props;
     const thisPage = 'Campaign';
     const { campaigns } = buttons_obj;
+    const { redirect_path } = campaignHeaders;
 
     return (
       <div>
-        <AdminBanner
-          first_name={first_name}
-          last_name={last_name}
-          history={history}
-          page={thisPage}
-        />
-        <div>
-          <AdminDashboardButtonGroup history={this.props.history} />
-        </div>
-
-        <Table responsive>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Script Id</th>
-              <th>Contact List</th>
-              <th>Date Created</th>
-              <th />
-            </tr>
-          </thead>
-
-          <tbody>
-            {all_campaigns.length ?
-              all_campaigns.map(campaign =>
-                (<CampaignTableRow
-                  key={campaign.id}
-                  campaign={campaign}
-                  handleEditClick={this.props.setCurrentCampaign}
-                  buttons={campaigns}
-                  page={thisPage}
-                />)
-              ) :
-              (<tr />)
-            }
-          </tbody>
-        </Table>
-        <div>
-          <CreateNewButton {...this.props} page={thisPage} path={'/admin/campaigns/new'} />
-        </div>
+        {
+          all_campaigns ? (
+            <TableListView
+              item_collection={all_campaigns}
+              account_info={account_info}
+              history={history}
+              button_collection={campaigns}
+              setCurrentItem={this.props.setCurrentQuestion}
+              thisPage={thisPage}
+              tableHeaders={campaignHeaders}
+              newPath={redirect_path}
+              {...this.props}
+            />
+        ) : null
+      }
       </div>
+
     );
   }
 }
 
-// admin/campaign/new (create new campaign redirect)

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
 
-import QuestionTableRow from './question_table_row';
-import AdminDashboardButtonGroup from '../common/admin_nav_btn_group';
-import AdminBanner from '../common/admin_welcome_banner';
-import CreateNewButton from '../common/admin_createNew_btn';
 import buttons_obj from '../common/admin_button_objs';
+import TableListView from '../common/admin_list_view';
+import tableHeaders from '../common/list_table_headers';
+
+const { questions: questionHeaders } = tableHeaders;
 
 export default class QuestionsList extends Component {
   componentDidMount() {
@@ -13,54 +12,27 @@ export default class QuestionsList extends Component {
   }
 
   render() {
-    const { all_questions, account_info: { last_name, first_name }, history } = this.props;
+    const { all_questions, account_info, history } = this.props;
     const thisPage = 'Question';
     const { view_edit } = buttons_obj;
-
+    const { redirect_path } = questionHeaders;
     return (
       <div>
-        <AdminBanner
-          first_name={first_name}
-          last_name={last_name}
-          history={history}
-          page={thisPage}
-        />
-        <div>
-          <AdminDashboardButtonGroup history={history} />
-        </div>
-        <Table responsive>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Type</th>
-              <th>Response Options</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th />
-            </tr>
-          </thead>
-
-          <tbody>
-            {all_questions && all_questions.length ?
-              all_questions.map(question =>
-                (
-                  <QuestionTableRow
-                    key={question.id}
-                    question={question}
-                    handleEditClick={this.props.setCurrentQuestion}
-                    buttons={view_edit}
-                    page={thisPage}
-                  />
-                )
-              ) :
-              (<tr />)
-            }
-          </tbody>
-        </Table>
-        <div>
-          <CreateNewButton {...this.props} page={thisPage} path={'/admin/questions/new'} />
-        </div>
+        {
+          all_questions ? (
+            <TableListView
+              item_collection={all_questions}
+              account_info={account_info}
+              history={history}
+              button_collection={view_edit}
+              setCurrentItem={this.props.setCurrentQuestion}
+              thisPage={thisPage}
+              tableHeaders={questionHeaders}
+              newPath={redirect_path}
+              {...this.props}
+            />
+        ) : null
+      }
       </div>
     );
   }
