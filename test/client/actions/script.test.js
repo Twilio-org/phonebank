@@ -64,41 +64,60 @@ const scriptQuestions = [
 let mock;
 let store;
 
+function checkObjectProps(expectedProps, obj) {
+  return expectedProps.reduce((accum, curr) => {
+    const propertyExists = Object.prototype.hasOwnProperty.call(obj, curr);
+    return accum && propertyExists;
+  }, true);
+}
+
 describe('script actions', () => {
+  beforeEach(() => {
+    mock = new MockAdapter(axios);
+    store = mockStore(initialState);
+  });
+  afterEach(() => {
+    mock.reset();
+  });
   describe('setScriptInfo', () => {
+    const { type, payload } = setScriptInfo(newScript);
     describe('type', () => {
       it('should have the type "SET_SCRIPT_INFO"', () => {
-        expect(setScriptInfo().type).toEqual('SET_SCRIPT_INFO');
+        expect(type).toEqual('SET_SCRIPT_INFO');
       });
     });
     describe('payload', () => {
       it('should pass on the payload we pass in', () => {
-        expect(setScriptInfo(newScript).payload.name).toEqual(newScript.name);
-        expect(setScriptInfo(newScript).payload.body).toEqual(newScript.body);
-        expect(setScriptInfo(newScript).payload.description).toEqual(newScript.description);
+        const newScriptKeys = Object.keys(newScript);
+        const payloadKeys = Object.keys(payload);
+        const scriptPropsAreCorrect = checkObjectProps(newScriptKeys, payload);
+        expect(payloadKeys.length).toBe(6);
+        expect(scriptPropsAreCorrect).toBe(true);
       });
     });
   });
   describe('setScriptQuestions', () => {
+    const { type, payload } = setScriptQuestions(scriptQuestions);
     describe('type', () => {
       it('should have the type "SET_SCRIPT_QUESTIONS"', () => {
-        expect(setScriptQuestions().type).toEqual('SET_SCRIPT_QUESTIONS');
+        expect(type).toEqual('SET_SCRIPT_QUESTIONS');
       });
     });
     describe('payload', () => {
+      it('should be an array of objects', () => {
+        expect(Array.isArray(payload)).toBe(true);
+      });
       it('should pass on the payload we pass in', () => {
-        expect(setScriptQuestions(scriptQuestions).payload).toEqual(scriptQuestions);
+        const scriptQuestionKeys = Object.keys(scriptQuestions[0]);
+        const questionPropsAreCorrect = checkObjectProps(scriptQuestionKeys, payload[0]);
+        expect(payload).toEqual(scriptQuestions);
+        expect(questionPropsAreCorrect).toBe(true);
       });
     });
   });
   describe('fetchScript', () => {
     beforeEach(() => {
-      mock = new MockAdapter(axios);
       mock.onGet('/scripts/1').reply(200, newScript);
-      store = mockStore(initialState);
-    });
-    afterEach(() => {
-      mock.restore();
     });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_INFO, payload: newScript };
@@ -112,12 +131,7 @@ describe('script actions', () => {
   });
   describe('fetchScriptQuestions', () => {
     beforeEach(() => {
-      mock = new MockAdapter(axios);
       mock.onGet('/scripts/1/scriptQuestions/').reply(200, scriptQuestions);
-      store = mockStore(initialState);
-    });
-    afterEach(() => {
-      mock.restore();
     });
     it('should add expected action to the store', () => {
       const expectedAction = { type: SET_SCRIPT_QUESTIONS, payload: scriptQuestions };
