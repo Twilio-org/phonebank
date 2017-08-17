@@ -13,7 +13,7 @@ describe('<CampaignPage />', () => {
   };
   const wrapper = shallow(<CampaignPage {...props} />);
 
-  describe('<CampaignPage /> rendering', () => {
+  describe('Rendering', () => {
     it('1 form should be rendered', () => {
       expect(wrapper.find('form').length).toBe(1);
     });
