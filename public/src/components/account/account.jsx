@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-import { fetchUser } from '../actions/account_info';
-import { deleteUser } from '../actions/edit_account';
+import { fetchUser } from '../../actions/account_info';
+import { deleteUser } from '../../actions/edit_account';
 
-class AccountPage extends Component {
+export class AccountPage extends Component {
   constructor(props) {
     super(props);
     this.onDeleteClick = this.onDeleteClick.bind(this);
@@ -75,6 +75,6 @@ function mapStateToProps(state) {
   return { auth: state.auth, account_info: state.account_info };
 }
 
-export default withRouter(
+export const ConnectedAccountPage = withRouter(
   connect(mapStateToProps, { fetchUser, deleteUser })(AccountPage)
 );

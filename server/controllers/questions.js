@@ -1,18 +1,10 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
-import { saveNewQuestion, getAllQuestions, getQuestionById } from '../db/services/questions';
-import Question from '../db/models/questions';
-import { development as devconfig } from '../../knexfile';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-const QuestionsModel = Question(bookshelf);
+import questionsService from '../db/services/questions';
 
 export function createNewQuestion(req, res, next) {
   const { title, description, type, responses } = req.body;
   const params = { title, description, type, responses };
 
-  return saveNewQuestion(params, QuestionsModel)
+  return questionsService.saveNewQuestion(params)
     .then((question) => {
       if (question) {
         res.status(200).json(question);
@@ -26,7 +18,7 @@ export function createNewQuestion(req, res, next) {
 }
 
 export function fetchAllQuestions(req, res, next) {
-  return getAllQuestions()
+  return questionsService.getAllQuestions()
     .then((questions) => {
       if (questions) {
         res.status(200).json(questions);
@@ -40,8 +32,8 @@ export function fetchAllQuestions(req, res, next) {
 }
 
 export function fetchQuestionById(req, res, next) {
-  const { id } = req.body;
-  return getQuestionById({ id })
+  const { id } = req.params;
+  return questionsService.getQuestionById({ id })
     .then((question) => {
       if (question) {
         res.status(200).json(question);

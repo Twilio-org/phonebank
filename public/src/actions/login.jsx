@@ -42,12 +42,11 @@ export function loginUser(loginInfo, history) {
   });
 }
 
-export function logoutUser(history) {
+export function logoutUser() {
   return dispatch => axios.get('/logout')
   .then(() => {
     localStorage.removeItem('auth_token');
     dispatch(logout());
-    history.push('/login');
   })
   .catch((err) => {
     const customError = {
@@ -63,4 +62,10 @@ export function authTransition(storeInstance) {
   const { id } = auth;
   const token = localStorage.getItem('auth_token');
   return !!id && !!token;
+}
+
+export function checkIfAdmin(storeInstance) {
+  const { account_info } = storeInstance.getState();
+  const { is_admin } = account_info;
+  return is_admin;
 }

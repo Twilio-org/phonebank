@@ -8,23 +8,42 @@ import '../stylesheets/app.less';
 // Components
 import App from './components/app';
 import RegistrationForm from './containers/registration';
-import LandingPage from './components/landing_page';
+import CampaignsContainer from './containers/list_campaigns';
+import AdminQuestionsContainer from './containers/list_questions';
+import AdminScriptsContainer from './containers/list_scripts';
+// import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
-import AccountPage from './components/account';
-import EditAccountInfo from './components/edit_account';
-
+import EditAccountInfo from './components/account/edit_account';
+import CreateCampaignContainer from './containers/create_campaign';
+import CreateScriptContainer from './containers/create_script';
+import CreateQuestionContainer from './containers/create_question';
+import { ConnectedAccountPage } from './components/account/account';
+// import { authTransition, checkIfAdmin } from './actions/login';
 import { authTransition } from './actions/login';
 
 const Root = () => {
-  // checks if user id !==null and if authToken exists in localStorage;
-  // will refactor to separate concerns;
   const isLoggedIn = authTransition.bind(null, store);
+  // const isAdmin = checkIfAdmin.bind(null, store);
+
+  // const landingPage = () => (isAdmin() ? (<CampaignsContainer />) : (<LandingPage />));
 
   return (
     <Provider store={store}>
       <BrowserRouter>
         <App>
           <Switch>
+            <Route
+              exact
+              path="/admin/questions/new"
+              render={() => (isLoggedIn() ?
+                (<CreateQuestionContainer />) : (<Redirect to="/login" />))}
+            />
+            <Route
+              exact
+              path="/admin/scripts/new"
+              render={() => (isLoggedIn() ?
+                (<CreateScriptContainer />) : (<Redirect to="/login" />))}
+            />
             <Route
               path="/registration"
               render={
@@ -47,13 +66,43 @@ const Root = () => {
             <Route
               path="/account"
               render={
-               () => (isLoggedIn() ? (<AccountPage />) : (<Redirect to="/login" />))
+               () => (isLoggedIn() ? (<ConnectedAccountPage />) : (<Redirect to="/login" />))
               }
             />
             <Route
+              exact
+              path="/admin/campaigns/new"
+              render={
+               () => (isLoggedIn() ? (<CreateCampaignContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              path="/admin/campaigns"
+              render={
+                () => (isLoggedIn() ?
+                  (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              exact
               path="/"
               render={
-               () => (isLoggedIn() ? (<LandingPage />) : (<Redirect to="/login" />))
+                () => (isLoggedIn() ?
+                  (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              path="/admin/questions"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminQuestionsContainer />) : (<Redirect to="/" />))
+              }
+            />
+            <Route
+              path="/admin/scripts"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminScriptsContainer />) : (<Redirect to="/" />))
               }
             />
           </Switch>
@@ -64,3 +113,12 @@ const Root = () => {
 };
 
 ReactDOM.render(<Root />, document.getElementById('root'));
+
+// TODO: Will be added back later:
+// <Route
+//   exact
+//   path="/"
+//   render={
+//    () => (isLoggedIn() ? landingPage() : (<Redirect to="/login" />))
+//   }
+// />

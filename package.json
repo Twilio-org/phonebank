@@ -6,13 +6,19 @@
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "db": "psql -U $PG_USER -d $PG_USER",
     "db:test": "psql -U $PG_USER -d phonebank_test",
+    "db:setup": "babel-node --presets env,es2015,stage-1 server/db/setup.js",
+    "db:teardown": "babel-node --presets env,es2015,stage-1 server/db/teardown.js",
     "lint": "eslint --ext js --ext jsx .",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
-    "start": "nodemon server/app.js --exec babel-node --presets es2015,stage-2",
+    "start": "nodemon server/app.js --exec babel-node --presets env,es2015,stage-1",
     "test": "npm run lint && npm run test:server && npm run test:client",
     "test:client": "jest",
-    "test:server": "mocha './test/server' --recursive --compilers js:babel-core/register"
+    "test:client:refresh": "jest --updateSnapshot",
+    "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register"
+  },
+  "jest": {
+    "verbose": true
   },
   "jest": {
     "verbose": true
@@ -35,6 +41,7 @@
     "immutable": "^3.8.1",
     "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",
+    "lodash": "^4.17.4",
     "morgan": "~1.8.1",
     "nock": "^9.0.14",
     "passport": "^0.3.2",
@@ -52,6 +59,7 @@
     "redux-form": "^7.0.1",
     "redux-immutable-state-invariant": "^2.0.0",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^4.8.3",
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",

@@ -18,6 +18,9 @@ export default class Header extends Component {
         { title: 'Account', href: `/account/${userId}` },
         { title: 'Logout', href: '/logout' }
       ];
+      if (this.props.userInfo && this.props.userInfo.is_admin) {
+        links.push({ title: 'All Campaigns', href: '/admin/campaigns' });
+      }
     } else {
       links = [
         { title: 'Register', href: '/registration' },
@@ -40,7 +43,6 @@ export default class Header extends Component {
               title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name}
               links={this.getLinks()}
               logout={this.props.logout}
-              history={this.props.history}
             />
           </Col>
         </Row>
