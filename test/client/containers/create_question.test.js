@@ -6,22 +6,15 @@ import CreateQuestionContainer from '../../../public/src/containers/create_quest
 import { mockStore } from '../client_test_helpers';
 
 describe('<CreateQuestionContainer />', () => {
-  const store = store = mockStore();
+  const store = mockStore();
   describe('rendering', () => {
-    const routerWrappedForm = (
-      <Provider store={store}>
-        <MemoryRouter>
-          <CreateQuestionContainer />
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const wrapper = mount(
-      routerWrappedForm
-    );
     it('renders correctly', () => {
       const tree = renderer.create(
-        routerWrappedForm
+        <Provider store={store}>
+          <MemoryRouter>
+            <CreateQuestionContainer />
+          </MemoryRouter>
+        </Provider>
       ).toJSON();
       expect(tree).toMatchSnapshot();
     });
