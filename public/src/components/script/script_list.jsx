@@ -12,10 +12,11 @@ export default class ScriptsList extends Component {
   }
 
   render() {
-    const { all_scripts, account_info, history } = this.props;
+    const { all_scripts, account_info, history, setCurrentScript } = this.props;
     const thisPage = 'Script';
     const { view_edit } = buttons_obj;
     const { redirect_path } = scriptHeaders;
+
     return (
       <div>
         {
@@ -25,11 +26,10 @@ export default class ScriptsList extends Component {
               account_info={account_info}
               history={history}
               button_collection={view_edit}
-              setCurrentItem={this.props.setCurrentScript}
+              setCurrentItem={setCurrentScript}
               thisPage={thisPage}
               tableHeaders={scriptHeaders}
               newPath={redirect_path}
-              {...this.props}
             />
         ) : null
       }

@@ -26,15 +26,16 @@ const TableListView = (props) => {
         page={thisPage}
       />
       <div>
-        <AdminDashboardButtonGroup history={history} />
+        <AdminDashboardButtonGroup page={thisPage.toLowerCase()} history={history} />
       </div>
       <Table responsive>
         <thead>
           <tr>
             {
-              tableHeaders.length > 0 ? tableHeaders.map((header, index) => {
+              headers.length > 0 ? headers.map((header, index) => {
                 const [display] = header;
-                return (<th key={display.concat(index)}>display</th>);
+                return (
+                  <th key={display.concat(index)}>{display}</th>);
               }) : null
             }
             <th />
@@ -60,7 +61,11 @@ const TableListView = (props) => {
         </tbody>
       </Table>
       <div>
-        <CreateNewButton {...props} page={thisPage} path={newPath} />
+        <CreateNewButton
+          history={history}
+          page={thisPage}
+          path={newPath}
+        />
       </div>
     </div>
   );

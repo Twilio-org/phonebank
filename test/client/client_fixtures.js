@@ -138,6 +138,53 @@ export default {
       updated_at: '4321',
       created_at: '1234'
     }
-  }
+  },
+  accountFixtures: {
+    mapFixture: {
+      first_name: 'Harry',
+      last_name: 'Potter',
+      email: 'goldensnitch@hogwarts.com',
+      phone_number: '12224448888'
+    }
+  },
+  tableHeaderFixtures: {
+    campaigns: {
+      headers: [['Name', 'name'], ['Title', 'title'], ['Description', 'description'], ['Status', 'status'], ['Script Id', 'script_id'], ['Contact List', 'contact_lists_id'], ['Date Created', 'created_at']],
+      redirect_path: '/admin/campaigns/new'
+    },
+    scripts: {
+      headers: [['Name', 'name'], ['Body', 'body'], ['Description', 'created_at'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
+      redirect_path: '/admin/scripts/new'
+    },
+    questions: {
+      headers: [['Title', 'title'], ['Description', 'description'], ['Type', 'type'], ['Response Options', 'responses'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
+      redirect_path: '/admin/questions/new'
+    }
+  },
+  buttonFixtures: [
+    {
+      key: 1,
+      text: 'View',
+      size: 'xsmall',
+      style: 'primary',
+      handler: () => {
+        handleClick(item);
+        console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
+        // uncomment when we have allie's code:
+        // history.push(`/admin/${page.toLowerCase()}s/${item.id}`);
+      }
+    },
+    {
+      key: 2,
+      text: 'Edit',
+      size: 'xsmall',
+      style: 'danger',
+      handler: () => {
+        handleClick(item);
+        console.log('no edit view, yet');
+        // history.push(`/admin/${page.toLowerCase()}s/${item.id}/edit`);
+      }
+    }
+  ]
 };
 

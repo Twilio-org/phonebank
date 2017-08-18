@@ -12,7 +12,7 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns, account_info, history } = this.props;
+    const { all_campaigns, account_info, history, setCurrentCuestion } = this.props;
     const thisPage = 'Campaign';
     const { campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
@@ -26,16 +26,14 @@ export default class CampaignList extends Component {
               account_info={account_info}
               history={history}
               button_collection={campaigns}
-              setCurrentItem={this.props.setCurrentQuestion}
+              setCurrentItem={setCurrentCuestion}
               thisPage={thisPage}
               tableHeaders={campaignHeaders}
               newPath={redirect_path}
-              {...this.props}
             />
         ) : null
       }
       </div>
-
     );
   }
 }

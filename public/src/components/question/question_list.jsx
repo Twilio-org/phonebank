@@ -12,10 +12,11 @@ export default class QuestionsList extends Component {
   }
 
   render() {
-    const { all_questions, account_info, history } = this.props;
+    const { all_questions, account_info, history, setCurrentQuestion } = this.props;
     const thisPage = 'Question';
     const { view_edit } = buttons_obj;
     const { redirect_path } = questionHeaders;
+
     return (
       <div>
         {
@@ -25,11 +26,10 @@ export default class QuestionsList extends Component {
               account_info={account_info}
               history={history}
               button_collection={view_edit}
-              setCurrentItem={this.props.setCurrentQuestion}
+              setCurrentItem={setCurrentQuestion}
               thisPage={thisPage}
               tableHeaders={questionHeaders}
               newPath={redirect_path}
-              {...this.props}
             />
         ) : null
       }
