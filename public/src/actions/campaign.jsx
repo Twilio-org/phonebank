@@ -2,6 +2,20 @@ import axios from 'axios';
 import { destroy } from 'redux-form';
 import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
 
+export function setCampaignsList(campaignsList) {
+  return {
+    type: SET_CAMPAIGNS,
+    payload: campaignsList
+  };
+}
+
+export function setCurrentCampaign(campaignDataObj) {
+  return {
+    type: SET_CAMPAIGN_CURRENT,
+    payload: campaignDataObj
+  };
+}
+
 export function saveNewCampaign(campaignInfo, history) {
   const { name, title, description, script_id, contact_lists_id } = campaignInfo[0];
   const status = campaignInfo[1];
@@ -30,19 +44,6 @@ export function saveNewCampaign(campaignInfo, history) {
   });
 }
 
-export function setCampaignsList(campaignsList) {
-  return {
-    type: SET_CAMPAIGNS,
-    payload: campaignsList
-  };
-}
-
-export function setCurrentCampaign(campaignDataObj) {
-  return {
-    type: SET_CAMPAIGN_CURRENT,
-    payload: campaignDataObj
-  };
-}
 
 export function fetchAllCampaigns() {
   return dispatch => axios.get('/campaigns', {
