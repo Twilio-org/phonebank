@@ -15,6 +15,7 @@ const TableListView = (props) => {
           thisPage,
           tableHeaders,
           newPath } = props;
+  const { headers } = tableHeaders;
 
   return (
     <div>
@@ -47,10 +48,10 @@ const TableListView = (props) => {
                 <AdminTableRow
                   key={item.id}
                   item={item}
-                  handleEditClick={setCurrentItem}
+                  handleClick={setCurrentItem}
                   buttons={button_collection}
                   page={thisPage}
-                  headers={tableHeaders.headers}
+                  headers={headers}
                 />
               )
             ) :
