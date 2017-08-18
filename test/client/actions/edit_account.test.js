@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { updateUser, deleteUser } from '../../../public/src/actions/edit_account';
+import { logoutUser } from '../../../public/src/actions/login';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -14,7 +15,7 @@ const initialState = {
   phone_number: null
 };
 
-const store = mockStore(initialState);
+// const store = mockStore(initialState);
 
 const localStorageMock = (() => {
   let localstore = {};
@@ -40,45 +41,55 @@ const user = {
   email: 'oscar@g.com'
 };
 
-// jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
-updateUser = jest.fn();
+const updatedUser = {
+  first_name: 'Mickey',
+  last_name: 'Mouse',
+  phone_number: '15555555555',
+  email: 'oscar@g.com'
+};
+
+let mocker;
+let store;
+const history = {
+  push: jest.fn()
+};
 
 describe('editAccountActions', () => {
+  beforeEach(() => {
+    mocker = new MockAdapter(axios);
+    store = mockStore(initialState);
+  });
+  afterEach(() => {
+    mocker.reset();
+  });
   describe('updateUser', () => {
     beforeEach(() => {
-      const mocker = new MockAdapter(axios);
-      mocker.onPut('/users/:id', { params: {
-        first_name: 'Mickey',
-        last_name: 'Mouse',
-        phone_number: '15555555555',
-        email: 'oscar@g.com'
-      } }).reply(200);
+      mocker
+        .onPost('/users/1').reply(201, user)
+        .onPut('/users/1').reply(200, updatedUser);
     });
-    it('should update user account', () => {
-      const newUserInfo = {
-        first_name: 'Mickey',
-        last_name: 'Mouse',
-        phone_number: '15555555555',
-        email: 'oscar@g.com'
-      };
-      return store.dispatch(updateUser(1, newUserInfo))
+    it('should redirect to "/account/1"', () => {
+      return store.dispatch(updateUser(1, updatedUser, history))
         .then(() => {
-          expect(store.payload).toEqual(newUserInfo);
+          expect(history.push).toBeCalled();
+          expect(history.push.mock.calls[0]).toEqual(['/account/1']);
         });
     });
     it('should have a method called updateUser', () => {
       expect(typeof updateUser).toBe('function');
     });
-    it('should call updateUser once', () => {
-      const numberOfMockCalls = updateUser.mock.calls.length;
-      expect(updateUser).toHaveBeenCalledTimes(1);
-      expect(numberOfMockCalls).toBe(1);
+  });
+  describe('deleteUser', () => {
+    beforeEach(() => {
+      mocker.onPatch('/users/1').reply(204);
     });
-    it('should call this.props.deleteUser with two arguments: id (31) and history', () => {
-      const mockCallsArray = deleteUser.mock.calls[0];
-      expect(mockCallsArray.length).toBe(2);
-      // expect(mockCallsArray[0]).toBe(31);
-      // expect(mockCallsArray[1]).toBe('history');
+    it('should call patch route once', () => {
+      return store.dispatch(deleteUser(1, history))
+        .then((response) => {
+          console.log('the response is: ', response);
+          // expect(store.dispatch(logoutUser(history))).toBeCalled();
+          expect(response.status).toEqual(204);
+        });
     });
   });
 });
