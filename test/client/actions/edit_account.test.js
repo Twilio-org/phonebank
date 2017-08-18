@@ -2,8 +2,10 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import nock from 'nock';
+import sinon from 'sinon';
 import { updateUser, deleteUser } from '../../../public/src/actions/edit_account';
-import { logoutUser } from '../../../public/src/actions/login';
+import { logoutUser as LogoutAction } from '../../../public/src/actions/login';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -14,8 +16,6 @@ const initialState = {
   email: null,
   phone_number: null
 };
-
-// const store = mockStore(initialState);
 
 const localStorageMock = (() => {
   let localstore = {};
@@ -80,16 +80,50 @@ describe('editAccountActions', () => {
     });
   });
   describe('deleteUser', () => {
+    // let scope;
+    let xhr;
+    let requests;
+    let server;
     beforeEach(() => {
-      mocker.onPatch('/users/1').reply(204);
+      // mocker.onPatch('/users/1').reply(204);
+      // scope = nock('http://localhost:3000')
+      //   .patch('/users/1')
+      //   .intercept('/users/1', 'PATCH')
+      //   .reply(204);
+      // xhr = sinon.useFakeXMLHttpRequest();
+      // xhr.responseType = 'PATCH';
+      // xhr.status = 204;
+      // requests = [];
+      // xhr.onCreate = req => requests.push(req);
+      server = sinon.fakeServer.create();
+    });
+    afterEach(() => {
+      // xhr.restore();
+      server.restore();
     });
     it('should call patch route once', () => {
-      return store.dispatch(deleteUser(1, history))
-        .then((response) => {
-          console.log('the response is: ', response);
+      const callback = sinon.spy();
+      deleteUser(1, history, callback);
+      // console.log('requests are: ', requests);
+      // console.log('xhr is: ', xhr);
+      console.log('the server is: ', server);
+      console.log('requests are: ', server.requests);
+      server.requests[0].respond(204);
+      expect(callback.calledOnce).toBe(true);
+      // expect(requests.length).toEqual(1);
+      // expect(requests[0].url).toEqual('/users/1');
+      // jest.unmock('history.push');
+      // const logoutUser = jest.fn();
+      // const stub = sinon.stub(axios, 'patch').yields(null, { statusCode: 204 });
+      // const stub = sinon.stub(axios, 'patch').callsFake(() => 'success');
+      // const stub = sinon.stub(deleteUser);
+      // console.log('stub is: ', stub);
+      // return store.dispatch(stub.withArgs(1, history))
+      //   .then((res) => {
+      //     console.log('res is: ', res);
           // expect(store.dispatch(logoutUser(history))).toBeCalled();
-          expect(response.status).toEqual(204);
-        });
+          // expect(res.status).toEqual(204);
+        // });
     });
   });
 });
