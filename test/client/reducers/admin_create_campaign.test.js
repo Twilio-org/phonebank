@@ -35,5 +35,15 @@ describe('campaignFormReducer tests: ', () => {
     it('should return default state if there is no matching action types', () => {
       expect(defaultState).toEqual(initialState);
     });
+    it('scripts key should exist and is an empty array', () => {
+      expect(scripts).toBeTruthy();
+      expect(Array.isArray(scripts)).toBeTruthy();
+      expect(scripts.length).toBe(0);
+    });
+    it('contact_lists key should exist and is an empty array', () => {
+      expect(contact_lists).toBeTruthy();
+      expect(Array.isArray(contact_lists)).toBeTruthy();
+      expect(contact_lists.length).toBe(0);
+    });
   });
 });
