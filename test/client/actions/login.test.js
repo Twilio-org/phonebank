@@ -2,7 +2,6 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import sinon from 'sinon';
 import { setUserAuthCredentials, clearAuthCredentials, logout, loginUser, logoutUser } from '../../../public/src/actions/login';
 
 const middlewares = [thunk];
@@ -97,10 +96,7 @@ describe('loginActions', () => {
     it('should add the "auth_token" to localStorage', () => {
       return store.dispatch(loginUser(loginUserInfo, history))
         .then(() => {
-          const { token } = loginUserResponse;
-          console.log('the token is: ', token);
-          expect(global.localStorage.setItem('auth_token', 'token')).toBeCalled();
-          // expect(global.localStorage.getItem[0]).toEqual(token);
+          expect(global.localStorage._store.auth_token).toEqual('token');
         });
     });
     it('should dispatch the setUserAuthCredentials action to the store', () => {
@@ -121,28 +117,29 @@ describe('loginActions', () => {
         });
     });
   });
+  describe('logoutUser', () => {
+    mocker = new MockAdapter(axios);
+    beforeEach(() => {
+      store = mockStore(initialState, authStatus);
+      mocker.onGet('/logout').reply(200);
+    });
+    afterEach(() => {
+      mocker.reset();
+    });
+    it('should remove auth_token from localStorage', () => {
+      expect(global.localStorage._store.auth_token).toEqual('token');
+      return store.dispatch(logoutUser())
+        .then(() => {
+          expect(global.localStorage._store.auth_token).toEqual(undefined);
+        });
+    });
+    it('should dispatch the logout action to the store', () => {
+      const { type } = logout();
+      return store.dispatch(logoutUser())
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).toEqual(type);
+        });
+    });
+  });
 });
-
-
-// test('loginUser updates localStorage', async () => {
-    //   expect.assertions(1);
-    //   const newUser = {
-    //     email: 'oscar@g.com',
-    //     password: '1234'
-    //   };
-    //   await loginUser(newUser, history);
-    //   console.log('localStorage is: ', global.localStorage);
-    //   expect(global.localStorage.auth_token).toEqual('token');
-    // });
-    // const newUser = {
-    //   email: 'oscar@g.com',
-    //   password: '1234'
-    // };
-
-    // loginUser(newUser, history);
-    // describe('updating localStorage with loginUser', () => {
-    //   it('should set the localStorage auth_token', () => {
-    //     console.log('localstorage is: ', global.localStorage);
-    //     expect(global.localStorage.auth_token).toEqual('token');
-    //   });
-    // });
