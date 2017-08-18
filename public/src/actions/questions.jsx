@@ -4,7 +4,7 @@ import { destroy } from 'redux-form';
 export default function createQuestion(questionInfo, history) {
   let { responses } = questionInfo;
   const { title, description, type } = questionInfo;
-  responses = responses ? Object.values(responses).join(',') : '';
+  responses = responses ? Object.keys(responses).map(key => responses[key]).join(',') : '';
 
   return dispatch => axios.post('/questions', {
     title,
