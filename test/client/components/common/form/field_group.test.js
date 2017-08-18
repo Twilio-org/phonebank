@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import FieldGroup from '../../../../public/src/components/common/form/field_group';
+import FieldGroup from '../../../../../public/src/components/common/form/field_group';
 
 describe('<FieldGroup />', () => {
   const props = {

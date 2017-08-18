@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Dropdown from '../../../../public/src/components/common/form/dropdown';
+import Dropdown from '../../../../../public/src/components/common/form/dropdown';
 
 describe('<Dropdown />', () => {
   const props = {

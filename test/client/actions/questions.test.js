@@ -14,7 +14,12 @@ describe('Questions actions', () => {
     title: 'Hi',
     description: 'whaaat',
     type: 'multiselect',
-    options: ['hi','no','yes','ok']
+    responses: {
+      'option1':'hi',
+      'option32':'no',
+      'option4':'yes',
+      'option31':'ok',
+    }
   };
   let mock;
   let store;
@@ -33,8 +38,13 @@ describe('Questions actions', () => {
       it('should call history.goBack() on successful submit ', () => {
         return store.dispatch(createQuestion(question, history))
           .then((response) => {
-            console.log('I dispatched!', response);
             expect(history.goBack).toBeCalled();
+          });
+      });
+      it('should dispatch redux form DESTROY type ', () => {
+        return store.dispatch(createQuestion(question, history))
+          .then((response) => {
+            expect(store.getActions()[0].type).toBe('@@redux-form/DESTROY');
           });
       });
       it('should return 201 for status', () => {
@@ -49,12 +59,6 @@ describe('Questions actions', () => {
             expect(response.config.data).toContain('"responses":""');
           });
       });
-      it('should return empty responses for question.type="paragraph"', () => {
-        return store.dispatch(createQuestion(question2, history))
-          .then((response) => {
-            expect(response.config.data).toContain('"responses":"hi,no,yes,ok"');
-          });
-      });
       it('should return responses for question with options', () => {
         return store.dispatch(createQuestion(question2, history))
           .then((response) => {
@@ -64,9 +68,3 @@ describe('Questions actions', () => {
     });
   });
 });
-
-// check that history.goBack was called
-// check if status is 201
-
-// const action = store.getActions()[0];
-// console.log(store);
