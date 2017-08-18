@@ -6,10 +6,6 @@ import Dropdown from '../../components/common/form/dropdown';
 import QuestionResponses from './question_responses';
 
 export default class QuestionForm extends Component {
-  constructor(props) {
-    super(props);
-    this.renderOptions = this.renderOptions.bind(this);
-  }
   componentDidMount() {
     if (!this.props.onSubmit) {
       throw new Error('onSubmit is not passed. Pass in a function.');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import QuestionForm from '../../../../public/src/components/question/form';
+import QuestionForm from '../../../../public/src/components/question/question_form';
 
 describe('<QuestionForm />', () => {
   const props = {
@@ -24,11 +24,11 @@ describe('<QuestionForm />', () => {
     });
     it('should render options if questionType = multiselect', () => {
       wrapper.setProps({ questionType: 'multiselect' });
-      expect(wrapper.find('Field').length).toBeGreaterThan(3);
+      expect(wrapper.find('FieldArray').length).toBe(1);
     });
     it('should render options if questionType = singleselect', () => {
       wrapper.setProps({ questionType: 'singleselect' });
-      expect(wrapper.find('Field').length).toBeGreaterThan(3);
+      expect(wrapper.find('FieldArray').length).toBe(1);
     });
     it('should not render options if questionType = paragraph', () => {
       wrapper.setProps({ questionType: 'paragraph' });

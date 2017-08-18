@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
-import { FieldGroup } from '../common/form/field_group';
+import FieldGroup from '../common/form/field_group';
 
 const QuestionResponses = (props) => {
   const { name } = props;

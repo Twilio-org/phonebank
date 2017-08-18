@@ -15,7 +15,7 @@ describe('Questions actions', () => {
     description: 'whaaat',
     type: 'multiselect',
     options: ['hi','no','yes','ok']
-  }
+  };
   let mock;
   let store;
   beforeEach(() => {
