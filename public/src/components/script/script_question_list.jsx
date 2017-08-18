@@ -2,7 +2,6 @@ import React from 'react';
 
 const QuestionList = (props) => {
   const { question } = props;
-  console.log('question is: ', question);
 
   return (
     <li>{question.title}
