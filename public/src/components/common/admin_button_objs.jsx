@@ -1,14 +1,8 @@
 export default {
   view_edit(props) {
-    const { thisPage } = props;
-    let target;
-    if (thisPage === 'Question') {
-      const { question } = props;
-      target = question;
-    } else if (thisPage === 'Script') {
-      const { script } = props;
-      target = script;
-    }
+    const { page, handleClick, item } = props;
+    // const { page, history, handleClick, item } = props;
+    const { id } = item;
     return [
       {
         key: 1,
@@ -16,7 +10,10 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          props.handleEditClick(target);
+          handleClick(item);
+          console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
+          // uncomment when we have allie's code:
+          // history.push(`/admin/${page.toLowerCase()}s/${item.id}`);
         }
       },
       {
@@ -25,12 +22,14 @@ export default {
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          props.handleEditClick(target);
+          handleClick(item);
+          console.log('no edit view, yet');
+          // history.push(`/admin/${page.toLowerCase()}s/${item.id}/edit`);
         }
       }
     ];
   },
-  campaigns(props, target) {
+  campaigns(props, item) {
     return [
       {
         key: 1,
@@ -59,7 +58,9 @@ export default {
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          props.handleEditClick(target);
+          // const { id } = item;
+          props.handleClick(item);
+          // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
         }
       }
     ];
