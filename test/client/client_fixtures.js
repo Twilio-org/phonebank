@@ -1,6 +1,7 @@
 import { defaultScripts } from '../../public/src/reducers/admin_scripts';
 import { defaultQuestions } from '../../public/src/reducers/admin_questions';
 import { defaultCampaigns } from '../../public/src/reducers/campaign';
+import { defaultScriptsContactsForm } from '../../public/src/reducers/create_campaign';
 
 export default {
   scriptFixtures: {
@@ -92,6 +93,7 @@ export default {
   },
   campaignFixtures: {
     defaultCampaigns,
+    defaultScriptsContactsForm,
     listFixture: [
       {
         id: 1,
@@ -137,6 +139,34 @@ export default {
       script_id: 3,
       updated_at: '4321',
       created_at: '1234'
+    }
+  },
+  contactListFixtures: {
+    listFixture: [
+      {
+        id: 1,
+        name: 'ContactList1',
+        created_at: '2017-08-15T21:35:30.321Z',
+        updated_at: '2017-08-15T21:35:30.321Z'
+      },
+      {
+        id: 2,
+        name: 'ContactList2',
+        created_at: '2017-08-15T21:35:30.321Z',
+        updated_at: '2017-08-15T21:35:30.321Z'
+      },
+      {
+        id: 3,
+        name: 'ContactList3',
+        created_at: '2017-08-15T21:35:30.321Z',
+        updated_at: '2017-08-15T21:35:30.321Z'
+      }
+    ],
+    mapFixture: {
+      id: 8,
+      name: 'ContactList8',
+      created_at: '2017-08-15T21:35:30.321Z',
+      updated_at: '2017-08-15T21:35:30.321Z'
     }
   }
 };
