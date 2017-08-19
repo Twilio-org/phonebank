@@ -1,4 +1,4 @@
-const defaultScriptsContactsForm = {
+export const defaultScriptsContactsForm = {
   scripts: [],
   contact_lists: []
 };
