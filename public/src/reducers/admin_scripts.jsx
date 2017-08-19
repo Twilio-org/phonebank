@@ -1,7 +1,7 @@
 export const SET_SCRIPTS = 'SET_SCRIPTS';
 export const SET_SCRIPT_CURRENT = 'SET_SCRIPT_CURRENT';
 
-const defaultScripts = {
+export const defaultScripts = {
   current_script: {},
   all_scripts: []
 };
