@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
-import { scriptInfoReducer, scriptQuestionsReducer } from './reducers/script';
+import { scriptQuestionsReducer } from './reducers/script';
 import { campaignListReducer } from './reducers/campaign';
 import { campaignFormReducer } from './reducers/create_campaign';
 import { questionOptionsReducer } from './reducers/script_form';
@@ -20,7 +20,6 @@ const appReducer = combineReducers({
   form: formReducer,
   auth: authStatusReducer,
   account_info: accountInfoReducer,
-  script: scriptInfoReducer,
   script_questions: scriptQuestionsReducer,
   admin_campaigns: campaignListReducer,
   campaign_form: campaignFormReducer,
@@ -39,6 +38,6 @@ const middleware = [immutable(), createLogger(), promise(), thunk];
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
 
-persistStore(store);
+persistStore(store).purge();
 
 export default store;

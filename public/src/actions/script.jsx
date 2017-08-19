@@ -1,12 +1,6 @@
 import axios from 'axios';
-import { SET_SCRIPT_INFO, SET_SCRIPT_QUESTIONS } from '../reducers/script';
-
-export function setScriptInfo(script) {
-  return {
-    type: SET_SCRIPT_INFO,
-    payload: script
-  };
-}
+import { SET_SCRIPT_QUESTIONS } from '../reducers/script';
+import { setCurrentScript } from './admin_scripts';
 
 export function setScriptQuestions(questions) {
   return {
@@ -19,7 +13,7 @@ export function fetchScript(id) {
   return dispatch => axios.get(`/scripts/${id}`)
     .then((res) => {
       const { data: scriptData } = res;
-      return dispatch(setScriptInfo(scriptData));
+      return dispatch(setCurrentScript(scriptData));
     })
     .catch((err) => {
       const customError = {

@@ -53,21 +53,6 @@ const scriptQuestions = [
   }
 ];
 
-describe('scriptInfoReducer', () => {
-  it('should return the initial state', () => {
-    expect(scriptInfoReducer(undefined, {})).toEqual({
-      name: null,
-      body: null,
-      description: null
-    });
-  });
-  it('should react to an action with the type SET_SCRIPT_INFO', () => {
-    expect(scriptInfoReducer(initialScriptState, {
-      type: SET_SCRIPT_INFO,
-      payload: newScript
-    })).toEqual(newScript);
-  });
-});
 describe('scriptQuestionsReducer', () => {
   it('should return the initial state', () => {
     expect(scriptQuestionsReducer(undefined, {})).toEqual([]);

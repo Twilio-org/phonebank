@@ -3,7 +3,9 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { setScriptInfo, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../../../public/src/actions/script';
-import { SET_SCRIPT_INFO, SET_SCRIPT_QUESTIONS } from '../../../public/src/reducers/script';
+import { setCurrentScript } from '../../../public/src/actions/admin_scripts';
+import { SET_SCRIPT_QUESTIONS } from '../../../public/src/reducers/script';
+import { SET_SCRIPT_CURRENT } from '../../../public/src/reducers/admin_scripts';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -79,23 +81,6 @@ describe('script actions', () => {
   afterEach(() => {
     mock.reset();
   });
-  describe('setScriptInfo', () => {
-    const { type, payload } = setScriptInfo(newScript);
-    describe('type', () => {
-      it('should have the type "SET_SCRIPT_INFO"', () => {
-        expect(type).toEqual('SET_SCRIPT_INFO');
-      });
-    });
-    describe('payload', () => {
-      it('should pass on the payload we pass in', () => {
-        const newScriptKeys = Object.keys(newScript);
-        const payloadKeys = Object.keys(payload);
-        const scriptPropsAreCorrect = checkObjectProps(newScriptKeys, payload);
-        expect(payloadKeys.length).toBe(6);
-        expect(scriptPropsAreCorrect).toBe(true);
-      });
-    });
-  });
   describe('setScriptQuestions', () => {
     const { type, payload } = setScriptQuestions(scriptQuestions);
     describe('type', () => {
@@ -120,7 +105,7 @@ describe('script actions', () => {
       mock.onGet('/scripts/1').reply(200, newScript);
     });
     it('should add expected action to the store', () => {
-      const expectedAction = { type: SET_SCRIPT_INFO, payload: newScript };
+      const expectedAction = { type: SET_SCRIPT_CURRENT, payload: newScript };
       return store.dispatch(fetchScript(1))
         .then(() => {
           const actions = store.getActions();

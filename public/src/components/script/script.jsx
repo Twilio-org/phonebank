@@ -2,31 +2,29 @@ import React, { Component } from 'react';
 import QuestionList from './script_question_list';
 
 export default class ScriptPage extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   const { current_script } = this.props.admin_scripts.current_script;
-  // }
 
   componentDidMount() {
-    console.log("Current script should be: ", this.props.admin_scripts.current_script);
-    // const { current_script } = this.props.admin_scripts;
-    if (this.props.admin_scripts.current_script === undefined) {
+    if (this.props.admin_scripts === undefined) {
       const { id } = this.props.match.params;
       this.props.fetchScript(id);
+      this.props.fetchScriptQuestions(id);
+    } else {
+      const { id } = this.props.admin_scripts.current_script;
       this.props.fetchScriptQuestions(id);
     }
   }
 
   render() {
-    const { script_info, questions } = this.props;
-    const { name, body, description } = script_info;
+    const { questions } = this.props;
+    const { current_script } = this.props;
+    const { name, body, description } = current_script;
     return (
       <div>
-        <h1>{script_info ? name : null} Script Details</h1>
+        <h1>{current_script ? name : null} Script Details</h1>
         <h4>Body:</h4>
-        {script_info ? (<p>{body}</p>) : null}
+        {current_script ? (<p>{body}</p>) : null}
         <h4>Description:</h4>
-        {script_info ? (<p>{description}</p>) : null}
+        {current_script ? (<p>{description}</p>) : null}
         <h4>Questions:</h4>
         <ol>
           {questions ? questions.map(question => (
@@ -40,10 +38,3 @@ export default class ScriptPage extends Component {
     );
   }
 }
-
-
-  // handleRedirectClick() {
-  //   const { history } = this.props;
-  //   const { id } = this.props.match.params;
-  //   history.push(`/admin/scripts/${id}`);
-  // }

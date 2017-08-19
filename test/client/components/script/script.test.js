@@ -1,15 +1,13 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
-import ScriptPage from '../../../../public/src/components/script/script';
 import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/script';
 
 const props = {
-  script_id: 1,
-  script_info: {
-    name: 'ScriptName',
-    body: 'ScriptBody',
-    description: 'ScriptDescription'
+  id: 1,
+  admin_scripts: {
+    current_script: {
+      name: 'ScriptName',
+      body: 'ScriptBody',
+      description: 'ScriptDescription'
+    }
   },
   questions: [
     {
@@ -61,45 +59,28 @@ function checkObjectProps(expectedProps, obj) {
 }
 
 describe('<ScriptPage />', () => {
-  const { script_id, script_info, questions } = props;
-  it('renders correctly', () => {
-    const tree = renderer.create(
-        <ScriptPage {...props} />
-    ).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
+  const { id, questions, admin_scripts } = props;
+  const { current_script } = admin_scripts;
   describe('ScriptPage props and methods', () => {
-    const wrapper = shallow(<ScriptPage {...props} />).instance();
-    describe('renderQuestions method', () => {
-      it('should have a method named renderQuestions', () => {
-        const { renderQuestions } = wrapper;
-        expect(typeof renderQuestions).toBe('function');
-      });
-      it('should return questions properly', () => {
-        const renderedQuestions = wrapper.renderQuestions();
-        expect(Array.isArray(renderedQuestions)).toBe(true);
-      });
-    });
     describe('props', () => {
-      describe('script_id prop', () => {
+      describe('script id prop', () => {
         it('should be defined', () => {
-          expect(script_id).toBeDefined();
+          expect(id).toBeDefined();
         });
         it('should have a value of 1', () => {
-          expect(script_id).toBe(1);
+          expect(id).toBe(1);
         });
       });
-      describe('script_info prop', () => {
+      describe('current_script prop', () => {
         it('should be defined', () => {
-          expect(script_info).toBeDefined();
+          expect(current_script).toBeDefined();
         });
         it('should be an object', () => {
-          expect(typeof script_info).toBe('object');
+          expect(typeof current_script).toBe('object');
         });
         it('should have 3 properties - name, body, description', () => {
-          const scriptInfoKeys = Object.keys(script_info);
-          const scriptPropsAreCorrect = checkObjectProps(scriptInfoKeys, script_info);
+          const scriptInfoKeys = Object.keys(current_script);
+          const scriptPropsAreCorrect = checkObjectProps(scriptInfoKeys, current_script);
           expect(scriptInfoKeys.length).toBe(3);
           expect(scriptPropsAreCorrect).toBe(true);
         });
