@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
 import { SET_SCRIPTS, SET_SCRIPT_CURRENT } from '../reducers/admin_scripts';
 
 export function setScriptsList(scriptList) {
@@ -26,4 +27,33 @@ export function fetchAllScripts() {
   .catch((err) => {
     console.log('error fetching all scripts: ', err);
   });
+}
+
+export function postScript(script, questions, history) {
+  const { name, description, body } = script;
+  return dispatch => axios.post('/scripts', {
+    name,
+    body,
+    description
+  })
+    .then((res) => {
+      const script_id = res.data.id;
+      questions.forEach((question) => {
+        axios.post(`/scripts/${script_id}/scriptQuestions`, {
+          question_id: question.question_id,
+          sequence_number: question.sequence_number
+        });
+      });
+    })
+    .then(() => {
+      history.goBack();
+      dispatch(destroy('ScriptForm'));
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error in posting new script to the db: ${err}`,
+        name: 'postNewScript function error in script_form.jsx'
+      };
+      throw customError;
+    });
 }

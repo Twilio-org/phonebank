@@ -14,6 +14,7 @@ export default class CampaignPage extends Component {
 
 
   componentDidMount() {
+    console.log(this.props.fetchAllContactLists, '$$$')
     this.props.fetchAllScripts();
     this.props.fetchAllContactLists();
   }
