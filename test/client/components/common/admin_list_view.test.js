@@ -71,8 +71,8 @@ describe('Component testing for <TableListView />: ', () => {
   describe('<TableListView /> expected props: ', () => {
     const wrapper = shallow(<TableListView {...props} />).instance();
     it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
-      const acctualProps = wrapper.props;
-      expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });

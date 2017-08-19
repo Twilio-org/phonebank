@@ -40,8 +40,8 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
     describe('Campaign expected props: ', () => {
       const wrapper = shallow(<CampaignList {...props} />).instance();
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
-        const acctualProps = wrapper.props;
-        expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+        const actualProps = wrapper.props;
+        expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
       });
     });
 
@@ -80,8 +80,8 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
     describe('Question expected props: ', () => {
       const wrapper = shallow(<QuestionList {...props} />).instance();
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
-        const acctualProps = wrapper.props;
-        expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+        const actualProps = wrapper.props;
+        expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
       });
     });
 
@@ -120,8 +120,8 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
     describe('Question expected props: ', () => {
       const wrapper = shallow(<ScriptsList {...props} />).instance();
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
-        const acctualProps = wrapper.props;
-        expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+        const actualProps = wrapper.props;
+        expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
       });
     });
 

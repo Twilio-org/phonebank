@@ -28,8 +28,8 @@ describe('Component testing for <CreateNewButton /> ', () => {
   describe('Expected props: ', () => {
     const wrapper = shallow(<CreateNewButton {...props} />).instance();
     it(`should have the expected props: ${expectedProps.join(', ')}`, () => {
-      const acctualProps = wrapper.props;
-      expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });

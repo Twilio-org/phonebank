@@ -32,8 +32,8 @@ describe('Component testing for <AdminBanner />: ', () => {
   describe('Expected props for <AdminBanner />: ', () => {
     const wrapper = shallow(<AdminBanner {...props} />).instance();
     it(`should have the expected props: ${expectedProps.join(', ')} `, () => {
-      const acctualProps = wrapper.props;
-      expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });

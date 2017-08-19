@@ -35,8 +35,8 @@ describe('Component testing for <AdminTableRow />: ', () => {
   describe('<AdminTableRow /> expected props: ', () => {
     const wrapper = shallow(<AdminTableRow {...props} />).instance();
     it(`should have all of the expected props: ${expectedProps.join(', ')} `, () => {
-      const acctualProps = wrapper.props;
-      expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });

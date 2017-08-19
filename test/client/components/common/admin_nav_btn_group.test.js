@@ -26,8 +26,8 @@ describe('Component testing for <AdminDashboardButtonGroup />: ', () => {
   describe('Expected props for <AdminDashboardButtonGroup /> ', () => {
     const wrapper = shallow(<AdminDashboardButtonGroup {...props} />).instance();
     it(`should have expected props: ${expectedProps.join(', ')} `, () => {
-      const acctualProps = wrapper.props;
-      expect(checkObjectProps(expectedProps, acctualProps)).toBe(true);
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });
