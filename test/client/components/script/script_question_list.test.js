@@ -13,11 +13,11 @@ const props = {
 describe('QuestionList component', () => {
   const wrapper = shallow(<QuestionList {...props} />);
   describe('QuestionList rendering', () => {
-    it('should render one question', () => {
+    it('should render one question in the list', () => {
       const ulElements = wrapper.find('ul').length;
       expect(ulElements).toBe(1);
     });
-    it('should render a list of the question description, title and responses within the question list', () => {
+    it('should render a list of the question description, title and responses within the question list element', () => {
       const liElements = wrapper.find('li').length;
       expect(liElements).toBe(4);
     });
