@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import QuestionForm from './form';
+import QuestionForm from './question_form';
 
 export default class CreateQuestion extends Component {
   constructor(props) {
