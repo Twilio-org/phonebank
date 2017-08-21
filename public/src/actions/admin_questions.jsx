@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
 import { SET_QUESTIONS, SET_QUESTION_CURRENT } from '../reducers/admin_questions';
 
 export function setQuestionList(questionList) {
@@ -24,6 +25,36 @@ export function fetchAllQuestions() {
     return dispatch(setQuestionList(questionsList));
   })
   .catch((err) => {
-    console.log('error fetching all questions: ', err);
+    const customError = {
+      message: `error fetching questions: ${err}`,
+      name: 'question get request from script_form component'
+    };
+    throw customError;
+  });
+}
+
+export default function createQuestion(questionInfo, history) {
+  let { responses } = questionInfo;
+  const { title, description, type } = questionInfo;
+  // TO-DO: Find a better way to handle question response data
+  responses = responses ? Object.keys(responses).map(key => responses[key]).join(',') : '';
+
+  return dispatch => axios.post('/questions', {
+    title,
+    description,
+    type,
+    responses
+  })
+  .then((res) => {
+    history.goBack();
+    dispatch(destroy('CreateQuestion'));
+    return res;
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in creating new questions to db: ${err}`,
+      name: 'createQuestion function error in actions/questions.jsx'
+    };
+    throw customError;
   });
 }

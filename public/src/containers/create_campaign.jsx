@@ -5,31 +5,19 @@ import { reduxForm, destroy } from 'redux-form';
 import CampaignPage from '../components/campaign/campaign';
 
 import { saveNewCampaign } from '../actions/campaign';
-import { fetchAllScripts, fetchAllContactLists } from '../actions/campaign_form';
-
-// TODO: write validation that is applicable to campaign creation!
-// // e.g. check input length, checking uniqueness, etc
-
-function validate(values) {
-  const errors = {};
-  const { password, password_confirm } = values;
-  if (!!password && !!password_confirm && password !== password_confirm) {
-    errors.password_confirm = 'the passwords must match.';
-  }
-  return errors;
-}
+import { fetchAllContactLists } from '../actions/admin_contact_lists';
+import { fetchAllScripts } from '../actions/admin_scripts';
 
 function mapStateToProps(state) {
   return {
     auth: state.auth,
-    scripts: state.campaign_form.scripts,
-    contact_lists: state.campaign_form.contact_lists
+    scripts: state.admin_scripts.all_scripts,
+    contact_lists: state.admin_contact_lists.contact_lists
   };
 }
 
 export default withRouter(
   reduxForm({
-    validate,
     form: 'CampaignPage',
     destroyOnUnmount: false
   })(

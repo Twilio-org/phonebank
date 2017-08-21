@@ -1,7 +1,7 @@
 import { defaultScripts } from '../../public/src/reducers/admin_scripts';
 import { defaultQuestions } from '../../public/src/reducers/admin_questions';
 import { defaultCampaigns } from '../../public/src/reducers/campaign';
-import { defaultScriptsContactsForm } from '../../public/src/reducers/create_campaign';
+import { defaultContactLists } from '../../public/src/reducers/admin_contact_lists';
 
 export default {
   scriptFixtures: {
@@ -93,7 +93,6 @@ export default {
   },
   campaignFixtures: {
     defaultCampaigns,
-    defaultScriptsContactsForm,
     listFixture: [
       {
         id: 1,
@@ -180,6 +179,7 @@ export default {
     }
   ],
   contactListFixtures: {
+    defaultContactLists,
     listFixture: [
       {
         id: 1,

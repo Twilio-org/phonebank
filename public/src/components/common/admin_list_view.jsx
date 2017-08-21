@@ -53,6 +53,7 @@ const TableListView = (props) => {
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
+                  history={history}
                 />
               )
             ) :
