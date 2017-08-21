@@ -1,30 +1,33 @@
+import React from 'react';
+import { shallow } from 'enzyme';
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers.js';
+import QuestionList from '../../../../public/src/components/script/script_question_list';
 
-const { scriptQuestionsFixture: questions } = fixtures.scriptViewFixtures;
+const { scriptQuestionsFixture } = fixtures.scriptViewFixtures;
 
 const props = {
-  questions
+  question: scriptQuestionsFixture[0]
 };
 
 describe('QuestionList component', () => {
-  const { questions } = props;
-  const firstQuestion = questions[0];
-  describe('questions props', () => {
-    it('should be defined', () => {
-      expect(questions).toBeDefined();
+  const wrapper = shallow(<QuestionList {...props} />);
+  describe('QuestionList rendering', () => {
+    it('should render one question', () => {
+      const ulElements = wrapper.find('ul').length;
+      expect(ulElements).toBe(1);
     });
-    it('should be an array of 1-5 question objects', () => {
-      expect(questions.length).toBeLessThanOrEqual(5);
-      expect(questions.length).toBeGreaterThanOrEqual(1);
-      expect(Array.isArray(questions)).toBe(true);
-      expect(typeof firstQuestion).toBe('object');
+    it('should render a list of the question description, title and responses within the question list', () => {
+      const liElements = wrapper.find('li').length;
+      expect(liElements).toBe(4);
     });
-    it('should contain question objects that have 4 properties - title, description, type, and responses', () => {
-      const firstQuestionKeys = Object.keys(firstQuestion);
-      const firstQuestionPropsAreCorrect = checkObjectProps(firstQuestionKeys, firstQuestion);
-      expect(firstQuestionKeys.length).toBe(10);
-      expect(firstQuestionPropsAreCorrect).toBe(true);
+  });
+  describe('Expected props for <QuestionList />', () => {
+    const wrapper = shallow(<QuestionList {...props} />).instance();
+    const expectedProps = Object.keys(props);
+    it('should have the expected props', () => {
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
     });
   });
 });
