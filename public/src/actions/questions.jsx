@@ -42,9 +42,7 @@ export function fetchQuestion(id) {
   .then((res) => {
     const questionData = res.data;
     // TO-DO Find a better way to handle this data
-    let responsesArr = questionData.responses;
-    responsesArr = responsesArr.split[','];
-    questionData.responses = responsesArr;
+    questionData.responses = questionData.responses.split(',');
     return dispatch(setQuestionInfo(questionData));
   })
   .catch((err) => {

@@ -53,6 +53,7 @@ const TableListView = (props) => {
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
+                  history={history}
                 />
               )
             ) :
@@ -74,4 +75,3 @@ const TableListView = (props) => {
 TableListView.displayName = 'TableListView';
 
 export default TableListView;
-
