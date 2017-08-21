@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
 import CreateCampaignContainer from '../../../public/src/containers/create_campaign';
 import store from '../../../public/src/store';
+import { exposeLocalStorageMock } from '../client_test_helpers';
+
+exposeLocalStorageMock();
 
 describe('<CreateCampaignContainer />', () => {
   describe('rendering', () => {

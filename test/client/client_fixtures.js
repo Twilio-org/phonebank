@@ -93,7 +93,6 @@ export default {
   },
   campaignFixtures: {
     defaultCampaigns,
-    defaultContactLists,
     listFixture: [
       {
         id: 1,
@@ -180,6 +179,7 @@ export default {
     }
   ],
   contactListFixtures: {
+    defaultContactLists,
     listFixture: [
       {
         id: 1,
