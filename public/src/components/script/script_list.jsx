@@ -7,7 +7,6 @@ import tableHeaders from '../common/list_table_headers';
 const { scripts: scriptHeaders } = tableHeaders;
 
 export default class ScriptsList extends Component {
-
   componentDidMount() {
     this.props.fetchAllScripts();
   }
