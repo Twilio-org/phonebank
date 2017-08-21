@@ -1,15 +1,8 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { setAccountInfo, fetchUser } from '../../../public/src/actions/account_info';
-import { SET_USER_ACCOUNT_INFO } from '../../../public/src/reducers/account_info';
+import { SET_USER_ACCOUNT_INFO, defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
 import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
-
-const initialState = {
-  first_name: null,
-  last_name: null,
-  email: null,
-  phone_number: null
-};
 
 exposeLocalStorageMock();
 
@@ -23,7 +16,7 @@ const user = {
 let mock;
 
 describe('accountInfoActions', () => {
-  const store = mockStore(initialState);
+  const store = mockStore(defaultUserAccountInfo);
   describe('setAccountInfoAction', () => {
     it('should have a type of "SET_USER_ACCOUNT_INFO"', () => {
       expect(setAccountInfo().type).toEqual('SET_USER_ACCOUNT_INFO');
