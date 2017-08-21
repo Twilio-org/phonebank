@@ -9,7 +9,8 @@ import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
-import { scriptOptionsReducer, contactListOptionsReducer, campaignListReducer } from './reducers/campaign';
+import { campaignListReducer } from './reducers/campaign';
+import { campaignFormReducer } from './reducers/create_campaign';
 import { questionOptionsReducer } from './reducers/script_form';
 import { adminQuestionsReducer } from './reducers/admin_questions';
 import { adminScriptsReducer } from './reducers/admin_scripts';
@@ -19,12 +20,11 @@ const appReducer = combineReducers({
   form: formReducer,
   auth: authStatusReducer,
   account_info: accountInfoReducer,
-  campaigns: campaignListReducer,
+  admin_campaigns: campaignListReducer,
+  campaign_form: campaignFormReducer,
   admin_questions: adminQuestionsReducer,
   admin_scripts: adminScriptsReducer,
   script_form: questionOptionsReducer,
-  campaign_form_scripts: scriptOptionsReducer,
-  campaign_form_contact_lists: contactListOptionsReducer,
   question_info: questionInfoReducer
 });
 

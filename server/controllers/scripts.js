@@ -1,12 +1,4 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import scriptsService from '../db/services/scripts';
-import Script from '../db/models/scripts';
-import { development as devconfig } from '../../knexfile';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-const ScriptModel = Script(bookshelf);
 
 export function saveNewScript(req, res, next) {
   console.log(req.body, 'params in saveNewScript');
@@ -16,7 +8,7 @@ export function saveNewScript(req, res, next) {
     description: req.body.description
   };
 
-  scriptsService.saveNewScript(params, ScriptModel)
+  scriptsService.saveNewScript(params)
     .then((script) => {
       if (script) {
         res.status(201).json(script);
@@ -35,7 +27,7 @@ export function getScriptById(req, res, next) {
     id: req.params.id
   };
 
-  return scriptsService.getScriptById(params, ScriptModel)
+  return scriptsService.getScriptById(params)
     .then((script) => {
       if (script) {
         res.status(200).json(script);
@@ -49,7 +41,7 @@ export function getScriptById(req, res, next) {
 }
 
 export function getAllScripts(req, res, next) {
-  return scriptsService.getAllScripts(ScriptModel)
+  return scriptsService.getAllScripts()
     .then((scripts) => {
       if (scripts) {
         res.status(200).json(scripts);
@@ -69,7 +61,7 @@ export function updateScriptById(req, res, next) {
     description: req.params.description
   };
 
-  return scriptsService.updateScriptById(params, ScriptModel)
+  return scriptsService.updateScriptById(params)
     .then((script) => {
       if (script) {
         res.status(200).json(script);
@@ -87,7 +79,7 @@ export function deleteScriptById(req, res, next) {
     id: req.params.id
   };
 
-  return scriptsService.deleteScriptById(params, ScriptModel)
+  return scriptsService.deleteScriptById(params)
     .then((script) => {
       if (script) {
         res.status(200).json(script);
@@ -105,7 +97,7 @@ export function addQuestionToScript(req, res, next) {
   const { question_id, sequence_number } = req.body;
   const params = { question_id, id, sequence_number };
 
-  return scriptsService.addQuestionToScript(params, ScriptModel)
+  return scriptsService.addQuestionToScript(params)
     .then((scriptQuestion) => {
       if (scriptQuestion) {
         res.status(200).json(scriptQuestion);
@@ -122,7 +114,7 @@ export function getQuestionsByScriptId(req, res, next) {
   const { id } = req.params;
   const params = { id };
 
-  return scriptsService.getQuestionsByScriptId(params, ScriptModel)
+  return scriptsService.getQuestionsByScriptId(params)
     .then((questions) => {
       if (questions) {
         const { models } = questions;

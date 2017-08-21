@@ -1,19 +1,11 @@
-import knexModule from 'knex';
-import bookshelfModule from 'bookshelf';
 import contactListsService from '../db/services/contact_lists';
-import { development as devconfig } from '../../knexfile';
-import ContactList from '../db/models/contact_lists';
-
-const knex = knexModule(devconfig);
-const bookshelf = bookshelfModule(knex);
-const ContactListsModel = ContactList(bookshelf);
 
 export function saveNewContactList(req, res, next) {
   const contactListParams = {
     name: req.body.name
   };
 
-  return contactListsService.saveNewContactList(contactListParams, ContactListsModel)
+  return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
       if (contactList) {
         res.status(201).json({ message: 'Contact List creation successful' });
@@ -33,7 +25,7 @@ export function addContactToContactList(req, res, next) {
     contact_id: req.body.contact_id
   };
 
-  return contactListsService.addContactToContactList(params, ContactListsModel)
+  return contactListsService.addContactToContactList(params)
     .then((contactList) => {
       if (contactList) {
         res.status(201).json({ message: 'Contact added to Contact List successfully' });
@@ -48,7 +40,7 @@ export function addContactToContactList(req, res, next) {
 }
 
 export function getAllContactLists(req, res, next) {
-  return contactListsService.getAllContactLists(ContactListsModel)
+  return contactListsService.getAllContactLists()
     .then((contactLists) => {
       if (contactLists) {
         res.status(200).json(contactLists);
@@ -65,7 +57,7 @@ export function getContactsInContactListById(req, res, next) {
   const params = {
     id: req.params.id
   };
-  return contactListsService.getContactsInContactListById(params, ContactListsModel)
+  return contactListsService.getContactsInContactListById(params)
     .then((contactList) => {
       if (contactList) {
         res.status(200).json(contactList);
@@ -83,7 +75,7 @@ export function getContactListById(req, res, next) {
     id: req.params.id
   };
 
-  return contactListsService.getContactListById(params, ContactListsModel)
+  return contactListsService.getContactListById(params)
     .then((contactList) => {
       if (contactList) {
         res.status(200).json(contactList);
@@ -101,7 +93,7 @@ export function getContactListByName(req, res, next) {
     name: req.body.name
   };
 
-  return contactListsService.getContactListByName(params, ContactListsModel)
+  return contactListsService.getContactListByName(params)
     .then((contactList) => {
       if (contactList) {
         res.status(200).json(contactList);
@@ -119,7 +111,7 @@ export function updateContactListById(req, res, next) {
     id: req.params.id,
     name: req.body.name
   };
-  return contactListsService.updateContactListById(params, ContactListsModel)
+  return contactListsService.updateContactListById(params)
     .then((contactList) => {
       if (contactList) {
         res.status(200).json(contactList);
