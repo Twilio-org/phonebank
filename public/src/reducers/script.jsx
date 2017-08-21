@@ -1,8 +1,8 @@
-const scriptQuestions = [];
+export const defaultScriptQuestions = [];
 
 export const SET_SCRIPT_QUESTIONS = 'SET_SCRIPT_QUESTIONS';
 
-export function scriptQuestionsReducer(state = scriptQuestions, action) {
+export function scriptQuestionsReducer(state = defaultScriptQuestions, action) {
   const { type, payload } = action;
   switch (type) {
     case SET_SCRIPT_QUESTIONS:
