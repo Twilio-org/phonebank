@@ -1,7 +1,7 @@
 import { defaultScripts } from '../../public/src/reducers/admin_scripts';
 import { defaultQuestions } from '../../public/src/reducers/admin_questions';
 import { defaultCampaigns } from '../../public/src/reducers/campaign';
-import { defaultScriptsContactsForm } from '../../public/src/reducers/create_campaign';
+import { defaultContactLists } from '../../public/src/reducers/admin_contact_lists';
 
 export default {
   scriptFixtures: {
@@ -93,7 +93,6 @@ export default {
   },
   campaignFixtures: {
     defaultCampaigns,
-    defaultScriptsContactsForm,
     listFixture: [
       {
         id: 1,
@@ -180,6 +179,7 @@ export default {
     }
   ],
   contactListFixtures: {
+    defaultContactLists,
     listFixture: [
       {
         id: 1,
@@ -206,6 +206,59 @@ export default {
       created_at: '2017-08-15T21:35:30.321Z',
       updated_at: '2017-08-15T21:35:30.321Z'
     }
+  },
+  scriptViewFixtures: {
+    scriptFixture: {
+      id: 1,
+      name: 'ScriptName',
+      body: 'ScriptBody',
+      description: 'ScriptDescription',
+      created_at: '2017-08-11T21:36:45.366Z',
+      updated_at: '2017-08-11T21:36:45.366Z'
+    },
+    current_script: {
+      name: 'ScriptName',
+      body: 'ScriptBody',
+      description: 'ScriptDescription'
+    },
+    scriptQuestionsFixture: [
+      {
+        id: 4,
+        title: 'Age',
+        description: 'What is your age range?',
+        type: 'singleselect',
+        responses: '0-10,11-20,21-40,41-60,61+',
+        created_at: '2017-08-11T21:36:45.387Z',
+        updated_at: '2017-08-11T21:36:45.387Z',
+        script_id: 1,
+        question_id: 3,
+        sequence_number: 1
+      },
+      {
+        id: 5,
+        title: 'Hobbies',
+        description: 'What are your hobbies?',
+        type: 'multiselect',
+        responses: 'swimming,running,biking,sleeping,eating,weaving',
+        created_at: '2017-08-11T21:36:45.398Z',
+        updated_at: '2017-08-11T21:36:45.398Z',
+        script_id: 1,
+        question_id: 2,
+        sequence_number: 2
+      },
+      {
+        id: 6,
+        title: 'Ice Cream',
+        description: 'How do you feel about ice cream?',
+        type: 'paragraph',
+        responses: null,
+        created_at: '2017-08-11T21:36:45.514Z',
+        updated_at: '2017-08-11T21:36:45.514Z',
+        script_id: 1,
+        question_id: 1,
+        sequence_number: 3
+      }
+    ]
   }
 };
 

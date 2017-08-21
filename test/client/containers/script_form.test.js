@@ -5,6 +5,9 @@ import { Provider } from 'react-redux';
 import renderer from 'react-test-renderer';
 import ScriptNewFormContainer from '../../../public/src/containers/create_script';
 import store from '../../../public/src/store';
+import { exposeLocalStorageMock } from '../client_test_helpers';
+
+exposeLocalStorageMock();
 
 describe('<ScriptNewFormContainer />', () => {
   describe('rendering', () => {

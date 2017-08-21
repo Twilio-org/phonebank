@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 import ScriptForm from '../components/script/create_script_form';
-import { fetchAllQuestions, postScript } from '../actions/script_form';
+import { postScript } from '../actions/admin_scripts';
+import { fetchAllQuestions } from '../actions/admin_questions';
 
 const FORM_NAME = 'ScriptForm';
 
@@ -25,7 +26,7 @@ function validate(values) {
 }
 
 function mapStateToProps(state) {
-  return { questionOptions: state.script_form.questionOptions };
+  return { questionOptions: state.admin_questions.all_questions };
 }
 
 // so fetchAllQuestions get into state, so we can call it in componentDidMount
