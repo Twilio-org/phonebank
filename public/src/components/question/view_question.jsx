@@ -23,10 +23,10 @@ export default class ViewQuestion extends Component {
   renderResponseOptions() {
     const { responses, type } = this.props.question_info;
     const icon = type === 'singleselect' ? 'radio_button_unchecked' : 'check_box_outline_blank';
-    return responses.map(option => (<p key={option}>
+    return responses.map((option, i) => (<li key={`option-${option + i}`}>
       <i className="material-icons small">{icon}</i>
       {` ${option}`}
-    </p>));
+    </li>));
   }
   render() {
     const { title, description, type, responses } = this.props.question_info;
@@ -47,9 +47,10 @@ export default class ViewQuestion extends Component {
               </span>}
           </ListGroupItem>
           {responses &&
-            <ListGroupItem header="Responses">
-              {this.renderResponseOptions()}
-            </ListGroupItem>
+            <li className="list-group-item">
+              <h4 className="list-group-item-heading">Responses</h4>
+              <ul className="list-unstyled">{this.renderResponseOptions()}</ul>
+            </li>
           }
         </ListGroup>
         <Button onClick={() => this.props.history.goBack()}>Go Back</Button>
