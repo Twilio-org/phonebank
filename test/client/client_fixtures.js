@@ -208,11 +208,6 @@ export default {
     }
   },
   scriptViewFixtures: {
-    defaultScript: {
-      name: null,
-      body: null,
-      description: null
-    },
     scriptFixture: {
       id: 1,
       name: 'ScriptName',
@@ -221,12 +216,10 @@ export default {
       created_at: '2017-08-11T21:36:45.366Z',
       updated_at: '2017-08-11T21:36:45.366Z'
     },
-    admin_scripts: {
-      current_script: {
-        name: 'ScriptName',
-        body: 'ScriptBody',
-        description: 'ScriptDescription'
-      }
+    current_script: {
+      name: 'ScriptName',
+      body: 'ScriptBody',
+      description: 'ScriptDescription'
     },
     scriptQuestionsFixture: [
       {
