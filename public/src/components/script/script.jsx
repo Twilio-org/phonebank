@@ -15,8 +15,7 @@ export default class ScriptPage extends Component {
   }
 
   render() {
-    const { questions } = this.props;
-    const { current_script } = this.props;
+    const { questions, current_script } = this.props;
     const { name, body, description } = current_script;
     return (
       <div>
