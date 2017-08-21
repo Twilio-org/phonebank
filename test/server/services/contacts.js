@@ -1,8 +1,11 @@
-import { expect, Should } from 'chai';
-import * as chai from 'chai';
+import { expect, should, assert } from 'chai';
+// import * as chai from 'chai';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import Contact from '../../../server/db/services/contacts';
 
-const should = Should();
+// const should = should();
+chai.use(chaiAsPromised);
 
 describe('Contact service tests', function () {
   describe('Data insertion', function () {
@@ -16,6 +19,14 @@ describe('Contact service tests', function () {
         external_id: 'test1234'
       };
       this.contactSaveParams2 = {
+        first_name: 'Sam',
+        phone_number: '+15555555555'
+      };
+      this.contactSaveParams3 = {
+        first_name: 'Sally',
+        phone_number: '+15555555555'
+      };
+      this.contactSaveParams4 = {
         first_name: 'Sam',
         phone_number: '+15555555554'
       };
@@ -38,7 +49,7 @@ describe('Contact service tests', function () {
         });
       done();
     });
-    it('should be able to save second contact\'s first name and phone', (done) => {
+    it('should be able to save second contact\'s first name and phone without violating repeat phone_number', (done) => {
       const secondContact = this.contactSaveParams2;
       Contact.saveNewContact(secondContact)
         .then((contact) => {
@@ -51,6 +62,14 @@ describe('Contact service tests', function () {
           console.log('Error with save second contact first and phone: ', err);
         });
       done();
+    });
+    it('should not be able to save third contact\'s first name and phone without violating unique constraint', (done) => {
+      const thirdContact = this.contactSaveParams3;
+      Contact.saveNewContact(thirdContact).should.be.rejected.notify(done);
+    });
+    it('should save the fourth contact without violating unique constraint (first name is the same as second contact)', (done) => {
+      const fourthcontact = this.contactSaveParams4;
+      Contact.saveNewContact(fourthcontact).should.not.be.rejected.notify(done);
     });
   });
   describe('Data retrieval', function () {
