@@ -2,20 +2,19 @@ import { fetchScript, fetchScriptQuestions } from '../../../../public/src/action
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers.js';
 
-const { scriptQuestionsFixture: questions,
-        admin_scripts: scripts } = fixtures.scriptViewFixtures;
+const { current_script,
+        scriptQuestionsFixture: questions } = fixtures.scriptViewFixtures;
 
 const props = {
   id: 1,
-  scripts,
+  current_script,
   questions,
   fetchScript,
   fetchScriptQuestions
 };
 
 describe('<ScriptPage />', () => {
-  const { id, questions, scripts } = props;
-  const { current_script } = scripts;
+  const { id, questions, current_script } = props;
   describe('ScriptPage props and methods', () => {
     describe('props', () => {
       describe('script id prop', () => {
