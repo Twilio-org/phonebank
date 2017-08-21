@@ -1,9 +1,11 @@
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 export const SET_QUESTION_CURRENT = 'SET_QUESTION_CURRENT';
+export const SET_QUESTION = 'SET_QUESTION';
 
 export const defaultQuestions = {
   current_question: {},
-  all_questions: []
+  all_questions: [],
+  question_info: {}
 };
 
 export function adminQuestionsReducer(state = defaultQuestions, action) {
@@ -18,6 +20,11 @@ export function adminQuestionsReducer(state = defaultQuestions, action) {
       return {
         ...state,
         current_question: payload
+      };
+    case SET_QUESTION:
+      return {
+        ...state,
+        question_info: payload
       };
     default:
       return state;
