@@ -10,7 +10,7 @@ export default {
         style: 'primary',
         handler: () => {
           handleClick(item);
-          history.push(`/admin/${page.toLowerCase()}s/${item.id}`);
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
       {
