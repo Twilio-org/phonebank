@@ -1,35 +1,10 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { updateUser } from '../../../public/src/actions/edit_account';
+import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
+import { defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-const initialState = {
-  first_name: null,
-  last_name: null,
-  email: null,
-  phone_number: null
-};
-
-const localStorageMock = (() => {
-  let localstore = {};
-  return {
-    getItem(key) {
-      return localstore[key];
-    },
-    setItem(key, value) {
-      localstore[key] = value.toString();
-    },
-    clear() {
-      localstore = {};
-    }
-  };
-})();
-
-global.localStorage = localStorageMock;
+exposeLocalStorageMock();
 
 const user = {
   first_name: 'Oscar',
@@ -54,7 +29,7 @@ const history = {
 describe('editAccountActions', () => {
   beforeEach(() => {
     mocker = new MockAdapter(axios);
-    store = mockStore(initialState);
+    store = mockStore(defaultUserAccountInfo);
   });
   afterEach(() => {
     mocker.reset();
