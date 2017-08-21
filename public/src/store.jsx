@@ -9,6 +9,7 @@ import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/account_info';
+import { scriptQuestionsReducer } from './reducers/script';
 import { campaignListReducer } from './reducers/campaign';
 import { campaignFormReducer } from './reducers/create_campaign';
 import { questionOptionsReducer } from './reducers/script_form';
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   form: formReducer,
   auth: authStatusReducer,
   account_info: accountInfoReducer,
+  script_questions: scriptQuestionsReducer,
   admin_campaigns: campaignListReducer,
   campaign_form: campaignFormReducer,
   admin_questions: adminQuestionsReducer,
