@@ -7,19 +7,9 @@ import tableHeaders from '../common/list_table_headers';
 const { scripts: scriptHeaders } = tableHeaders;
 
 export default class ScriptsList extends Component {
-  constructor(props) {
-    super(props);
-    this.handleViewClick = this.handleViewClick.bind(this);
-  }
 
   componentDidMount() {
     this.props.fetchAllScripts();
-  }
-
-  handleViewClick(script) {
-    this.props.setCurrentScript(script);
-    const { history } = this.props;
-    history.push(`/admin/scripts/${script.id}`);
   }
 
   render() {
