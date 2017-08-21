@@ -2,11 +2,10 @@ import axios from 'axios';
 import { destroy } from 'redux-form';
 
 export default function createQuestion(questionInfo, history) {
+  let { responses } = questionInfo;
   const { title, description, type } = questionInfo;
-  // Create single string for all options
-  const keys = Object.keys(questionInfo);
-  const options = keys.filter(key => key.indexOf('option') >= 0);
-  const responses = options.join(',');
+  // TO-DO: Find a better way to handle question response data
+  responses = responses ? Object.keys(responses).map(key => responses[key]).join(',') : '';
 
   return dispatch => axios.post('/questions', {
     title,
