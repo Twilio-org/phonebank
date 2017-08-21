@@ -10,6 +10,10 @@ const tableInfo = {
   questions: {
     headers: [['Title', 'title'], ['Description', 'description'], ['Type', 'type'], ['Response Options', 'responses'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
     redirect_path: '/admin/questions/new'
+  },
+  contact_lists: {
+    headers: [['Name', 'name'], ['Created At', 'created_at']],
+    redirect_path: '/admin/contactLists/new'
   }
 };
 

@@ -11,6 +11,7 @@ import RegistrationForm from './containers/registration';
 import CampaignsContainer from './containers/list_campaigns';
 import AdminQuestionsContainer from './containers/list_questions';
 import AdminScriptsContainer from './containers/list_scripts';
+import AdminContactListsContainer from './containers/list_contactlists';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/account/edit_account';
@@ -112,6 +113,13 @@ const Root = () => {
               render={
                 () => (isLoggedIn() ?
                   (<AdminScriptsContainer />) : (<Redirect to="/" />))
+              }
+            />
+            <Route
+              path="/admin/contactLists"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminContactListsContainer />) : (<Redirect to="/" />))
               }
             />
           </Switch>
