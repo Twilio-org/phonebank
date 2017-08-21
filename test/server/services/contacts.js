@@ -1,10 +1,8 @@
-import { expect, should, assert } from 'chai';
-// import * as chai from 'chai';
+import { expect } from 'chai';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Contact from '../../../server/db/services/contacts';
 
-// const should = should();
 chai.use(chaiAsPromised);
 
 describe('Contact service tests', function () {
@@ -32,7 +30,7 @@ describe('Contact service tests', function () {
       };
     });
 
-    it('should be able to save first contact\'s first name, last name, phone, email, and external_id', (done) => {
+    it('should save first contact\'s first name, last name, phone, email, and external_id', (done) => {
       const firstContact = this.contactSaveParams1;
       Contact.saveNewContact(firstContact)
         .then((contact) => {
@@ -49,7 +47,7 @@ describe('Contact service tests', function () {
         });
       done();
     });
-    it('should be able to save second contact\'s first name and phone without violating repeat phone_number', (done) => {
+    it('should save second contact\'s first name and phone without violating repeat phone_number', (done) => {
       const secondContact = this.contactSaveParams2;
       Contact.saveNewContact(secondContact)
         .then((contact) => {
@@ -63,7 +61,7 @@ describe('Contact service tests', function () {
         });
       done();
     });
-    it('should not be able to save third contact\'s first name and phone without violating unique constraint', (done) => {
+    it('should not save third contact\'s first name and phone because it is violating unique constraint', (done) => {
       const thirdContact = this.contactSaveParams3;
       Contact.saveNewContact(thirdContact).should.be.rejected.notify(done);
     });
@@ -72,7 +70,7 @@ describe('Contact service tests', function () {
       Contact.saveNewContact(fourthcontact).should.not.be.rejected.notify(done);
     });
   });
-  describe('Data retrieval', function () {
+  describe('Data retrieval', () => {
     beforeEach(() => {
       this.contactSaveParams1 = {
         first_name: 'Sally',
@@ -118,7 +116,7 @@ describe('Contact service tests', function () {
         });
     });
   });
-  describe('Data update', function () {
+  describe('Data update', () => {
     beforeEach(() => {
       this.contactUpdateParams1 = {
         id: 1,
