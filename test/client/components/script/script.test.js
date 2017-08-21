@@ -1,6 +1,9 @@
+import React from 'react';
+import { shallow } from 'enzyme';
 import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/script';
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers.js';
+import ScriptPage from '../../../../public/src/components/script/script';
 
 const { current_script,
         scriptQuestionsFixture: questions } = fixtures.scriptViewFixtures;
@@ -15,6 +18,33 @@ const props = {
 
 describe('<ScriptPage />', () => {
   const { id, questions, current_script } = props;
+  describe('Rendering of <ScriptPage />', () => {
+    const wrapper = shallow(<ScriptPage {...props} />);
+    it('should render one div element', () => {
+      const divElements = wrapper.find('div').length;
+      expect(divElements).toBe(1);
+    });
+    it('should render three h4 elements', () => {
+      const h4Elements = wrapper.find('h4').length;
+      expect(h4Elements).toBe(3);
+    });
+    it('should render one h1 element', () => {
+      const h1Elements = wrapper.find('h1').length;
+      expect(h1Elements).toBe(1);
+    });
+    it('should render one ol element', () => {
+      const olElements = wrapper.find('ol').length;
+      expect(olElements).toBe(1);
+    });
+  });
+  describe('Expected props', () => {
+    const wrapper = shallow(<ScriptPage {...props} />).instance();
+    const expectedProps = Object.keys(props);
+    it('should have the expected props', () => {
+      const actualProps = wrapper.props;
+      expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
+    });
+  });
   describe('ScriptPage props and methods', () => {
     describe('props', () => {
       describe('script id prop', () => {
