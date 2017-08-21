@@ -19,6 +19,8 @@ import CreateScriptContainer from './containers/create_script';
 import CreateQuestionContainer from './containers/create_question';
 import ViewQuestionContainer from './containers/view_question';
 import { ConnectedAccountPage } from './components/account/account';
+import ScriptPage from './containers/view_script';
+
 // import { authTransition, checkIfAdmin } from './actions/login';
 import { authTransition } from './actions/login';
 
@@ -83,6 +85,13 @@ const Root = () => {
               render={
                 () => (isLoggedIn() ?
                   (<CampaignsContainer />) : (<Redirect to="/login" />))
+              }
+            />
+            <Route
+              path="/admin/scripts/:id"
+              render={
+                () => (isLoggedIn() ?
+                  (<ScriptPage />) : (<Redirect to="/login" />))
               }
             />
             <Route

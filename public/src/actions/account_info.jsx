@@ -18,7 +18,7 @@ export function fetchUser(id) {
   })
   .catch((err) => {
     const customError = {
-      message: `error fetching user info in account_info action fetchUserInfo: ${err}`,
+      message: `error fetching user info in account_info action fetchUser: ${err}`,
       name: 'user info post request from account_info component'
     };
     throw customError;

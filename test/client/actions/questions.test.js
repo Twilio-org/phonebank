@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { mockStore } from '../client_test_helpers';
-import createQuestion from '../../../public/src/actions/questions';
+import createQuestion from '../../../public/src/actions/admin_questions';
 
 describe('Questions actions', () => {
   const history = { goBack: jest.fn() }
