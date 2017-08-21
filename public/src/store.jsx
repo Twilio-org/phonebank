@@ -38,6 +38,6 @@ const middleware = [immutable(), createLogger(), promise(), thunk];
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
 
-persistStore(store).purge();
+persistStore(store);
 
 export default store;
