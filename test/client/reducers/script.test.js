@@ -1,17 +1,17 @@
-import { scriptQuestionsReducer, SET_SCRIPT_QUESTIONS } from '../../../public/src/reducers/script';
+import { adminScriptsReducer, SET_SCRIPT_QUESTIONS } from '../../../public/src/reducers/admin_scripts';
 import fixtures from '../client_fixtures';
 
 const { scriptQuestionsFixture } = fixtures.scriptViewFixtures;
-const initialScriptQuestionState = [];
+const { defaultScripts: initialState } = fixtures.scriptFixtures;
 
-describe('scriptQuestionsReducer', () => {
+describe('adminScriptsReducer', () => {
   it('should return the initial state', () => {
-    expect(scriptQuestionsReducer(undefined, {})).toEqual([]);
+    expect(adminScriptsReducer(undefined, {})).toEqual(initialState);
   });
   it('should react to an action with the type SET_SCRIPT_QUESTIONS', () => {
-    expect(scriptQuestionsReducer(initialScriptQuestionState, {
+    expect(adminScriptsReducer(undefined, {
       type: SET_SCRIPT_QUESTIONS,
       payload: scriptQuestionsFixture
-    }).questions).toEqual(scriptQuestionsFixture);
+    }).script_questions).toEqual(scriptQuestionsFixture);
   });
 });

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { setScriptQuestions, fetchScript, fetchScriptQuestions } from '../../../public/src/actions/script';
-import { checkObjectProps, mockStore } from '../client_test_helpers.js';
-import { setCurrentScript } from '../../../public/src/actions/admin_scripts';
+import { checkObjectProps, mockStore } from '../client_test_helpers';
+import { setCurrentScript, fetchScript, fetchScriptQuestions, setScriptQuestions } from '../../../public/src/actions/admin_scripts';
 import fixtures from '../client_fixtures';
 
 const { defaultScript, scriptFixture, scriptQuestionsFixture } = fixtures.scriptViewFixtures;

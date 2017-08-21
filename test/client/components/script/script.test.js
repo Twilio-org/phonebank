@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/script';
+import { fetchScript, fetchScriptQuestions } from '../../../../public/src/actions/admin_scripts';
 import fixtures from '../../client_fixtures';
-import { checkObjectProps } from '../../client_test_helpers.js';
+import { checkObjectProps } from '../../client_test_helpers';
 import ScriptPage from '../../../../public/src/components/script/script';
 
 const { current_script,
