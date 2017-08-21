@@ -17,7 +17,7 @@ import EditAccountInfo from './components/account/edit_account';
 import CreateCampaignContainer from './containers/create_campaign';
 import CreateScriptContainer from './containers/create_script';
 import CreateQuestionContainer from './containers/create_question';
-import QuestionViewContainer from './containers/question_view';
+import ViewQuestionContainer from './containers/view_question';
 import { ConnectedAccountPage } from './components/account/account';
 // import { authTransition, checkIfAdmin } from './actions/login';
 import { authTransition } from './actions/login';
@@ -33,13 +33,13 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Switch>
-            <Route path="/admin/questions/:id" component={QuestionViewContainer} />
             <Route
               exact
               path="/admin/questions/new"
               render={() => (isLoggedIn() ?
                 (<CreateQuestionContainer />) : (<Redirect to="/login" />))}
             />
+            <Route path="/admin/questions/:id" component={ViewQuestionContainer} />
             <Route
               exact
               path="/admin/scripts/new"

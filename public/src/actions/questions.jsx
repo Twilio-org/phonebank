@@ -9,7 +9,7 @@ export function setQuestionInfo(question) {
   };
 }
 
-export default function createQuestion(questionInfo, history) {
+export function createQuestion(questionInfo, history) {
   let { responses } = questionInfo;
   const { title, description, type } = questionInfo;
   // TO-DO: Find a better way to handle question response data
@@ -41,9 +41,11 @@ export function fetchQuestion(id) {
   })
   .then((res) => {
     const questionData = res.data;
-    console.log(questionData);
+    // TO-DO Find a better way to handle this data
+    let responsesArr = questionData.responses;
+    responsesArr = responsesArr.split[','];
+    questionData.responses = responsesArr;
     return dispatch(setQuestionInfo(questionData));
-    // return questionData;
   })
   .catch((err) => {
     const customError = {
