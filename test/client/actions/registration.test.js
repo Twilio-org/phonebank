@@ -1,22 +1,10 @@
-import React from 'react';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import registerNewUser from '../../../public/src/actions/registration.jsx';
+import { mockStore } from '../client_test_helpers';
+import { defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-const initialState = {
-  first_name: null,
-  last_name: null,
-  email: null,
-  phone_number: null,
-  password: null
-};
-
-const store = mockStore(initialState);
+const store = mockStore(defaultUserAccountInfo);
 const history = {
   push: jest.fn()
 };
