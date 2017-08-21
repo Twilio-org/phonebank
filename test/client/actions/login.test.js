@@ -1,53 +1,22 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { setUserAuthCredentials, clearAuthCredentials, logout, loginUser, logoutUser } from '../../../public/src/actions/login';
+import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
+import { defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
+import { defaultAuthStatus } from '../../../public/src/reducers/login';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-const initialState = {
-  first_name: null,
-  last_name: null,
-  email: null,
-  phone_number: null
-};
-
-const authStatus = {
-  id: null
-};
+exposeLocalStorageMock();
 
 const loginUserInfo = {
   email: 'harry@hogwarts.com',
   password: '1234'
 };
 
-class LocalStorageMock {
-  constructor() {
-    this._store = {};
-  }
-  clear() {
-    this._store = {};
-  }
-  getItem(key) {
-    return this._store[key] || null;
-  }
-  setItem(key, value) {
-    this._store[key] = value;
-  }
-  removeItem(key) {
-    delete this._store[key];
-  }
-}
-
 let mocker;
 let store;
 const history = {
   push: jest.fn()
 };
-
-global.localStorage = new LocalStorageMock();
 
 const user = {
   id: 1,
@@ -87,7 +56,7 @@ describe('loginActions', () => {
   describe('loginUser', () => {
     mocker = new MockAdapter(axios);
     beforeEach(() => {
-      store = mockStore(initialState, authStatus);
+      store = mockStore(defaultUserAccountInfo, defaultAuthStatus);
       mocker.onPost('/auth/login').reply(200, loginUserResponse);
     });
     afterEach(() => {
@@ -96,7 +65,7 @@ describe('loginActions', () => {
     it('should add the "auth_token" to localStorage', () => {
       return store.dispatch(loginUser(loginUserInfo, history))
         .then(() => {
-          expect(global.localStorage._store.auth_token).toEqual('token');
+          expect(global.localStorage.getItem('auth_token')).toEqual('token');
         });
     });
     it('should dispatch the setUserAuthCredentials action to the store', () => {
@@ -120,17 +89,17 @@ describe('loginActions', () => {
   describe('logoutUser', () => {
     mocker = new MockAdapter(axios);
     beforeEach(() => {
-      store = mockStore(initialState, authStatus);
+      store = mockStore(defaultUserAccountInfo, defaultAuthStatus);
       mocker.onGet('/logout').reply(200);
     });
     afterEach(() => {
       mocker.reset();
     });
     it('should remove auth_token from localStorage', () => {
-      expect(global.localStorage._store.auth_token).toEqual('token');
+      expect(global.localStorage.getItem('auth_token')).toEqual('token');
       return store.dispatch(logoutUser())
         .then(() => {
-          expect(global.localStorage._store.auth_token).toEqual(undefined);
+          expect(global.localStorage.getItem('auth_token')).toEqual(undefined);
         });
     });
     it('should dispatch the logout action to the store', () => {
