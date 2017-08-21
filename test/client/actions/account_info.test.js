@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { setAccountInfo, fetchUser } from '../../../public/src/actions/account_info';
-import { SET_USER_ACCOUNT_INFO, defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
+import { defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
 import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
 
 exposeLocalStorageMock();
@@ -40,11 +40,13 @@ describe('accountInfoActions', () => {
       mock.onGet('/users/1').reply(200, user);
     });
     it('should add expected action to the store', () => {
-      const expectedActions = { type: SET_USER_ACCOUNT_INFO, payload: user };
+      const expectedAction = setAccountInfo(user);
+      const { type, payload } = expectedAction;
       return store.dispatch(fetchUser(1))
         .then(() => {
           const actions = store.getActions();
-          expect(actions[0]).toEqual(expectedActions);
+          expect(actions[0].type).toEqual(type);
+          expect(actions[0].payload).toEqual(payload);
         });
     });
     it('should add expected action payload to the store', () =>
