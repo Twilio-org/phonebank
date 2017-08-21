@@ -152,6 +152,139 @@ exports[`<ScriptNewFormContainer /> rendering renders correctly 1`] = `
       className="row"
     >
       <div
+        className="col-xs-6"
+      >
+        <div
+          className="row form-group "
+        >
+          <label
+            htmlFor="dropdown-basic-1"
+          >
+            Question 1:
+          </label>
+          <select
+            className="form-control"
+            id="dropdown-basic-1"
+            name="question1"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option>
+              Select 
+              Question 1:
+            </option>
+          </select>
+        </div>
+        <div
+          className="row form-group "
+        >
+          <label
+            htmlFor="dropdown-basic-2"
+          >
+            Question 2:
+          </label>
+          <select
+            className="form-control"
+            id="dropdown-basic-2"
+            name="question2"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option>
+              Select 
+              Question 2:
+            </option>
+          </select>
+        </div>
+        <div
+          className="row form-group "
+        >
+          <label
+            htmlFor="dropdown-basic-3"
+          >
+            Question 3:
+          </label>
+          <select
+            className="form-control"
+            id="dropdown-basic-3"
+            name="question3"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option>
+              Select 
+              Question 3:
+            </option>
+          </select>
+        </div>
+        <div
+          className="row form-group "
+        >
+          <label
+            htmlFor="dropdown-basic-4"
+          >
+            Question 4:
+          </label>
+          <select
+            className="form-control"
+            id="dropdown-basic-4"
+            name="question4"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option>
+              Select 
+              Question 4:
+            </option>
+          </select>
+        </div>
+        <div
+          className="row form-group "
+        >
+          <label
+            htmlFor="dropdown-basic-5"
+          >
+            Question 5:
+          </label>
+          <select
+            className="form-control"
+            id="dropdown-basic-5"
+            name="question5"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onDragStart={[Function]}
+            onDrop={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option>
+              Select 
+              Question 5:
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
         className="col-xs-4"
       >
         <button
