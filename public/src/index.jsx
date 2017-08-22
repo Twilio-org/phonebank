@@ -41,7 +41,11 @@ const Root = () => {
               render={() => (isLoggedIn() ?
                 (<CreateQuestionContainer />) : (<Redirect to="/login" />))}
             />
-            <Route path="/admin/questions/:id" component={ViewQuestionContainer} />
+            <Route
+              path="/admin/questions/:id"
+              render={() => (isLoggedIn() ?
+              (<ViewQuestionContainer />) : (<Redirect to="/login" />))}
+            />
             <Route
               exact
               path="/admin/scripts/new"
