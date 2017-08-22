@@ -33,7 +33,26 @@ export function fetchAllQuestions() {
   });
 }
 
-export default function createQuestion(questionInfo, history) {
+export function fetchQuestion(id) {
+  return dispatch => axios.get(`/questions/${id}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: questionData } = res;
+    // TO-DO Find a better way to handle this data
+    questionData.responses = questionData.responses ? questionData.responses.split(',') : '';
+    return dispatch(setCurrentQuestion(questionData));
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error fetching question info in questions action fetchQuestion: ${err}`,
+      name: 'question info get request'
+    };
+    throw customError;
+  });
+}
+
+export function createQuestion(questionInfo, history) {
   let { responses } = questionInfo;
   const { title, description, type } = questionInfo;
   // TO-DO: Find a better way to handle question response data
