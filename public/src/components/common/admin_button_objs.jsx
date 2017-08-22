@@ -1,7 +1,6 @@
 export default {
   view_edit(props) {
-    const { page, handleClick, item } = props;
-    // const { page, history, handleClick, item } = props;
+    const { page, history, handleClick, item } = props;
     const { id } = item;
     return [
       {
@@ -11,9 +10,7 @@ export default {
         style: 'primary',
         handler: () => {
           handleClick(item);
-          console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
-          // uncomment when we have allie's code:
-          // history.push(`/admin/${page.toLowerCase()}s/${item.id}`);
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
       {

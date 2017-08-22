@@ -1,4 +1,4 @@
-const userAccountInfo = {
+export const defaultUserAccountInfo = {
   first_name: null,
   last_name: null,
   email: null,
@@ -8,7 +8,7 @@ const userAccountInfo = {
 
 export const SET_USER_ACCOUNT_INFO = 'SET_USER_ACCOUNT_INFO';
 
-export function accountInfoReducer(state = userAccountInfo, action) {
+export function accountInfoReducer(state = defaultUserAccountInfo, action) {
   const { type, payload } = action;
   switch (type) {
     case SET_USER_ACCOUNT_INFO:
