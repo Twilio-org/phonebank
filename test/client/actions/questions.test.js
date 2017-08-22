@@ -1,7 +1,11 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { mockStore } from '../client_test_helpers';
-import createQuestion from '../../../public/src/actions/admin_questions';
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
+import { createQuestion, fetchQuestion } from '../../../public/src/actions/admin_questions';
+import { setCurrentQuestion } from '../../../public/src/actions/admin_questions';
+import fixtures from '../client_fixtures';
+
+exposeLocalStorageMock();
 
 describe('Questions actions', () => {
   const history = { goBack: jest.fn() }
@@ -21,6 +25,26 @@ describe('Questions actions', () => {
       'option31':'ok',
     }
   };
+  const question3 = {
+    title: 'dog costume',
+    description: 'What costume should your dog wear?',
+    type: 'singleselect',
+    responses: 'dogception,cat,strawberry',
+    updated_at: '',
+    created_at: ''
+  }
+  const fetchedQuestion = {
+    title: 'dog costume',
+    description: 'What costume should your dog wear?',
+    type: 'singleselect',
+    responses: [
+      'dogception',
+      'cat',
+      'strawberry'
+    ],
+    updated_at: '',
+    created_at: ''
+  }
   let mock;
   let store;
   beforeEach(() => {
@@ -67,4 +91,24 @@ describe('Questions actions', () => {
       });
     });
   });
+  describe('fetchQuestion ', () => {
+    beforeEach(() => {
+      mock.onGet('/questions/1').reply(200, question3);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    describe('axios GET request: ', () => {
+      it('should add expected action to the store', () => {
+        const expectedAction = setCurrentQuestion(fetchedQuestion);
+        return store.dispatch(fetchQuestion(1))
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions[0]).toEqual(expectedAction);
+            expect(actions[0].payload).toEqual(fetchedQuestion);
+          });
+      });
+    });
+  });
+
 });
