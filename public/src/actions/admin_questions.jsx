@@ -38,10 +38,9 @@ export function fetchQuestion(id) {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((res) => {
-    const questionData = res.data;
+    const { data: questionData } = res;
     // TO-DO Find a better way to handle this data
-    const { responses } = questionData;
-    questionData.responses = responses ? questionData.responses.split(',') : '';
+    questionData.responses = questionData.responses ? questionData.responses.split(',') : '';
     return dispatch(setCurrentQuestion(questionData));
   })
   .catch((err) => {

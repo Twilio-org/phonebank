@@ -1,7 +1,6 @@
 export default {
   view_edit(props) {
     const { page, handleClick, item, history } = props;
-    // const { page, history, handleClick, item } = props;
     const { id } = item;
     return [
       {
@@ -12,8 +11,6 @@ export default {
         handler: () => {
           // TO-DO: uncomment once responses data is decided for questions reducer
           // handleClick(item);
-          // console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
-          // uncomment when we have allie's code:
           history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
