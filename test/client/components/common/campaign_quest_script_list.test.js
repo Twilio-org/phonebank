@@ -168,7 +168,7 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
       const { fetchAllContactLists } = wrapper.props;
       const fetchContactListCall = fetchAllContactLists.mock.calls;
       expect(fetchContactListCall.length).toBe(1);
-      expect(!fetchContactListCall[0].length).toBeTruthy();
+      expect(!fetchContactListCall[0].length).toBe(true);
     });
   });
 });
