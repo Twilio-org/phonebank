@@ -10,10 +10,11 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
+          // TO-DO: uncomment once responses data is decided for questions reducer
           // handleClick(item);
-          console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
+          // console.log('path in handler: ', `/admin/${page.toLowerCase()}s/${id}`);
           // uncomment when we have allie's code:
-          history.push(`/admin/${page.toLowerCase()}s/${item.id}`);
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
       {
