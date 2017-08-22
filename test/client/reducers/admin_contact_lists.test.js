@@ -1,10 +1,11 @@
-import { adminContactListsReducer, SET_CAMPAIGN_FORM_CONTACT_LIST } from '../../../public/src/reducers/admin_contact_lists';
+import { adminContactListsReducer, SET_CAMPAIGN_FORM_CONTACT_LIST, SET_CURRENT_CONTACT_LIST } from '../../../public/src/reducers/admin_contact_lists';
 
 import fixtures from '../client_fixtures';
 
 // TO-DO: this needs to become the contact list reducer test since this is all this is testing.
 const { listFixture: contactListFixtures,
-        defaultContactLists: initialState } = fixtures.contactListFixtures;
+        defaultContactLists: initialState,
+        mapFixture: contactListFixture } = fixtures.contactListFixtures;
 
 const mockCampaignFormActions = [
   {
@@ -12,13 +13,18 @@ const mockCampaignFormActions = [
     payload: contactListFixtures
   },
   {
+    type: SET_CURRENT_CONTACT_LIST,
+    payload: contactListFixture
+  },
+  {
     type: 'RANDOM_TYPE',
     payload: 'nothing'
   }
 ];
 
-const [contactList, fake] = mockCampaignFormActions;
+const [contactList, currentContactList, fake] = mockCampaignFormActions;
 const expectedContactListProps = Object.keys(contactListFixtures);
+const expectedCurrentContactList = Object.keys(contactListFixture);
 
 describe('adminContactListsReducer tests: ', () => {
   // describe('default behavior', () => {
@@ -36,6 +42,18 @@ describe('adminContactListsReducer tests: ', () => {
       expect(first.name).toBe('ContactList1');
       expect(second.name).toBe('ContactList2');
       expect(third.name).toBe('ContactList3');
+    });
+  });
+
+  describe('should populate current_contact_list when "SET_CURRENT_CONTACT_LIST" is called', () => {
+    testResult = adminContactListsReducer(initialState, currentContactList);
+    const { current_contact_list } = testResult;
+    it('current_contact_list should be an object', () => {
+      expect(Array.isArray(current_contact_list)).toBeFalsy();
+      expect(typeof current_contact_list).toBe('object');
+    });
+    it('should have all of expected properties', () => {
+      expect(Object.keys(current_contact_list)).toEqual(expectedCurrentContactList);
     });
   });
 
