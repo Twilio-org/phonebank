@@ -2,7 +2,7 @@ import React from 'react';
 import AdminListBtnGroup from '../common/admin_list_btngrp';
 
 const AdminTableRow = (props) => {
-  const { item, headers, buttons } = props;
+  const { item, headers, buttons, history } = props;
   const button = buttons(props);
   return (
     <tr>
@@ -11,7 +11,7 @@ const AdminTableRow = (props) => {
         return (<td key={mapKey.concat(display[0], item.id)}>{item[mapKey]}</td>);
       }) : ''}
       <td>
-        <AdminListBtnGroup buttons={button} />
+        <AdminListBtnGroup history={history} buttons={button} />
       </td>
     </tr>
   );

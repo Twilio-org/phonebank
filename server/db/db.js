@@ -20,7 +20,8 @@ const createContactsTable = () =>
         table.string('first_name').notNullable();
         table.string('last_name').nullable();
         table.string('email').nullable();
-        table.string('phone_number').notNullable().unique().index();
+        table.string('phone_number').notNullable();
+        table.unique(['first_name', 'phone_number']);
         table.boolean('is_invalid_number').defaultTo(false);
         table.boolean('do_not_call').defaultTo(false);
         table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
