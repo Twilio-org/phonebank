@@ -1,21 +1,28 @@
 import parse from 'csv-parse/lib/sync';
 
+// promisified helper function, example usage:
+// parseCSVThenValidateHeaders()
+//  .then(objsArray => console.log(objsArray))
+//  .catch(err => console.log(err));
+
+// NOTE: default export ==> you can name this whatever you'd like
+
 function validateRequiredHeaders(actualHeadersArray) {
-  const errors = {
-    missing: []
-  };
-  const { missing } = errors;
   const reqHeaders = {
-    external_id: 0,
-    first_name: 0,
-    last_name: 0,
-    email: 0,
-    phone_number: 0
+    external_id: false,
+    first_name: false,
+    last_name: false,
+    email: false,
+    phone_number: false
   };
+  const missing = [];
   const reqHeadersProps = Object.keys(reqHeaders);
+  if (actualHeadersArray.length > 5) {
+    return new Error(`extraneous headers, limit to: ${reqHeadersProps.join(', ')} `);
+  }
   actualHeadersArray.forEach((headerOption) => {
-    if (reqHeaders[headerOption] >= 0) {
-      reqHeaders[headerOption] += 1;
+    if (!reqHeaders[headerOption]) {
+      reqHeaders[headerOption] = !reqHeaders[headerOption];
     }
   });
   reqHeadersProps.forEach((header) => {
@@ -23,47 +30,25 @@ function validateRequiredHeaders(actualHeadersArray) {
       missing.push(header);
     }
   });
-  if (!missing.length) {
-    return true;
+  if (missing.length) {
+    return new Error(`missing required header(s): ${missing.join(', ')}`);
   }
-  return errors;
-}
-
-function customError(name, message) {
-  return new Error(message);
-}
-
-function handleError(errorList) {
-  const [only] = errorList;
-  const { name, message } = only;
-  return customError(name, message);
-}
-
-function handleValidationError(errorsObj) {
-  const props = Object.keys(errorsObj);
-  const messages = [];
-  props.forEach((prop) => {
-    if (errorsObj[prop].length) {
-      if (prop === 'missing') {
-        messages.push({ name: 'missing required headers', message: `missing required header(s): ${errorsObj.missing.join(', ')}` });
-      }
-    }
-  });
-  return handleError(messages);
+  return undefined;
 }
 
 export default function parseCSVThenValidateHeaders(uploadedCsv) {
-  const csvString = uploadedCsv.data.toString();
-  const csvObjects = parse(csvString, { columns: true, auto_parse: true });
-  const [headerCheck] = csvObjects;
-  const headers = Object.keys(headerCheck);
-  const result = validateRequiredHeaders(headers);
-  return result && typeof result !== 'object' ? csvObjects : handleValidationError(result);
+  return new Promise((resolve, reject) => {
+    const csvString = uploadedCsv.data.toString();
+    const csvObjects = parse(csvString, { columns: true, auto_parse: true });
+    const [headerCheck] = csvObjects;
+    const headers = Object.keys(headerCheck);
+    const error = validateRequiredHeaders(headers); // "error"
+    if (!error) {
+      resolve(csvObjects);
+    } else {
+      reject(error);
+    }
+  });
 }
 
-// NOTE: may want to change to an async call (cb for db service calls)... or not
-// in controller: import the helper and invoke on 'uploadedCsv'
-// if results in error (e.g. not an array of objs), then return error
-
-// try and catch in controller to catch the error (if any)
-
+// TODO: testing for this helper function (success and failure)
