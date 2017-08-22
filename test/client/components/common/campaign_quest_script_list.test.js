@@ -4,12 +4,14 @@ import { mount, shallow } from 'enzyme';
 import CampaignList from '../../../../public/src/components/campaign/campaign_list';
 import QuestionList from '../../../../public/src/components/question/question_list';
 import ScriptsList from '../../../../public/src/components/script/script_list';
+import ContactLists from '../../../../public/src/components/contactlist/contactlist_list';
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers';
 
 const { listFixture: campaignListFixtures } = fixtures.campaignFixtures;
 const { listFixture: questionListFixtures } = fixtures.questionFixtures;
 const { listFixture: scriptListFixtures } = fixtures.scriptFixtures;
+const { listFixture: contactListFixtures } = fixtures.contactListFixtures;
 const { mapFixture: account_info } = fixtures.accountFixtures;
 
 describe('Component testing for CampaignList, QuestionList, and Script List: ', () => {
@@ -131,6 +133,42 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
       const fetchScriptsCall = fetchAllScripts.mock.calls;
       expect(fetchScriptsCall.length).toBe(1);
       expect(!fetchScriptsCall[0].length).toBe(true);
+    });
+  });
+
+  describe('<ContactLists />', () => {
+    const props = {
+      fetchAllContactLists: jest.fn(),
+      all_contact_lists: contactListFixtures,
+      account_info,
+      history: {},
+      setCurrentContactList: jest.fn()
+    };
+    const expectedProps = Object.keys(props);
+    describe('Component rendering: ', () => {
+      const wrapper = shallow(<ContactLists {...props} />);
+      it('should have one div element: ', () => {
+        expect(wrapper.find('div').length).toBe(1);
+      });
+      it('should have one <TableListView /> element: ', () => {
+        const numberOfTableListViewElements = wrapper.find('TableListView').length;
+        expect(numberOfTableListViewElements).toBe(1);
+      });
+    });
+    describe('Contact List expected props: ', () => {
+      const wrapper = shallow(<ContactLists {...props} />).instance();
+      it('should have all of the expected props: ', () => {
+        const actualProps = wrapper.props;
+        expect(checkObjectProps(expectedProps, actualProps)).toBeTruthy();
+      });
+    });
+
+    describe('Methods were called: ', () => {
+      const wrapper = mount(<ContactLists {...props} />).instance();
+      const { fetchAllContactLists } = wrapper.props;
+      const fetchContactListCall = fetchAllContactLists.mock.calls;
+      expect(fetchContactListCall.length).toBe(1);
+      expect(!fetchContactListCall[0].length).toBeTruthy();
     });
   });
 });
