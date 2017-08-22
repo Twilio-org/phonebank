@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import ContactLists from '../components/contactlist/contactlist';
+import ContactLists from '../components/contactlist/contactlist_list';
 
 import { fetchAllContactLists, setCurrentContactList } from '../actions/admin_contact_lists';
 
