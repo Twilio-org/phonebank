@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
-import { setContactListOptions, fetchAllContactLists } from '../../../public/src/actions/admin_contact_lists';
+import { setContactListOptions, fetchAllContactLists, setCurrentContactList } from '../../../public/src/actions/admin_contact_lists';
 import fixtures from '../client_fixtures';
 
 exposeLocalStorageMock();
@@ -38,6 +38,33 @@ describe('Add Campaign actions', () => {
         const thirdObjectProps = checkObjectProps(expectedContactListProps, payload[2]);
         expect(payload.length).toBe(3);
         expect(thirdObjectProps && secondObjectProps && firstObjectProps).toBe(true);
+      });
+    });
+  });
+
+  describe('setCurrentContactList', () => {
+    const setCurrentContactListResult = setCurrentContactList(contactListFixture);
+    describe('type', () => {
+      const { type } = setCurrentContactListResult;
+      it('should have a type property', () => {
+        expect(type).toBeDefined();
+      });
+      it('should not have a null type', () => {
+        expect(type).toBeTruthy();
+      });
+      it('should have a value of "SET_CURRENT_CONTACT_LIST"', () => {
+        expect(type).toBe('SET_CURRENT_CONTACT_LIST');
+      });
+    });
+    describe('payload:', () => {
+      const { payload } = setCurrentContactListResult;
+      it('should have a payload that is an object', () => {
+        expect(Array.isArray(payload)).toBeFalsy();
+        expect(typeof payload).toBe('object');
+      });
+      it('should have all properties:', () => {
+        expect(checkObjectProps(expectedContactListProps, payload)).toBeTruthy();
+        expect(Object.keys(payload).length).toBe(expectedContactListProps.length);
       });
     });
   });
