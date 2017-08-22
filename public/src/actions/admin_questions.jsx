@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_QUESTIONS, SET_QUESTION_CURRENT, SET_QUESTION } from '../reducers/admin_questions';
+import { SET_QUESTIONS, SET_QUESTION_CURRENT } from '../reducers/admin_questions';
 
 export function setQuestionList(questionList) {
   return {
@@ -12,13 +12,6 @@ export function setQuestionList(questionList) {
 export function setCurrentQuestion(questionDataObj) {
   return {
     type: SET_QUESTION_CURRENT,
-    payload: questionDataObj
-  };
-}
-
-export function setQuestion(questionDataObj) {
-  return {
-    type: SET_QUESTION,
     payload: questionDataObj
   };
 }
@@ -49,7 +42,7 @@ export function fetchQuestion(id) {
     // TO-DO Find a better way to handle this data
     const { responses } = questionData;
     questionData.responses = responses ? questionData.responses.split(',') : '';
-    return dispatch(setQuestion(questionData));
+    return dispatch(setCurrentQuestion(questionData));
   })
   .catch((err) => {
     const customError = {
@@ -60,7 +53,7 @@ export function fetchQuestion(id) {
   });
 }
 
-export default function createQuestion(questionInfo, history) {
+export function createQuestion(questionInfo, history) {
   let { responses } = questionInfo;
   const { title, description, type } = questionInfo;
   // TO-DO: Find a better way to handle question response data

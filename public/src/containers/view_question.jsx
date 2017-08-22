@@ -1,11 +1,11 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ViewQuestion from '../components/question/view_question';
-import { fetchQuestion } from '../actions/questions';
+import { fetchQuestion } from '../actions/admin_questions';
 
 function mapStateToProps(state) {
   return {
-    question_info: state.question_info
+    current_question: state.admin_questions.current_question
   };
 }
 const ViewQuestionContainer = withRouter(

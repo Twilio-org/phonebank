@@ -12,7 +12,7 @@ export default class ViewQuestion extends Component {
     this.props.fetchQuestion(id);
   }
   getTypeIconName() {
-    const { type } = this.props.question_info;
+    const { type } = this.props.current_question;
     if (type === 'paragraph') {
       return 'format_align_left';
     } else if (type === 'singleselect') {
@@ -21,7 +21,7 @@ export default class ViewQuestion extends Component {
     return 'check_box';
   }
   renderResponseOptions() {
-    const { responses, type } = this.props.question_info;
+    const { responses, type } = this.props.current_question;
     const icon = type === 'singleselect' ? 'radio_button_unchecked' : 'check_box_outline_blank';
     return responses.map((option, i) => (<li key={`option-${option + i}`}>
       <i className="material-icons small">{icon}</i>
@@ -29,7 +29,7 @@ export default class ViewQuestion extends Component {
     </li>));
   }
   render() {
-    const { title, description, type, responses } = this.props.question_info;
+    const { title, description, type, responses } = this.props.current_question;
     const typeLabel = type ? type.replace(/\b\w/g, l => l.toUpperCase()) : '';
     return (
       <div>
