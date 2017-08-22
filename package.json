@@ -28,6 +28,7 @@
     "bookshelf": "^0.10.4",
     "bookshelf-bcrypt": "^2.1.0",
     "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
     "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",

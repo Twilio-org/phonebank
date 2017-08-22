@@ -1,8 +1,9 @@
-import { expect, Should } from 'chai';
-import * as chai from 'chai';
+import { expect } from 'chai';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
 import Contact from '../../../server/db/services/contacts';
 
-const should = Should();
+chai.use(chaiAsPromised);
 
 describe('Contact service tests', function () {
   describe('Data insertion', function () {
@@ -17,11 +18,19 @@ describe('Contact service tests', function () {
       };
       this.contactSaveParams2 = {
         first_name: 'Sam',
+        phone_number: '+15555555555'
+      };
+      this.contactSaveParams3 = {
+        first_name: 'Sally',
+        phone_number: '+15555555555'
+      };
+      this.contactSaveParams4 = {
+        first_name: 'Sam',
         phone_number: '+15555555554'
       };
     });
 
-    it('should be able to save first contact\'s first name, last name, phone, email, and external_id', (done) => {
+    it('should save first contact\'s first name, last name, phone, email, and external_id', (done) => {
       const firstContact = this.contactSaveParams1;
       Contact.saveNewContact(firstContact)
         .then((contact) => {
@@ -38,7 +47,7 @@ describe('Contact service tests', function () {
         });
       done();
     });
-    it('should be able to save second contact\'s first name and phone', (done) => {
+    it('should save second contact\'s first name and phone without violating repeat phone_number', (done) => {
       const secondContact = this.contactSaveParams2;
       Contact.saveNewContact(secondContact)
         .then((contact) => {
@@ -52,8 +61,16 @@ describe('Contact service tests', function () {
         });
       done();
     });
+    it('should not save third contact\'s first name and phone because it is violating unique constraint', (done) => {
+      const thirdContact = this.contactSaveParams3;
+      Contact.saveNewContact(thirdContact).should.be.rejected.notify(done);
+    });
+    it('should save the fourth contact without violating unique constraint (first name is the same as second contact)', (done) => {
+      const fourthcontact = this.contactSaveParams4;
+      Contact.saveNewContact(fourthcontact).should.not.be.rejected.notify(done);
+    });
   });
-  describe('Data retrieval', function () {
+  describe('Data retrieval', () => {
     beforeEach(() => {
       this.contactSaveParams1 = {
         first_name: 'Sally',
@@ -99,7 +116,7 @@ describe('Contact service tests', function () {
         });
     });
   });
-  describe('Data update', function () {
+  describe('Data update', () => {
     beforeEach(() => {
       this.contactUpdateParams1 = {
         id: 1,
