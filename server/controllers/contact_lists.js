@@ -1,4 +1,6 @@
 import contactListsService from '../db/services/contact_lists';
+import contactsService from '../db/services/contacts';
+
 
 export function saveNewContactList(req, res, next) {
   const contactListParams = {
@@ -12,10 +14,42 @@ export function saveNewContactList(req, res, next) {
   return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
       if (contactList) {
-        res.status(201).json({ message: 'Contact List creation successful' });
-      } else {
-        next();
+        const { id } = contactList.attributes;
+        contactList.forEach(contact =>
+          contactsService.getContactByPhoneNumberAndFirstName(contact)
+            .then((checkContact) => {
+              if (checkContact) {
+                const { id: checkContactId } = checkContact.attributes;
+                const params = {
+                  id: checkContactId,
+                  ...contact
+                };
+                contactsService.updateContactById(params)
+                  .then((updatedContact) => {
+                    const { id: contact_id } = updatedContact;
+                    contactListsService.addContactToContactList({ id, contact_id });
+                  })
+                  .catch((err) => {
+                    console.log(`Error in adding contact to contact list after updating contact: ${err}`);
+                  });
+              } else {
+                contactsService.saveNewContact(contact)
+                  .then((newContact) => {
+                    const { id: contact_id } = newContact.attributes;
+                    contactListsService.addContactToContactList({ id, contact_id });
+                  })
+                  .catch((err) => {
+                    console.log(`Error in adding contact to contact list after adding contact: ${err}`);
+                  });
+              }
+            })
+            .catch((err) => {
+              console.log(`Error in adding or updating contact: ${err}`);
+            })
+          );
       }
+      res.status(201).json({ message: 'Contact List creation successful' });
+      next();
     })
     .catch((err) => {
       console.log(err);

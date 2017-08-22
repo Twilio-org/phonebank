@@ -54,6 +54,17 @@ export default {
       .save(extractedParams, {
         method: 'update'
       });
+  },
+
+  getContactByPhoneNumberAndFirstName: (params) => {
+    const extractedParams = {
+      first_name: params.first_name,
+      phone_number: params.phone_number
+    };
+
+    return new Contact()
+        .where(extractedParams)
+        .fetch();
   }
   // updateContactDoNotCallById: (params, Model) => {
   //   const { id } = params;
