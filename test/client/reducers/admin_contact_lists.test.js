@@ -48,8 +48,8 @@ describe('adminContactListsReducer tests: ', () => {
   describe('should populate current_contact_list when "SET_CURRENT_CONTACT_LIST" is called', () => {
     testResult = adminContactListsReducer(initialState, currentContactList);
     const { current_contact_list } = testResult;
-    it('current_contact_list should be an object', () => {
-      expect(Array.isArray(current_contact_list)).toBeFalsy();
+    it('should set current_contact_list as an object', () => {
+      expect(Array.isArray(current_contact_list)).toBe(false);
       expect(typeof current_contact_list).toBe('object');
     });
     it('should have all of expected properties', () => {

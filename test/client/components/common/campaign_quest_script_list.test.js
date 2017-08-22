@@ -159,7 +159,7 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
       const wrapper = shallow(<ContactLists {...props} />).instance();
       it('should have all of the expected props: ', () => {
         const actualProps = wrapper.props;
-        expect(checkObjectProps(expectedProps, actualProps)).toBeTruthy();
+        expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
       });
     });
 

@@ -43,27 +43,25 @@ describe('Add Campaign actions', () => {
   });
 
   describe('setCurrentContactList', () => {
-    const setCurrentContactListResult = setCurrentContactList(contactListFixture);
+    const { type, payload } = setCurrentContactList(contactListFixture);
     describe('type', () => {
-      const { type } = setCurrentContactListResult;
       it('should have a type property', () => {
         expect(type).toBeDefined();
       });
       it('should not have a null type', () => {
-        expect(type).toBeTruthy();
+        expect(type).not.toBe(null);
       });
       it('should have a value of "SET_CURRENT_CONTACT_LIST"', () => {
         expect(type).toBe('SET_CURRENT_CONTACT_LIST');
       });
     });
     describe('payload:', () => {
-      const { payload } = setCurrentContactListResult;
       it('should have a payload that is an object', () => {
-        expect(Array.isArray(payload)).toBeFalsy();
+        expect(Array.isArray(payload)).toBe(false);
         expect(typeof payload).toBe('object');
       });
       it('should have all properties:', () => {
-        expect(checkObjectProps(expectedContactListProps, payload)).toBeTruthy();
+        expect(checkObjectProps(expectedContactListProps, payload)).toBe(true);
         expect(Object.keys(payload).length).toBe(expectedContactListProps.length);
       });
     });
