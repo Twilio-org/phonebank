@@ -124,7 +124,7 @@ describe('Contact service tests', function () {
         do_not_call: true
       };
       this.contactUpdateParams2 = {
-        id: 1,
+        id: 2,
         last_name: 'Stevens',
         is_invalid_number: true
       };
@@ -157,7 +157,7 @@ describe('Contact service tests', function () {
   describe('getContactByPhoneNumberAndFirstName', () => {
     beforeEach(() => {
       this.contactGetParams1 = {
-        first_name: 'Sally',
+        first_name: 'Sandra',
         last_name: 'Smith',
         phone_number: '+15555555555',
         email: 'sally@gmail.com',
@@ -165,27 +165,75 @@ describe('Contact service tests', function () {
       };
       this.contactGetParams2 = {
         first_name: 'Sam',
+        last_name: 'Stevens',
         phone_number: '+15555555555'
       };
       this.contactGetParams3 = {
-        first_name: 'Sally',
-        phone_number: '+15555555555'
-      };
-      this.contactGetParams4 = {
         first_name: 'Sam',
         phone_number: '+15555555554'
       };
+      this.contactGetParamsNotValid = {
+        first_name: 'Sue',
+        phone_number: '+1234567890'
+      };
     });
-    it('should get first contact by phone_number and first_name', () => {
+    it('should get first contact by phone_number and first_name', (done) => {
       const firstContact = this.contactGetParams1;
       Contact.getContactByPhoneNumberAndFirstName(firstContact)
         .then((contact) => {
           const { first_name, last_name, phone_number, email, external_id } = firstContact;
-          expect(contact.first_name).to.equal(first_name);
-          expect(contact.last_name).to.equal(last_name);
-          expect(contact.phone_number).to.equal(phone_number);
-          expect(contact.email).to.equal(email);
-          expect(contact.external_id).to.equal(external_id);
+          expect(contact.attributes.first_name).to.equal(first_name);
+          expect(contact.attributes.last_name).to.equal(last_name);
+          expect(contact.attributes.phone_number).to.equal(phone_number);
+          expect(contact.attributes.email).to.equal(email);
+          expect(contact.attributes.external_id).to.equal(external_id);
+          done();
+        })
+        .catch((err) => {
+          console.log(`Error in getting first contact by first name and phone: ${err}`);
+        });
+    });
+    it('should get second contact by phone_number and first_name', (done) => {
+      const secondContact = this.contactGetParams2;
+      Contact.getContactByPhoneNumberAndFirstName(secondContact)
+        .then((contact) => {
+          const { first_name, phone_number, last_name } = secondContact;
+          expect(contact.attributes.first_name).to.equal(first_name);
+          expect(contact.attributes.last_name).to.equal(last_name);
+          expect(contact.attributes.phone_number).to.equal(phone_number);
+          expect(contact.attributes.email).to.equal(null);
+          expect(contact.attributes.external_id).to.equal(null);
+          done();
+        })
+        .catch((err) => {
+          console.log(`Error in getting second contact by first name and phone: ${err}`);
+        });
+    });
+    it('should get third contact by phone_number and first_name', (done) => {
+      const thirdContact = this.contactGetParams3;
+      Contact.getContactByPhoneNumberAndFirstName(thirdContact)
+        .then((contact) => {
+          const { first_name, phone_number } = thirdContact;
+          expect(contact.attributes.first_name).to.equal(first_name);
+          expect(contact.attributes.last_name).to.equal(null);
+          expect(contact.attributes.phone_number).to.equal(phone_number);
+          expect(contact.attributes.email).to.equal(null);
+          expect(contact.attributes.external_id).to.equal(null);
+          done();
+        })
+        .catch((err) => {
+          console.log(`Error in getting third contact by first name and phone: ${err}`);
+        });
+    });
+    it('should not find fourth contact by phone_number and first_name', (done) => {
+      const fourthContact = this.contactGetParamsNotValid;
+      Contact.getContactByPhoneNumberAndFirstName(fourthContact)
+        .then((contact) => {
+          expect(contact).to.equal(null);
+          done();
+        })
+        .catch((err) => {
+          console.log(`Error in getting fourth contact by first name and phone: ${err}`);
         });
     });
   });
