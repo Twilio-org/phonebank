@@ -34,7 +34,7 @@ function validateRequiredHeaders(actualHeadersArray) {
   return null;
 }
 
-export function validateParseCSV(uploadedCsv) {
+export default function validateParseCSV(uploadedCsv) {
   return new Promise((resolve, reject) => {
     const csvString = uploadedCsv.data.toString();
     const csvObjects = parse(csvString, { columns: true, auto_parse: true });

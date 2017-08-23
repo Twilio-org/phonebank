@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import fs from 'fs';
 import path from 'path';
-import { validateParseCSV, extraHeadersError as extraHeaders, missingHeadersError as missingHeaders } from '../../../server/util/csv_valid_parse';
+import validateParseCSV from '../../../server/util/csv_valid_parse';
 
 const checkObjectProps = (expectedProps, obj) => {
   return expectedProps.reduce((accum, curr) => {
