@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { PageHeader } from 'react-bootstrap';
 import ContactListForm from '../contact_list/contact_list_form';
 
 export default class CreateContactList extends Component {
@@ -8,8 +10,20 @@ export default class CreateContactList extends Component {
     this.formCancel = this.formCancel.bind(this);
   }
   formSubmit(values) {
-    const { history } = this.props;
-    console.log(history, values);
+    // // const { history } = this.props;
+    // console.log(values);
+    // axios.post('/contactLists', values)
+    // .then((response) => {
+    //   console.log('post successful!!', response);
+    //   return response;
+    // })
+    // .catch((err) => {
+    //   const customError = {
+    //     message: `error creating contact list: ${err}`,
+    //     name: 'contact list post request'
+    //   };
+    //   throw customError;
+    // });
   }
   formCancel() {
     this.props.history.goBack();
@@ -19,7 +33,7 @@ export default class CreateContactList extends Component {
     const storeProps = this.props;
     return (
       <div>
-        <h1>Upload a new Contact List</h1>
+        <PageHeader>Upload a Contact List</PageHeader>
         <ContactListForm onSubmit={this.formSubmit} onCancel={this.formCancel} {...storeProps} />
       </div>
     );

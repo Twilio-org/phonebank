@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import FieldGroup from '../../components/common/form/field_group';
+import UploadField from '../../components/common/form/upload_field';
 
 export default class ContactListForm extends Component {
   componentDidMount() {
@@ -15,25 +16,22 @@ export default class ContactListForm extends Component {
     const { handleSubmit } = this.props;
     const nameFieldProps = {
       type: 'text',
-      label: 'Contact List Name',
-      name: 'name'
+      label: 'Name',
+      name: 'name',
+      placeholder: 'e.g. South Berkley Call List'
     };
     const uploadFieldProps = {
       type: 'file',
-      label: 'Select CSV to Upload',
+      label: 'CSV Upload',
       name: 'csv',
-      helpText: 'The CSV file must have a header row with the following fields First Name, Last Name, Phone, Email, External ID.\nAll rows must have at least a First Name and Phone Number.\nOptional fields may include Language, City, State, Country, Timezone'
+      helpText: 'Required header row fields: First Name, Last Name, Phone, Email, External ID.'
     };
     return (
       <form
-        ref={'uploadForm'}
-        id={'uploadForm'}
-        action={'http://localhost:3000/contactLists'}
-        method={'post'}
-        encType="multipart/form-data"
+        onSubmit={handleSubmit(this.props.onSubmit)}
       >
         <Field component={FieldGroup} {...nameFieldProps} />
-        <FieldGroup {...uploadFieldProps} />
+        <Field component={UploadField} {...uploadFieldProps} />
         <ButtonToolbar>
           <Button type="submit" bsStyle="primary">Save Contact List</Button>
           <Button type="button" onClick={this.props.onCancel}>Cancel</Button>
