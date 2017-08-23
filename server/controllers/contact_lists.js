@@ -52,7 +52,6 @@ export function saveNewContactList(req, res, next) {
   }
 
   const testContactListParams = validateCSV();
-  // const { contacts } = req.body;
 
   return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
