@@ -9,8 +9,7 @@ import { saveNewContactList,
 const router = express.Router();
 
 router.route('/').get(getAllContactLists);
-// router.route('/').post(fileupload(), saveNewContactList);
-router.route('/').post(saveNewContactList);
+router.route('/').post(fileUpload(), saveNewContactList);
 router.route('/:id').get(getContactListById);
 router.route('/:id').put(updateContactListById);
 router.route('/:id/contacts').post(addContactToContactList);

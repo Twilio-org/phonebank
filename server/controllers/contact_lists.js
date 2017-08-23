@@ -5,8 +5,8 @@ export function saveNewContactList(req, res, next) {
   const contactListParams = {
     name: req.body.name
   };
-  // const uploadedCsv = req.files.csv;
-  // console.log(uploadedCsv);
+  const uploadedCsv = req.files.csv;
+  console.log(uploadedCsv);
 
   function validateCSV() {
     return {
