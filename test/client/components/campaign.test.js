@@ -27,8 +27,8 @@ describe('<CampaignPage />', () => {
     it('should render 1 button tool bar', () => {
       expect(wrapper.find('ButtonToolbar').length).toBe(1);
     });
-    it('should render 4 buttons', () => {
-      expect(wrapper.find('Button').length).toBe(4);
+    it('should render 5 buttons', () => {
+      expect(wrapper.find('Button').length).toBe(5);
     });
   });
 });
