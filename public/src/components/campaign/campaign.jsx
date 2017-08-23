@@ -10,6 +10,7 @@ export default class CampaignPage extends Component {
     this.saveCampaign = this.saveCampaign.bind(this);
     this.cancelForm = this.cancelForm.bind(this);
     this.handleCreateScript = this.handleCreateScript.bind(this);
+    this.handleCreateContactList = this.handleCreateContactList.bind(this);
   }
 
 
@@ -36,6 +37,10 @@ export default class CampaignPage extends Component {
 
   handleCreateScript() {
     this.props.history.push('/admin/scripts/new');
+  }
+
+  handleCreateContactList() {
+    this.props.history.push('/admin/contactLists/new');
   }
 
   render() {
@@ -81,6 +86,12 @@ export default class CampaignPage extends Component {
                 component={renderDropdown}
                 options={this.props.contact_lists}
               />) : null }
+              <Button
+                bsStyle="success"
+                onClick={this.handleCreateContactList}
+              >
+                Add Contact List
+              </Button>
             </Col>
           </Row>
           <ButtonToolbar>
