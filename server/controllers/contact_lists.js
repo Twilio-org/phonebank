@@ -5,36 +5,36 @@ export function saveNewContactList(req, res, next) {
   const contactListParams = {
     name: req.body.name
   };
-  const uploadedCsv = req.files.csv;
-  console.log(uploadedCsv);
+  // const uploadedCsv = req.files.csv;
+  // console.log(uploadedCsv);
 
   function validateCSV() {
     return {
       attributes: {
         contacts: [
           {
-            first_name: 'Sandy',
+            first_name: 'Joe',
             last_name: 'Shoe',
             phone_number: '+11235678901',
             email: 'joe@shoe.com',
             external_id: 'test1234'
           },
           {
-            first_name: 'Sam',
+            first_name: 'Sue',
             last_name: 'Shoe',
             phone_number: '+11235678901',
             email: 'sally@shoe.com',
             external_id: 'test1235'
           },
           {
-            first_name: 'Sally',
+            first_name: 'Jeff',
             last_name: 'Slipper',
             phone_number: '+1235671234',
             email: 'charlie@slipper.com',
             external_id: 'test1236'
           },
           {
-            first_name: 'Frank',
+            first_name: 'Julie',
             last_name: 'Flipflop',
             phone_number: '+1123561234',
             email: 'frank@flipflop.com',
@@ -102,12 +102,13 @@ export function saveNewContactList(req, res, next) {
               console.log(`Error in adding or updating contact: ${err}`);
             })
           );
+        res.status(201).json({ message: 'Contact List creation successful' });
+      } else {
+        next();
       }
-      res.status(201).json({ message: 'Contact List creation successful' });
-      next();
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`The error at the end of the saveNewContactList controller is: ${err}`);
       res.status(401).json({ message: 'Contact List creation unsuccessful' });
     });
 }
