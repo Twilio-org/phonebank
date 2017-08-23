@@ -27,12 +27,12 @@ const { expect, Should, assert } = chai;
 describe('CSV validation and parsing helper function tests: ', () => {
   console.log('now running CSV validation tests: ');
   describe('validation error handling: ', () => {
-    const missingHeaders = new Error('missing required header(s): email');
+    const missingHeaders = new Error('missing required header(s): email')
     const extraHeadersError = new Error('extraneous headers, limit to: external_id, first_name, last_name, email, phone_number');
     it('when passed a csv with headers missing, it should throw the "missingHeaders error" ', (done) => {
       validateParseCSV({ data: mockBufferMissingHeader })
         .then((contactObjs) => {
-          expect(contactObjs).to.equal(undefined);
+          expect().fail();
         })
         .catch((err) => {
           expect(JSON.stringify(err)).to.equal(JSON.stringify(missingHeaders));
@@ -42,7 +42,7 @@ describe('CSV validation and parsing helper function tests: ', () => {
     it('should throw "extraHeaders" error when passed a CSV with too many headers: ', (done) => {
       validateParseCSV({ data: mockBufferExtraHeaders })
         .then((contactObjs) => {
-          expect(contactObjs).to.equal(undefined);
+          expect().fail();
         })
         .catch((err) => {
           expect(JSON.stringify(err)).to.equal(JSON.stringify(extraHeaders));
