@@ -25,13 +25,15 @@ export function saveNewCampaign(req, res) {
 }
 
 export function getAllCampaigns(req, res) {
-  return campaignsService.getAllCampaigns(null)
+  console.log('req.body for getAllCampaigns is: ', req.body);
+  const { params } = req.body;
+  return campaignsService.getAllCampaigns(campaign_status)
     .then((campaigns) => {
       res.status(200).send(campaigns);
     })
     .catch((err) => {
       res.status(500).json({
-        message: 'Cannot retrieve campaigns',
+        message: `Cannot retrieve campaigns with status: ${campaign_status}`,
         error: err
       });
     });

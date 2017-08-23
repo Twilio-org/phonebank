@@ -7,5 +7,16 @@ export default {
     return new Campaign({ name, title, description, status, script_id, contact_lists_id }).save();
   },
 
-  getAllCampaigns: () => new Campaign().fetchAll()
+  getAllCampaigns: (campaign_status = 'all') => {
+    if (campaign_status === 'all') {
+      new Campaign()
+        .orderBy('id', 'DESC')
+        .fetchAll();
+    } else {
+      new Campaign()
+        .where({ campaign_status })
+        .orderBy('id', 'DESC')
+        .fetchAll();
+    }
+  }
 };
