@@ -165,7 +165,7 @@ const teardown = () =>
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
   .then(() => bookshelf.knex.schema.dropTable('scripts'))
-  .then(() => bookshelf.knex.schema.dropTable('contacts_contact_lists'))
+  .then(() => bookshelf.knex.schema.dropTable('contact_lists_contacts'))
   .then(() => bookshelf.knex.schema.dropTable('contact_lists'))
   .then(() => bookshelf.knex.schema.dropTable('contacts'))
   .then(() => bookshelf.knex.schema.dropTable('users'))
