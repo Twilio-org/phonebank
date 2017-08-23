@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import QuestionList from './script_question_list';
 
 export default class ScriptPage extends Component {
@@ -15,7 +16,7 @@ export default class ScriptPage extends Component {
   }
 
   render() {
-    const { questions, current_script } = this.props;
+    const { questions, current_script, history } = this.props;
     const { name, body, description } = current_script;
     return (
       <div>
@@ -33,6 +34,12 @@ export default class ScriptPage extends Component {
             />
           )) : null}
         </ol>
+        <Button
+          bsStyle="primary"
+          onClick={history.goBack}
+        >
+          Cancel
+        </Button>
       </div>
     );
   }
