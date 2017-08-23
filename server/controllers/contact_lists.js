@@ -70,10 +70,16 @@ export function saveNewContactList(req, res, next) {
                 };
                 contactsService.updateContactById(params)
                   .then(() => {
-                    contactListsService.addContactToContactList({ contact_id, id });
+                    contactListsService.addContactToContactList({ contact_id, id })
+                      .then(() => {
+                        console.log('Successfully added contact to contact list after updating contact');
+                      })
+                      .catch(() => {
+                        console.log(`Error in adding contact to contact list after updating contact: ${err}`);
+                      });
                   })
                   .catch((err) => {
-                    console.log(`Error in adding contact to contact list after updating contact: ${err}`);
+                    console.log(`Error in updating contact: ${err}`);
                   });
               } else {
                 contactsService.saveNewContact(contact)
