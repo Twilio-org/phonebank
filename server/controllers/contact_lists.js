@@ -1,33 +1,77 @@
 import contactListsService from '../db/services/contact_lists';
 import contactsService from '../db/services/contacts';
 
-
 export function saveNewContactList(req, res, next) {
   const contactListParams = {
     name: req.body.name
   };
+  // const uploadedCsv = req.files.csv;
+  // console.log(uploadedCsv);
 
-  const uploadedCsv = req.files.csv;
+  function validateCSV() {
+    return {
+      attributes: {
+        contacts: [
+          {
+            first_name: 'Sandy',
+            last_name: 'Shoe',
+            phone_number: '+11235678901',
+            email: 'joe@shoe.com',
+            external_id: 'test1234'
+          },
+          {
+            first_name: 'Sam',
+            last_name: 'Shoe',
+            phone_number: '+11235678901',
+            email: 'sally@shoe.com',
+            external_id: 'test1235'
+          },
+          {
+            first_name: 'Sally',
+            last_name: 'Slipper',
+            phone_number: '+1235671234',
+            email: 'charlie@slipper.com',
+            external_id: 'test1236'
+          },
+          {
+            first_name: 'Frank',
+            last_name: 'Flipflop',
+            phone_number: '+1123561234',
+            email: 'frank@flipflop.com',
+            external_id: 'test1237'
+          }
+        ]
+      }
+    };
+  }
 
-  console.log(uploadedCsv);
+  try {
+    // validateCSV(uploadedCsv);
+  } catch (error) {
+    console.log(`Error in validating CSV: ${error}`);
+  }
+
+  const testContactListParams = validateCSV();
+  // const { contacts } = req.body;
 
   return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
       if (contactList) {
         const { id } = contactList.attributes;
-        contactList.forEach(contact =>
+        // FOR TESTING:
+        const { contacts } = testContactListParams.attributes;
+        contacts.forEach(contact =>
           contactsService.getContactByPhoneNumberAndFirstName(contact)
             .then((checkContact) => {
               if (checkContact) {
-                const { id: checkContactId } = checkContact.attributes;
+                const { id: contact_id } = checkContact.attributes;
                 const params = {
-                  id: checkContactId,
+                  id: contact_id,
                   ...contact
                 };
                 contactsService.updateContactById(params)
-                  .then((updatedContact) => {
-                    const { id: contact_id } = updatedContact;
-                    contactListsService.addContactToContactList({ id, contact_id });
+                  .then(() => {
+                    contactListsService.addContactToContactList({ contact_id, id });
                   })
                   .catch((err) => {
                     console.log(`Error in adding contact to contact list after updating contact: ${err}`);
@@ -36,7 +80,7 @@ export function saveNewContactList(req, res, next) {
                 contactsService.saveNewContact(contact)
                   .then((newContact) => {
                     const { id: contact_id } = newContact.attributes;
-                    contactListsService.addContactToContactList({ id, contact_id });
+                    contactListsService.addContactToContactList({ contact_id, id });
                   })
                   .catch((err) => {
                     console.log(`Error in adding contact to contact list after adding contact: ${err}`);
