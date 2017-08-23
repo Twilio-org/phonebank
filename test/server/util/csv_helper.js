@@ -27,10 +27,8 @@ const { expect, Should, assert } = chai;
 describe('CSV validation and parsing helper function tests: ', () => {
   console.log('now running CSV validation tests: ');
   describe('validation error handling: ', () => {
-    //define missing
     const missingHeaders = new Error('missing required header(s): email');
-    // const extraHeadersError = new Error('extraneous headers, limit to: external_id, first_name, last_name, email, phone_number');
-    const extraHeadersError = 'extraneous headers, limit to: external_id, first_name, last_name, email, phone_number ';
+    const extraHeadersError = new Error('extraneous headers, limit to: external_id, first_name, last_name, email, phone_number');
     it('when passed a csv with headers missing, it should throw the "missingHeaders error" ', (done) => {
       validateParseCSV({ data: mockBufferMissingHeader })
         .then((contactObjs) => {
