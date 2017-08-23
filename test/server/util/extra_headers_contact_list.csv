@@ -1,0 +1,7 @@
+id,external_id,first_name,last_name,email,phone_number,is_invalid_number,do_not_call
+1,1,andi,onetoo,test@aol.com,1231231234,TRUE,FALSE
+2,2,renee,oneto,test@aol.com,1231231234,TRUE,FALSE
+3,3,alyse,onetoe,test@aol.com,1231231234,TRUE,FALSE
+4,4,bradley,ontoo,test@aol.com,1231231234,TRUE,FALSE
+5,5,beverly,onetwo,test@aol.com,1231231234,TRUE,FALSE
+6,6,william,ohntoo,test@aol.com,1231231234,TRUE,FALSE

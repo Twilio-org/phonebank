@@ -13,7 +13,10 @@ const props = {
   current_script,
   questions,
   fetchScript,
-  fetchScriptQuestions
+  fetchScriptQuestions,
+  history: {
+    goBack: jest.fn()
+  }
 };
 
 describe('<ScriptPage />', () => {
@@ -35,6 +38,10 @@ describe('<ScriptPage />', () => {
     it('should render one ol element', () => {
       const olElements = wrapper.find('ol').length;
       expect(olElements).toBe(1);
+    });
+    it('should render one Button', () => {
+      const Button = wrapper.find('Button').length;
+      expect(Button).toBe(1);
     });
   });
   describe('Expected props', () => {
