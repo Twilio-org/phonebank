@@ -7,6 +7,8 @@ export function saveNewContactList(req, res, next) {
 
   const uploadedCsv = req.files.csv;
 
+  console.log(uploadedCsv);
+
   return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
       if (contactList) {
