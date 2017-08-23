@@ -42,7 +42,7 @@ export default function parseCSVThenValidateHeaders(uploadedCsv) {
     const csvObjects = parse(csvString, { columns: true, auto_parse: true });
     const [headerCheck] = csvObjects;
     const headers = Object.keys(headerCheck);
-    const error = validateRequiredHeaders(headers); // "error"
+    const error = validateRequiredHeaders(headers);
     if (!error) {
       resolve(csvObjects);
     } else {
