@@ -5,7 +5,12 @@ import parse from 'csv-parse/lib/sync';
 //  .then(objsArray => console.log(objsArray))
 //  .catch(err => console.log(err));
 
-// NOTE: default export ==> you can name this whatever you'd like
+export function extraHeadersError(headers) {
+  return new Error(`extraneous headers, limit to: ${headers.join(', ')} `);
+}
+export function missingHeadersError(headers) {
+  return new Error(`missing required header(s): ${headers.join(', ')}`);
+}
 
 function validateRequiredHeaders(actualHeadersArray) {
   const reqHeaders = {
@@ -18,7 +23,7 @@ function validateRequiredHeaders(actualHeadersArray) {
   const missing = [];
   const reqHeadersProps = Object.keys(reqHeaders);
   if (actualHeadersArray.length > 5) {
-    return new Error(`extraneous headers, limit to: ${reqHeadersProps.join(', ')} `);
+    return extraHeadersError(reqHeadersProps);
   }
   actualHeadersArray.forEach((headerOption) => {
     if (!reqHeaders[headerOption]) {
@@ -31,12 +36,12 @@ function validateRequiredHeaders(actualHeadersArray) {
     }
   });
   if (missing.length) {
-    return new Error(`missing required header(s): ${missing.join(', ')}`);
+    return missingHeadersError(missing);
   }
   return undefined;
 }
 
-export default function parseCSVThenValidateHeaders(uploadedCsv) {
+export function validateParseCSV(uploadedCsv) {
   return new Promise((resolve, reject) => {
     const csvString = uploadedCsv.data.toString();
     const csvObjects = parse(csvString, { columns: true, auto_parse: true });
@@ -50,5 +55,3 @@ export default function parseCSVThenValidateHeaders(uploadedCsv) {
     }
   });
 }
-
-// TODO: testing for this helper function (success and failure)
