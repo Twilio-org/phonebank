@@ -85,7 +85,13 @@ export function saveNewContactList(req, res, next) {
                 contactsService.saveNewContact(contact)
                   .then((newContact) => {
                     const { id: contact_id } = newContact.attributes;
-                    contactListsService.addContactToContactList({ contact_id, id });
+                    contactListsService.addContactToContactList({ contact_id, id })
+                      .then(() => {
+                        console.log('Successfully added contact to contact list after adding new contact');
+                      })
+                      .catch((err) => {
+                        console.log(`Error in adding contact to contact list after adding new contact: ${err}`);
+                      });
                   })
                   .catch((err) => {
                     console.log(`Error in adding contact to contact list after adding contact: ${err}`);
