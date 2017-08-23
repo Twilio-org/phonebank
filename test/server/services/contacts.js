@@ -154,4 +154,39 @@ describe('Contact service tests', function () {
       });
     });
   });
+  describe('getContactByPhoneNumberAndFirstName', () => {
+    beforeEach(() => {
+      this.contactGetParams1 = {
+        first_name: 'Sally',
+        last_name: 'Smith',
+        phone_number: '+15555555555',
+        email: 'sally@gmail.com',
+        external_id: 'test1234'
+      };
+      this.contactGetParams2 = {
+        first_name: 'Sam',
+        phone_number: '+15555555555'
+      };
+      this.contactGetParams3 = {
+        first_name: 'Sally',
+        phone_number: '+15555555555'
+      };
+      this.contactGetParams4 = {
+        first_name: 'Sam',
+        phone_number: '+15555555554'
+      };
+    });
+    it('should get first contact by phone_number and first_name', () => {
+      const firstContact = this.contactGetParams1;
+      Contact.getContactByPhoneNumberAndFirstName(firstContact)
+        .then((contact) => {
+          const { first_name, last_name, phone_number, email, external_id } = firstContact;
+          expect(contact.first_name).to.equal(first_name);
+          expect(contact.last_name).to.equal(last_name);
+          expect(contact.phone_number).to.equal(phone_number);
+          expect(contact.email).to.equal(email);
+          expect(contact.external_id).to.equal(external_id);
+        });
+    });
+  });
 });
