@@ -74,7 +74,7 @@ export function saveNewContactList(req, res, next) {
                       .then(() => {
                         console.log('Successfully added contact to contact list after updating contact');
                       })
-                      .catch(() => {
+                      .catch((err) => {
                         console.log(`Error in adding contact to contact list after updating contact: ${err}`);
                       });
                   })
