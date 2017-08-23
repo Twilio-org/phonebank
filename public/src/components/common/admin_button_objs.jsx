@@ -1,6 +1,6 @@
 export default {
   view_edit(props) {
-    const { page, history, handleClick, item } = props;
+    const { page, handleClick, item, history } = props;
     const { id } = item;
     return [
       {
@@ -9,7 +9,8 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          handleClick(item);
+          // TO-DO: uncomment once responses data is decided for questions reducer
+          // handleClick(item);
           history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
