@@ -5,13 +5,6 @@ import parse from 'csv-parse/lib/sync';
 //  .then(objsArray => console.log(objsArray))
 //  .catch(err => console.log(err));
 
-export function extraHeadersError(headers) {
-  return new Error(`extraneous headers, limit to: ${headers.join(', ')} `);
-}
-export function missingHeadersError(headers) {
-  return new Error(`missing required header(s): ${headers.join(', ')}`);
-}
-
 function validateRequiredHeaders(actualHeadersArray) {
   const reqHeaders = {
     external_id: false,
@@ -23,11 +16,11 @@ function validateRequiredHeaders(actualHeadersArray) {
   const missing = [];
   const reqHeadersProps = Object.keys(reqHeaders);
   if (actualHeadersArray.length > 5) {
-    return extraHeadersError(reqHeadersProps);
+    return new Error(`extraneous headers, limit to: ${reqHeadersProps.join(', ')} `);
   }
   actualHeadersArray.forEach((headerOption) => {
     if (!reqHeaders[headerOption]) {
-      reqHeaders[headerOption] = !reqHeaders[headerOption];
+      reqHeaders[headerOption] = true;
     }
   });
   reqHeadersProps.forEach((header) => {
@@ -36,9 +29,9 @@ function validateRequiredHeaders(actualHeadersArray) {
     }
   });
   if (missing.length) {
-    return missingHeadersError(missing);
+    return new Error(`missing required header(s): ${missing.join(', ')}`);
   }
-  return undefined;
+  return null;
 }
 
 export function validateParseCSV(uploadedCsv) {

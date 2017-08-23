@@ -32,7 +32,6 @@
     "chai-http": "^3.0.0",
     "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",
-    "csv": "^1.1.1",
     "csv-parse": "^1.2.1",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
