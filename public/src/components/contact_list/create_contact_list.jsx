@@ -9,10 +9,10 @@ export default class CreateContactList extends Component {
     this.formCancel = this.formCancel.bind(this);
   }
   formSubmit(values) {
-    var file = document.getElementById('file-upload');
+    // TO-DO: Find a way to make files work with redux-form in future
+    const file = document.getElementById('file-upload');
     const { history } = this.props;
-    console.log('==== before action', values);
-    this.props.createContactList(file, values, history);
+    this.props.createContactList(file, values.name, history);
   }
   formCancel() {
     this.props.history.goBack();

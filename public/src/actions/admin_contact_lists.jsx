@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import FormData from 'form-data';
-import { SET_CAMPAIGN_FORM_CONTACT_LIST, SET_CURRENT_CONTACT_LIST } from '../reducers/admin_contact_lists';
+// import FormData from 'form-data';
+import { SET_CAMPAIGN_FORM_CONTACT_LIST, SET_CURRENT_CONTACT_LIST, SEND_CONTACT_LIST } from '../reducers/admin_contact_lists';
 
 export function setContactListOptions(contactLists) {
   return {
@@ -9,8 +9,8 @@ export function setContactListOptions(contactLists) {
     payload: contactLists
   };
 }
-export function createCSVContactList() {
-  return { type: 'CONTACT_LIST_CREATION_SUCCESSFUL' };
+export function sendContactList() {
+  return { type: SEND_CONTACT_LIST };
 }
 
 export function setCurrentContactList(contactListObj) {
@@ -37,20 +37,16 @@ export function fetchAllContactLists() {
     });
 }
 
-export function createContactList(file, contactList, history) {
-  // console.log(file.files[0]);
-  // var reader = new FileReader();
-  // reader.onload = function shipOff(e) {
-    // const result = e.target.result;
+export function createContactList(file, name, history) {
   const data = new FormData();
-  data.append('name', contactList.name);
+  data.append('name', name);
   data.append('csv', file.files[0]);
   const config = {
     headers: { 'content-type': 'multipart/form-data' }
   };
   return dispatch => axios.post('/contactLists', data, config)
   .then((res) => {
-    dispatch(createCSVContactList());
+    dispatch(sendContactList());
     dispatch(destroy('CreateContactList'));
     history.goBack();
     return res;
@@ -63,15 +59,3 @@ export function createContactList(file, contactList, history) {
     throw customError;
   });
 }
-  // reader.readAsText(file.files[0], 'UTF-8');
-
-  // return { type: 'CSV-COMPLETE' }; // needs a reducer
-
-
-  // return dispatch => axios.post('/contactLists', data, config)
-  // .then((res) => {
-  //   dispatch(destroy('CreateContactList'));
-  //   history.goBack();
-  //   return res;
-  // })
-// }

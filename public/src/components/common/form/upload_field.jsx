@@ -2,7 +2,7 @@ import React from 'react';
 import { FormGroup, ControlLabel, HelpBlock, Popover, Row, Col } from 'react-bootstrap';
 
 const UploadField = (props) => {
-  const { label, helpText, name, input, meta } = props;
+  const { label, helpText, name, input, meta, id } = props;
   const errorClass = meta && meta.touched && meta.error ? 'error' : '';
   const errorText = meta && meta.touched ? meta.error : '';
   return (
@@ -15,7 +15,11 @@ const UploadField = (props) => {
             className={'well'}
             type={'file'}
             name={name}
-            id="file-upload"
+            id={id}
+            onChange={e => input.onChange({
+              name: e.target.files[0].name,
+              type: e.target.files[0].type
+            })}
           />
         </FormGroup>
       </Col>
@@ -32,9 +36,5 @@ const UploadField = (props) => {
     </Row>
   );
 };
-// onChange={e => input.onChange(e.target.files[0])}
-// e => input.onChange(e.target.files[0])
-// onChange={(e) => {
-//   input.onChange(e.target.files[0]);
-// }}
+
 export default UploadField;

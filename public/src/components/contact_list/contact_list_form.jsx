@@ -21,10 +21,11 @@ export default class ContactListForm extends Component {
       placeholder: 'e.g. South Berkley Call List'
     };
     const uploadFieldProps = {
+      id: 'file-upload',
       type: 'file',
       label: 'CSV Upload',
-      name: 'csv'
-      // helpText: 'Required header row fields: First Name, Last Name, Phone, Email, External ID.'
+      name: 'csv',
+      helpText: 'Required header row fields: First Name, Last Name, Phone, Email, External ID.'
     };
     return (
       <form
