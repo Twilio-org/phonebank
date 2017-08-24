@@ -8,6 +8,7 @@ export default class AdminDashboardButtonGroup extends Component {
     this.handleCampaignsClick = this.handleCampaignsClick.bind(this);
     this.handleScriptsClick = this.handleScriptsClick.bind(this);
     this.handleContactListsClick = this.handleContactListsClick.bind(this);
+    this.handleUsersClick = this.handleUsersClick.bind(this);
   }
 
   handleQuestionsClick() {
@@ -22,6 +23,9 @@ export default class AdminDashboardButtonGroup extends Component {
   handleContactListsClick() {
     this.props.history.push('/admin/contactLists');
   }
+  handleUsersClick() {
+    this.props.history.push('/admin/users');
+  }
 
   render() {
     return (
@@ -30,6 +34,7 @@ export default class AdminDashboardButtonGroup extends Component {
         <Button type="button" onClick={this.handleScriptsClick}>All Scripts</Button>
         <Button type="button" onClick={this.handleQuestionsClick}>All Questions</Button>
         <Button type="button" onClick={this.handleContactListsClick}>All Contact Lists</Button>
+        <Button type="button" onClick={this.handleUsersClick}>All Users</Button>
       </ButtonGroup>
     );
   }
