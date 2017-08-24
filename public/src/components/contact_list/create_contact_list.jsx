@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { PageHeader } from 'react-bootstrap';
 import ContactListForm from '../contact_list/contact_list_form';
 
@@ -10,20 +9,10 @@ export default class CreateContactList extends Component {
     this.formCancel = this.formCancel.bind(this);
   }
   formSubmit(values) {
-    // // const { history } = this.props;
-    // console.log(values);
-    // axios.post('/contactLists', values)
-    // .then((response) => {
-    //   console.log('post successful!!', response);
-    //   return response;
-    // })
-    // .catch((err) => {
-    //   const customError = {
-    //     message: `error creating contact list: ${err}`,
-    //     name: 'contact list post request'
-    //   };
-    //   throw customError;
-    // });
+    var file = document.getElementById('file-upload');
+    const { history } = this.props;
+    console.log('==== before action', values);
+    this.props.createContactList(file, values, history);
   }
   formCancel() {
     this.props.history.goBack();

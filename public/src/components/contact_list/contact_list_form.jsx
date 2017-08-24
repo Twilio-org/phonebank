@@ -13,7 +13,7 @@ export default class ContactListForm extends Component {
     }
   }
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, onSubmit } = this.props;
     const nameFieldProps = {
       type: 'text',
       label: 'Name',
@@ -23,12 +23,12 @@ export default class ContactListForm extends Component {
     const uploadFieldProps = {
       type: 'file',
       label: 'CSV Upload',
-      name: 'csv',
-      helpText: 'Required header row fields: First Name, Last Name, Phone, Email, External ID.'
+      name: 'csv'
+      // helpText: 'Required header row fields: First Name, Last Name, Phone, Email, External ID.'
     };
     return (
       <form
-        onSubmit={handleSubmit(this.props.onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Field component={FieldGroup} {...nameFieldProps} />
         <Field component={UploadField} {...uploadFieldProps} />

@@ -15,7 +15,7 @@ const UploadField = (props) => {
             className={'well'}
             type={'file'}
             name={name}
-            onChange={e => input.onChange(e.target.files[0])}
+            id="file-upload"
           />
         </FormGroup>
       </Col>
@@ -32,5 +32,9 @@ const UploadField = (props) => {
     </Row>
   );
 };
-
+// onChange={e => input.onChange(e.target.files[0])}
+// e => input.onChange(e.target.files[0])
+// onChange={(e) => {
+//   input.onChange(e.target.files[0]);
+// }}
 export default UploadField;
