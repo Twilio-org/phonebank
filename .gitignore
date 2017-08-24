@@ -73,3 +73,6 @@ build/
 
 # webpack bundle
 public/dist/
+
+# webstorm files
+.idea

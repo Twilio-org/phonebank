@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
 import FormData from 'form-data';
-import { SET_CAMPAIGN_FORM_CONTACT_LIST } from '../reducers/admin_contact_lists';
+import { SET_CAMPAIGN_FORM_CONTACT_LIST, SET_CURRENT_CONTACT_LIST } from '../reducers/admin_contact_lists';
 
 export function setContactListOptions(contactLists) {
   return {
@@ -12,6 +12,14 @@ export function setContactListOptions(contactLists) {
 export function createCSVContactList() {
   return { type: 'CONTACT_LIST_CREATION_SUCCESSFUL' };
 }
+
+export function setCurrentContactList(contactListObj) {
+  return {
+    type: SET_CURRENT_CONTACT_LIST,
+    payload: contactListObj
+  };
+}
+
 
 export function fetchAllContactLists() {
   return dispatch => axios.get('/contactLists')
