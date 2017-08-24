@@ -51,8 +51,8 @@ export function logoutUser(history) {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_id');
     localStorage.removeItem('permissions');
-    dispatch(clearAuthCredentials());
     dispatch(logout());
+    dispatch(clearAuthCredentials());
   })
   .catch((err) => {
     const customError = {

@@ -14,14 +14,12 @@ import VolunteersContainer from './containers/sub_apps/volunteers_container';
 import AdminContainer from './containers/sub_apps/admin_container';
 
 function isLoggedIn() {
-  console.log('CHECK IF AUTH TOKEN AND ID RUNNING');
   const token = localStorage.getItem('auth_token');
   const id = Number(localStorage.getItem('user_id'));
   return !!id && !!token;
 }
 
 function isAdmin() {
-  console.log('CHECK IF ADMIN IS RUNNING!');
   const is_admin = localStorage.getItem('permissions');
   return JSON.parse(is_admin);
 }
