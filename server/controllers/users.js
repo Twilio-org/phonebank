@@ -96,3 +96,22 @@ export function getAllUsers(req, res, next) {
       console.log('could not retrieve users', err);
     });
 }
+export function manageUserById(req, res, next) {
+  const params = {
+    id: req.params.id,
+    isAdmin: req.body.is_admin,
+    isActive: req.body.is_active,
+    isBanned: req.body.is_banned
+  };
+  return usersService.updateUserById(params)
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not update user: ', err);
+    });
+}
