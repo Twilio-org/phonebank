@@ -20,11 +20,6 @@ export default class CreateContactList extends Component {
     this.props.destroy('CreateContactList');
   }
   formClear() {
-    // TO-DO: Find a way to make files work with redux-form in future
-    const file = document.getElementById('file-upload');
-    if (file) {
-      file.value = null;
-    }
     this.props.destroy('CreateContactList');
   }
   render() {
