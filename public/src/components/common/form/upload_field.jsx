@@ -16,6 +16,7 @@ const UploadField = (props) => {
             type={'file'}
             name={name}
             id={id}
+            onFocus={meta.onFocus}
             onChange={e => input.onChange({
               name: e.target.files[0].name,
               type: e.target.files[0].type

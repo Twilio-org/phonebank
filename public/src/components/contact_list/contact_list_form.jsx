@@ -13,7 +13,7 @@ export default class ContactListForm extends Component {
     }
   }
   render() {
-    const { handleSubmit, onSubmit } = this.props;
+    const { handleSubmit, onSubmit, onCancel, onClear } = this.props;
     const nameFieldProps = {
       type: 'text',
       label: 'Name',
@@ -35,7 +35,8 @@ export default class ContactListForm extends Component {
         <Field component={UploadField} {...uploadFieldProps} />
         <ButtonToolbar>
           <Button type="submit" bsStyle="primary">Save Contact List</Button>
-          <Button type="button" onClick={this.props.onCancel}>Cancel</Button>
+          <Button type="button" onClick={onClear}>Clear</Button>
+          <Button type="button" onClick={onCancel}>Cancel</Button>
         </ButtonToolbar>
       </form>
     );

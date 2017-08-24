@@ -7,6 +7,7 @@ export default class CreateContactList extends Component {
     super(props);
     this.formSubmit = this.formSubmit.bind(this);
     this.formCancel = this.formCancel.bind(this);
+    this.formClear = this.formClear.bind(this);
   }
   formSubmit(values) {
     // TO-DO: Find a way to make files work with redux-form in future
@@ -18,12 +19,22 @@ export default class CreateContactList extends Component {
     this.props.history.goBack();
     this.props.destroy('CreateContactList');
   }
+  formClear() {
+    // TO-DO: Find a way to make files work with redux-form in future
+    document.getElementById('file-upload').value = null;
+    this.props.destroy('CreateContactList');
+  }
   render() {
     const storeProps = this.props;
     return (
       <div>
         <PageHeader>Upload a Contact List</PageHeader>
-        <ContactListForm onSubmit={this.formSubmit} onCancel={this.formCancel} {...storeProps} />
+        <ContactListForm
+          onSubmit={this.formSubmit}
+          onCancel={this.formCancel}
+          onClear={this.formClear}
+          {...storeProps}
+        />
       </div>
     );
   }
