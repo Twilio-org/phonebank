@@ -116,3 +116,4 @@ export function manageUserById(req, res, next) {
       console.log('could not update user: ', err);
     });
 }
+
