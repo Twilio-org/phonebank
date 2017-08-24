@@ -82,3 +82,17 @@ export function deactivateUserById(req, res, next) {
       console.log('could not deactivateUser', err);
     });
 }
+
+export function getAllUsers(req, res, next) {
+  return usersService.getAllUsers()
+    .then((users) => {
+      if (users) {
+        res.status(200).json(users);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not retrieve users', err);
+    });
+}

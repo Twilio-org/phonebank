@@ -109,6 +109,19 @@ describe('User service tests', () => {
           done();
         }, done);
     });
+    it('should retrieve all users', (done) => {
+      User.getAllUsers()
+        .then((users) => {
+          const { models } = users;
+          const [entry1, entry2] = models;
+          expect(models.length).to.equal(2);
+          expect(entry1.attributes.first_name).to.equal('John');
+          expect(entry1.attributes.last_name).to.equal('Doe');
+          expect(entry2.attributes.first_name).to.equal('Jane');
+          expect(entry2.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
+    });
   });
 
   describe('Data update', function() {
