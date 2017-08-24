@@ -132,7 +132,7 @@ describe('User service tests', () => {
         lastName: 'Doe',
         password: 'smallowl',
         phoneNumber: '+14441114444',
-        email: 'Jane@yahoo.com',
+        email: 'Jane@yahoo.com'
       };
 
       this.userUpdateParams1 = {
