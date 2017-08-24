@@ -20,7 +20,7 @@ describe('Component testing for <AdminDashboardButtonGroup />: ', () => {
     });
     it('should render 3 Button elements ', () => {
       const buttonElements = wrapper.find('Button').length;
-      expect(buttonElements).toBe(3);
+      expect(buttonElements).toBe(4);
     });
   });
   describe('Expected props for <AdminDashboardButtonGroup /> ', () => {

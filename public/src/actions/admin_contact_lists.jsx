@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_CAMPAIGN_FORM_CONTACT_LIST } from '../reducers/admin_contact_lists';
+import { SET_CAMPAIGN_FORM_CONTACT_LIST, SET_CURRENT_CONTACT_LIST } from '../reducers/admin_contact_lists';
 
 export function setContactListOptions(contactLists) {
   return {
@@ -7,6 +7,14 @@ export function setContactListOptions(contactLists) {
     payload: contactLists
   };
 }
+
+export function setCurrentContactList(contactListObj) {
+  return {
+    type: SET_CURRENT_CONTACT_LIST,
+    payload: contactListObj
+  };
+}
+
 
 export function fetchAllContactLists() {
   return dispatch => axios.get('/contactLists')

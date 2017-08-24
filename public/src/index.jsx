@@ -11,12 +11,14 @@ import RegistrationForm from './containers/registration';
 import CampaignsContainer from './containers/list_campaigns';
 import AdminQuestionsContainer from './containers/list_questions';
 import AdminScriptsContainer from './containers/list_scripts';
+import AdminContactListsContainer from './containers/list_contactlists';
 // import LandingPage from './components/landing_page';
 import LogInForm from './components/login';
 import EditAccountInfo from './components/account/edit_account';
 import CreateCampaignContainer from './containers/create_campaign';
 import CreateScriptContainer from './containers/create_script';
 import CreateQuestionContainer from './containers/create_question';
+import ViewQuestionContainer from './containers/view_question';
 import { ConnectedAccountPage } from './components/account/account';
 import ScriptPage from './containers/view_script';
 
@@ -39,6 +41,11 @@ const Root = () => {
               path="/admin/questions/new"
               render={() => (isLoggedIn() ?
                 (<CreateQuestionContainer />) : (<Redirect to="/login" />))}
+            />
+            <Route
+              path="/admin/questions/:id"
+              render={() => (isLoggedIn() ?
+              (<ViewQuestionContainer />) : (<Redirect to="/login" />))}
             />
             <Route
               exact
@@ -112,6 +119,13 @@ const Root = () => {
               render={
                 () => (isLoggedIn() ?
                   (<AdminScriptsContainer />) : (<Redirect to="/" />))
+              }
+            />
+            <Route
+              path="/admin/contactLists"
+              render={
+                () => (isLoggedIn() ?
+                  (<AdminContactListsContainer />) : (<Redirect to="/" />))
               }
             />
           </Switch>
