@@ -33,8 +33,7 @@ const userParams = [
     last_name: lastName2,
     email: email2,
     phone_number: `555-555-${getRandomFourDigitInt()}`,
-    password_hash: password,
-    is_admin: true
+    password_hash: password
   }
 ];
 const questionParams = [
