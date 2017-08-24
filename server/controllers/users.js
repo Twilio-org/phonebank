@@ -96,6 +96,7 @@ export function getAllUsers(req, res, next) {
       console.log('could not retrieve users', err);
     });
 }
+
 export function manageUserById(req, res, next) {
   const params = {
     id: req.params.id,

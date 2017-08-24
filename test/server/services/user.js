@@ -132,7 +132,7 @@ describe('User service tests', () => {
         lastName: 'Doe',
         password: 'smallowl',
         phoneNumber: '+14441114444',
-        email: 'Jane@yahoo.com'
+        email: 'Jane@yahoo.com',
       };
 
       this.userUpdateParams1 = {
@@ -142,6 +142,19 @@ describe('User service tests', () => {
         password: 'bigowl',
         phoneNumber: '+14441114444',
         email: 'John@yahoo.com'
+      };
+
+      this.userManageParams1 = {
+        id: 1,
+        isAdmin: true,
+        isActive: false,
+        isBanned: true
+      };
+
+      this.userManageParams2 = {
+        id: 2,
+        isAdmin: true,
+        isBanned: true
       };
     });
 
@@ -200,6 +213,23 @@ describe('User service tests', () => {
         .then(user => user.attributes.is_active)
         .then((status) => {
           expect(status).to.be.false;
+          done();
+        }, done);
+    });
+    it('should promote user to admin, deactivate, and ban user by ID', (done) => {
+      User.updateUserById(this.userManageParams1)
+        .then((user) => {
+          expect(user.attributes.is_admin).to.equal(true);
+          expect(user.attributes.is_active).to.equal(false);
+          expect(user.attributes.is_banned).to.equal(true);
+          done();
+        }, done);
+    });
+    it('should be able to only promote and ban user by ID', (done) => {
+      User.updateUserById(this.userManageParams2)
+        .then((user) => {
+          expect(user.attributes.is_admin).to.equal(true);
+          expect(user.attributes.is_banned).to.equal(true);
           done();
         }, done);
     });
