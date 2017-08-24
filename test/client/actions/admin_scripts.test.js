@@ -183,8 +183,6 @@ describe('script actions', () => {
             const { type, meta } = dispatchedActions[0];
 
             expect(dispatchedActions[0]).toEqual(expectedDestroyAction);
-            expect(type).toBe('@@redux-form/DESTROY');
-            expect(meta).toEqual({ form: ['ScriptForm'] });
             expect(history.goBack).toHaveBeenCalled();
           });
       });
