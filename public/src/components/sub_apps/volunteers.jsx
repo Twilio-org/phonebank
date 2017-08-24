@@ -5,16 +5,15 @@ import EditAccountInfo from '../../components/account/edit_account';
 import { ConnectedAccountPage } from '../../components/account/account';
 import LandingPage from '../../components/landing_page';
 
-export default class Users extends Component {
+export default class Volunteers extends Component {
   componentDidMount() {
-    console.log('this.props in user: ', this.props)
     const { id } = this.props.auth;
     const { fetchUser } = this.props;
     fetchUser(id);
   }
 
   render() {
-    const parent = '/users';
+    const parent = '/volunteers';
     return (
       <Switch>
         <Route

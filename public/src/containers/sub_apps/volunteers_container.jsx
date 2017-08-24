@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Users from '../../components/sub_apps/users';
+import Volunteers from '../../components/sub_apps/volunteers';
 
 import { fetchUser } from '../../actions/account_info';
 
@@ -14,5 +14,5 @@ function mapStateToProps(state) {
 export default withRouter(
   connect(mapStateToProps,
     { fetchUser }
-  )(Users)
+  )(Volunteers)
 );

@@ -9,20 +9,10 @@ export default class Header extends Component {
     // Bind
     this.getLinks = this.getLinks.bind(this);
   }
-  getLinks() {
+  getLinks(parent) {
     // links to pass into the navigation based on session info
-    const { userId } = this.props;
-    const { isAdmin } = this.props;
+    const { userId, isAdmin } = this.props;
     let links = [];
-    let parent;
-
-    if (isAdmin) {
-      parent = '/admin';
-    } else if (!isAdmin && userId) {
-      parent = '/users';
-    } else {
-      parent = '/public';
-    }
 
     if (userId) { // user is logged in aka id present
       links = [
@@ -41,18 +31,27 @@ export default class Header extends Component {
     return links;
   }
   render() {
+    const { isAdmin, userId } = this.props;
+    let parent;
+    if (isAdmin && userId) {
+      parent = '/admin';
+    } else if (!isAdmin && userId) {
+      parent = '/volunteers';
+    } else {
+      parent = '/public';
+    }
     return (
       <Navbar>
         <Row>
           <Col md={4}>
             <Navbar.Brand>
-              <Link to="/">Phonebank</Link>
+              <Link to={parent}>Phonebank</Link>
             </Navbar.Brand>
           </Col>
           <Col md={4} id="navigation">
             <Navigation
               title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name}
-              links={this.getLinks()}
+              links={this.getLinks(parent)}
               logout={this.props.logout}
               history={this.props.history}
             />

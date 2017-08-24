@@ -10,47 +10,54 @@ import '../stylesheets/app.less';
 import App from './components/app';
 
 import PublicContainer from './containers/sub_apps/public_container';
-import UsersContainer from './containers/sub_apps/users_container';
+import VolunteersContainer from './containers/sub_apps/volunteers_container';
 import AdminContainer from './containers/sub_apps/admin_container';
 
-import { authTransition, checkIfAdmin } from './actions/login';
+function isLoggedIn() {
+  console.log('CHECK IF AUTH TOKEN AND ID RUNNING');
+  const token = localStorage.getItem('auth_token');
+  const id = Number(localStorage.getItem('user_id'));
+  return !!id && !!token;
+}
 
-const Root = () => {
-  const isLoggedIn = authTransition.bind(null, store);
-  const isAdmin = checkIfAdmin.bind(null, store);
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <App>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => (<Redirect to="/admin" />)}
-            />
-            <Route
-              path="/admin"
-              render={() => (isAdmin() && isLoggedIn() ?
-                (<AdminContainer />) : (<Redirect to="/users" />))}
-            />
-            <Route
-              path="/users"
-              render={() => (isLoggedIn() ?
-                (<UsersContainer />) : (<Redirect to="/public" />))}
-            />
-            <Route
-              path="/public"
-              component={PublicContainer}
-            />
-            <Route
-              path="/logout"
-              render={() => (<Redirect to="/public" />)}
-            />
-          </Switch>
-        </App>
-      </BrowserRouter>
-    </Provider>
-  );
-};
+function isAdmin() {
+  console.log('CHECK IF ADMIN IS RUNNING!');
+  const is_admin = localStorage.getItem('permissions');
+  return JSON.parse(is_admin);
+}
+
+const Root = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <App>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (<Redirect to="/admin" />)}
+          />
+          <Route
+            path="/admin"
+            render={() => (isAdmin() && isLoggedIn() ?
+              (<AdminContainer />) : (<Redirect to="/volunteers" />))}
+          />
+          <Route
+            path="/volunteers"
+            render={() => (isLoggedIn() ?
+              (<VolunteersContainer />) : (<Redirect to="/public" />))}
+          />
+          <Route
+            path="/public"
+            component={PublicContainer}
+          />
+          <Route
+            path="/logout"
+            render={() => (<Redirect to="/public" />)}
+          />
+        </Switch>
+      </App>
+    </BrowserRouter>
+  </Provider>
+);
 
 ReactDOM.render(<Root />, document.getElementById('root'));

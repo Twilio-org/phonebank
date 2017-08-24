@@ -31,6 +31,7 @@ export function loginUser(loginInfo, history) {
     const { token, id, is_admin } = res.data;
     localStorage.setItem('auth_token', token);
     localStorage.setItem('user_id', id);
+    localStorage.setItem('permissions', is_admin);
     dispatch(setUserAuthCredentials({ id, is_admin }));
     history.push('/admin');
   })
@@ -48,7 +49,8 @@ export function logoutUser(history) {
   .then(() => {
     history.push('/logout');
     localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_id')
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('permissions');
     dispatch(clearAuthCredentials());
     dispatch(logout());
   })
@@ -61,17 +63,23 @@ export function logoutUser(history) {
   });
 }
 
-export function authTransition(storeInstance) {
-  console.log('store instance: ', storeInstance);
-  // const { auth } = storeInstance.getState();
-  // const { id } = auth;
-  const token = localStorage.getItem('auth_token');
-  const id = Number(localStorage.getItem('user_id'));
-  return !!id && !!token;
-}
+// DISCUSS: proposed removal
+// // export function authTransition(storeInstance) {
+// export function authTransition() {
+//   console.log('CHECK IF AUTH TOKEN AND ID RUNNING');
+//   // const { auth } = storeInstance.getState();
+//   // const { id } = auth;
+//   const token = localStorage.getItem('auth_token');
+//   const id = Number(localStorage.getItem('user_id'));
 
-export function checkIfAdmin(storeInstance) {
-  const { auth } = storeInstance.getState();
-  const { is_admin } = auth;
-  return is_admin;
-}
+//   return !!id && !!token;
+// }
+
+// // export function checkIfAdmin(storeInstance) {
+// export function checkIfAdmin() {
+//   console.log('CHECK IF ADMIN IS RUNNING!');
+//   const is_admin = localStorage.getItem('permissions');
+//   // const { auth } = storeInstance.getState();
+//   // const { is_admin } = auth;
+//   return JSON.parse(is_admin);
+// }
