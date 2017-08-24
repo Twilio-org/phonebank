@@ -15,16 +15,25 @@ export function setUserList(usersList) {
   };
 }
 
-// export function fetchAllUsers() {
-//   return dispatch => axios.get('/users', {
-//     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-//   })
-//   .then((users) => {
-//     const { data: usersList } = users;
-//     return dispatch(setUserList(usersList));
-//   })
-//   .catch(err => console.log('problem fetching all users from db in action "fetchAllUsers"', err));
-// }
+export function fetchAllUsers() {
+  return dispatch => axios.get('/users', {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((users) => {
+    const { data: usersList } = users;
+    const modifiedUsersList = usersList.map((userObject) => {
+      const { is_admin, is_banned, is_active } = userObject;
+      return {
+        ...userObject,
+        is_admin: is_admin.toString(),
+        is_banned: is_banned.toString(),
+        is_active: is_active.toString()
+      };
+    });
+    return dispatch(setUserList(modifiedUsersList));
+  })
+  .catch(err => console.log('problem fetching all users from db in action "fetchAllUsers"', err));
+}
 
 export function fetchUsesr(id) {
   return dispatch => axios.get(`/users/${id}`, {
@@ -36,43 +45,4 @@ export function fetchUsesr(id) {
   }
   )
   .catch(err => console.log('error getting user info by id from db in action "fetchUser"', err));
-}
-
-
-const users = [
-  {
-    first_name: 'andi',
-    last_name: 'oneto',
-    email: 'meow@aol.com',
-    phone_number: '1231231233',
-    is_admin: 'false',
-    is_banned: 'false',
-    is_active: 'true',
-    created_at: 'meow'
-  },
-  {
-    first_name: 'jdjfdsh',
-    last_name: 'onetdfso',
-    email: 'meow@aol.com',
-    phone_number: '1231231233',
-    is_admin: 'false',
-    is_banned: 'false',
-    is_active: 'true',
-    created_at: 'meow'
-  },
-  {
-    first_name: 'ddddddd',
-    last_name: 'ffffff',
-    email: 'meow@aol.com',
-    phone_number: '1231231233',
-    is_admin: 'false',
-    is_banned: 'false',
-    is_active: 'true',
-    created_at: 'meow'
-  }
-];
-
-
-export function fetchAllUsers() {
-  return dispatch => dispatch(setUserList(users));
 }

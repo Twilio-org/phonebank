@@ -69,18 +69,19 @@ export default {
     return [
       {
         key: 1,
-        text: 'Promote/Demote',
+        text: ['Promote', 'Demote'],
         size: 'xsmall',
         style: 'primary',
         handler: () => {
           // TO-DO: uncomment once responses data is decided for questions reducer
-          // handleClick(item);
-          history.push(`/admin/${page.toLowerCase()}s/${id}`);
+          console.log('not yet active');
+          handleClick(item);
+          // history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
       {
         key: 2,
-        text: 'Activate/Deactivate',
+        text: ['Deactivate', 'Activate'],
         size: 'xsmall',
         style: 'warning',
         handler: () => {
@@ -91,10 +92,11 @@ export default {
       },
       {
         key: 3,
-        text: 'Ban/Reinstate',
+        text: ['Deactivate', 'Reinstate'],
         size: 'xsmall',
         style: 'danger',
         handler: () => {
+          console.log('not yet active');
           handleClick(item);
         }
       }
