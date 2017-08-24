@@ -1,5 +1,6 @@
 export const defaultAuthStatus = {
-  id: null
+  id: null,
+  is_admin: null
 };
 
 export const CLEAR_AUTH = 'CLEAR_AUTH';
@@ -17,7 +18,8 @@ export function authStatusReducer(state = defaultAuthStatus, action) {
     case SET_AUTH_JWT_FULFILLED:
       return {
         ...state,
-        id: payload.id
+        id: payload.id,
+        is_admin: payload.is_admin
       };
     default:
       return state;
