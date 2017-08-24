@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { destroy } from 'redux-form';
 import fixtures from '../client_fixtures';
-import { checkObjectProps, exposeLocalStorageMock, mockStore} from '../client_test_helpers';
+import { checkObjectProps, exposeLocalStorageMock, mockStore } from '../client_test_helpers';
 import { fetchAllScripts,
          postScript,
          setCurrentScript,
@@ -15,8 +15,7 @@ const { defaultScripts: initialState,
         listFixture: scriptListFixtures,
         mapFixture: scriptFixture } = fixtures.scriptFixtures;
 
-const { defaultQuestions: questionInitialState,
-        listFixture: questionListFixtures,
+const { listFixture: questionListFixtures,
         mapFixture: questionFixture } = fixtures.questionFixtures;
 
 describe('script actions', () => {
@@ -130,14 +129,8 @@ describe('script actions', () => {
     describe('type: ', () => {
       const { type } = setScriptQuestionsResult;
 
-      it('should have a type property (not undefined): ', () => {
-        expect(type).toBeDefined();
-      });
       it('should have the type property "SET_SCRIPT_QUESTIONS"', () => {
         expect(type).toEqual('SET_SCRIPT_QUESTIONS');
-      });
-      it('should not be null: ', () => {
-        expect(type === null).toBe(false);
       });
     });
 
@@ -153,8 +146,11 @@ describe('script actions', () => {
         const secondObjectProps = checkObjectProps(expectedQuestionProps, payload[1]);
         const thirdObjectProps = checkObjectProps(expectedQuestionProps, payload[2]);
         const fourthObjectProps = checkObjectProps(expectedQuestionProps, payload[3]);
+        const questionListFixtureCount = questionListFixtures.length;
 
-        expect(payload.length).toBe(questionListFixtures.length);
+        expect(payload.length).toBe(questionListFixtureCount);
+        expect(payload.reduce((sum, question) => sum + Object.keys(question).length, 0))
+          .toBe(numberOfQuestionProps * questionListFixtureCount);
         expect(thirdObjectProps &&
                secondObjectProps &&
                firstObjectProps &&
@@ -167,8 +163,7 @@ describe('script actions', () => {
     mock = new MockAdapter(axios);
 
     beforeEach(() => {
-      mock.onPost('/scripts').reply(200, scriptFixture
-      );
+      mock.onPost('/scripts').reply(200, scriptFixture);
     });
 
     afterEach(() => {
@@ -177,8 +172,8 @@ describe('script actions', () => {
 
     describe('axios POST request: ', () => {
       it('should add the destory action to the store and call goBack from history: ', () => {
-        const { body, description, name } = scriptFixture
-        const script = { body, description, name }
+        const { body, description, name } = scriptFixture;
+        const script = { body, description, name };
         const expectedDestroyAction = destroy('ScriptForm');
         const history = { goBack: jest.fn() };
 
