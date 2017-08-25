@@ -10,7 +10,7 @@ A phone banking solution powered by Twilio
 
 ## npm commands
 - `npm install` - install deps
-- `npm run lint` - lint code 
+- `npm run lint` - lint code
 - `npm test` - lint + run tests
 - `npm start` - start webserver
 - `npm run db:setup` - setup DB schema
@@ -18,7 +18,7 @@ A phone banking solution powered by Twilio
 
 ## environment setup
 Add the following to your ~/.bash_profile, ~/.bashrc or other environment variable store.
-``` 
+```
 export PGDATA="/usr/local/var/postgres/"
 export PG_USER="phonebank"
 export PG_PASSWORD="foobar"
@@ -40,6 +40,7 @@ pg_ctl start -D $PGDATA
 createdb $PG_DB -U $PG_USER
 createdb $PG_DB_TEST -U $PG_USER
 npm run db:setup
+npm run db:seed
 ```
 
 Optionally set up Postgres to launch at startup.
