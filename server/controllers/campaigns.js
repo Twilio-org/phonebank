@@ -26,8 +26,6 @@ export function saveNewCampaign(req, res) {
 
 export function getAllCampaigns(req, res) {
   const status = req.params.status === undefined ? 'all' : req.params.status;
-  console.log('status is: ', status);
-  console.log('req.params.status is: ', req.params.status);
   return campaignsService.getAllCampaigns(status)
     .then((campaigns) => {
       res.status(200).send(campaigns);
