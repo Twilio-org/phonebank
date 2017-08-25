@@ -153,7 +153,6 @@ describe('User service tests', () => {
 
       this.userManageParams2 = {
         id: 2,
-        isAdmin: true,
         isBanned: true
       };
     });
@@ -225,11 +224,33 @@ describe('User service tests', () => {
           done();
         }, done);
     });
+
+    it('updating user statuses should not change other attributes', (done) => {
+      User.getUserById({ id: 1 })
+        .then((user) => {
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Wilson');
+          done();
+        }, done);
+    });
     it('should be able to only promote and ban user by ID', (done) => {
       User.updateUserById(this.userManageParams2)
         .then((user) => {
-          expect(user.attributes.is_admin).to.equal(true);
           expect(user.attributes.is_banned).to.equal(true);
+          done();
+        }, done);
+    });
+    it('updating 1 or 2 of 3 status should leave the previous ones in tact', (done) => {
+      User.getUserById({ id: 2 })
+        .then((user) => {
+          expect(user.attributes.is_admin).to.equal(false);
+          done();
+        }, done);
+    });
+    it('should automatically deactive user if banned', (done) => {
+      User.getUserById({ id: 2 })
+        .then((user) => {
+          expect(user.attributes.is_active).to.equal(false);
           done();
         }, done);
     });
