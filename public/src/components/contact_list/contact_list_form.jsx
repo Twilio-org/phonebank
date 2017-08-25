@@ -5,13 +5,6 @@ import FieldGroup from '../../components/common/form/field_group';
 import UploadField from '../../components/common/form/upload_field';
 
 export default class ContactListForm extends Component {
-  componentDidMount() {
-    if (!this.props.onSubmit) {
-      throw new Error('onSubmit is not passed. Pass in a function.');
-    } else if (!this.props.onCancel) {
-      throw new Error('onCancel is not passed. Pass in a function.');
-    }
-  }
   render() {
     const { handleSubmit, onSubmit, onCancel, onClear } = this.props;
     const nameFieldProps = {
