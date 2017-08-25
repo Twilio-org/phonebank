@@ -53,7 +53,6 @@ export function saveNewContactList(req, res, next) {
 
   const testContactListParams = validateCSV();
   let contactPromise;
-  // let contact_id;
   return contactListsService.saveNewContactList(contactListParams)
     .then((contactList) => {
       if (contactList) {
@@ -75,11 +74,8 @@ export function saveNewContactList(req, res, next) {
               }
               contactPromise
                 .then((newOrUpdatedContact) => {
-                  const { id: newOrUpdatedContactId } = newOrUpdatedContact.attributes;
-                  contactListsService.addContactToContactList({
-                    contact_id: newOrUpdatedContactId,
-                    id
-                  })
+                  const { id: contact_id } = newOrUpdatedContact.attributes;
+                  contactListsService.addContactToContactList({ contact_id, id })
                     .then(() => {
                       console.log('Successfully added contact to contact list');
                     })
