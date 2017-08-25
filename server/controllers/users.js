@@ -104,28 +104,22 @@ function toCamelCase(word) {
 }
 
 function addIfExists(paramObj, key, status) {
-  if (key) {
-    const newParamObj = paramObj;
-    newParamObj[toCamelCase(key)] = JSON.parse(status);
-  }
+  const newParamObj = paramObj;
+  newParamObj[toCamelCase(key)] = JSON.parse(status);
 }
 
 export function manageUserById(req, res, next) {
-  if (req.body.isBanned === 'true') {
-    req.body.isActive = 'false';
+  if (req.body.is_banned === 'true') {
+    req.body.is_active = 'false';
   }
 
   const params = {
     id: req.params.id
   };
-  //  This is necessary because params keys are camel cased and the req.body is coming in as snake
   Object.keys(req.body).forEach((key) => {
     addIfExists(params, key, req.body[key]);
   });
 
-  if (params.isActive && params.isBanned) {
-    return res.status(400).json({ message: 'A banned user cannot be activated' });
-  }
   return usersService.updateUserById(params)
     .then((user) => {
       if (user) {
