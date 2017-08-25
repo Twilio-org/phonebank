@@ -64,15 +64,15 @@ export default {
     ];
   },
   user_management(props) {
-    const { page, handleClick, item, history, admin, active, banned } = props;
-    const { id } = item;
+    const { page, handleClick, item, history } = props;
+    const { id, is_admin, is_banned, is_active, first_name } = item;
     return [
       {
         key: 1,
         name: 'adminPriv',
         text: () => {
-          console.log(admin)
-          return admin ? 'Demote' : 'Promote';
+          console.log(typeof is_admin, first_name, '$$$$$$$$$$')
+          return JSON.parse(is_admin.toLowerCase()) ? 'Demote' : 'Promote';
           // ['Promote', 'Demote']
         },
         size: 'xsmall',
@@ -88,7 +88,7 @@ export default {
         key: 2,
         name: 'activeStatus',
         text: () => {
-          return active ? 'Deactivate' : 'Activate';
+          return JSON.parse(is_active.toLowerCase()) ? 'Deactivate' : 'Activate';
           // ['Activate', 'Deactivate']
         },
         size: 'xsmall',
@@ -103,7 +103,7 @@ export default {
         key: 3,
         name: 'ban',
         text: () => {
-          return banned ? 'Reinstate' : 'Ban';
+          return JSON.parse(is_banned.toLowerCase()) ? 'Reinstate' : 'Ban';
           // ['Ban', 'Reinstate']
         },
         size: 'xsmall',

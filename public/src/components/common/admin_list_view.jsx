@@ -9,7 +9,6 @@ import CreateNewButton from './admin_createNew_btn';
 const TableListView = (props) => {
   const { item_collection,
           account_info: { last_name, first_name },
-          account_info,
           history,
           button_collection,
           setCurrentItem,
@@ -55,7 +54,6 @@ const TableListView = (props) => {
                   page={thisPage}
                   headers={headers}
                   history={history}
-                  account_info={account_info}
                 />
               )
             ) :
