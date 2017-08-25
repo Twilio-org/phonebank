@@ -15,6 +15,7 @@ A phone banking solution powered by Twilio
 - `npm start` - start webserver
 - `npm run db:setup` - setup DB schema
 - `npm run db:teardown` - teardown DB schema
+- `npm run db:seed` - fill all tables with at least a single fake entry for testing purposes
 
 ## environment setup
 Add the following to your ~/.bash_profile, ~/.bashrc or other environment variable store.
