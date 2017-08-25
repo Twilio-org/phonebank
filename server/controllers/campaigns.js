@@ -25,7 +25,9 @@ export function saveNewCampaign(req, res) {
 }
 
 export function getAllCampaigns(req, res) {
-  const status = req.params.status === undefined ? 'all' : req.params.status;
+  const reqStatus = req.query.status;
+  const statuses = ['active', 'completed', 'draft', 'pause'];
+  const status = statuses.includes(reqStatus) ? reqStatus : 'all';
   return campaignsService.getAllCampaigns(status)
     .then((campaigns) => {
       res.status(200).send(campaigns);
