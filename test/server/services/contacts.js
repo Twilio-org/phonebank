@@ -87,7 +87,6 @@ describe('Contact service tests', function () {
     });
     it('should retrieve first contact\'s first name, last name, email, phone, external_id, number status, and do not call status', (done) => {
       const firstContact = this.contactSaveParams1;
-      console.log('this.contactIds.push(contact.attributes.id) is: ', this.contactIds);
       Contact.getContactById({ id: firstContactId })
         .then((contact) => {
           expect(contact.attributes.first_name).to.equal(firstContact.first_name);
