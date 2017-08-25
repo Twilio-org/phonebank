@@ -13,7 +13,7 @@ const FieldGroup = (props) => {
           {helpText && <HelpBlock>{helpText}</HelpBlock>}
           <FormControl
             componentClass={type === 'textarea' ? type : 'input'}
-            type={type === 'text' || type === 'file' ? type : ''}
+            type={type === 'text' ? type : ''}
             name={name}
             placeholder={placeholder}
             {...input}
