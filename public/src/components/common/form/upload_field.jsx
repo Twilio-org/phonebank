@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormControl, FormGroup, ControlLabel, HelpBlock, Popover, Row, Col } from 'react-bootstrap';
+import { FormGroup, ControlLabel, HelpBlock, Popover, Row, Col } from 'react-bootstrap';
 
-const FieldGroup = (props) => {
-  const { label, helpText, name, type, placeholder, input, meta } = props;
+const UploadField = (props) => {
+  const { label, helpText, name, input, meta, id } = props;
   const errorClass = meta && meta.touched && meta.error ? 'error' : '';
   const errorText = meta && meta.touched ? meta.error : '';
   return (
@@ -11,12 +11,16 @@ const FieldGroup = (props) => {
         <FormGroup className={errorClass !== '' ? `has-${errorClass}` : ''}>
           <ControlLabel>{label}</ControlLabel>
           {helpText && <HelpBlock>{helpText}</HelpBlock>}
-          <FormControl
-            componentClass={type === 'textarea' ? type : 'input'}
-            type={type === 'text' ? type : ''}
+          <input
+            className={'well'}
+            type={'file'}
             name={name}
-            placeholder={placeholder}
-            {...input}
+            id={id}
+            onFocus={meta.onFocus}
+            onChange={e => input.onChange({
+              name: e.target.files[0].name,
+              type: e.target.files[0].type
+            })}
           />
         </FormGroup>
       </Col>
@@ -34,4 +38,4 @@ const FieldGroup = (props) => {
   );
 };
 
-export default FieldGroup;
+export default UploadField;

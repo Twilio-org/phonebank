@@ -1,5 +1,6 @@
 export const SET_CAMPAIGN_FORM_CONTACT_LIST = 'SET_CAMPAIGN_FORM_CONTACT_LIST';
 export const SET_CURRENT_CONTACT_LIST = 'SET_CURRENT_CONTACT_LIST';
+export const SEND_CONTACT_LIST = 'SEND_CONTACT_LIST';
 
 export const defaultContactLists = {
   contact_lists: [],
