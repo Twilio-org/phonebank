@@ -233,7 +233,7 @@ describe('User service tests', () => {
           done();
         }, done);
     });
-    it('should be able to only promote and ban user by ID', (done) => {
+    it('should be able to only promote or ban user by ID', (done) => {
       User.updateUserById(this.userManageParams2)
         .then((user) => {
           expect(user.attributes.is_banned).to.equal(true);
