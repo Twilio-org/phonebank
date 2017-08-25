@@ -7,6 +7,6 @@ const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
 
 router.route('/').post(saveNewCampaign);
-router.route('/:status').get(getAllCampaigns);
+router.route('/').get(getAllCampaigns);
 
 export default router;
