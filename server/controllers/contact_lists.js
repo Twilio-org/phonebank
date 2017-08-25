@@ -65,7 +65,6 @@ export function saveNewContactList(req, res, next) {
             .then((checkContact) => {
               if (checkContact) {
                 const contact_id = checkContact.attributes.id;
-                console.log("contact_id in checkoutContact is: ", contact_id);
                 const params = {
                   id: contact_id,
                   ...contact
@@ -76,9 +75,11 @@ export function saveNewContactList(req, res, next) {
               }
               contactPromise
                 .then((newOrUpdatedContact) => {
-                  console.log("newContact is: ", newOrUpdatedContact);
                   const { id: newOrUpdatedContactId } = newOrUpdatedContact.attributes;
-                  contactListsService.addContactToContactList({ contact_id: newOrUpdatedContactId, id })
+                  contactListsService.addContactToContactList({
+                    contact_id: newOrUpdatedContactId,
+                    id
+                  })
                     .then(() => {
                       console.log('Successfully added contact to contact list');
                     })
