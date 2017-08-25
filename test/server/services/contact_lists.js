@@ -1,19 +1,25 @@
 import { expect, Should } from 'chai';
 import ContactList from '../../../server/db/services/contact_lists';
+import Contact from '../../../server/db/services/contacts';
 
 const should = Should();
 
 describe('Contact List Service tests', () => {
   describe('insert/read/update', function() {
-    before(() => {
+    before((done) => {
       this.params = {
         name: 'Millbrae Phone List'
       };
       this.params2 = {
         name: 'Mission Bay Phone List'
       };
+      this.contact1 = {
+        id: 1,
+        first_name: 'Charlie',
+        phone_number: '+1112223333'
+      };
+      done();
     });
-
     it('should create contact list and save all parameters', (done) => {
       ContactList.saveNewContactList(this.params)
         .then((contactList) => {
@@ -42,12 +48,12 @@ describe('Contact List Service tests', () => {
           done();
         })
         .catch((err) => {
-            console.log('error with saving contact list before updating \n\n');
-            done(err);
+          console.log('error with saving contact list before updating \n\n');
+          done(err);
         });
     });
 
-    it('should retrieva a contact list by id', (done) => {
+    it('should retrieve a contact list by id', (done) => {
       const queryParams = { id: this.params2.id };
       ContactList.getContactListById(queryParams)
         .then((contactList) => {
@@ -56,8 +62,8 @@ describe('Contact List Service tests', () => {
           done();
         })
         .catch((err) => {
-            console.log('error with getting contact list \n\n');
-            done(err);
+          console.log('error with getting contact list \n\n');
+          done(err);
         });
     });
 
@@ -72,6 +78,41 @@ describe('Contact List Service tests', () => {
           done(err);
         });
     });
+    it('should retrieve an empty array when getting all contacts by id', (done) => {
+      ContactList.getContactsInContactListById({ id: this.params.id })
+        .then((contactsInContactList) => {
+          expect(contactsInContactList.length).to.equal(0);
+          done();
+        })
+        .catch((err) => {
+          console.log('Error in calculating contacts in contact list:');
+          done(err);
+        });
+    });
+    it('should retrieve an array of one contact when getting all contacts by id', (done) => {
+      Contact.saveNewContact(this.contact1)
+        .then((newContact) => {
+          const { id: contact_id } = newContact.attributes;
+          ContactList.addContactToContactList({ contact_id, id: this.params.id })
+            .then(() => {
+              ContactList.getContactsInContactListById({ id: this.params.id })
+                .then((contactsInContactList) => {
+                  expect(contactsInContactList.length).to.equal(1);
+                  done();
+                })
+                .catch((err) => {
+                  console.log('Error in calculating contacts in contact list:');
+                  done(err);
+                });
+            })
+            .catch((err) => {
+              console.log('Error in adding contact to contact list:\n\n');
+              done(err);
+            });
+        })
+        .catch((err) => {
+          console.log(`Error in saving new contact: ${err}`);
+        });
+    });
   });
-
 });
