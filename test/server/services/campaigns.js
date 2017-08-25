@@ -70,22 +70,53 @@ describe('Campaign service tests', () => {
     });
 
     it('should get all campaigns', (done) => {
-      campaignsService.getAllCampaigns(null)
+      const status = 'all';
+      campaignsService.getAllCampaigns(status)
         .then((campaigns) => {
           const { models } = campaigns;
           expect(models).to.have.length(2);
+          expect(models[1].attributes.name).to.equal(this.campaignParams1.name);
+          expect(models[1].attributes.title).to.equal(this.campaignParams1.title);
+          expect(models[1].attributes.description).to.equal(this.campaignParams1.description);
+          expect(models[1].attributes.status).to.equal(this.campaignParams1.status);
+          expect(models[1].attributes.script_id).to.equal(this.campaignParams1.script_id);
+          expect(models[1].attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          expect(models[0].attributes.name).to.equal(this.campaignParams2.name);
+          expect(models[0].attributes.title).to.equal(this.campaignParams2.title);
+          expect(models[0].attributes.description).to.equal(this.campaignParams2.description);
+          expect(models[0].attributes.status).to.equal(this.campaignParams2.status);
+          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.script_id);
+          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
+          done();
+        });
+    });
+    it('should get all draft campaigns', (done) => {
+      const status = 'draft';
+      campaignsService.getAllCampaigns(status)
+        .then((campaigns) => {
+          const { models } = campaigns;
+          expect(models).to.have.length(1);
           expect(models[0].attributes.name).to.equal(this.campaignParams1.name);
           expect(models[0].attributes.title).to.equal(this.campaignParams1.title);
           expect(models[0].attributes.description).to.equal(this.campaignParams1.description);
           expect(models[0].attributes.status).to.equal(this.campaignParams1.status);
           expect(models[0].attributes.script_id).to.equal(this.campaignParams1.script_id);
           expect(models[0].attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
-          expect(models[1].attributes.name).to.equal(this.campaignParams2.name);
-          expect(models[1].attributes.title).to.equal(this.campaignParams2.title);
-          expect(models[1].attributes.description).to.equal(this.campaignParams2.description);
-          expect(models[1].attributes.status).to.equal(this.campaignParams2.status);
-          expect(models[1].attributes.script_id).to.equal(this.campaignParams2.script_id);
-          expect(models[1].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
+          done();
+        });
+    });
+    it('should get all active campaigns', (done) => {
+      const status = 'active';
+      campaignsService.getAllCampaigns(status)
+        .then((campaigns) => {
+          const { models } = campaigns;
+          expect(models).to.have.length(1);
+          expect(models[0].attributes.name).to.equal(this.campaignParams2.name);
+          expect(models[0].attributes.title).to.equal(this.campaignParams2.title);
+          expect(models[0].attributes.description).to.equal(this.campaignParams2.description);
+          expect(models[0].attributes.status).to.equal(this.campaignParams2.status);
+          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.script_id);
+          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
           done();
         });
     });
