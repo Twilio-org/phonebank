@@ -53,5 +53,7 @@ export default {
       }, {
         method: 'update'
       });
-  }
+  },
+
+  getAllUsers: () => new User().fetchAll()
 };
