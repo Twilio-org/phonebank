@@ -15,6 +15,7 @@ export default class ContactLists extends Component {
     const { all_contact_lists, account_info, history, setCurrentContactList } = this.props;
     const thisPage = 'Contact List';
     const { view_edit } = buttons_obj;
+    const { redirect_path } = contactListsHeaders;
 
     return (
       <div>
@@ -28,6 +29,7 @@ export default class ContactLists extends Component {
               setCurrentItem={setCurrentContactList}
               thisPage={thisPage}
               tableHeaders={contactListsHeaders}
+              newPath={redirect_path}
             />
           ) : null
         }
