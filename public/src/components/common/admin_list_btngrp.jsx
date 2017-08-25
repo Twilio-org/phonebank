@@ -9,7 +9,6 @@ const AdminListBtnGroup = (props) => {
         buttons.map((button) => {
           const { style, text, handler, size, key } = button;
           if (page === 'User') {
-            const [initial] = text;
             return (
               <Button
                 bsSize={size}
@@ -17,7 +16,7 @@ const AdminListBtnGroup = (props) => {
                 key={key}
                 onClick={handler}
               >
-                {initial}
+                {text()}
               </Button>);
           }
           return (

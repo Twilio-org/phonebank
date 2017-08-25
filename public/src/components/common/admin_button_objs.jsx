@@ -64,12 +64,17 @@ export default {
     ];
   },
   user_management(props) {
-    const { page, handleClick, item, history } = props;
+    const { page, handleClick, item, history, admin, active, banned } = props;
     const { id } = item;
     return [
       {
         key: 1,
-        text: ['Promote', 'Demote'],
+        name: 'adminPriv',
+        text: () => {
+          console.log(admin)
+          return admin ? 'Demote' : 'Promote';
+          // ['Promote', 'Demote']
+        },
         size: 'xsmall',
         style: 'primary',
         handler: () => {
@@ -81,7 +86,11 @@ export default {
       },
       {
         key: 2,
-        text: ['Deactivate', 'Activate'],
+        name: 'activeStatus',
+        text: () => {
+          return active ? 'Deactivate' : 'Activate';
+          // ['Activate', 'Deactivate']
+        },
         size: 'xsmall',
         style: 'warning',
         handler: () => {
@@ -92,7 +101,11 @@ export default {
       },
       {
         key: 3,
-        text: ['Deactivate', 'Reinstate'],
+        name: 'ban',
+        text: () => {
+          return banned ? 'Reinstate' : 'Ban';
+          // ['Ban', 'Reinstate']
+        },
         size: 'xsmall',
         style: 'danger',
         handler: () => {
