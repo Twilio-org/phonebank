@@ -8,7 +8,8 @@ const { users: userHeaders } = tableHeaders;
 
 export default class UsersList extends Component {
   componentDidMount() {
-    this.props.fetchAllUsers();
+    const { auth: { id } } = this.props;
+    this.props.fetchAllUsers(id);
   }
 
   render() {
@@ -16,12 +17,14 @@ export default class UsersList extends Component {
     const thisPage = 'User';
     const { user_management } = buttons_obj;
     const { redirect_path } = userHeaders;
+    const { auth: { id } } = this.props;
 
     return (
       <div>
         {
           all_users ? (
             <TableListView
+              currentUser={id}
               item_collection={all_users}
               account_info={account_info}
               history={history}

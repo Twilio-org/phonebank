@@ -2,7 +2,7 @@ import React from 'react';
 import AdminListBtnGroup from '../common/admin_list_btngrp';
 
 const AdminTableRow = (props) => {
-  const { item, headers, buttons, history, page } = props;
+  const { item, headers, buttons, history, page, currentUser } = props;
   const { is_admin, is_banned, is_active } = item;
   const button = buttons(props);
   return (
@@ -20,6 +20,7 @@ const AdminTableRow = (props) => {
             admin={is_admin}
             banned={is_banned}
             active={is_active}
+            currentUserId={currentUser}
           />
         ) :
         (

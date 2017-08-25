@@ -14,7 +14,8 @@ const TableListView = (props) => {
           setCurrentItem,
           thisPage,
           tableHeaders,
-          newPath } = props;
+          newPath,
+          currentUser } = props;
   const { headers } = tableHeaders;
 
   return (
@@ -47,6 +48,7 @@ const TableListView = (props) => {
             item_collection.map(item =>
               (
                 <AdminTableRow
+                  currentUser={currentUser}
                   key={item.id}
                   item={item}
                   handleClick={setCurrentItem}

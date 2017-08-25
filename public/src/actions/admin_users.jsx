@@ -15,7 +15,7 @@ export function setUserList(usersList) {
   };
 }
 
-export function fetchAllUsers() {
+export function fetchAllUsers(currentUserId) {
   return dispatch => axios.get('/users', {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
@@ -30,7 +30,13 @@ export function fetchAllUsers() {
         is_active: is_active.toString()
       };
     });
-    return dispatch(setUserList(modifiedUsersList));
+    // remove the current user from the user's list... so they don't accidentally
+    // change their status from admin to volunteer and have all the bugs happen
+    const filteredUsersList = modifiedUsersList.filter((object) => {
+      const { id } = object;
+      return id !== currentUserId;
+    });
+    return dispatch(setUserList(filteredUsersList));
   })
   .catch(err => console.log('problem fetching all users from db in action "fetchAllUsers"', err));
 }
@@ -48,22 +54,22 @@ export function fetchUsesr(id) {
 }
 
 // USER MANAGEMENT ACTIONS:
-export function adminUpdateUserInfo(id, target, newValue) {
+export function adminUpdateUserInfo(id, target, newValue, currentUserId) {
   const params = {};
   params[target] = JSON.stringify(newValue);
+  console.log('BEFORE REQ TO SERVER: ', params);
   return dispatch => axios.patch(`/users/${id}/manage`, params,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
   .then(() => {
-    console.log('admin user manangement patch successful, now dispatching get all users: ');
     // NOTE:
     // pretty this patch request will not force any kind of component remount
     //    so we'll need to dispatch and fetch all
     // a more clever way would be to store as objects where the first key is
     //    the u_id so we could just modify that specific part of the state, but whatevs
-    dispatch(fetchAllUsers());
+    dispatch(fetchAllUsers(currentUserId));
   })
   .catch(err => console.log('error with user management update action: ', err));
 }

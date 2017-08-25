@@ -21,7 +21,6 @@ export default {
         style: 'danger',
         handler: () => {
           handleClick(item);
-          console.log('no edit view, yet');
           // history.push(`/admin/${page.toLowerCase()}s/${item.id}/edit`);
         }
       }
@@ -64,8 +63,9 @@ export default {
     ];
   },
   user_management(props) {
-    const { handleClick, item } = props;
+    const { handleClick, item, currentUser } = props;
     const { id, is_admin, is_banned, is_active } = item;
+
     return [
       {
         key: 1,
@@ -74,10 +74,8 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          console.log('is admin: ', is_admin);
           const newValue = !JSON.parse(is_admin.toLowerCase());
-          console.log('change is_admin status with: ', id, 'is_admin ', newValue);
-          handleClick(id, 'is_admin', newValue);
+          handleClick(id, 'is_admin', newValue, currentUser);
         }
       },
       {
@@ -87,9 +85,8 @@ export default {
         size: 'xsmall',
         style: 'warning',
         handler: () => {
-          const newValue = !JSON.parse(is_admin.toLowerCase());
-          console.log('change is active value with: ', id, 'is_active ', newValue);
-          handleClick(id, 'is_active', newValue);
+          const newValue = !JSON.parse(is_active.toLowerCase());
+          handleClick(id, 'is_active', newValue, currentUser);
         }
       },
       {
@@ -99,9 +96,8 @@ export default {
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          const newValue = !JSON.parse(is_admin.toLowerCase());
-          console.log('change is banned status to with: ', id, 'is_banned', newValue);
-          handleClick(id, 'is_banned', newValue);
+          const newValue = !JSON.parse(is_banned.toLowerCase());
+          handleClick(id, 'is_banned', newValue, currentUser);
         }
       }
     ];
