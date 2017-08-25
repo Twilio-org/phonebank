@@ -13,7 +13,6 @@ class App extends Component {
     const token = localStorage.getItem('auth_token');
     if (id !== null && token !== null && is_admin !== null) {
       // id and token not null means the user is logged in
-      console.log('###########', is_admin)
       is_admin = JSON.parse(is_admin.toLowerCase());
       // check for admin
       if (is_admin) {
