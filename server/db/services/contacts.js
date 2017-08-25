@@ -45,15 +45,23 @@ export default {
       last_name: params.last_name,
       phone_number: params.phone_number,
       email: params.email,
-      external_id: params.external_id,
-      do_not_call: params.do_not_call,
-      is_invalid_number: params.is_invalid_number
+      external_id: params.external_id
     };
-    return new Contact()
-      .where({ id })
+    return new Contact({ id })
       .save(extractedParams, {
-        method: 'update'
+        patch: true
       });
+  },
+
+  getContactByPhoneNumberAndFirstName: (params) => {
+    const extractedParams = {
+      first_name: params.first_name,
+      phone_number: params.phone_number
+    };
+
+    return new Contact()
+        .where(extractedParams)
+        .fetch();
   }
   // updateContactDoNotCallById: (params, Model) => {
   //   const { id } = params;
