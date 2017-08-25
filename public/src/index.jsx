@@ -21,7 +21,7 @@ import CreateQuestionContainer from './containers/create_question';
 import ViewQuestionContainer from './containers/view_question';
 import { ConnectedAccountPage } from './components/account/account';
 import ScriptPage from './containers/view_script';
-
+import CreateContactListContainer from './containers/create_contact_list';
 // import { authTransition, checkIfAdmin } from './actions/login';
 import { authTransition } from './actions/login';
 
@@ -36,6 +36,11 @@ const Root = () => {
       <BrowserRouter>
         <App>
           <Switch>
+            <Route
+              exact
+              path="/admin/contactLists/new"
+              component={CreateContactListContainer}
+            />
             <Route
               exact
               path="/admin/questions/new"
