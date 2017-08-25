@@ -74,9 +74,7 @@ export default class Admin extends Component {
           component={AdminContactListsContainer}
         />
         <Route
-          exact
-          path={`${parent}`}
-          render={() => (<Redirect to={`${parent}/campaigns`} />)}
+          component={CampaignsContainer}
         />
       </Switch>
     );

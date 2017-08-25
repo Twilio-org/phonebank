@@ -6,7 +6,6 @@ import store from './store';
 
 import '../stylesheets/app.less';
 
-// Components:
 import App from './components/app';
 
 import PublicContainer from './containers/sub_apps/public_container';
@@ -30,11 +29,6 @@ const Root = () => (
       <App>
         <Switch>
           <Route
-            exact
-            path="/"
-            render={() => (<Redirect to="/admin" />)}
-          />
-          <Route
             path="/admin"
             render={() => (isAdmin() && isLoggedIn() ?
               (<AdminContainer />) : (<Redirect to="/volunteers" />))}
@@ -45,13 +39,10 @@ const Root = () => (
               (<VolunteersContainer />) : (<Redirect to="/public" />))}
           />
           <Route
-            path="/public"
-            component={PublicContainer}
-          />
-          <Route
             path="/logout"
             render={() => (<Redirect to="/public" />)}
           />
+          <Route path="/public" component={PublicContainer} />
         </Switch>
       </App>
     </BrowserRouter>

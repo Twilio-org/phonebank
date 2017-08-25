@@ -25,11 +25,7 @@ export default class Volunteers extends Component {
           path={`${parent}/account`}
           component={ConnectedAccountPage}
         />
-        <Route
-          exact
-          path={`${parent}`}
-          component={LandingPage}
-        />
+        <Route component={LandingPage} />
       </Switch>
     );
   }

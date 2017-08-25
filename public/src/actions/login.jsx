@@ -62,24 +62,3 @@ export function logoutUser(history) {
     throw customError;
   });
 }
-
-// DISCUSS: proposed removal
-// // export function authTransition(storeInstance) {
-// export function authTransition() {
-//   console.log('CHECK IF AUTH TOKEN AND ID RUNNING');
-//   // const { auth } = storeInstance.getState();
-//   // const { id } = auth;
-//   const token = localStorage.getItem('auth_token');
-//   const id = Number(localStorage.getItem('user_id'));
-
-//   return !!id && !!token;
-// }
-
-// // export function checkIfAdmin(storeInstance) {
-// export function checkIfAdmin() {
-//   console.log('CHECK IF ADMIN IS RUNNING!');
-//   const is_admin = localStorage.getItem('permissions');
-//   // const { auth } = storeInstance.getState();
-//   // const { is_admin } = auth;
-//   return JSON.parse(is_admin);
-// }
