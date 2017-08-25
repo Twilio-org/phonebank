@@ -7,31 +7,23 @@ import scriptsService from '../db/services/scripts';
 import User from './models/users';
 
 function getRandomFourDigitInt() {
-  const floor = Math.ceil(1000);
-  const ceiling = Math.floor(10000);
-  return Math.floor(Math.random() * (ceiling - floor)) + floor;
+  return Math.floor(Math.random() * (10000 - 1000)) + 1000;
 }
 
-const firstName1 = faker.name.firstName();
-const firstName2 = faker.name.firstName();
-const lastName1 = faker.name.lastName();
-const lastName2 = faker.name.lastName();
-const email1 = `${firstName1}.${lastName1}@notrealemail.com`;
-const email2 = `${firstName2}.${lastName2}@notrealemail.com`;
 const password = 'password';
 const userParams = [
   {
-    first_name: firstName1,
-    last_name: lastName1,
-    email: email1,
+    first_name: faker.name.firstName(),
+    last_name: faker.name.firstName(),
+    email: 'admin@foobar.com',
     phone_number: `555-555-${getRandomFourDigitInt()}`,
     password_hash: password,
     is_admin: true
   },
   {
-    first_name: firstName2,
-    last_name: lastName2,
-    email: email2,
+    first_name: faker.name.firstName(),
+    last_name: faker.name.firstName(),
+    email: 'user@foobar.com',
     phone_number: `555-555-${getRandomFourDigitInt()}`,
     password_hash: password
   }
@@ -144,36 +136,38 @@ Promise.all(generatePromiseActions(questionParams, createQuestion))
         });
 
         Promise.all(generatePromiseActions(scriptQuestionParams, createScriptQuestion))
-          .then().catch(err => console.log(err));
-      }).catch(err => console.log(err));
-  }).catch(err => console.log(err));
-
-contactListsService.saveNewContactList(contactListParams)
-  .then((contactList) => {
-    Promise.all(generatePromiseActions(contactParams, createContact))
-      .then((contacts) => {
-        const contactIds = contacts.map(contact => contact.attributes.id);
-        const contactListContactParams = [];
-
-        contactIds.forEach((contactId) => {
-          contactListContactParams.push({
-            id: contactList.attributes.id,
-            contact_id: contactId
-          });
-        });
-
-        Promise.all(generatePromiseActions(contactListContactParams, createContactListContact))
           .then(() => {
-            const campaignParams = {
-              name: 'Campaign 1',
-              title: 'Campaign 1 Title',
-              description: 'Campaign 1 description',
-              status: 'active',
-              contact_lists_id: contactList.attributes.id,
-              script_id: campaignScriptId
-            };
+            contactListsService.saveNewContactList(contactListParams)
+              .then((contactList) => {
+                Promise.all(generatePromiseActions(contactParams, createContact))
+                  .then((contacts) => {
+                    const contactIds = contacts.map(contact => contact.attributes.id);
+                    const contactListContactParams = [];
 
-            campaignsService.saveNewCampaign(campaignParams).then().catch(err => console.log(err));
+                    contactIds.forEach((contactId) => {
+                      contactListContactParams.push({
+                        id: contactList.attributes.id,
+                        contact_id: contactId
+                      });
+                    });
+
+                    Promise.all(generatePromiseActions(contactListContactParams,
+                                                       createContactListContact))
+                      .then(() => {
+                        const campaignParams = {
+                          name: 'Campaign 1',
+                          title: 'Campaign 1 Title',
+                          description: 'Campaign 1 description',
+                          status: 'active',
+                          contact_lists_id: contactList.attributes.id,
+                          script_id: campaignScriptId
+                        };
+
+                        campaignsService.saveNewCampaign(campaignParams)
+                          .then().catch(err => console.log(err));
+                      }).catch(err => console.log(err));
+                  }).catch(err => console.log(err));
+              }).catch(err => console.log(err));
           }).catch(err => console.log(err));
       }).catch(err => console.log(err));
   }).catch(err => console.log(err));
