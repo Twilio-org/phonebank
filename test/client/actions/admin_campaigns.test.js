@@ -112,7 +112,7 @@ describe('campaign actions', () => {
       mock.reset();
     });
     describe('axios POST request: ', () => {
-      it('save campaign should add the destroy action to the store: ', () => {
+      it('save campaign should add the destroy action to the store and call goBack from history: ', () => {
         const expectedAction = destroy('CampaignPage');
         const history = {
           goBack: jest.fn()
@@ -128,6 +128,7 @@ describe('campaign actions', () => {
                 'CampaignPage'
               ]
             });
+            expect(history.goBack).toHaveBeenCalled();
           });
       });
     });
