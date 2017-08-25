@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import EditAccountInfo from '../../components/account/edit_account';
 import { ConnectedAccountPage } from '../../components/account/account';
@@ -25,9 +25,12 @@ export default class Volunteers extends Component {
           path={`${parent}/account`}
           component={ConnectedAccountPage}
         />
-        <Route component={LandingPage} />
+        <Route
+          path={`${parent}/landing`}
+          component={LandingPage}
+        />
+        <Redirect from={parent} to={`${parent}/landing`} />
       </Switch>
     );
   }
 }
-

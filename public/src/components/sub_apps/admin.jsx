@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Containers:
 import CampaignsContainer from '../../containers/list_campaigns';
@@ -73,8 +73,9 @@ export default class Admin extends Component {
           path={`${parent}/contactLists`}
           component={AdminContactListsContainer}
         />
-        <Route
-          component={CampaignsContainer}
+        <Redirect
+          from={parent}
+          to={`${parent}/campaigns`}
         />
       </Switch>
     );
