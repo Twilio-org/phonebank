@@ -12,7 +12,7 @@ export default class UsersList extends Component {
   }
 
   render() {
-    const { all_users, account_info, history, setCurrentUser } = this.props;
+    const { all_users, account_info, history, adminUpdateUserInfo } = this.props;
     const thisPage = 'User';
     const { user_management } = buttons_obj;
     const { redirect_path } = userHeaders;
@@ -26,7 +26,7 @@ export default class UsersList extends Component {
               account_info={account_info}
               history={history}
               button_collection={user_management}
-              setCurrentItem={setCurrentUser}
+              setCurrentItem={adminUpdateUserInfo}
               thisPage={thisPage}
               tableHeaders={userHeaders}
               newPath={redirect_path}

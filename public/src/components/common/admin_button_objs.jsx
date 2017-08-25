@@ -64,53 +64,44 @@ export default {
     ];
   },
   user_management(props) {
-    const { page, handleClick, item, history } = props;
-    const { id, is_admin, is_banned, is_active, first_name } = item;
+    const { handleClick, item } = props;
+    const { id, is_admin, is_banned, is_active } = item;
     return [
       {
         key: 1,
         name: 'adminPriv',
-        text: () => {
-          console.log(typeof is_admin, first_name, '$$$$$$$$$$')
-          return JSON.parse(is_admin.toLowerCase()) ? 'Demote' : 'Promote';
-          // ['Promote', 'Demote']
-        },
+        text: () => (JSON.parse(is_admin.toLowerCase()) ? 'Demote' : 'Promote'),
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          // TO-DO: uncomment once responses data is decided for questions reducer
-          console.log('not yet active');
-          handleClick(item);
-          // history.push(`/admin/${page.toLowerCase()}s/${id}`);
+          console.log('is admin: ', is_admin);
+          const newValue = !JSON.parse(is_admin.toLowerCase());
+          console.log('change is_admin status with: ', id, 'is_admin ', newValue);
+          handleClick(id, 'is_admin', newValue);
         }
       },
       {
         key: 2,
         name: 'activeStatus',
-        text: () => {
-          return JSON.parse(is_active.toLowerCase()) ? 'Deactivate' : 'Activate';
-          // ['Activate', 'Deactivate']
-        },
+        text: () => (JSON.parse(is_active.toLowerCase()) ? 'Deactivate' : 'Activate'),
         size: 'xsmall',
         style: 'warning',
         handler: () => {
-          handleClick(item);
-          console.log('no edit view, yet');
-          // history.push(`/admin/${page.toLowerCase()}s/${item.id}/edit`);
+          const newValue = !JSON.parse(is_admin.toLowerCase());
+          console.log('change is active value with: ', id, 'is_active ', newValue);
+          handleClick(id, 'is_active', newValue);
         }
       },
       {
         key: 3,
         name: 'ban',
-        text: () => {
-          return JSON.parse(is_banned.toLowerCase()) ? 'Reinstate' : 'Ban';
-          // ['Ban', 'Reinstate']
-        },
+        text: () => (JSON.parse(is_banned.toLowerCase()) ? 'Reinstate' : 'Ban'),
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          console.log('not yet active');
-          handleClick(item);
+          const newValue = !JSON.parse(is_admin.toLowerCase());
+          console.log('change is banned status to with: ', id, 'is_banned', newValue);
+          handleClick(id, 'is_banned', newValue);
         }
       }
     ];

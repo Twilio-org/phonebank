@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import UsersList from '../components/users/users_list';
 
-import { fetchAllUsers, setCurrentUsers } from '../actions/admin_users';
+import { fetchAllUsers, setCurrentUsers, adminUpdateUserInfo } from '../actions/admin_users';
 
 function mapStateToProps(state) {
   return {
@@ -15,5 +15,5 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { fetchAllUsers, setCurrentUsers })(UsersList)
+  connect(mapStateToProps, { fetchAllUsers, setCurrentUsers, adminUpdateUserInfo })(UsersList)
 );

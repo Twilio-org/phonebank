@@ -46,3 +46,24 @@ export function fetchUsesr(id) {
   )
   .catch(err => console.log('error getting user info by id from db in action "fetchUser"', err));
 }
+
+// USER MANAGEMENT ACTIONS:
+export function adminUpdateUserInfo(id, target, newValue) {
+  const params = {};
+  params[target] = JSON.stringify(newValue);
+  return dispatch => axios.patch(`/users/${id}/manage`, params,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then(() => {
+    console.log('admin user manangement patch successful, now dispatching get all users: ');
+    // NOTE:
+    // pretty this patch request will not force any kind of component remount
+    //    so we'll need to dispatch and fetch all
+    // a more clever way would be to store as objects where the first key is
+    //    the u_id so we could just modify that specific part of the state, but whatevs
+    dispatch(fetchAllUsers());
+  })
+  .catch(err => console.log('error with user management update action: ', err));
+}
