@@ -14,7 +14,6 @@ describe('Contact List Service tests', () => {
         name: 'Mission Bay Phone List'
       };
       this.contact1 = {
-        id: 1,
         first_name: 'Charlie',
         phone_number: '+1112223333'
       };
