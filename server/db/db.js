@@ -45,9 +45,9 @@ const createContactListsTable = () =>
   });
 
 const createContactsContactListsTable = () =>
-  bookshelf.knex.schema.hasTable('contacts_contact_lists').then((exist) => {
+  bookshelf.knex.schema.hasTable('contact_lists_contacts').then((exist) => {
     if (!exist) {
-      return bookshelf.knex.schema.createTable('contacts_contact_lists', (table) => {
+      return bookshelf.knex.schema.createTable('contact_lists_contacts', (table) => {
         table.increments('id').primary();
         table.integer('contact_id').references('contacts.id').notNullable();
         table.integer('contact_list_id').references('contact_lists.id').notNullable();
@@ -165,7 +165,7 @@ const teardown = () =>
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
   .then(() => bookshelf.knex.schema.dropTable('scripts'))
-  .then(() => bookshelf.knex.schema.dropTable('contacts_contact_lists'))
+  .then(() => bookshelf.knex.schema.dropTable('contact_lists_contacts'))
   .then(() => bookshelf.knex.schema.dropTable('contact_lists'))
   .then(() => bookshelf.knex.schema.dropTable('contacts'))
   .then(() => bookshelf.knex.schema.dropTable('users'))
