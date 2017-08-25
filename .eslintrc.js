@@ -25,6 +25,7 @@ module.exports = {
   },
   "globals": {
     "localStorage": true,
-    "document": true
+    "document": true,
+    "FormData": true
   }
 };

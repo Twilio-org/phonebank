@@ -109,6 +109,19 @@ describe('User service tests', () => {
           done();
         }, done);
     });
+    it('should retrieve all users', (done) => {
+      User.getAllUsers()
+        .then((users) => {
+          const { models } = users;
+          const [entry1, entry2] = models;
+          expect(models.length).to.equal(2);
+          expect(entry1.attributes.first_name).to.equal('John');
+          expect(entry1.attributes.last_name).to.equal('Doe');
+          expect(entry2.attributes.first_name).to.equal('Jane');
+          expect(entry2.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
+    });
   });
 
   describe('Data update', function() {
@@ -129,6 +142,18 @@ describe('User service tests', () => {
         password: 'bigowl',
         phoneNumber: '+14441114444',
         email: 'John@yahoo.com'
+      };
+
+      this.userManageParams1 = {
+        id: 1,
+        isAdmin: true,
+        isActive: false,
+        isBanned: true
+      };
+
+      this.userManageParams2 = {
+        id: 2,
+        isBanned: true
       };
     });
 
@@ -187,6 +212,45 @@ describe('User service tests', () => {
         .then(user => user.attributes.is_active)
         .then((status) => {
           expect(status).to.be.false;
+          done();
+        }, done);
+    });
+    it('should promote user to admin, deactivate, and ban user by ID', (done) => {
+      User.updateUserById(this.userManageParams1)
+        .then((user) => {
+          expect(user.attributes.is_admin).to.equal(true);
+          expect(user.attributes.is_active).to.equal(false);
+          expect(user.attributes.is_banned).to.equal(true);
+          done();
+        }, done);
+    });
+
+    it('updating user statuses should not change other attributes', (done) => {
+      User.getUserById({ id: 1 })
+        .then((user) => {
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Wilson');
+          done();
+        }, done);
+    });
+    it('should be able to only promote or ban user by ID', (done) => {
+      User.updateUserById(this.userManageParams2)
+        .then((user) => {
+          expect(user.attributes.is_banned).to.equal(true);
+          done();
+        }, done);
+    });
+    it('updating 1 or 2 of 3 status should leave the previous ones in tact', (done) => {
+      User.getUserById({ id: 2 })
+        .then((user) => {
+          expect(user.attributes.is_admin).to.equal(false);
+          done();
+        }, done);
+    });
+    it('should automatically deactive user if banned', (done) => {
+      User.getUserById({ id: 2 })
+        .then((user) => {
+          expect(user.attributes.is_active).to.equal(false);
           done();
         }, done);
     });

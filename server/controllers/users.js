@@ -82,3 +82,54 @@ export function deactivateUserById(req, res, next) {
       console.log('could not deactivateUser', err);
     });
 }
+
+export function getAllUsers(req, res, next) {
+  return usersService.getAllUsers()
+    .then((users) => {
+      if (users) {
+        res.status(200).json(users);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not retrieve users', err);
+    });
+}
+
+function toCamelCase(word) {
+  const wordArr = word.split('_').join('');
+  const camelized = wordArr.slice(0, 2) + wordArr[2].toUpperCase() + wordArr.slice(3);
+  return camelized;
+}
+
+function addIfExists(paramObj, key, status) {
+  const newParamObj = paramObj;
+  newParamObj[toCamelCase(key)] = JSON.parse(status);
+}
+
+export function manageUserById(req, res, next) {
+  if (req.body.is_banned === 'true') {
+    req.body.is_active = 'false';
+  }
+
+  const params = {
+    id: req.params.id
+  };
+  Object.keys(req.body).forEach((key) => {
+    addIfExists(params, key, req.body[key]);
+  });
+
+  return usersService.updateUserById(params)
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log('could not update user: ', err);
+    });
+}
+

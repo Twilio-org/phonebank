@@ -34,7 +34,11 @@ export default {
       last_name: params.lastName,
       password_hash: params.password,
       phone_number: params.phoneNumber,
-      email: params.email
+      email: params.email,
+      is_admin: params.isAdmin,
+      is_active: params.isActive,
+      is_banned: params.isBanned
+
     };
     return new User()
       .where({ id })
@@ -53,5 +57,7 @@ export default {
       }, {
         method: 'update'
       });
-  }
+  },
+
+  getAllUsers: () => new User().fetchAll()
 };
