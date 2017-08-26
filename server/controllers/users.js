@@ -87,7 +87,8 @@ export function getAllUsers(req, res, next) {
   return usersService.getAllUsers()
     .then((users) => {
       if (users) {
-        res.status(200).json(users);
+        const cleanedUsers = users.map(user => cleanUserObject(user));
+        res.status(200).json(cleanedUsers);
       } else {
         next();
       }
