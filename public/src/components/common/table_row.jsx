@@ -9,7 +9,7 @@ const TableRow = (props) => {
   if (!is_admin) {
     headers = headers.filter(header => header[1] === 'title');
   }
-  
+
   return (
     <tr>
       {headers ? headers.map((header) => {
