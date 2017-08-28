@@ -5,6 +5,8 @@ import CampaignList from '../../../../public/src/components/campaign/campaign_li
 import QuestionList from '../../../../public/src/components/question/question_list';
 import ScriptsList from '../../../../public/src/components/script/script_list';
 import ContactLists from '../../../../public/src/components/contactlist/contactlist_list';
+import UsersList from '../../../../public/src/components/users/users_list';
+
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers';
 
@@ -12,9 +14,10 @@ const { listFixture: campaignListFixtures } = fixtures.campaignFixtures;
 const { listFixture: questionListFixtures } = fixtures.questionFixtures;
 const { listFixture: scriptListFixtures } = fixtures.scriptFixtures;
 const { listFixture: contactListFixtures } = fixtures.contactListFixtures;
+const { listFixture: userListFixtures } = fixtures.userListFixtures;
 const { mapFixture: account_info } = fixtures.accountFixtures;
 
-describe('Component testing for CampaignList, QuestionList, and Script List: ', () => {
+describe('Component testing for CampaignList, QuestionList, Script List, Contact Lists, and Users List: ', () => {
   describe('<CampaignList /> component testing: ', () => {
     const props = {
       all_campaigns: campaignListFixtures,
@@ -169,6 +172,52 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
       const fetchContactListCall = fetchAllContactLists.mock.calls;
       expect(fetchContactListCall.length).toBe(1);
       expect(!fetchContactListCall[0].length).toBe(true);
+    });
+  });
+
+  describe('<UsersList /> component testing: ', () => {
+    const props = {
+      all_users: userListFixtures,
+      account_info,
+      history: {
+        goBack: jest.fn(),
+        push: jest.fn()
+      },
+      fetchAllUsers: jest.fn(),
+      setCurrentUser: jest.fn(),
+      adminUpdateUserInfo: jest.fn(),
+      auth: {
+        id: 1
+      }
+
+
+    };
+    const expectedProps = Object.keys(props);
+    describe('Component rendering: ', () => {
+      const wrapper = shallow(<UsersList {...props} />);
+      it('should have one div element: ', () => {
+        const numberOfDivElements = wrapper.find('div').length;
+        expect(numberOfDivElements).toBe(1);
+      });
+      it('should have one <TableListView /> element: ', () => {
+        const numberOfTableListViewElements = wrapper.find('TableListView').length;
+        expect(numberOfTableListViewElements).toBe(1);
+      });
+    });
+    describe('Question expected props: ', () => {
+      const wrapper = shallow(<UsersList {...props} />).instance();
+      it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
+        const actualProps = wrapper.props;
+        expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
+      });
+    });
+
+    describe('Methods were called: ', () => {
+      const wrapper = mount(<UsersList {...props} />).instance();
+      const { fetchAllUsers } = wrapper.props;
+      const fetchUsersCall = fetchAllUsers.mock.calls;
+      expect(fetchUsersCall.length).toBe(1);
+      expect(!fetchUsersCall[0].length).toBe(true);
     });
   });
 });
