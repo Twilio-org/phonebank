@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
-import { setContactListOptions, fetchAllContactLists, setCurrentContactList } from '../../../public/src/actions/admin_contact_lists';
+import { setContactListOptions, fetchAllContactLists, setCurrentContactList, createContactList } from '../../../public/src/actions/admin_contact_lists';
 import fixtures from '../client_fixtures';
 
 exposeLocalStorageMock();
@@ -10,6 +10,15 @@ exposeLocalStorageMock();
 const { defaultScriptsContactsForm: initialState } = fixtures.campaignFixtures;
 const { listFixture: contactListFixtures,
         mapFixture: contactListFixture } = fixtures.contactListFixtures;
+const history = { goBack: jest.fn() };
+const fileList = {
+  files: [{
+    name: "test.csv",
+    size: 500001,
+    type: "text/csv"
+  }]
+};
+const fileName = 'Test file';
 
 describe('Add Campaign actions', () => {
   let mock;
@@ -86,6 +95,38 @@ describe('Add Campaign actions', () => {
             expect(dispatchedActions[0]).toEqual(expectedAction);
             expect(type).toBe('SET_CAMPAIGN_FORM_CONTACT_LIST');
             expect(payload).toEqual(contactListFixtures);
+          });
+      });
+    });
+  });
+
+  describe('createQuestion ', () => {
+    beforeEach(() => {
+      let contactList = new FormData();
+      contactList.append('csv', fileList[0]);
+      contactList.append('name', fileName);
+      mock.onPost('/contactLists').reply(201, contactList);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    describe('axios POST request: ', () => {
+      it('should call history.goBack() on successful submit ', () => {
+        return store.dispatch(createContactList(fileList, fileName, history))
+          .then((response) => {
+            expect(history.goBack).toBeCalled();
+          });
+      });
+      it('should dispatch SEND_CONTACT_LIST ', () => {
+        return store.dispatch(createContactList(fileList, fileName, history))
+          .then((response) => {
+            expect(store.getActions()[0].type).toBe('SEND_CONTACT_LIST');
+          });
+      });
+      it('should return 201 for status', () => {
+        return store.dispatch(createContactList(fileList, fileName, history))
+          .then((response) => {
+            expect(response.status).toBe(201);
           });
       });
     });

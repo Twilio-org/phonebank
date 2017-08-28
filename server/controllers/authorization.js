@@ -25,10 +25,11 @@ export function register(req, res, next) {
 }
 
 export function login(req, res) {
-  const id = req.user.id;
+  const { id, attributes } = req.user;
+  const { is_admin } = attributes;
   const token = genToken(id);
 
-  res.status(201).json({ message: 'login succesful', token, id });
+  res.status(201).json({ message: 'login succesful', token, id, is_admin });
 }
 
 export function logout(req, res) {

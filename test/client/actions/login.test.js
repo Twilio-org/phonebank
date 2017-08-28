@@ -23,12 +23,14 @@ const user = {
   first_name: 'Oscar',
   last_name: 'Grouch',
   email: 'oscar@g.com',
-  phone_number: '15555555555'
+  phone_number: '15555555555',
+  is_admin: false
 };
 
 const loginUserResponse = {
   token: 'token',
-  id: 1
+  id: 1,
+  is_admin: false
 };
 
 describe('loginActions', () => {
@@ -62,10 +64,11 @@ describe('loginActions', () => {
     afterEach(() => {
       mocker.reset();
     });
-    it('should add the "auth_token" to localStorage', () => {
+    it('should add the "auth_token", "is_admin" to localStorage', () => {
       return store.dispatch(loginUser(loginUserInfo, history))
         .then(() => {
           expect(global.localStorage.getItem('auth_token')).toEqual('token');
+          expect(global.localStorage.getItem('permissions')).toBe('false');
         });
     });
     it('should dispatch the setUserAuthCredentials action to the store', () => {
@@ -82,7 +85,7 @@ describe('loginActions', () => {
       return store.dispatch(loginUser(loginUserInfo, history))
         .then(() => {
           expect(history.push).toBeCalled();
-          expect(history.push.mock.calls[0]).toEqual(['/']);
+          expect(history.push.mock.calls[0]).toEqual(['/admin']);
         });
     });
   });
@@ -95,16 +98,17 @@ describe('loginActions', () => {
     afterEach(() => {
       mocker.reset();
     });
-    it('should remove auth_token from localStorage', () => {
+    it('should remove auth_token and is_admin from localStorage', () => {
       expect(global.localStorage.getItem('auth_token')).toEqual('token');
-      return store.dispatch(logoutUser())
+      return store.dispatch(logoutUser(history))
         .then(() => {
           expect(global.localStorage.getItem('auth_token')).toEqual(undefined);
+          expect(global.localStorage.getItem('is_admin')).toEqual(undefined);
         });
     });
     it('should dispatch the logout action to the store', () => {
       const { type } = logout();
-      return store.dispatch(logoutUser())
+      return store.dispatch(logoutUser(history))
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(type);

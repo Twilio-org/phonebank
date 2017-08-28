@@ -16,7 +16,7 @@ exports[`<App /> rendering should render correctly 1`] = `
         >
           <a
             className="navbar-brand"
-            href="/"
+            href="/public"
             onClick={[Function]}
           >
             Phonebank
@@ -61,7 +61,7 @@ exports[`<App /> rendering should render correctly 1`] = `
                   role="presentation"
                 >
                   <a
-                    href="/registration"
+                    href="/public/registration"
                     onClick={[Function]}
                     role="menuitem"
                     tabIndex="-1"
@@ -75,7 +75,7 @@ exports[`<App /> rendering should render correctly 1`] = `
                   role="presentation"
                 >
                   <a
-                    href="/login"
+                    href="/public/login"
                     onClick={[Function]}
                     role="menuitem"
                     tabIndex="-1"
