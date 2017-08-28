@@ -158,8 +158,8 @@ const createCallsTable = () =>
         table.enu('outcome', ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE']).defaultTo('PENDING').notNullable();
         table.string('notes');
         table.integer('call_sid');
-        table.timestamps('call_started');
-        table.timestamps('call_ended');
+        table.timestamp('call_started');
+        table.timestamp('call_ended');
       });
     }
     return exist;
