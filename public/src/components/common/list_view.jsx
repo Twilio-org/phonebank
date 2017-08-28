@@ -51,7 +51,7 @@ const TableListView = (props) => {
                   key={item.id}
                   is_admin={is_admin}
                   item={item}
-                  handleClick={setCurrentItem}
+                  handleClick={is_admin ? setCurrentItem : () => {}}
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
