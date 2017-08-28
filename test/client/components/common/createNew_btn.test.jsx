@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import CreateNewButton from '../../../../public/src/components/common/admin_createNew_btn';
+import CreateNewButton from '../../../../public/src/components/common/createNew_btn';
 import { checkObjectProps } from '../../client_test_helpers';
 
 describe('Component testing for <CreateNewButton /> ', () => {
