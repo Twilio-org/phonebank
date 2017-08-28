@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import AdminListBtnGroup from '../../../../public/src/components/common/admin_list_btngrp';
 import fixtures from '../../client_fixtures';
-import buttons from '../../../../public/src/components/common/admin_button_objs'
+import buttons from '../../../../public/src/components/common/button_objs'
 import { checkObjectProps } from '../../client_test_helpers';
 
 const { view_edit } = buttons;
