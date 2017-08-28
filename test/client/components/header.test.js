@@ -59,16 +59,17 @@ describe('<Header />', () => {
   });
   describe('getLinks()', () => {
     const wrapper = shallow(<Header />);
-    const loggedOutLinks = [{ title: 'Register', href: '/registration' },
-    { title: 'Login', href: '/login' }];
-    const accountLink = {"href": "/account/1", "title": "Account"};
+    const parent = '/volunteers';
+    const loggedOutLinks = [{ title: 'Register', href: '/public/registration' },
+    { title: 'Login', href: '/public/login' }];
+    const accountLink = { href: '/volunteers/account/1', title: 'Account' };
 
     it('should return array of register/login links when user is logged out', () => {
-      expect(wrapper.instance().getLinks()).toEqual(expect.arrayContaining(loggedOutLinks));
+      expect(wrapper.instance().getLinks(parent)).toEqual(expect.arrayContaining(loggedOutLinks));
     });
     it('should return array containing account link when user is logged in', () => {
       wrapper.setProps(props);
-      expect(wrapper.instance().getLinks()).toContainEqual(accountLink);
+      expect(wrapper.instance().getLinks(parent)).toContainEqual(accountLink);
     });
   });
 });

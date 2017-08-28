@@ -34,11 +34,11 @@ describe('registrationAction', () => {
           expect(res.config.method).toEqual('post');
         });
     });
-    it('should call history.push and "redirect" history to "/login"', () => {
+    it('should call history.push and "redirect" history to "/public/login"', () => {
       return store.dispatch(registerNewUser(user, history))
         .then(() => {
           expect(history.push).toBeCalled();
-          expect(history.push.mock.calls[0]).toEqual(['/login']);
+          expect(history.push.mock.calls[0]).toEqual(['/public/login']);
         });
     });
   });

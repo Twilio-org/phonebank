@@ -11,7 +11,7 @@ export default function registerNewUser(userInfo, history) {
     email
   })
   .then((res) => {
-    history.push('/login');
+    history.push('/public/login');
     return res;
   })
   .catch((err) => {

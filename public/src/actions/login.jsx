@@ -28,10 +28,12 @@ export function loginUser(loginInfo, history) {
     password
   })
   .then((res) => {
-    const { token, id } = res.data;
+    const { token, id, is_admin } = res.data;
     localStorage.setItem('auth_token', token);
-    dispatch(setUserAuthCredentials({ id }));
-    history.push('/');
+    localStorage.setItem('user_id', id);
+    localStorage.setItem('permissions', is_admin);
+    dispatch(setUserAuthCredentials({ id, is_admin }));
+    history.push('/admin');
   })
   .catch((err) => {
     const customError = {
@@ -42,11 +44,15 @@ export function loginUser(loginInfo, history) {
   });
 }
 
-export function logoutUser() {
+export function logoutUser(history) {
   return dispatch => axios.get('/logout')
   .then(() => {
+    history.push('/logout');
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('permissions');
     dispatch(logout());
+    dispatch(clearAuthCredentials());
   })
   .catch((err) => {
     const customError = {
@@ -55,17 +61,4 @@ export function logoutUser() {
     };
     throw customError;
   });
-}
-
-export function authTransition(storeInstance) {
-  const { auth } = storeInstance.getState();
-  const { id } = auth;
-  const token = localStorage.getItem('auth_token');
-  return !!id && !!token;
-}
-
-export function checkIfAdmin(storeInstance) {
-  const { account_info } = storeInstance.getState();
-  const { is_admin } = account_info;
-  return is_admin;
 }
