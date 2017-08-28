@@ -4,6 +4,7 @@ import contactListsService from '../db/services/contact_lists';
 import contactsService from '../db/services/contacts';
 import questionsService from '../db/services/questions';
 import scriptsService from '../db/services/scripts';
+import usersService from '../db/services/users';
 import User from './models/users';
 
 function getRandomFourDigitInt() {
@@ -117,57 +118,68 @@ function generatePromiseActions(paramsArray, createFunction) {
   return callArray;
 }
 
-Promise.all(generatePromiseActions(userParams, createUser));
-Promise.all(generatePromiseActions(questionParams, createQuestion))
-  .then((questions) => {
-    scriptsService.saveNewScript(scriptParams)
-      .then((script) => {
-        campaignScriptId = script.attributes.id;
-        // console.log(questions);
-        const id = campaignScriptId;
-        const questionIds = questions.map(question => question.attributes.id);
-        const scriptQuestionParams = [];
-        questionIds.forEach((questionId, index) => {
-          scriptQuestionParams.push({
-            id,
-            question_id: questionId,
-            sequence_number: index + 1
+Promise.all(generatePromiseActions(userParams, createUser))
+  .then((users) => {
+    const userIds = users.map(user => user.attributes.id);
+    Promise.all(generatePromiseActions(questionParams, createQuestion))
+    .then((questions) => {
+      scriptsService.saveNewScript(scriptParams)
+        .then((script) => {
+          campaignScriptId = script.attributes.id;
+          // console.log(questions);
+          const id = campaignScriptId;
+          const questionIds = questions.map(question => question.attributes.id);
+          const scriptQuestionParams = [];
+          questionIds.forEach((questionId, index) => {
+            scriptQuestionParams.push({
+              id,
+              question_id: questionId,
+              sequence_number: index + 1
+            });
           });
-        });
 
-        Promise.all(generatePromiseActions(scriptQuestionParams, createScriptQuestion))
-          .then(() => {
-            contactListsService.saveNewContactList(contactListParams)
-              .then((contactList) => {
-                Promise.all(generatePromiseActions(contactParams, createContact))
-                  .then((contacts) => {
-                    const contactIds = contacts.map(contact => contact.attributes.id);
-                    const contactListContactParams = [];
+          Promise.all(generatePromiseActions(scriptQuestionParams, createScriptQuestion))
+            .then(() => {
+              contactListsService.saveNewContactList(contactListParams)
+                .then((contactList) => {
+                  Promise.all(generatePromiseActions(contactParams, createContact))
+                    .then((contacts) => {
+                      const contactIds = contacts.map(contact => contact.attributes.id);
+                      const contactListContactParams = [];
 
-                    contactIds.forEach((contactId) => {
-                      contactListContactParams.push({
-                        id: contactList.attributes.id,
-                        contact_id: contactId
+                      contactIds.forEach((contactId) => {
+                        contactListContactParams.push({
+                          id: contactList.attributes.id,
+                          contact_id: contactId
+                        });
                       });
-                    });
 
-                    Promise.all(generatePromiseActions(contactListContactParams,
-                                                       createContactListContact))
-                      .then(() => {
-                        const campaignParams = {
-                          name: 'Campaign 1',
-                          title: 'Campaign 1 Title',
-                          description: 'Campaign 1 description',
-                          status: 'active',
-                          contact_lists_id: contactList.attributes.id,
-                          script_id: campaignScriptId
-                        };
+                      Promise.all(generatePromiseActions(contactListContactParams,
+                                                         createContactListContact))
+                        .then(() => {
+                          const campaignParams = {
+                            name: 'Campaign 1',
+                            title: 'Campaign 1 Title',
+                            description: 'Campaign 1 description',
+                            status: 'active',
+                            contact_lists_id: contactList.attributes.id,
+                            script_id: campaignScriptId
+                          };
 
-                        campaignsService.saveNewCampaign(campaignParams)
-                          .then().catch(err => console.log(err));
-                      }).catch(err => console.log(err));
-                  }).catch(err => console.log(err));
-              }).catch(err => console.log(err));
-          }).catch(err => console.log(err));
-      }).catch(err => console.log(err));
+                          campaignsService.saveNewCampaign(campaignParams)
+                            .then((campaign) => {
+                              const campaignId = campaign.attributes.id;
+                              const userId = userIds[1];
+                              usersService.addCampaignToUser({
+                                campaign_id: campaignId,
+                                user_id: userId
+                              }).catch(err => console.log(err));
+                            }).catch(err => console.log(err));
+                        }).catch(err => console.log(err));
+                    }).catch(err => console.log(err));
+                }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
   }).catch(err => console.log(err));
+
