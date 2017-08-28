@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
 const AdminListBtnGroup = (props) => {
-  const { buttons, page, currentUserId } = props;
+  const { buttons, page } = props;
   return (
     <ButtonGroup vertical>
       {
@@ -15,7 +15,6 @@ const AdminListBtnGroup = (props) => {
                 bsStyle={style}
                 key={key}
                 onClick={handler}
-                currentUser={currentUserId}
               >
                 {text()}
               </Button>);

@@ -41,16 +41,16 @@ export function fetchAllUsers(currentUserId) {
   .catch(err => console.log('problem fetching all users from db in action "fetchAllUsers"', err));
 }
 
-export function adminUpdateUserInfo(id, target, newValue, currentUserId) {
+export function adminUpdateUserInfo(id, target, newValue, currentUserId, fetchAll = fetchAllUsers) {
   const params = {};
   params[target] = JSON.stringify(newValue);
-  return dispatch => axios.patch(`/users/${id}/manage`, params,
+  return dispatch => axios.put(`/users/${id}/manage`, params,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
   .then(() => {
-    dispatch(fetchAllUsers(currentUserId));
+    dispatch(fetchAll(currentUserId));
   })
   .catch(err => console.log('error with user management update action: ', err));
 }

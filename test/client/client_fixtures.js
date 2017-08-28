@@ -310,9 +310,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        // is_active: 'false',
-        // is_banned: 'true',
-        // is_admin: 'false',
+        is_active: 'false',
+        is_banned: 'true',
+        is_admin: 'false',
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       },

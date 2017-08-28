@@ -3,9 +3,11 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps, isObjectEmpty } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
-import { setCurrentUser, setUserList, fetchAllUsers, adminUpdateUserInfo } from '../../../public/src/actions/admin_users';
+import { setCurrentUser, setUserList, fetchAllUsers as fetchAllUsersOriginal, adminUpdateUserInfo } from '../../../public/src/actions/admin_users';
 
 exposeLocalStorageMock();
+
+localStorage.setItem('auth_token', '123123123');
 
 const { defaultUsers: initialState,
         listFixture: usersListFixture,
@@ -81,8 +83,7 @@ describe('admin users list actions tests: ', () => {
     mock = new MockAdapter(axios);
 
     beforeEach(() => {
-      mock.onGet('/users').reply(201, usersListFixture
-      );
+      mock.onGet('/users').reply(201, usersListFixture);
     });
     afterEach(() => {
       mock.reset();
@@ -92,7 +93,7 @@ describe('admin users list actions tests: ', () => {
         const currentUserId = 1;
         const filteredUsersList = usersListFixture.filter(userObj => userObj.id !== currentUserId);
         const expectedAction = setUserList(filteredUsersList);
-        return store.dispatch(fetchAllUsers(currentUserId))
+        return store.dispatch(fetchAllUsersOriginal(currentUserId))
           .then(() => {
             const [dispatchedActions] = store.getActions();
             const { type, payload } = dispatchedActions;
@@ -102,35 +103,37 @@ describe('admin users list actions tests: ', () => {
           })
           .catch((err) => {
             console.log('error with fetchAllUsers test: ', err);
-          })
+          });
       });
     });
   });
 
   describe('adminUpdateUserInfo: ', () => {
     mock = new MockAdapter(axios);
+    const currentUserId = 2;
+    const updatedUsersList = usersUpdatedList.filter(userObj => userObj.id !== currentUserId);
 
     beforeEach(() => {
-      mock.onPut('/users').reply(201, usersListFixture
-      );
+      mock.onPut('/users/1/manage').reply(200, usersListFixture);
+      mock.onGet('/users').reply(201, updatedUsersList);
     });
     afterEach(() => {
       mock.reset();
     });
+
     describe('axios patch request: ', () => {
+      const fetchAllUsers = jest.fn().mockImplementation(() => setUserList(updatedUsersList));
       it('should add the appropriate action to the store: ', () => {
-        const currentUserId = 2;
-        const updatedUsersList = usersUpdatedList.filter(userObj => userObj.id !== currentUserId);
         const expectedActionResult = setUserList(updatedUsersList);
-        // the user that should have been modified
         const [andi] = usersListFixture;
         const { id } = andi;
-        return store.dispatch(adminUpdateUserInfo())
+        return store.dispatch(adminUpdateUserInfo(id, 'is_admin', false, currentUserId, fetchAllUsers))
           .then(() => {
-            const [first, second] = store.getActions();
-            console.log('should be fetchAllUsers: ', first, 'should be setall users: ', second);
-            console.log('this is the expected action with the filtered list: ', expectedActionResult);
-            //check payload and type of actions
+            const action = store.getActions();
+            const { type, payload } = action[0];
+            const { type: expectedType, payload: expectedPayload } = expectedActionResult;
+            expect(payload).toEqual(expectedPayload);
+            expect(type).toBe(expectedType);
           })
           .catch((err) => {
             console.log('error with update users request: ', err);

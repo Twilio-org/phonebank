@@ -14,7 +14,7 @@ const { listFixture: campaignListFixtures } = fixtures.campaignFixtures;
 const { listFixture: questionListFixtures } = fixtures.questionFixtures;
 const { listFixture: scriptListFixtures } = fixtures.scriptFixtures;
 const { listFixture: contactListFixtures } = fixtures.contactListFixtures;
-const { listFixture: userListFixtures } = fixtures.userListFixtures;
+const { listFixture: userListFixtures } = fixtures.usersFixture;
 const { mapFixture: account_info } = fixtures.accountFixtures;
 
 describe('Component testing for CampaignList, QuestionList, Script List, Contact Lists, and Users List: ', () => {
@@ -204,7 +204,7 @@ describe('Component testing for CampaignList, QuestionList, Script List, Contact
         expect(numberOfTableListViewElements).toBe(1);
       });
     });
-    describe('Question expected props: ', () => {
+    describe('Users expected props: ', () => {
       const wrapper = shallow(<UsersList {...props} />).instance();
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
         const actualProps = wrapper.props;
@@ -217,7 +217,7 @@ describe('Component testing for CampaignList, QuestionList, Script List, Contact
       const { fetchAllUsers } = wrapper.props;
       const fetchUsersCall = fetchAllUsers.mock.calls;
       expect(fetchUsersCall.length).toBe(1);
-      expect(!fetchUsersCall[0].length).toBe(true);
+      expect(!!fetchUsersCall[0].length).toBe(true);
     });
   });
 });
