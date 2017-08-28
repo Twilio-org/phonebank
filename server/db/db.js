@@ -144,6 +144,27 @@ const createUsersTable = () =>
     return exist;
   });
 
+const createCallsTable = () =>
+  bookshelf.knex.schema.hasTable('calls').then((exist) => {
+    if (!exist) {
+      return bookshelf.knex.schema.createTable('calls', (table) => {
+        table.increments('id').primary();
+        table.integer('campaign_id').references('campaigns.id').notNullable();
+        table.integer('contact_id').references('contacts.id').notNullable();
+        table.enu('attempt_num', ['1', '2', '3']).defaultTo('1').notNullable();
+        table.unique(['campaign_id', 'contact_id', 'attempt_num']);
+        table.integer('user_id').references('users.id');
+        table.enu('status', ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'ATTEMPTED']).defaultTo('AVAILABLE').notNullable();
+        table.enu('outcome', ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE']).defaultTo('PENDING').notNullable();
+        table.string('notes');
+        table.integer('call_sid');
+        table.timestamps('call_started');
+        table.timestamps('call_ended');
+      });
+    }
+    return exist;
+  });
+
 const setup = () =>
   createContactsTable()
   .then(createContactListsTable)
@@ -153,6 +174,7 @@ const setup = () =>
   .then(createQuestionsScriptsTable)
   .then(createCampaignsTable)
   .then(createUsersTable)
+  .then(createCallsTable)
   .then(() => {
     console.log('Created all tables');
   })
