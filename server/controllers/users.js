@@ -133,3 +133,21 @@ export function manageUserById(req, res, next) {
     });
 }
 
+export function addCampaignToUser(req, res, next) {
+  const params = {
+    id: req.params.id,
+    campaign_id: req.body.campaign_id
+  };
+  return usersService.addCampaignToUser(params)
+    .then((campaign) => {
+      if (campaign) {
+        res.status(201).json(campaign);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ message: 'Unable to add Campaign to User' });
+    });
+}

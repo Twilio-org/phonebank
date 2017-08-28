@@ -60,6 +60,7 @@ export default {
   },
 
   getAllUsers: () => new User().fetchAll(),
+  
   addCampaignToUser: (params) => {
     const { id, campaign_id } = params;
     return new User({ id })
