@@ -120,8 +120,8 @@ describe('User service tests', function() {
     it('should add Campaign User association', (done) => {
       User.addCampaignToUser(this.campaignUserParam)
         .then((campaignUser) => {
-          expect(campaignUser.models[0].attributes.user_id).to.equal(3);
-          expect(campaignUser.models[0].attributes.campaign_id).to.equal(3);
+          expect(campaignUser.models[0].attributes.user_id).to.equal(this.campaignUserParam.id);
+          expect(campaignUser.models[0].attributes.campaign_id).to.equal(this.campaignUserParam.campaign_id);
           done();
         }, done);
     });
