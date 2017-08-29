@@ -178,7 +178,7 @@ const setup = () =>
 
 const teardown = () =>
   bookshelf.knex.schema.dropTable('campaigns_users')
-  .then(() => bookshelf.knex.schema.dropTable('campaigns_users'))
+  .then(() => bookshelf.knex.schema.dropTable('campaigns'))
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
   .then(() => bookshelf.knex.schema.dropTable('scripts'))
