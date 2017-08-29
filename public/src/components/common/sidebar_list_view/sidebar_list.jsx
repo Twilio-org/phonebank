@@ -2,7 +2,7 @@ import React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 const SidebarList = (props) => {
-  const { list, setActive } = props;
+  const { list } = props;
   let { active } = props;
   const setActive = (e) => {
     active = e.target.id;

@@ -25,10 +25,10 @@ export default class DashboardButtonGroup extends Component {
     this.props.history.push('/admin/contactLists');
   }
   handleAvailCampaignsClick() {
-    this.props.history.push('/volunteers/campaigns');
+    this.props.history.push('/volunteers/campaigns/all');
   }
   handleJoinedCampaignsClick() {
-    this.props.history.push('/volunteers/campaigns/mine');
+    this.props.history.push('/volunteers/campaigns');
   }
 
   render() {
@@ -43,11 +43,11 @@ export default class DashboardButtonGroup extends Component {
           </ButtonGroup>
         ) : (
           <ButtonGroup>
-            <Button type="button" onClick={this.handleAvailCampaignsClick}>
-              Available Campaigns
-            </Button>
             <Button type="button" onClick={this.handleJoinedCampaignsClick}>
               Joined Campaigns
+            </Button>
+            <Button type="button" onClick={this.handleAvailCampaignsClick}>
+              All Campaigns
             </Button>
           </ButtonGroup>
         )}
