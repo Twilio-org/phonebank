@@ -14,16 +14,16 @@ export default class JoinedCampaigns extends Component {
       { title: 'Test 3', id: 3 },
       { title: 'Test 4', id: 4 }
     ];
-    const activeCampaign = { title: 'Test 2', id: 2 };
+    const activeCampaign = 2;
     return (
       <Row>
         <Col xs={4} md={3}>
           <SidebarList list={campaigns} active={activeCampaign} />
         </Col>
         <Col xs={8} md={9}>
-          <ListItemContent {...activeCampaign} />
         </Col>
       </Row>
     );
   }
 }
+// <ListItemContent {...activeCampaign} />
