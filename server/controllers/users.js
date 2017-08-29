@@ -133,3 +133,16 @@ export function manageUserById(req, res, next) {
     });
 }
 
+export function getUserCampaigns(req, res, next) {
+  const params = { id: req.params.id };
+
+  return usersService.getUserCampaigns(params)
+    .then((campaigns) => {
+      if (campaigns) {
+        res.status(200).json(campaigns);
+      } else {
+        next();
+      }
+    })
+    .catch(err => console.log('could not retrieve user\'s campaigns:', err));
+}

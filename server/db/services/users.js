@@ -59,5 +59,13 @@ export default {
       });
   },
 
-  getAllUsers: () => new User().fetchAll()
+  getAllUsers: () => new User().fetchAll(),
+
+  getUserCampaigns: (params) => {
+    const { id } = params;
+
+    return new User({ id }).fetch()
+      .then(user => user.related('campaigns').fetch()
+        .then(campaigns => campaigns));
+  }
 };
