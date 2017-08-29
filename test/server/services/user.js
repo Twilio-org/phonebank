@@ -1,10 +1,13 @@
 import { expect, Should } from 'chai';
 import bcrypt from 'bcrypt';
 import User from '../../../server/db/services/users';
+import Campaign from '../../../server/db/services/campaigns';
+import ContactList from '../../../server/db/services/contact_lists';
+import Script from '../../../server/db/services/scripts';
 
 const should = Should();
 
-describe('User service tests', () => {
+describe('User service tests', function() {
   describe('Data insertion', function() {
     beforeEach(() => {
       this.userSaveParams1 = {
@@ -65,6 +68,65 @@ describe('User service tests', () => {
     });
   });
 
+  describe('Campaign User association', function() {
+    before((done) => {
+      this.userSaveParam = {
+        firstName: 'Jack',
+        lastName: 'J',
+        password: 'hatch1',
+        phoneNumber: '+144411144442',
+        email: 'Jack@gmail.com'
+      };
+
+      this.contactListParam = {
+        name: 'Millbrae Phone List 3'
+      };
+
+      this.campaignParams = {
+        name: 'testCampaign4',
+        title: 'Test4',
+        description: 'election',
+        status: 'draft'
+      };
+
+      this.scriptParams = {
+        name: 'Script Name 4',
+        body: 'Script Body 4',
+        description: 'Script Description 4'
+      };
+
+      this.campaignUserParam = {};
+
+      User.saveNewUser(this.userSaveParam)
+        .then((user) => {
+          this.campaignUserParam.id = user.attributes.id;
+          Script.saveNewScript(this.scriptParams)
+            .then((script) => {
+              this.campaignParams.script_id = script.attributes.id;
+              ContactList.saveNewContactList(this.contactListParam)
+                .then((contactList) => {
+                  this.campaignParams.contact_lists_id = contactList.attributes.id;
+                  Campaign.saveNewCampaign(this.campaignParams)
+                    .then((campaign) => {
+                      this.campaignUserParam.campaign_id = campaign.attributes.id;
+                      done();
+                    });
+                });
+            });
+        });
+    });
+
+
+    it('should add Campaign User association', (done) => {
+      User.addCampaignToUser(this.campaignUserParam)
+        .then((campaignUser) => {
+          expect(campaignUser.models[0].attributes.user_id).to.equal(this.campaignUserParam.id);
+          expect(campaignUser.models[0].attributes.campaign_id).to.equal(this.campaignUserParam.campaign_id);
+          done();
+        }, done);
+    });
+  });
+
   describe('Data retrieval', function() {
     it('should retrieve first user\'s first name, last name, and account status by email', (done) => {
       User.getUserByEmail({ email: 'John@gmail.com'})
@@ -113,12 +175,14 @@ describe('User service tests', () => {
       User.getAllUsers()
         .then((users) => {
           const { models } = users;
-          const [entry1, entry2] = models;
-          expect(models.length).to.equal(2);
+          const [entry1, entry2, entry3] = models;
+          expect(models.length).to.equal(3);
           expect(entry1.attributes.first_name).to.equal('John');
           expect(entry1.attributes.last_name).to.equal('Doe');
           expect(entry2.attributes.first_name).to.equal('Jane');
           expect(entry2.attributes.last_name).to.equal('Doe');
+          expect(entry3.attributes.first_name).to.equal('Jack');
+          expect(entry3.attributes.last_name).to.equal('J');
           done();
         }, done);
     });
