@@ -5,7 +5,8 @@ import { addCampaignToUser,
          getUserById,
          getUserCampaigns,
          deactivateUserById,
-         manageUserById, } from '../../controllers/users';
+         manageUserById,
+         updateUserById } from '../../controllers/users';
 
 const router = express.Router();
 
