@@ -59,5 +59,10 @@ export default {
       });
   },
 
-  getAllUsers: () => new User().fetchAll()
+  getAllUsers: () => new User().fetchAll(),
+  addCampaignToUser: (params) => {
+    const { id, campaign_id } = params;
+    return new User({ id })
+      .campaigns().attach({ campaign_id, user_id: id });
+  }
 };

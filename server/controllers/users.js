@@ -133,3 +133,26 @@ export function manageUserById(req, res, next) {
     });
 }
 
+export function addCampaignToUser(req, res, next) {
+  const params = {
+    id: req.params.id,
+    campaign_id: req.body.campaign_id
+  };
+  return usersService.addCampaignToUser(params)
+    .then((campaign) => {
+      if (campaign) {
+        res.status(201).json(campaign);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      if (err.code === '23505') {
+        res.status(400).json({ message: 'This campaign_id and user_id combination already exists' });
+      } else if (err.code === '23503') {
+        res.status(400).json({ message: 'This campaign_id doesn\'t exists or is invalid' });
+      } else {
+        res.status(400).json({ message: 'Cannot add campaign to user' });
+      }
+    });
+}
