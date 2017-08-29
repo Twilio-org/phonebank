@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import AdminBanner from '../../../../public/src/components/common/admin_welcome_banner';
+import Banner from '../../../../public/src/components/common/welcome_banner';
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers';
 
@@ -9,7 +9,7 @@ const { mapFixture: account_info } = fixtures.accountFixtures;
 
 const { first_name, last_name } = account_info;
 
-describe('Component testing for <AdminBanner />: ', () => {
+describe('Component testing for <Banner />: ', () => {
   const props = {
     first_name,
     last_name,
@@ -18,7 +18,7 @@ describe('Component testing for <AdminBanner />: ', () => {
   const expectedProps = Object.keys(props);
 
   describe('Component rendering: ', () => {
-    const wrapper = shallow(<AdminBanner {...props} />);
+    const wrapper = shallow(<Banner {...props} />);
     it('should have 1 div element ', () => {
       const divElements = wrapper.find('div').length;
       expect(divElements).toBe(1);
@@ -29,8 +29,8 @@ describe('Component testing for <AdminBanner />: ', () => {
     });
   });
 
-  describe('Expected props for <AdminBanner />: ', () => {
-    const wrapper = shallow(<AdminBanner {...props} />).instance();
+  describe('Expected props for <Banner />: ', () => {
+    const wrapper = shallow(<Banner {...props} />).instance();
     it(`should have the expected props: ${expectedProps.join(', ')} `, () => {
       const actualProps = wrapper.props;
       expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
