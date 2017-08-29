@@ -8,7 +8,7 @@ import immutable from 'redux-immutable-state-invariant';
 import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
-import { accountInfoReducer } from './reducers/account_info';
+import { accountInfoReducer } from './reducers/users';
 import { campaignListReducer } from './reducers/campaign';
 import { adminQuestionsReducer } from './reducers/admin_questions';
 import { adminScriptsReducer } from './reducers/admin_scripts';
