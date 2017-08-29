@@ -177,7 +177,8 @@ const setup = () =>
   });
 
 const teardown = () =>
-  bookshelf.knex.schema.dropTable('campaigns')
+  bookshelf.knex.schema.dropTable('campaigns_users')
+  .then(() => bookshelf.knex.schema.dropTable('campaigns_users'))
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
   .then(() => bookshelf.knex.schema.dropTable('scripts'))
@@ -185,7 +186,6 @@ const teardown = () =>
   .then(() => bookshelf.knex.schema.dropTable('contact_lists'))
   .then(() => bookshelf.knex.schema.dropTable('contacts'))
   .then(() => bookshelf.knex.schema.dropTable('users'))
-  .then(() => bookshelf.knex.schema.dropTable('campaigns_users'))
   .then(() => {
     console.log('Dropped all tables');
   })
