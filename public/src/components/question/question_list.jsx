@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import buttons_obj from '../common/admin_button_objs';
-import TableListView from '../common/admin_list_view';
+import buttons_obj from '../common/button_objs';
+import TableListView from '../common/list_view';
 import tableHeaders from '../common/list_table_headers';
 
 const { questions: questionHeaders } = tableHeaders;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
-const AdminListBtnGroup = (props) => {
+const ListBtnGroup = (props) => {
   const { buttons } = props;
   return (
     <ButtonGroup vertical>
@@ -23,6 +23,6 @@ const AdminListBtnGroup = (props) => {
   );
 };
 
-AdminListBtnGroup.displayName = 'AdminListBtnGroup';
+ListBtnGroup.displayName = 'ListBtnGroup';
 
-export default AdminListBtnGroup;
+export default ListBtnGroup;

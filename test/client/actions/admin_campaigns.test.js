@@ -4,7 +4,7 @@ import { destroy } from 'redux-form';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
-import { saveNewCampaign, setCampaignsList, setCurrentCampaign, fetchAllCampaigns } from '../../../public/src/actions/campaign';
+import { saveNewCampaign, setCampaignsList, setCurrentCampaign, fetchCampaigns } from '../../../public/src/actions/campaign';
 
 exposeLocalStorageMock();
 
@@ -77,7 +77,7 @@ describe('campaign actions', () => {
     });
   });
 
-  describe('fetchAllCampaigns: ', () => {
+  describe('fetchCampaigns: ', () => {
     mock = new MockAdapter(axios);
 
     beforeEach(() => {
@@ -90,7 +90,7 @@ describe('campaign actions', () => {
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
         const expectedAction = setCampaignsList(campaignListFixtures);
-        return store.dispatch(fetchAllCampaigns())
+        return store.dispatch(fetchCampaigns())
           .then(() => {
             const [dispatchedActions] = store.getActions();
             const { type, payload } = dispatchedActions;
