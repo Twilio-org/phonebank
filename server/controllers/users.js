@@ -147,7 +147,12 @@ export function addCampaignToUser(req, res, next) {
       }
     })
     .catch((err) => {
-      console.log(err);
-      res.status(400).json({ message: 'Unable to add Campaign to User' });
+      if (err.code === '23505') {
+        res.status(400).json({ message: 'This campaign_id and user_id combination already exists' });
+      } else if (err.code === '23503') {
+        res.status(400).json({ message: 'This campaign_id doesn\'t exists or is invalid' });
+      } else {
+        res.status(400).json({ message: 'Cannot add campaign to user' });
+      }
     });
 }

@@ -86,9 +86,7 @@ describe('User service tests', function() {
         name: 'testCampaign4',
         title: 'Test4',
         description: 'election',
-        status: 'draft',
-        script_id: 4,
-        contact_lists_id: 2
+        status: 'draft'
       };
 
       this.scriptParams = {
@@ -97,19 +95,20 @@ describe('User service tests', function() {
         description: 'Script Description 4'
       };
 
-      this.campaignUserParam = {
-        id: 3,
-        campaign_id: 3
-      };
+      this.campaignUserParam = {};
 
       User.saveNewUser(this.userSaveParam)
-        .then(() => {
+        .then((user) => {
+          this.campaignUserParam.id = user.attributes.id;
           Script.saveNewScript(this.scriptParams)
-            .then(() => {
+            .then((script) => {
+              this.campaignParams.script_id = script.attributes.id;
               ContactList.saveNewContactList(this.contactListParam)
-                .then(() => {
+                .then((contactList) => {
+                  this.campaignParams.contact_lists_id = contactList.attributes.id;
                   Campaign.saveNewCampaign(this.campaignParams)
-                    .then(() => {
+                    .then((campaign) => {
+                      this.campaignUserParam.campaign_id = campaign.attributes.id;
                       done();
                     });
                 });
