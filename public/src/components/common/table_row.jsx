@@ -27,6 +27,6 @@ const TableRow = (props) => {
   );
 };
 
-TableRow.displayName = 'AdminTableRow';
+TableRow.displayName = 'TableRow';
 
 export default TableRow;
