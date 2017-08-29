@@ -27,7 +27,7 @@ export default {
       }
     ];
   },
-  campaigns(props, item) {
+  admin_campaigns(props, item) {
     return [
       {
         key: 1,
@@ -59,6 +59,19 @@ export default {
           // const { id } = item;
           props.handleClick(item);
           // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
+        }
+      }
+    ];
+  },
+  volunteer_campaigns(props, item) {
+    return [
+      {
+        key: 1,
+        text: 'Join',
+        size: 'xsmall',
+        style: 'success',
+        handler: () => {
+          props.handleClick(item);
         }
       }
     ];

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import CampaignList from '../components/campaign/campaign_list';
 
-import { fetchAllCampaigns, setCurrentCampaign } from '../actions/campaign';
+import { fetchCampaigns, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
   return {
@@ -15,5 +15,9 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-  connect(mapStateToProps, { fetchAllCampaigns, setCurrentCampaign })(CampaignList)
+  connect(
+    mapStateToProps,
+    { fetchCampaigns,
+      setCurrentCampaign }
+    )(CampaignList)
 );
