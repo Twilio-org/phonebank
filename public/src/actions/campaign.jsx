@@ -1,10 +1,17 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_VOLUNTEER_JOINED_CAMPAIGNS } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
     type: SET_CAMPAIGNS,
+    payload: campaignsList
+  };
+}
+
+export function setJoinedCampaignsList(campaignsList) {
+  return {
+    type: SET_VOLUNTEER_JOINED_CAMPAIGNS,
     payload: campaignsList
   };
 }
@@ -57,5 +64,22 @@ export function fetchCampaigns(status = '') {
   })
   .catch((err) => {
     console.log('error fetching all campaigns from the db: ', err);
+  });
+}
+
+export function fetchCampaignsByUser(userId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((campaigns) => {
+    const { data: campaignsList } = campaigns;
+    return dispatch(setJoinedCampaignsList(campaignsList));
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in fetching joined campaigns from database: ${err}`,
+      name: 'fetchCampaignsByUser'
+    };
+    throw customError;
   });
 }
