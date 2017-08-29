@@ -162,6 +162,17 @@ const createCallsTable = () =>
         table.timestamp('call_ended');
         table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
         table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+
+const createCampaignsUsersTable = () =>
+  bookshelf.knex.schema.hasTable('campaigns_users').then((exist) => {
+    if (!exist) {
+      return bookshelf.knex.schema.createTable('campaigns_users', (table) => {
+        table.increments('id').primary();
+        table.integer('campaign_id').references('campaigns.id').notNullable();
+        table.integer('user_id').references('users.id').notNullable();
+        table.unique(['campaign_id', 'user_id']);
+        table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+        table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
       });
     }
     return exist;
@@ -177,6 +188,7 @@ const setup = () =>
   .then(createCampaignsTable)
   .then(createUsersTable)
   .then(createCallsTable)
+  .then(createCampaignsUsersTable)
   .then(() => {
     console.log('Created all tables');
   })
@@ -185,7 +197,8 @@ const setup = () =>
   });
 
 const teardown = () =>
-  bookshelf.knex.schema.dropTable('calls')
+  bookshelf.knex.schema.dropTable('campaigns_users')
+  .then(() => bookshelf.knex.schema.dropTable('calls'))
   .then(() => bookshelf.knex.schema.dropTable('campaigns'))
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
