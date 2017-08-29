@@ -1,4 +1,6 @@
 import campaignsService from '../db/services/campaigns';
+import callsService from '../db/services/calls';
+import contactListsService from '../db/services/contact_lists';
 
 export function saveNewCampaign(req, res) {
   const { name, title, description, status, script_id, contact_lists_id } = req.body;
@@ -13,7 +15,19 @@ export function saveNewCampaign(req, res) {
     })
     .then((campaign) => {
       if (campaign) {
-        res.status(201).json({ message: 'Campaign successfully created' });
+        if (campaign.attributes.status === 'active') {
+          const id = campaign.attributes.id;
+          contactListsService.getContactsInContactListById({ id: contact_lists_id })
+            .then((contacts) => {
+              contacts.map(contact => contact.id)
+                .forEach((contactId) => {
+                  callsService.populateCalls({ campaign_id: id, contact_id: contactId });
+                });
+              res.status(201).json({ message: 'Active Campaign successfully created' });
+            });
+        } else {
+          res.status(201).json({ message: 'Draft Campaign successfully created' });
+        }
       }
     })
     .catch((err) => {
