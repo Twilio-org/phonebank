@@ -7,7 +7,7 @@ import { fetchCampaigns, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
   return {
-    active_campaign: state.admin_campaigns.current_campaign,
+    current_campaign: state.admin_campaigns.current_campaign,
     joined_campaigns: state.admin_campaigns.all_campaigns,
     account_info: state.account_info,
     auth: state.auth
