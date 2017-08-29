@@ -23,12 +23,14 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
         goBack: jest.fn(),
         push: jest.fn()
       },
-      fetchAllCampaigns: jest.fn(),
+      fetchCampaigns: jest.fn(),
       setCurrentCampaign: jest.fn()
     };
     const expectedProps = Object.keys(props);
+
     describe('Component rendering: ', () => {
       const wrapper = shallow(<CampaignList {...props} />);
+
       it('should have one div element: ', () => {
         const numberOfDivElements = wrapper.find('div').length;
         expect(numberOfDivElements).toBe(1);
@@ -41,6 +43,7 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
 
     describe('Campaign expected props: ', () => {
       const wrapper = shallow(<CampaignList {...props} />).instance();
+
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
         const actualProps = wrapper.props;
         expect(checkObjectProps(expectedProps, actualProps)).toBe(true);
@@ -49,10 +52,10 @@ describe('Component testing for CampaignList, QuestionList, and Script List: ', 
 
     describe('Methods were called: ', () => {
       const wrapper = mount(<CampaignList {...props} />).instance();
-      const { fetchAllCampaigns } = wrapper.props;
-      const fetchCampaignsCall = fetchAllCampaigns.mock.calls;
+      const { fetchCampaigns } = wrapper.props;
+      const fetchCampaignsCall = fetchCampaigns.mock.calls;
       expect(fetchCampaignsCall.length).toBe(1);
-      expect(!fetchCampaignsCall[0].length).toBe(true);
+      expect(fetchCampaignsCall[0].length).toBe(1);
     });
   });
 

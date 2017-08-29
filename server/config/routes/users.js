@@ -1,10 +1,12 @@
 import express from 'express';
 import { passport } from '../auth/local';
-import { getUserById,
-         updateUserById,
+import { addCampaignToUser,
+         getAllUsers,
+         getUserById,
+         getUserCampaigns,
          deactivateUserById,
          manageUserById,
-         getAllUsers } from '../../controllers/users';
+         updateUserById } from '../../controllers/users';
 
 const router = express.Router();
 
@@ -15,5 +17,7 @@ router.route('/:id').get(getUserById);
 router.route('/:id').put(updateUserById);
 router.route('/:id').patch(deactivateUserById);
 router.route('/:id/manage').patch(manageUserById);
+router.route('/:id/campaigns').post(addCampaignToUser);
+router.route('/:id/campaigns').get(getUserCampaigns);
 
 export default router;

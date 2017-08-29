@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import TableListView from '../../../../public/src/components/common/admin_list_view';
+import TableListView from '../../../../public/src/components/common/list_view';
 import fixtures from '../../client_fixtures';
 import { checkObjectProps } from '../../client_test_helpers';
 
@@ -34,17 +34,17 @@ describe('Component testing for <TableListView />: ', () => {
       const divElements = wrapper.find('div').length;
       expect(divElements).toBe(3);
     });
-    it('should have 1 <AdminBanner /> elements ', () => {
-      const adminBannerElements = wrapper.find('AdminBanner').length;
-      expect(adminBannerElements).toBe(1);
+    it('should have 1 <Banner /> elements ', () => {
+      const BannerElements = wrapper.find('Banner').length;
+      expect(BannerElements).toBe(1);
     });
-    it('should have 1 <AdminDashboardButtonGroup /> element ', () => {
-      const adminDashboardBtnGrpElements = wrapper.find('AdminDashboardButtonGroup').length;
-      expect(adminDashboardBtnGrpElements).toBe(1);
+    it('should have 1 <DashboardButtonGroup /> element ', () => {
+      const DashboardBtnGrpElements = wrapper.find('DashboardButtonGroup').length;
+      expect(DashboardBtnGrpElements).toBe(1);
     });
-    it(`should have ${expectedNumberOfRows} <AdminTableRow /> elements `, () => {
-      const adminTableRowElements = wrapper.find('AdminTableRow').length;
-      expect(adminTableRowElements).toBe(expectedNumberOfRows);
+    it(`should have ${expectedNumberOfRows} <TableRow /> elements `, () => {
+      const TableRowElements = wrapper.find('TableRow').length;
+      expect(TableRowElements).toBe(expectedNumberOfRows);
     });
     it('should have 1 <CreateNewButton /> elements ', () => {
       const createNewButtonElements = wrapper.find('CreateNewButton').length;

@@ -172,7 +172,7 @@ Promise.all(generatePromiseActions(userParams, createUser))
                                 const userId = userIds[1];
                                 usersService.addCampaignToUser({
                                   campaign_id: campaignId,
-                                  user_id: userId
+                                  id: userId
                                 }).catch(err => console.log(err));
                               }).catch(err => console.log(err));
                           }).catch(err => console.log(err));
