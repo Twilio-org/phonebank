@@ -162,6 +162,10 @@ const createCallsTable = () =>
         table.timestamp('call_ended');
         table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
         table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+      });
+    }
+    return exist;
+  });
 
 const createCampaignsUsersTable = () =>
   bookshelf.knex.schema.hasTable('campaigns_users').then((exist) => {
