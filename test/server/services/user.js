@@ -25,14 +25,6 @@ describe('User service tests', function() {
         phoneNumber: '+14441114444',
         email: 'Jane@gmail.com'
       };
-
-      this.userSaveParams3 = {
-        firstName: 'Jane',
-        lastName: 'Doe',
-        password: 'hatch1',
-        phoneNumber: '+14441114444',
-        email: 'Jane1@gmail.com'
-      };
     });
 
     it('should be able to save first user\'s first name and last name', (done) => {
