@@ -45,8 +45,10 @@ export function saveNewCampaign(campaignInfo, history) {
 }
 
 
-export function fetchAllCampaigns() {
-  return dispatch => axios.get('/campaigns', {
+export function fetchCampaigns(status = '') {
+  const queryParamString = status ? `?status=${status}` : status;
+
+  return dispatch => axios.get(`/campaigns${queryParamString}`, {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((campaigns) => {
