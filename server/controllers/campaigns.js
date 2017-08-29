@@ -24,6 +24,9 @@ export function saveNewCampaign(req, res) {
                   callsService.populateCalls({ campaign_id: id, contact_id: contactId });
                 });
               res.status(201).json({ message: 'Active Campaign successfully created' });
+            })
+            .catch((err) => {
+              res.status(500).json({ message: 'Invalid Contact lists ID', error: err });
             });
         } else {
           res.status(201).json({ message: 'Draft Campaign successfully created' });
