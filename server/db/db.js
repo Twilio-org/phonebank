@@ -157,7 +157,7 @@ const createCallsTable = () =>
         table.enu('status', ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'ATTEMPTED']).defaultTo('AVAILABLE').notNullable();
         table.enu('outcome', ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE']).defaultTo('PENDING').notNullable();
         table.string('notes');
-        table.string('call_sid', 32);
+        table.string('call_sid', 34);
         table.timestamp('call_started');
         table.timestamp('call_ended');
         table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
