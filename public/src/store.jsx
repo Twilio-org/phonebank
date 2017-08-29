@@ -13,6 +13,7 @@ import { campaignListReducer } from './reducers/campaign';
 import { adminQuestionsReducer } from './reducers/admin_questions';
 import { adminScriptsReducer } from './reducers/admin_scripts';
 import { adminContactListsReducer } from './reducers/admin_contact_lists';
+import { volunteerCampaignsReducer } from './reducers/volunteer_campaigns';
 
 const appReducer = combineReducers({
   form: formReducer,
@@ -21,7 +22,8 @@ const appReducer = combineReducers({
   admin_campaigns: campaignListReducer,
   admin_questions: adminQuestionsReducer,
   admin_scripts: adminScriptsReducer,
-  admin_contact_lists: adminContactListsReducer
+  admin_contact_lists: adminContactListsReducer,
+  volunteer_campaigns: volunteerCampaignsReducer
 });
 
 const rootReducer = (state, action) => {
