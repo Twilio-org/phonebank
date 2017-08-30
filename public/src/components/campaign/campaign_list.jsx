@@ -13,7 +13,7 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns, account_info, history, setCurrentCampaign } = this.props;
+    const { all_campaigns, account_info, auth, history, setCurrentCampaign, addCampaignToUser } = this.props;
     const thisPage = 'Campaign';
     const { admin_campaigns, volunteer_campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
@@ -25,11 +25,14 @@ export default class CampaignList extends Component {
             <TableListView
               item_collection={all_campaigns}
               account_info={account_info}
+              auth={auth}
               history={history}
               button_collection={account_info.is_admin ?
                                    admin_campaigns :
                                    volunteer_campaigns}
-              setCurrentItem={setCurrentCampaign}
+              setCurrentItem={account_info.is_admin ?
+                                setCurrentCampaign :
+                                addCampaignToUser}
               thisPage={thisPage}
               tableHeaders={campaignHeaders}
               newPath={redirect_path}
