@@ -1,24 +1,13 @@
 import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
-const AdminListBtnGroup = (props) => {
-  const { buttons, page } = props;
+const ListBtnGroup = (props) => {
+  const { buttons } = props;
   return (
     <ButtonGroup vertical>
       {
         buttons.map((button) => {
           const { style, text, handler, size, key } = button;
-          if (page === 'User') {
-            return (
-              <Button
-                bsSize={size}
-                bsStyle={style}
-                key={key}
-                onClick={handler}
-              >
-                {text()}
-              </Button>);
-          }
           return (
             <Button
               bsSize={size}
@@ -26,7 +15,7 @@ const AdminListBtnGroup = (props) => {
               key={key}
               onClick={handler}
             >
-              {text}
+              {text()}
             </Button>);
         })
       }
@@ -34,6 +23,6 @@ const AdminListBtnGroup = (props) => {
   );
 };
 
-AdminListBtnGroup.displayName = 'AdminListBtnGroup';
+ListBtnGroup.displayName = 'ListBtnGroup';
 
-export default AdminListBtnGroup;
+export default ListBtnGroup;

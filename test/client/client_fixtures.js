@@ -145,7 +145,8 @@ export default {
       first_name: 'Harry',
       last_name: 'Potter',
       email: 'goldensnitch@hogwarts.com',
-      phone_number: '12224448888'
+      phone_number: '12224448888',
+      is_admin: true
     }
   },
   tableHeaderFixtures: {
@@ -355,4 +356,3 @@ export default {
     }
   }
 };
-

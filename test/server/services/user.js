@@ -125,6 +125,25 @@ describe('User service tests', function() {
           done();
         }, done);
     });
+
+    it('should return Campaigns associated with a given user id', (done) => {
+      User.getUserCampaigns(this.campaignUserParam)
+        .then(campaigns => {
+          const firstReturnedCampaign = campaigns.models[0]
+          const attributeNames = Object.keys(firstReturnedCampaign.attributes)
+
+          expect(campaigns.models.length).to.equal(1);
+          expect(attributeNames.includes('script_id')).to.equal(true);
+          expect(attributeNames.includes('contact_lists_id')).to.equal(true);
+          expect(attributeNames.includes('status')).to.equal(true);
+          expect(attributeNames.includes('name')).to.equal(true);
+          expect(attributeNames.includes('title')).to.equal(true);
+          expect(attributeNames.includes('description')).to.equal(true);
+          expect(firstReturnedCampaign._previousAttributes._pivot_user_id).to.equal(this.campaignUserParam.id);
+          expect(firstReturnedCampaign._previousAttributes._pivot_campaign_id).to.equal(this.campaignUserParam.campaign_id);
+          done();
+        }, done);
+    });
   });
 
   describe('Data retrieval', function() {

@@ -144,6 +144,29 @@ const createUsersTable = () =>
     return exist;
   });
 
+const createCallsTable = () =>
+  bookshelf.knex.schema.hasTable('calls').then((exist) => {
+    if (!exist) {
+      return bookshelf.knex.schema.createTable('calls', (table) => {
+        table.increments('id').primary();
+        table.integer('campaign_id').references('campaigns.id').notNullable();
+        table.integer('contact_id').references('contacts.id').notNullable();
+        table.enu('attempt_num', ['1', '2', '3']).defaultTo('1').notNullable();
+        table.unique(['campaign_id', 'contact_id', 'attempt_num']);
+        table.integer('user_id').references('users.id');
+        table.enu('status', ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'ATTEMPTED']).defaultTo('AVAILABLE').notNullable();
+        table.enu('outcome', ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE']).defaultTo('PENDING').notNullable();
+        table.string('notes');
+        table.string('call_sid', 34);
+        table.timestamp('call_started');
+        table.timestamp('call_ended');
+        table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+        table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+      });
+    }
+    return exist;
+  });
+
 const createCampaignsUsersTable = () =>
   bookshelf.knex.schema.hasTable('campaigns_users').then((exist) => {
     if (!exist) {
@@ -168,6 +191,7 @@ const setup = () =>
   .then(createQuestionsScriptsTable)
   .then(createCampaignsTable)
   .then(createUsersTable)
+  .then(createCallsTable)
   .then(createCampaignsUsersTable)
   .then(() => {
     console.log('Created all tables');
@@ -178,6 +202,7 @@ const setup = () =>
 
 const teardown = () =>
   bookshelf.knex.schema.dropTable('campaigns_users')
+  .then(() => bookshelf.knex.schema.dropTable('calls'))
   .then(() => bookshelf.knex.schema.dropTable('campaigns'))
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
   .then(() => bookshelf.knex.schema.dropTable('questions'))
