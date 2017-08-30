@@ -44,7 +44,7 @@ export default class DashboardButtonGroup extends Component {
         ) : (
           <ButtonGroup>
             <Button type="button" onClick={this.handleJoinedCampaignsClick}>
-              Joined Campaigns
+              My Campaigns
             </Button>
             <Button type="button" onClick={this.handleAvailCampaignsClick}>
               All Campaigns

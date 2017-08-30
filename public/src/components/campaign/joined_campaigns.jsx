@@ -7,14 +7,13 @@ import Banner from '../common/welcome_banner';
 
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
-    console.log('"PROPS"', this.props.auth);
     const { id } = this.props.auth;
     if (id) {
       this.props.fetchCampaignsByUser(id);
     }
   }
   render() {
-    const { history, joined_campaigns, current_campaign } = this.props;
+    const { history, joined_campaigns, current_campaign, setCurrentCampaign } = this.props;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
@@ -39,10 +38,14 @@ export default class JoinedCampaigns extends Component {
                 id={'joined-campaigns-list'}
                 list={joined_campaigns}
                 active={current_campaign}
+                setCurrentCampaign={setCurrentCampaign}
               />
             </Col>
             <Col xs={6} md={8}>
-              <CurrentCampaign campaign={current_campaign} />
+              <CurrentCampaign
+                id={'current-campaign'}
+                campaign={current_campaign}
+              />
             </Col>
           </Row>
         </section>

@@ -6,9 +6,27 @@ import { ListGroup, ListGroupItem, Label } from 'react-bootstrap';
 const SidebarList = (props) => {
   const { list, id } = props;
   let { active } = props;
+
   const setActive = (e) => {
-    active = e.target.id;
-    console.log(active);
+    const selectedId = e.currentTarget.id;
+    const { setCurrentCampaign } = props;
+    active = list.filter(campaign => campaign.id === parseInt(selectedId, 10));
+    setCurrentCampaign(active[0]);
+  };
+
+  const setStatusColor = (item) => {
+    if (item.status === 'active') {
+      return 'success';
+    } else if (item.status === 'pause') {
+      return 'warning';
+    }
+    return 'default';
+  };
+  const setStatusText = (item) => {
+    if (item.status == 'pause'){
+      return 'paused';
+    }
+    return item.status;
   };
   return (
     <ListGroup id={id} className={'sidebar-list'}>
@@ -17,11 +35,18 @@ const SidebarList = (props) => {
           <ListGroupItem
             key={item.title}
             id={`${item.id}`}
-            className={item.id === active.id ? active : ''}
+            className={active && item.id === active.id ? 'active' : ''}
             onClick={setActive}
           >
             <p className={'lead'}>{item.title}</p>
-            <p><Label bsStyle={item.status === 'active' ? 'success' : 'default'}>{item.status}</Label></p>
+            <p>
+              <Label
+                bsStyle={setStatusColor(item)}
+                className="text-capitalize"
+              >
+                {setStatusText(item)}
+              </Label>
+            </p>
           </ListGroupItem>)
         )
       }
