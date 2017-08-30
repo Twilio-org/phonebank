@@ -218,7 +218,7 @@ const teardown = () =>
     console.error('Error dropping tables', err);
   });
 
-const truncateAllTables = () => 
+const truncateAllTables = () =>
   bookshelf.knex('campaigns_users').del()
   .then(() => bookshelf.knex('calls').del())
   .then(() => bookshelf.knex('campaigns').del())
