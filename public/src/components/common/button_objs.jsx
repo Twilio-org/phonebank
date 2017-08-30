@@ -63,7 +63,10 @@ export default {
       }
     ];
   },
-  volunteer_campaigns(props, item) {
+  volunteer_campaigns(props) {
+    const { id: campaign_id } = props.item;
+    const { id } = props.auth;
+    const { history } = props;
     return [
       {
         key: 1,
@@ -71,7 +74,7 @@ export default {
         size: 'xsmall',
         style: 'success',
         handler: () => {
-          props.handleClick(item);
+          props.handleClick(id, campaign_id, history);
         }
       }
     ];
