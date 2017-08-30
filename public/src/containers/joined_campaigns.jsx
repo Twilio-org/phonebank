@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import JoinedCampaigns from '../components/campaign/joined_campaigns';
 
-import { fetchCampaigns, setCurrentCampaign } from '../actions/campaign';
+import { fetchCampaignsByUser, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
   return {
@@ -15,10 +15,6 @@ function mapStateToProps(state) {
 }
 
 const JoinedCampaignsContainer = withRouter(
-  connect(
-    mapStateToProps,
-    { fetchCampaigns,
-      setCurrentCampaign }
-    )(JoinedCampaigns)
+  connect(mapStateToProps, { fetchCampaignsByUser, setCurrentCampaign })(JoinedCampaigns)
 );
 export default JoinedCampaignsContainer;

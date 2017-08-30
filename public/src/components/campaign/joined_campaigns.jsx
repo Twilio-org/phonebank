@@ -7,7 +7,11 @@ import Banner from '../common/welcome_banner';
 
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
-    // get campaigns
+    console.log('"PROPS"', this.props.auth);
+    const { id } = this.props.auth;
+    if (id) {
+      this.props.fetchCampaignsByUser(id);
+    }
   }
   render() {
     const { history, joined_campaigns, current_campaign } = this.props;
