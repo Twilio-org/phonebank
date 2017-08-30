@@ -5,18 +5,17 @@ export default {
     return [
       {
         key: 1,
-        text: 'View',
+        text: () => 'View',
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          // TO-DO: uncomment once responses data is decided for questions reducer
           // handleClick(item);
           history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
       {
         key: 2,
-        text: 'Edit',
+        text: () => 'Edit',
         size: 'xsmall',
         style: 'danger',
         handler: () => {
@@ -30,28 +29,28 @@ export default {
     return [
       {
         key: 1,
-        text: 'Call Page',
+        text: () => 'Call Page',
         size: 'xsmall',
         style: 'primary',
         handler: () => {}
       },
       {
         key: 2,
-        text: 'Call Report',
+        text: () => 'Call Report',
         size: 'xsmall',
         style: 'success',
         handler: () => {}
       },
       {
         key: 3,
-        text: 'Release Calls',
+        text: () => 'Release Calls',
         size: 'xsmall',
         style: 'warning',
         hanlder: () => {}
       },
       {
         key: 4,
-        text: 'Edit',
+        text: () => 'Edit',
         size: 'xsmall',
         style: 'danger',
         handler: () => {
@@ -92,7 +91,7 @@ export default {
       {
         key: 3,
         name: 'ban',
-        text: () => (JSON.parse(is_banned.toLowerCase()) ? 'Reinstate' : 'Ban'),
+        text: () => (JSON.parse(is_banned.toLowerCase()) ? 'Unban' : 'Ban'),
         size: 'xsmall',
         style: 'danger',
         handler: () => {
