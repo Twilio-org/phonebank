@@ -15,7 +15,9 @@ const TableListView = (props) => {
           thisPage,
           tableHeaders,
           newPath,
+          currentUser,
           auth } = props;
+
   const { headers } = tableHeaders;
 
   return (
@@ -49,6 +51,7 @@ const TableListView = (props) => {
             item_collection.map(item =>
               (
                 <TableRow
+                  currentUser={currentUser}
                   key={item.id}
                   auth={auth}
                   is_admin={is_admin}
