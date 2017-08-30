@@ -42,7 +42,10 @@ const Root = () => (
             path="/logout"
             render={() => (<Redirect to="/public" />)}
           />
-          <Route path="/public" component={PublicContainer} />
+          <Route
+            path="/public"
+            component={PublicContainer}
+          />
         </Switch>
       </App>
     </BrowserRouter>
