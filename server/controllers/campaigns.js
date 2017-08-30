@@ -21,7 +21,10 @@ export function saveNewCampaign(req, res) {
             .then((contacts) => {
               contacts.map(contact => contact.id)
                 .forEach((contactId) => {
-                  callsService.populateCall({ campaign_id: id, contact_id: contactId });
+                  callsService.populateCall({ campaign_id: id, contact_id: contactId })
+                    .catch((err) => {
+                      res.status(500).json({ message: 'Unable to add call entry for this campaign ID or contact ID', error: err });
+                    });
                 });
               res.status(201).json({ message: 'Active Campaign successfully created' });
             })
