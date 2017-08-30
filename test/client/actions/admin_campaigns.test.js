@@ -4,7 +4,7 @@ import { destroy } from 'redux-form';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
-import { saveNewCampaign, setCampaignsList, setCurrentCampaign, fetchCampaigns } from '../../../public/src/actions/campaign';
+import { saveNewCampaign, setCampaignsList, setJoinedCampaignsList, setCurrentCampaign, fetchCampaigns, fetchCampaignsByUser } from '../../../public/src/actions/campaign';
 
 exposeLocalStorageMock();
 
@@ -30,6 +30,35 @@ describe('campaign actions', () => {
       });
       it('should have the type property "SET_CAMPAIGNS"', () => {
         expect(type).toEqual('SET_CAMPAIGNS');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setCampaignsListResult;
+      it('should have a payload that is an array of objects: ', () => {
+        expect(Array.isArray(payload)).toBe(true);
+      });
+      it('should contain 3 objects', () => {
+        const firstObjectProps = checkObjectProps(expectedCampaignProps, payload[0]);
+        const secondObjectProps = checkObjectProps(expectedCampaignProps, payload[1]);
+        const thirdObjectProps = checkObjectProps(expectedCampaignProps, payload[2]);
+        expect(payload.length).toBe(3);
+        expect(thirdObjectProps && secondObjectProps && firstObjectProps).toBe(true);
+      });
+    });
+  });
+
+  describe('setJoinedCampaignsList: ', () => {
+    const setCampaignsListResult = setJoinedCampaignsList(campaignListFixtures);
+    describe('type: ', () => {
+      const { type } = setCampaignsListResult;
+      it('should have a type property (not undefined): ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type property "SET_VOLUNTEER_JOINED_CAMPAIGNS"', () => {
+        expect(type).toEqual('SET_VOLUNTEER_JOINED_CAMPAIGNS');
       });
       it('should not be null: ', () => {
         expect(type === null).toBe(false);
@@ -96,6 +125,31 @@ describe('campaign actions', () => {
             const { type, payload } = dispatchedActions;
             expect(dispatchedActions).toEqual(expectedAction);
             expect(type).toBe('SET_CAMPAIGNS');
+            expect(payload).toEqual(campaignListFixtures);
+          });
+      });
+    });
+  });
+
+  describe('fetchCampaignsByUser: ', () => {
+    mock = new MockAdapter(axios);
+
+    beforeEach(() => {
+      mock.onGet('/users/1/campaigns').reply(200, campaignListFixtures
+      );
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    describe('axios GET request: ', () => {
+      it('should add the appropriate action to the store: ', () => {
+        const expectedAction = setJoinedCampaignsList(campaignListFixtures);
+        return store.dispatch(fetchCampaignsByUser(1))
+          .then(() => {
+            const [dispatchedActions] = store.getActions();
+            const { type, payload } = dispatchedActions;
+            expect(dispatchedActions).toEqual(expectedAction);
+            expect(type).toBe('SET_VOLUNTEER_JOINED_CAMPAIGNS');
             expect(payload).toEqual(campaignListFixtures);
           });
       });
