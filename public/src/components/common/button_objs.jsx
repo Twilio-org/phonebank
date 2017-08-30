@@ -64,13 +64,13 @@ export default {
     ];
   },
   volunteer_campaigns(props) {
-    const { id: campaign_id } = props.item;
-    const { id } = props.auth;
-    const { history } = props;
+    const { item, auth, history } = props;
+    const { id: campaign_id } = item;
+    const { id } = auth;
     return [
       {
         key: 1,
-        text: 'Join',
+        text: () => 'Join',
         size: 'xsmall',
         style: 'success',
         handler: () => {
