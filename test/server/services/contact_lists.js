@@ -9,7 +9,6 @@ describe('Contact List Service tests', () => {
   after((done) => {
     cleanUp(done);
   });
-  
   describe('insert/read/update', function() {
     before((done) => {
       this.params = {
