@@ -73,7 +73,7 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          const newValue = !JSON.parse(is_admin.toLowerCase());
+          const newValue = !is_admin;
           handleClick(id, 'is_admin', newValue, currentUser);
         }
       },
@@ -84,7 +84,7 @@ export default {
         size: 'xsmall',
         style: 'warning',
         handler: () => {
-          const newValue = !JSON.parse(is_active.toLowerCase());
+          const newValue = !is_active;
           handleClick(id, 'is_active', newValue, currentUser);
         }
       },
@@ -95,7 +95,7 @@ export default {
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          const newValue = !JSON.parse(is_banned.toLowerCase());
+          const newValue = !is_banned;
           handleClick(id, 'is_banned', newValue, currentUser);
         }
       }
