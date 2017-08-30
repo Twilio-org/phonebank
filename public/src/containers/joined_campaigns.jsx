@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
 import JoinedCampaigns from '../components/campaign/joined_campaigns';
-
 import { fetchCampaignsByUser, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
@@ -13,7 +11,6 @@ function mapStateToProps(state) {
     auth: state.auth
   };
 }
-
 const JoinedCampaignsContainer = withRouter(
   connect(mapStateToProps, { fetchCampaignsByUser, setCurrentCampaign })(JoinedCampaigns)
 );

@@ -32,6 +32,7 @@ export default class DashboardButtonGroup extends Component {
   }
 
   render() {
+    const { pathname } = this.props.history.location;
     return (
       <div>
         {this.props.is_admin ? (
@@ -43,10 +44,18 @@ export default class DashboardButtonGroup extends Component {
           </ButtonGroup>
         ) : (
           <ButtonGroup>
-            <Button type="button" onClick={this.handleJoinedCampaignsClick}>
+            <Button
+              type="button"
+              onClick={this.handleJoinedCampaignsClick}
+              className={pathname && pathname === '/volunteers/campaigns' ? 'active' : ''}
+            >
               My Campaigns
             </Button>
-            <Button type="button" onClick={this.handleAvailCampaignsClick}>
+            <Button
+              type="button"
+              onClick={this.handleAvailCampaignsClick}
+              className={pathname && pathname === '/volunteers/campaigns/all' ? 'active' : ''}
+            >
               All Campaigns
             </Button>
           </ButtonGroup>

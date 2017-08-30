@@ -2,14 +2,13 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
-  const { campaign, id } = props;
-  const selectCampaignMsg = () => (
-    <div id={id}>
-      <p className="lead">Select a campaign</p>
-    </div>
-  );
+  const { campaign, id, defaultMsg } = props;
   if (!campaign.title) {
-    return selectCampaignMsg();
+    return (
+      <div id={id}>
+        <p className="lead">{defaultMsg}</p>
+      </div>
+    );
   }
   return (
     <div id={id}>

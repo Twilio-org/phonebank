@@ -33,7 +33,7 @@ export default class JoinedCampaigns extends Component {
         />
         <section id={'joined-campaigns-content'}>
           <Row>
-            <Col xs={6} md={4}>
+            <Col xs={5} md={4} lg={3}>
               <SidebarList
                 id={'joined-campaigns-list'}
                 list={joined_campaigns}
@@ -41,9 +41,10 @@ export default class JoinedCampaigns extends Component {
                 setCurrentCampaign={setCurrentCampaign}
               />
             </Col>
-            <Col xs={6} md={8}>
+            <Col xs={7} md={8} lg={9}>
               <CurrentCampaign
                 id={'current-campaign'}
+                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
                 campaign={current_campaign}
               />
             </Col>
