@@ -88,12 +88,14 @@ export function deleteUser(id, history) {
   });
 }
 
-export function addCampaignToUser(id, campaign_id) {
-  return () => axios.post(`/users/${id}`,
+export function addCampaignToUser(id, campaign_id, history) {
+  return () => axios.post(`/users/${id}/campaigns`,
     { campaign_id },
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )
-  .then(res => res)
+  .then(() => {
+    history.push('/volunteers/campaigns');
+  })
   .catch((err) => {
     const customError = {
       message: `Error adding campaign to a user: ${err}`,
