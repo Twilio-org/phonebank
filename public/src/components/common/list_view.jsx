@@ -14,7 +14,8 @@ const TableListView = (props) => {
           setCurrentItem,
           thisPage,
           tableHeaders,
-          newPath } = props;
+          newPath,
+          auth } = props;
   const { headers } = tableHeaders;
 
   return (
@@ -49,9 +50,10 @@ const TableListView = (props) => {
               (
                 <TableRow
                   key={item.id}
+                  auth={auth}
                   is_admin={is_admin}
                   item={item}
-                  handleClick={is_admin ? setCurrentItem : () => {}}
+                  handleClick={setCurrentItem}
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
