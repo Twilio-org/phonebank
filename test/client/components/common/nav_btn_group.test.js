@@ -17,9 +17,9 @@ describe('Component testing for <DashboardButtonGroup />: ', () => {
       const buttonGroupElements = wrapper.find('ButtonGroup').length;
       expect(buttonGroupElements).toBe(1);
     });
-    it('should render 3 Button elements ', () => {
+    it('should render 5 Button elements ', () => {
       const buttonElements = wrapper.find('Button').length;
-      expect(buttonElements).toBe(4);
+      expect(buttonElements).toBe(5);
     });
   });
   describe('Expected props for <DashboardButtonGroup /> ', () => {
