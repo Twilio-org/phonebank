@@ -1,7 +1,7 @@
 export const defaultCampaigns = {
   all_campaigns: [],
   current_campaign: {},
-  has_user_joined_campaign: null
+  has_user_joined_campaign: false
 };
 
 export const SET_CAMPAIGNS = 'SET_CAMPAIGNS';
