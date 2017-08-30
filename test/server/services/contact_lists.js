@@ -6,6 +6,10 @@ import Contact from '../../../server/db/services/contacts';
 const should = Should();
 
 describe('Contact List Service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
+  
   describe('insert/read/update', function() {
     before((done) => {
       this.params = {
@@ -19,10 +23,6 @@ describe('Contact List Service tests', () => {
         phone_number: '+1112223333'
       };
       done();
-    });
-
-    after((done) => {
-      cleanUp(done);
     });
 
     it('should create contact list and save all parameters', (done) => {

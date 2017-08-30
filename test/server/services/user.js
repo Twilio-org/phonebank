@@ -12,7 +12,7 @@ describe('User service tests', function() {
   after((done) => {
     cleanUp(done);
   });
-  describe('Data insertion and retrieval', function() {
+  describe('Data insertion', function() {
     before(() => {
       this.userSaveParams1 = {
         firstName: 'John',

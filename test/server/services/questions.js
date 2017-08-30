@@ -5,6 +5,9 @@ import Question from '../../../server/db/services/questions';
 const expect = chai.expect;
 
 describe('Question service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     console.log('Now running questions service tests: ');
     beforeEach(() => {
@@ -28,10 +31,6 @@ describe('Question service tests', () => {
           responses: 'yes,no,sometimes'
         }
       ];
-    });
-
-    after((done) => {
-      cleanUp(done);
     });
 
     it('should be able to save question title, description, type, and responses options', (done) => {

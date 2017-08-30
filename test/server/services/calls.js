@@ -7,6 +7,9 @@ import Script from '../../../server/db/services/scripts';
 import ContactList from '../../../server/db/services/contact_lists';
 
 describe('Calls Service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     before((done) => {
       this.contactListParam = {
@@ -53,10 +56,6 @@ describe('Calls Service tests', () => {
                 });
             });
         });
-    });
-
-    after((done) => {
-      cleanUp(done);
     });
 
     it('should correctly populate a call', (done) => {

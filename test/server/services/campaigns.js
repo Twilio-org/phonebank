@@ -7,6 +7,9 @@ import cleanUp from '../bootstrap';
 const should = Should();
 
 describe('Campaign service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     before((done) => {
       this.scriptParams = {
@@ -44,10 +47,6 @@ describe('Campaign service tests', () => {
               done();
             });
         });
-    });
-
-    after((done) => {
-      cleanUp(done);
     });
 
     it('should save new campaign', (done) => {

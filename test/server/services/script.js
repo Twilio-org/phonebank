@@ -7,6 +7,9 @@ import scriptsService from '../../../server/db/services/scripts';
 const should = Should();
 
 describe('Script service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     before((done) => {
       this.scriptParams1 = {
@@ -35,10 +38,6 @@ describe('Script service tests', () => {
 
       done();
     });
-
-    after((done) => {
-      cleanUp(done);
-    })
 
     it('should be able to save and verify first script', (done) => {
       const params = this.scriptParams1;

@@ -9,6 +9,9 @@ let firstContactId;
 let secondContactId;
 
 describe('Contact service tests', function () {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion, retrieval, and update', function () {
     console.log('Now running contact service tests: ');
     before(() => {
@@ -44,9 +47,6 @@ describe('Contact service tests', function () {
       };
     });
 
-    after((done) => {
-      cleanUp(done);
-    })
     it('should save first contact\'s first name, last name, phone, email, and external_id', (done) => {
       const firstContact = this.contactSaveParams1;
       Contact.saveNewContact(firstContact)
