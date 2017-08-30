@@ -93,8 +93,9 @@ export function addCampaignToUser(id, campaign_id, history) {
     { campaign_id },
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )
-  .then(() => {
+  .then((res) => {
     history.push('/volunteers/campaigns');
+    return res;
   })
   .catch((err) => {
     const customError = {
