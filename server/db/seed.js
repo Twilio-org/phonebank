@@ -173,7 +173,7 @@ Promise.all(generatePromiseActions(userParams, createUser))
                                 usersService.addCampaignToUser({
                                   campaign_id: campaignId,
                                   id: userId
-                                }).catch(err => console.log(err));
+                                }).then(console.log('All Entries created.'))catch(err => console.log(err));
                               }).catch(err => console.log(err));
                           }).catch(err => console.log(err));
                       }).catch(err => console.log(err));
@@ -182,4 +182,3 @@ Promise.all(generatePromiseActions(userParams, createUser))
           }).catch(err => console.log(err));
       }).catch(err => console.log(err));
   }).catch(err => console.log(err));
-
