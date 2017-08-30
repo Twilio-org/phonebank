@@ -13,7 +13,14 @@ export default class CampaignList extends Component {
   }
 
   render() {
-    const { all_campaigns, account_info, auth, history, setCurrentCampaign, addCampaignToUser } = this.props;
+    const {
+      all_campaigns,
+      account_info,
+      auth,
+      history,
+      setCurrentCampaign,
+      addCampaignToUser
+    } = this.props;
     const thisPage = 'Campaign';
     const { admin_campaigns, volunteer_campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
