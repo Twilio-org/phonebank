@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { setAccountInfo, fetchUser, updateUser, registerNewUser } from '../../../public/src/actions/users';
+import { setAccountInfo, fetchUser, updateUser, registerNewUser, addCampaignToUser } from '../../../public/src/actions/users';
 import { defaultUserAccountInfo } from '../../../public/src/reducers/users';
 import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
 
@@ -38,24 +38,19 @@ describe('User Actions', () => {
       afterEach(() => {
         mocker.reset();
       });
-      it('should mock the post request with a 201 status', () => {
+      it('should mock the post request with a 201 status and redirec to to "/public/login"', () => {
         return store.dispatch(registerNewUser(user, history))
           .then((res) => {
             expect(res.status).toEqual(201);
             expect(res.data).toEqual(user);
             expect(res.config.method).toEqual('post');
-          });
-      });
-      it('should call history.push and "redirect" history to "/public/login"', () => {
-        return store.dispatch(registerNewUser(user, history))
-          .then(() => {
             expect(history.push).toBeCalled();
             expect(history.push.mock.calls[0]).toEqual(['/public/login']);
           });
       });
     });
   });
-  describe('setAccountInfoAction', () => {
+  describe('setAccountInfo Action', () => {
     it('should have a type of "SET_USER_ACCOUNT_INFO"', () => {
       expect(setAccountInfo().type).toEqual('SET_USER_ACCOUNT_INFO');
     });
@@ -113,12 +108,39 @@ describe('User Actions', () => {
         store.dispatch(updateUser(1, updatedUser, history))
           .then(() => {
             expect(history.push).toBeCalled();
-            expect(history.push.mock.calls[2]).toEqual(['/volunteers/1']);
+            expect(history.push.mock.calls[1]).toEqual(['/volunteers/1']);
           })
       );
       it('should have a method called updateUser', () => {
         expect(typeof updateUser).toBe('function');
       });
+    });
+  });
+  describe('addCampaignToUser Action', () => {
+    mocker = new MockAdapter(axios);
+    store = mockStore(defaultUserAccountInfo);
+    beforeEach(() => {
+      mocker.onPost('/users/1/campaigns').reply(201);
+    });
+    afterEach(() => {
+      mocker.reset();
+    });
+    it('should mock the post request with status 201 then redirect to "/volunteers/campaigns"', () => {
+      const mockCampaignId = 1;
+      const mockUserId = 1;
+      store.dispatch(addCampaignToUser(mockUserId, mockCampaignId, history))
+        .then((res) => {
+          const data = JSON.parse(res.config.data);
+          expect(res.status).toEqual(201);
+          expect(res.config.method).toEqual('post');
+          expect(res.config.url).toEqual('/users/1/campaigns');
+          expect(data.campaign_id).toEqual(mockCampaignId);
+          expect(history.push).toBeCalled();
+          expect(history.push.mock.calls[2]).toEqual(['/volunteers/campaigns']);
+        })
+        .catch((err) => {
+          console.log(`Error in addCampaignToUser action test is: ${err}`);
+        });
     });
   });
 });
