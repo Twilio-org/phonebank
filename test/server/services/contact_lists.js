@@ -1,4 +1,5 @@
 import { expect, Should } from 'chai';
+import cleanUp from '../bootstrap';
 import ContactList from '../../../server/db/services/contact_lists';
 import Contact from '../../../server/db/services/contacts';
 
@@ -19,6 +20,11 @@ describe('Contact List Service tests', () => {
       };
       done();
     });
+
+    after((done) => {
+      cleanUp(done);
+    });
+
     it('should create contact list and save all parameters', (done) => {
       ContactList.saveNewContactList(this.params)
         .then((contactList) => {

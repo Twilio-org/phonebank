@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import cleanUp from '../bootstrap';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import Contact from '../../../server/db/services/contacts';
@@ -42,6 +43,10 @@ describe('Contact service tests', function () {
         phone_number: '+1234567890'
       };
     });
+
+    after((done) => {
+      cleanUp(done);
+    })
     it('should save first contact\'s first name, last name, phone, email, and external_id', (done) => {
       const firstContact = this.contactSaveParams1;
       Contact.saveNewContact(firstContact)

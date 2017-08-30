@@ -9,6 +9,6 @@ export default db.Model.extend({
     return this.belongsToMany(User);
   },
   calls() {
-    return this.belongsTo(Call);
+    return this.hasMany(Call);
   }
 });

@@ -218,5 +218,18 @@ const teardown = () =>
     console.error('Error dropping tables', err);
   });
 
+const truncateAllTables = () => 
+  bookshelf.knex('campaigns_users').del()
+  .then(() => bookshelf.knex('calls').del())
+  .then(() => bookshelf.knex('campaigns').del())
+  .then(() => bookshelf.knex('questions_scripts').del())
+  .then(() => bookshelf.knex('questions').del())
+  .then(() => bookshelf.knex('scripts').del())
+  .then(() => bookshelf.knex('contact_lists_contacts').del())
+  .then(() => bookshelf.knex('contact_lists').del())
+  .then(() => bookshelf.knex('contacts').del())
+  .then(() => bookshelf.knex('users').del());
+
+
 export default bookshelf;
-export { bookshelf, setup, teardown };
+export { bookshelf, setup, teardown, truncateAllTables };

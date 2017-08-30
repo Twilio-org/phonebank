@@ -10,6 +10,6 @@ export default db.Model.extend({
     return this.belongsToMany(Campaign);
   },
   calls() {
-    return this.belongsToMany(Call);
+    return this.hasMany(Call);
   }
 });

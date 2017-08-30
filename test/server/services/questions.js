@@ -1,4 +1,5 @@
 import * as chai from 'chai';
+import cleanUp from '../bootstrap';
 import Question from '../../../server/db/services/questions';
 
 const expect = chai.expect;
@@ -27,6 +28,10 @@ describe('Question service tests', () => {
           responses: 'yes,no,sometimes'
         }
       ];
+    });
+
+    after((done) => {
+      cleanUp(done);
     });
 
     it('should be able to save question title, description, type, and responses options', (done) => {

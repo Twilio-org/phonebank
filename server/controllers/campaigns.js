@@ -21,7 +21,7 @@ export function saveNewCampaign(req, res) {
             .then((contacts) => {
               contacts.map(contact => contact.id)
                 .forEach((contactId) => {
-                  callsService.populateCalls({ campaign_id: id, contact_id: contactId });
+                  callsService.populateCall({ campaign_id: id, contact_id: contactId });
                 });
               res.status(201).json({ message: 'Active Campaign successfully created' });
             })
