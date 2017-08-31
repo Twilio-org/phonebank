@@ -1,5 +1,6 @@
 import db from '../db';
 import Campaign from './campaigns';
+import Call from './calls';
 
 export default db.Model.extend({
   tableName: 'users',
@@ -7,5 +8,8 @@ export default db.Model.extend({
   hasTimestamps: true,
   campaigns() {
     return this.belongsToMany(Campaign);
+  },
+  calls() {
+    return this.hasMany(Call);
   }
 });
