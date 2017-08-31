@@ -182,6 +182,22 @@ const createCampaignsUsersTable = () =>
     return exist;
   });
 
+const createResponsesTable = () =>
+  bookshelf.knex.schema.hasTable('responses').then((exist) => {
+    if (!exist) {
+      return bookshelf.knex.schema.createTable('responses', (table) => {
+        table.increments('id').primary();
+        table.integer('question_id').references('questions.id').notNullable();
+        table.integer('call_id').references('calls.id').notNullable();
+        table.unique(['question_id', 'call_id']);
+        table.string('response').notNullable();
+        table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
+        table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
+      });
+    }
+    return exist;
+  });
+
 const setup = () =>
   createContactsTable()
   .then(createContactListsTable)
@@ -193,6 +209,7 @@ const setup = () =>
   .then(createUsersTable)
   .then(createCallsTable)
   .then(createCampaignsUsersTable)
+  .then(createResponsesTable)
   .then(() => {
     console.log('Created all tables');
   })
@@ -202,6 +219,7 @@ const setup = () =>
 
 const teardown = () =>
   bookshelf.knex.schema.dropTable('campaigns_users')
+  .then(() => bookshelf.knex.schema.dropTable('responses'))
   .then(() => bookshelf.knex.schema.dropTable('calls'))
   .then(() => bookshelf.knex.schema.dropTable('campaigns'))
   .then(() => bookshelf.knex.schema.dropTable('questions_scripts'))
@@ -220,6 +238,7 @@ const teardown = () =>
 
 const truncateAllTables = () =>
   bookshelf.knex('campaigns_users').del()
+  .then(() => bookshelf.knex('responses').del())
   .then(() => bookshelf.knex('calls').del())
   .then(() => bookshelf.knex('campaigns').del())
   .then(() => bookshelf.knex('questions_scripts').del())
