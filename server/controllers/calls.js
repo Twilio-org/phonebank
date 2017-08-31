@@ -3,7 +3,7 @@ import usersService from '../db/services/users';
 
 export function assignCall(req, res) {
   const user_id = req.params.id;
-  const user_campaign_id = req.params.campaign;
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
   return usersService.getUserCampaigns({ id: user_id })
     .then((campaigns) => {
