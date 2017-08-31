@@ -173,7 +173,8 @@ export function getUserCampaigns(req, res, next) {
 }
 
 export function getUserCampaignAssociation(req, res) {
-  const params = req.params;
+  const { id, campaign_id } = req.params;
+  const params = { id, campaign_id };
   return usersService.getUserCampaignAssociation(params)
     .then((campaign) => {
       if (campaign !== null) {
