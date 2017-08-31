@@ -2,7 +2,11 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
-  const { campaign, id, defaultMsg } = props;
+  const { campaign, id, defaultMsg, history } = props;
+  const handleClick = () => {
+    const { id: campaignId } = id;
+    history.push(`/volunteers/campaigns/${campaignId}/calls`);
+  };
   if (!campaign.title) {
     return (
       <div id={id}>
@@ -15,7 +19,7 @@ const CurrentCampaign = (props) => {
       <h3>{campaign.title}</h3>
       <hr />
       <p className="lead">{campaign.description}</p>
-      <Button bsStyle="primary" className={campaign.status !== 'active' ? 'disabled' : ''}>
+      <Button onClick={handleClick} bsStyle="primary" className={campaign.status !== 'active' ? 'disabled' : ''}>
         <i className="material-icons small">phone_in_talk</i> Start Calling
       </Button>
     </div>

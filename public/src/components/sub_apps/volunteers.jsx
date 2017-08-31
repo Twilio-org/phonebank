@@ -29,7 +29,7 @@ export default class Volunteers extends Component {
         />
         <Route
           exact
-          path={`${parent}/campaigns/:id`}
+          path={`${parent}/campaigns/:id/calls`}
           component={CallsContainer}
         />
         <Route
