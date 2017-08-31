@@ -36,7 +36,7 @@ export default class DashboardButtonGroup extends Component {
   }
 
   render() {
-    const { pathname } = this.props.history.location;
+    const pathname = this.props.history.location ? this.props.history.location.pathname : '';
     return (
       <div>
         {this.props.is_admin ? (
