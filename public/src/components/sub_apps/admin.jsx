@@ -13,6 +13,7 @@ import CreateQuestionContainer from '../../containers/create_question';
 import ViewQuestionContainer from '../../containers/view_question';
 import { ConnectedAccountPage } from '../../components/account/account';
 import ScriptPage from '../../containers/view_script';
+import AdminUsersContainer from '../../containers/list_users';
 
 export default class Admin extends Component {
   componentDidMount() {
@@ -72,6 +73,10 @@ export default class Admin extends Component {
         <Route
           path={`${parent}/contactLists`}
           component={AdminContactListsContainer}
+        />
+        <Route
+          path={`${parent}/users`}
+          component={AdminUsersContainer}
         />
         <Redirect
           from={parent}
