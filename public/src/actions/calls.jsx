@@ -56,4 +56,3 @@ export function assignToCall(userId, campaignId, currentCall) {
     })
     .catch(err => console.log(err));
 }
-// TODO: need controller to handle unassigning call from user

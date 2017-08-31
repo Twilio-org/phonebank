@@ -1,21 +1,22 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, destroy } from 'redux-form';
+import { reduxForm } from 'redux-form';
 
-import CallsPage from '../components/calls/calls';
+import CallPage from '../components/calls/calls_page_parent';
 
-// import { ...actions } from [ wherever ]
 import { setCampaignCurrent } from '../actions/campaign';
 import { setScriptCurrent, setScriptQuestions } from '../actions/admin_scripts';
+import callsActions from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
     current_campaign: state.admin_campaigns.current_campaign,
-    // has_user_joined_campaign: state.admin_campaigns.has_user_joined_campaign,
+    has_user_joined_campaign: state.admin_campaigns.has_user_joined_campaign,
     current_script: state.admin_scripts.current_script,
-    script_questions: state.admin_scripts.script_questions
-    // current_call: state.calls.current_call
-    // add in call active, etc.
+    script_questions: state.admin_scripts.script_questions,
+    current_call: state.calls.current_call,
+    next_call: state.calls.next_call,
+    calls_made: state.calls.calls_made
   };
 }
 
@@ -26,8 +27,9 @@ export default withRouter(
       connect(mapStateToProps,
         { setScriptCurrent,
           setScriptQuestions,
-          setCampaignCurrent
+          setCampaignCurrent,
+          ...callsActions
         }
-      )(CallsPage)
+      )(CallPage)
     )
 );
