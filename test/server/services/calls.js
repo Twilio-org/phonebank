@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+import callsService from '../../../server/db/services/calls';
+import campaignsService from '../../../server/db/services/campaigns';
 import cleanUp from '../bootstrap';
-import Call from '../../../server/db/services/calls';
-import Contact from '../../../server/db/services/contacts';
-import Campaign from '../../../server/db/services/campaigns';
-import Script from '../../../server/db/services/scripts';
-import ContactList from '../../../server/db/services/contact_lists';
+import contactListsService from '../../../server/db/services/contact_lists';
+import contactsService from '../../../server/db/services/contacts';
+import scriptsService from '../../../server/db/services/scripts';
+import usersService from '../../../server/db/services/users';
 
 describe('Calls Service tests', () => {
   after((done) => {
@@ -37,21 +38,33 @@ describe('Calls Service tests', () => {
         external_id: 'test12345'
       };
 
+      this.userSaveParams = {
+        firstName: 'John',
+        lastName: 'Doe',
+        password: 'hatch',
+        phoneNumber: '+14441114444',
+        email: 'John@gmail.com'
+      };
+
       this.callSaveParams = {};
 
-      Script.saveNewScript(this.scriptParams)
+      scriptsService.saveNewScript(this.scriptParams)
         .then((script) => {
           this.campaignParams.script_id = script.attributes.id;
-          ContactList.saveNewContactList(this.contactListParam)
+          contactListsService.saveNewContactList(this.contactListParam)
             .then((contactList) => {
               this.campaignParams.contact_lists_id = contactList.attributes.id;
-              Campaign.saveNewCampaign(this.campaignParams)
+              campaignsService.saveNewCampaign(this.campaignParams)
                 .then((campaign) => {
                   this.callSaveParams.campaign_id = campaign.attributes.id;
-                  Contact.saveNewContact(this.contactSaveParams)
+                  contactsService.saveNewContact(this.contactSaveParams)
                     .then((contact) => {
                       this.callSaveParams.contact_id = contact.attributes.id;
-                      done();
+                      usersService.saveNewUser(this.userSaveParams)
+                      .then((user) => {
+                        this.callSaveParams.user_id = user.attributes.id;
+                        done();
+                      });
                     });
                 });
             });
@@ -59,10 +72,20 @@ describe('Calls Service tests', () => {
     });
 
     it('should correctly populate a call', (done) => {
-      Call.populateCall(this.callSaveParams)
+      callsService.populateCall(this.callSaveParams)
         .then((call) => {
           expect(call.attributes.campaign_id).to.equal(this.callSaveParams.campaign_id);
           expect(call.attributes.contact_id).to.equal(this.callSaveParams.contact_id);
+          done();
+        }, done);
+    });
+
+    it('should return an assigned call', (done) => {
+      const { user_id, campaign_id } = this.callSaveParams;
+      callsService.assignCall({ user_id, campaign_id })
+        .then((call) => {
+          expect(call.attributes.user_id).to.equal(this.callSaveParams.user_id);
+          expect(call.attributes.status).to.equal('ASSIGNED');
           done();
         }, done);
     });

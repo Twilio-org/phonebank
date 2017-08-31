@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -16,9 +16,16 @@ export function setCurrentCampaign(campaignDataObj) {
   };
 }
 
+export function setUserCampaignJoin(response) {
+  return {
+    type: SET_USER_CAMPAIGN_JOIN,
+    payload: !!response
+  };
+}
+
 export function saveNewCampaign(campaignInfo, history) {
-  const { name, title, description, script_id, contact_lists_id } = campaignInfo[0];
-  const status = campaignInfo[1];
+  const [{ name, title, description, script_id, contact_lists_id }, status] = campaignInfo;
+
   return dispatch => axios.post('/campaigns',
     {
       name,
@@ -57,5 +64,31 @@ export function fetchCampaigns(status = '') {
   })
   .catch((err) => {
     console.log('error fetching all campaigns from the db: ', err);
+  });
+}
+
+export function verifyVolunteerCampaign(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}`)
+  .then(response => dispatch(setUserCampaignJoin(response)))
+  .catch((err) => {
+    console.log('no user relation to campaign, the response code is: ', err.response);
+    return err.response === 404 ? dispatch(setUserCampaignJoin(undefined)) : err;
+  });
+}
+
+export function fetchCampaignsByUser(userId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((campaigns) => {
+    const { data: campaignsList } = campaigns;
+    return dispatch(setCampaignsList(campaignsList));
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in fetching joined campaigns from database: ${err}`,
+      name: 'fetchCampaignsByUser'
+    };
+    throw customError;
   });
 }
