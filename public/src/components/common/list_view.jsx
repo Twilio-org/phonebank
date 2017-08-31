@@ -11,7 +11,7 @@ const TableListView = (props) => {
           account_info: { last_name, first_name, is_admin },
           history,
           button_collection,
-          setCurrentItem,
+          componentClickHandler,
           thisPage,
           tableHeaders,
           newPath,
@@ -56,7 +56,7 @@ const TableListView = (props) => {
                   auth={auth}
                   is_admin={is_admin}
                   item={item}
-                  handleClick={setCurrentItem}
+                  handleClick={componentClickHandler}
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
