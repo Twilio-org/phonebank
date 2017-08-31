@@ -1,4 +1,4 @@
-import { accountInfoReducer } from '../../../public/src/reducers/account_info';
+import { accountInfoReducer } from '../../../public/src/reducers/users';
 
 describe('accountInfoReducer', () => {
   it('should return the initial state', () => {
