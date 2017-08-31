@@ -71,7 +71,7 @@ export function verifyVolunteerCampaign(userId, campaignId) {
   return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}`)
     .then(response => dispatch(setUserCampaignJoin(response)))
     .catch((err) => {
-      console.log('error with verifying volunteer added to camp: ', err);
-      return dispatch(setUserCampaignJoin(undefined));
+      console.log('no user relation to campaign, the response code is: ', err.response);
+      return err.response === 404 ? dispatch(setUserCampaignJoin(undefined)) : err;
     });
 }

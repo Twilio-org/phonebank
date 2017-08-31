@@ -9,7 +9,7 @@ export const SET_CALL_NEXT = 'SET_CALL_NEXT';
 export const INCREMENT_CALLS = 'INCREMENT_CALLS';
 export const CLEAR_CALL_CURRENT = 'CLEAR_CALL_CURRENT';
 export const CLEAR_NEXT_CALL = 'CLEAR_NEXT_CALL';
-export const CLEAR_INC_CALLS = 'CLEAR_INC_CALLS';
+export const CLEAR_COUNT_CALLS = 'CLEAR_COUNT_CALLS';
 export const PROMOTE_NEXT = 'PROMOTE_NEXT';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
@@ -48,7 +48,7 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
         ...state,
         next_call: undefined
       };
-    case CLEAR_INC_CALLS:
+    case CLEAR_COUNT_CALLS:
       return {
         ...state,
         calls_made: payload

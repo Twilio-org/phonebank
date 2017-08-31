@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { SET_CALL_CURRENT, SET_CALL_NEXT, INCREMENT_CALLS, CLEAR_CALL_CURRENT, CLEAR_NEXT_CALL, CLEAR_INC_CALLS, PROMOTE_NEXT } from '../reducers/calls';
+import { SET_CALL_CURRENT, SET_CALL_NEXT, INCREMENT_CALLS, CLEAR_CALL_CURRENT, CLEAR_NEXT_CALL, CLEAR_COUNT_CALLS, PROMOTE_NEXT } from '../reducers/calls';
 
 export function incrementCallCount() {
   return {
@@ -15,7 +15,7 @@ export function promoteNextToCurrent() {
 
 export function clearCallIncrement() {
   return {
-    type: CLEAR_INC_CALLS,
+    type: CLEAR_COUNT_CALLS,
     payload: undefined
   };
 }
