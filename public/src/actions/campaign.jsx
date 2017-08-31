@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -13,6 +13,13 @@ export function setCurrentCampaign(campaignDataObj) {
   return {
     type: SET_CAMPAIGN_CURRENT,
     payload: campaignDataObj
+  };
+}
+
+export function setUserCampaignJoin(response) {
+  return {
+    type: SET_USER_CAMPAIGN_JOIN,
+    payload: !!response
   };
 }
 
@@ -58,4 +65,10 @@ export function fetchCampaigns(status = '') {
   .catch((err) => {
     console.log('error fetching all campaigns from the db: ', err);
   });
+}
+
+export function verifyVolunteerCampaign(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}`)
+    .then(response => dispatch(setUserCampaignJoin(response)))
+    .catch(err => dispatch(setUserCampaignJoin(undefined)));
 }
