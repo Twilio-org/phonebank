@@ -1,11 +1,15 @@
 /* eslint-disable jest/valid-expect */
 
 import { expect, Should } from 'chai';
+import cleanUp from '../bootstrap';
 import scriptsService from '../../../server/db/services/scripts';
 
 const should = Should();
 
 describe('Script service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     before((done) => {
       this.scriptParams1 = {

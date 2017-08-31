@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { renderField } from '../components/common/form_helpers';
-import registerNewUser from '../actions/registration';
+import { registerNewUser } from '../actions/users';
 
 class RegistrationForm extends Component {
   constructor(props) {

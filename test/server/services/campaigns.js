@@ -1,12 +1,17 @@
 import { expect, Should } from 'chai';
-import db from '../../../server/db/db';
 import campaignsService from '../../../server/db/services/campaigns';
+import contactListsService from '../../../server/db/services/contact_lists';
+import scriptsService from '../../../server/db/services/scripts';
+import cleanUp from '../bootstrap';
 
 const should = Should();
 
 describe('Campaign service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
-    before(() => {
+    before((done) => {
       this.scriptParams = {
         name: 'testScript',
         body: 'Hello, my name is Joe',
@@ -21,26 +26,27 @@ describe('Campaign service tests', () => {
         name: 'testCampaign1',
         title: 'Test1',
         description: 'election',
-        status: 'draft',
-        script_id: 1,
-        contact_lists_id: 1
+        status: 'draft'
       };
 
       this.campaignParams2 = {
         name: 'testCampaign2',
         title: 'Test2',
         description: 'reelection',
-        status: 'active',
-        script_id: 1,
-        contact_lists_id: 1
+        status: 'active'
       };
 
-      const { name, body, description } = this.scriptParams;
-
-      return db.knex.schema.raw(
-        `INSERT INTO scripts (name, body, description) VALUES ('${name}', '${body}', '${description}');
-        INSERT INTO contact_lists (name) VALUES ('${this.contactListParams.name}');`
-      );
+      scriptsService.saveNewScript(this.scriptParams)
+        .then((script) => {
+          this.campaignParams1.script_id = script.attributes.id;
+          this.campaignParams2.script_id = script.attributes.id;
+          contactListsService.saveNewContactList(this.contactListParams)
+            .then((contactList) => {
+              this.campaignParams1.contact_lists_id = contactList.attributes.id;
+              this.campaignParams2.contact_lists_id = contactList.attributes.id;
+              done();
+            });
+        });
     });
 
     it('should save new campaign', (done) => {
@@ -120,13 +126,5 @@ describe('Campaign service tests', () => {
           done();
         });
     });
-
-    after(() => db.knex.schema.raw(
-        `
-        DELETE FROM campaigns;
-        DELETE FROM scripts;
-        DELETE FROM contact_lists;
-        `
-      ))
   });
 });
