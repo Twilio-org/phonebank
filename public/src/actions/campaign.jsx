@@ -1,17 +1,10 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_VOLUNTEER_JOINED_CAMPAIGNS } from '../reducers/campaign';
+import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
     type: SET_CAMPAIGNS,
-    payload: campaignsList
-  };
-}
-
-export function setJoinedCampaignsList(campaignsList) {
-  return {
-    type: SET_VOLUNTEER_JOINED_CAMPAIGNS,
     payload: campaignsList
   };
 }
@@ -73,7 +66,7 @@ export function fetchCampaignsByUser(userId) {
   })
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
-    return dispatch(setJoinedCampaignsList(campaignsList));
+    return dispatch(setCampaignsList(campaignsList));
   })
   .catch((err) => {
     const customError = {
