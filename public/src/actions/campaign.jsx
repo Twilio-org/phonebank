@@ -69,9 +69,26 @@ export function fetchCampaigns(status = '') {
 
 export function verifyVolunteerCampaign(userId, campaignId) {
   return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}`)
-    .then(response => dispatch(setUserCampaignJoin(response)))
-    .catch((err) => {
-      console.log('no user relation to campaign, the response code is: ', err.response);
-      return err.response === 404 ? dispatch(setUserCampaignJoin(undefined)) : err;
-    });
+  .then(response => dispatch(setUserCampaignJoin(response)))
+  .catch((err) => {
+    console.log('no user relation to campaign, the response code is: ', err.response);
+    return err.response === 404 ? dispatch(setUserCampaignJoin(undefined)) : err;
+  });
+}
+
+export function fetchCampaignsByUser(userId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((campaigns) => {
+    const { data: campaignsList } = campaigns;
+    return dispatch(setCampaignsList(campaignsList));
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in fetching joined campaigns from database: ${err}`,
+      name: 'fetchCampaignsByUser'
+    };
+    throw customError;
+  });
 }

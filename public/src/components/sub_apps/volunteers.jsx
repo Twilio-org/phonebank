@@ -5,6 +5,7 @@ import CampaignsContainer from '../../containers/list_campaigns';
 import EditAccountInfo from '../../components/account/edit_account';
 import { ConnectedAccountPage } from '../../components/account/account';
 import CallsContainer from '../../containers/view_create_calls';
+import JoinedCampaignsContainer from '../../containers/joined_campaigns';
 
 export default class Volunteers extends Component {
   componentDidMount() {
@@ -32,8 +33,12 @@ export default class Volunteers extends Component {
           component={CallsContainer}
         />
         <Route
-          path={`${parent}/campaigns`}
+          path={`${parent}/campaigns/all`}
           component={CampaignsContainer}
+        />
+        <Route
+          path={`${parent}/campaigns`}
+          component={JoinedCampaignsContainer}
         />
         <Redirect from={parent} to={`${parent}/campaigns`} />
       </Switch>

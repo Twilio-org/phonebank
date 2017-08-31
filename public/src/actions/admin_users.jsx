@@ -25,9 +25,9 @@ export function fetchAllUsers(currentUserId) {
       const { is_admin, is_banned, is_active } = userObject;
       return {
         ...userObject,
-        is_admin,
-        is_banned,
-        is_active
+        is_admin: JSON.stringify(is_admin),
+        is_banned: JSON.stringify(is_banned),
+        is_active: JSON.stringify(is_active)
       };
     });
     // remove the current user from the user's list... so they don't accidentally

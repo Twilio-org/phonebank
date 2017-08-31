@@ -4,7 +4,7 @@ import { destroy } from 'redux-form';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
-import { saveNewCampaign, setCampaignsList, setCurrentCampaign, fetchCampaigns } from '../../../public/src/actions/campaign';
+import { saveNewCampaign, setCampaignsList, setJoinedCampaignsList, setCurrentCampaign, fetchCampaigns, fetchCampaignsByUser } from '../../../public/src/actions/campaign';
 
 exposeLocalStorageMock();
 
@@ -91,6 +91,31 @@ describe('campaign actions', () => {
       it('should add the appropriate action to the store: ', () => {
         const expectedAction = setCampaignsList(campaignListFixtures);
         return store.dispatch(fetchCampaigns())
+          .then(() => {
+            const [dispatchedActions] = store.getActions();
+            const { type, payload } = dispatchedActions;
+            expect(dispatchedActions).toEqual(expectedAction);
+            expect(type).toBe('SET_CAMPAIGNS');
+            expect(payload).toEqual(campaignListFixtures);
+          });
+      });
+    });
+  });
+
+  describe('fetchCampaignsByUser: ', () => {
+    mock = new MockAdapter(axios);
+
+    beforeEach(() => {
+      mock.onGet('/users/1/campaigns').reply(200, campaignListFixtures
+      );
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    describe('axios GET request: ', () => {
+      it('should add the appropriate action to the store: ', () => {
+        const expectedAction = setCampaignsList(campaignListFixtures);
+        return store.dispatch(fetchCampaignsByUser(1))
           .then(() => {
             const [dispatchedActions] = store.getActions();
             const { type, payload } = dispatchedActions;
