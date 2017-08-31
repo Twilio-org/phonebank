@@ -5,8 +5,6 @@ import renderer from 'react-test-renderer';
 import { AccountPage } from '../../../public/src/components/account/account';
 import { fetchUser } from '../../../public/src/actions/users';
 
-// jest.mock('../../../public/src/actions/edit_account', () => jest.fn());
-
 const deleteUser = jest.fn();
 
 const mockStore = {
