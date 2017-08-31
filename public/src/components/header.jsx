@@ -41,7 +41,7 @@ export default class Header extends Component {
       parent = '/public';
     }
     return (
-      <Navbar>
+      <Navbar fluid>
         <Row>
           <Col md={4}>
             <Navbar.Brand>

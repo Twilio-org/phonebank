@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import CampaignsContainer from '../../containers/list_campaigns';
 import EditAccountInfo from '../../components/account/edit_account';
 import { ConnectedAccountPage } from '../../components/account/account';
+import CallsContainer from '../../containers/view_create_calls';
 import JoinedCampaignsContainer from '../../containers/joined_campaigns';
 
 export default class Volunteers extends Component {
@@ -25,6 +26,11 @@ export default class Volunteers extends Component {
         <Route
           path={`${parent}/account`}
           component={ConnectedAccountPage}
+        />
+        <Route
+          exact
+          path={`${parent}/campaigns/:id/calls`}
+          component={CallsContainer}
         />
         <Route
           path={`${parent}/campaigns/all`}

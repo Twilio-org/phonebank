@@ -14,6 +14,7 @@ import { adminQuestionsReducer } from './reducers/admin_questions';
 import { adminScriptsReducer } from './reducers/admin_scripts';
 import { adminContactListsReducer } from './reducers/admin_contact_lists';
 import { adminUsersReducer } from './reducers/admin_users';
+import { volunteerCallsReducer } from './reducers/calls';
 
 const appReducer = combineReducers({
   form: formReducer,
@@ -23,7 +24,8 @@ const appReducer = combineReducers({
   admin_questions: adminQuestionsReducer,
   admin_scripts: adminScriptsReducer,
   admin_contact_lists: adminContactListsReducer,
-  admin_users: adminUsersReducer
+  admin_users: adminUsersReducer,
+  calls: volunteerCallsReducer
 });
 
 const rootReducer = (state, action) => {
