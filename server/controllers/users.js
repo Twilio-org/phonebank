@@ -172,15 +172,14 @@ export function getUserCampaigns(req, res, next) {
     .catch(err => console.log('could not retrieve user\'s campaigns:', err));
 }
 
-export function getUserCampaignAssociation(req, res, next) {
+export function getUserCampaignAssociation(req, res) {
   const params = req.params;
   return usersService.getUserCampaignAssociation(params)
     .then((campaign) => {
       if (campaign !== null) {
-        res.status(204).json({ message: 'Association exists.' });
+        res.sendStatus(204);
       } else {
-        res.status(404).json({ message: 'This association does not exist.' });
-        next();
+        res.sendStatus(404);
       }
     })
     .catch((err) => {
