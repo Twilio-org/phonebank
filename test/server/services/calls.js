@@ -11,6 +11,7 @@ describe('Calls Service tests', () => {
   after((done) => {
     cleanUp(done);
   });
+
   describe('Data insertion', function() {
     before((done) => {
       this.contactListParam = {
@@ -64,7 +65,7 @@ describe('Calls Service tests', () => {
                       .then((user) => {
                         this.callSaveParams.user_id = user.attributes.id;
                         done();
-                      })
+                      });
                     });
                 });
             });
@@ -84,15 +85,6 @@ describe('Calls Service tests', () => {
       const { user_id, campaign_id } = this.callSaveParams;
       callsService.assignCall({ user_id, campaign_id })
         .then((call) => {
-          console.log('****************************');
-          console.log('****************************');
-          console.log('****************************');
-          console.log('CALL: ', call)
-          console.log('callSaveParams: ', this.callSaveParams.user_id, 'typeof: ', typeof this.callSaveParams.user_id);
-          console.log('call User ID: ', call.attributes.user_id, 'typeof: ', typeof call.attributes.user_id);
-          console.log('****************************');
-          console.log('****************************');
-          console.log('****************************');
           expect(call.attributes.user_id).to.equal(this.callSaveParams.user_id);
           expect(call.attributes.status).to.equal('ASSIGNED');
           done();
