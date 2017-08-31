@@ -184,6 +184,6 @@ export function getUserCampaignAssociation(req, res) {
       }
     })
     .catch((err) => {
-      res.status(404).json({ message: `This association does not exist.: ${err}` });
+      res.status(404).json({ message: `Cannot process request for campaign_user association: ${err}` });
     });
 }
