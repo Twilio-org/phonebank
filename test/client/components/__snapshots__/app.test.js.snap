@@ -6,7 +6,7 @@ exports[`<App /> rendering should render correctly 1`] = `
     className="navbar navbar-default"
   >
     <div
-      className="container"
+      className="container-fluid"
     >
       <div
         className="row"
@@ -94,7 +94,7 @@ exports[`<App /> rendering should render correctly 1`] = `
     id="content"
   >
     <div
-      className="container"
+      className="container-fluid"
     />
   </section>
 </div>
