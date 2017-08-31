@@ -129,13 +129,11 @@ function generatePromiseActions(paramsArray, createFunction) {
 
 Promise.all(generatePromiseActions(userParams, createUser))
   .then((users) => {
-    const userIds = users.map(user => user.attributes.id);
     Promise.all(generatePromiseActions(questionParams, createQuestion))
       .then((questions) => {
         scriptsService.saveNewScript(scriptParams)
           .then((script) => {
             campaignScriptId = script.attributes.id;
-            // console.log(questions);
             const id = campaignScriptId;
             const questionIds = questions.map(question => question.attributes.id);
             const scriptQuestionParams = [];
@@ -179,7 +177,7 @@ Promise.all(generatePromiseActions(userParams, createUser))
                             campaignsService.saveNewCampaign(campaignParams)
                               .then((campaign) => {
                                 const campaignId = campaign.attributes.id;
-                                const userId = userIds[1];
+                                const userId = users.map(user => user.attributes.id)[1];
                                 const cloneCallParams = callParams.map(call =>
                                   Object.assign({}, call, { campaign_id: campaignId }));
 
