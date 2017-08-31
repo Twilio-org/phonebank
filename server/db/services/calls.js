@@ -14,7 +14,7 @@ export default {
       .where({ campaign_id, status: 'available' })
       .fetch().then((call) => {
         if (call) {
-          return call.save({ user_id }, { patch: true })
+          return call.save({ user_id, status: 'assigned' }, { patch: true })
             .then(savedCall => savedCall);
         }
 
