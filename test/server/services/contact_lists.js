@@ -1,10 +1,14 @@
 import { expect, Should } from 'chai';
+import cleanUp from '../bootstrap';
 import ContactList from '../../../server/db/services/contact_lists';
 import Contact from '../../../server/db/services/contacts';
 
 const should = Should();
 
 describe('Contact List Service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('insert/read/update', function() {
     before((done) => {
       this.params = {
@@ -19,6 +23,7 @@ describe('Contact List Service tests', () => {
       };
       done();
     });
+
     it('should create contact list and save all parameters', (done) => {
       ContactList.saveNewContactList(this.params)
         .then((contactList) => {
