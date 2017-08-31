@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 
-import { updateUser } from '../../actions/edit_account';
+import { updateUser } from '../../actions/users';
 
 class EditAccountInfo extends Component {
   constructor(props) {

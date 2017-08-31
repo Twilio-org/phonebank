@@ -1,6 +1,6 @@
 export default {
   view_edit(props) {
-    const { page, handleClick, item, history } = props;
+    const { page, item, history } = props;
     const { id } = item;
     return [
       {
@@ -9,7 +9,7 @@ export default {
         size: 'xsmall',
         style: 'primary',
         handler: () => {
-          // handleClick(item);
+          // props.handleClick(item);
           history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
       },
@@ -19,13 +19,13 @@ export default {
         size: 'xsmall',
         style: 'danger',
         handler: () => {
-          handleClick(item);
+          // handleClick(item);
           // history.push(`/admin/${page.toLowerCase()}s/${item.id}/edit`);
         }
       }
     ];
   },
-  admin_campaigns(props, item) {
+  admin_campaigns() { // deleted props and item as arguments because they were causing an error
     return [
       {
         key: 1,
@@ -55,7 +55,7 @@ export default {
         style: 'danger',
         handler: () => {
           // const { id } = item;
-          props.handleClick(item);
+          // props.handleClick(item);
           // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
         }
       }
@@ -101,7 +101,10 @@ export default {
       }
     ];
   },
-  volunteer_campaigns(props, item) {
+  volunteer_campaigns(props) {
+    const { item, auth, history, handleClick } = props;
+    const { id: campaign_id } = item;
+    const { id } = auth;
     return [
       {
         key: 1,
@@ -109,7 +112,7 @@ export default {
         size: 'xsmall',
         style: 'success',
         handler: () => {
-          props.handleClick(item);
+          handleClick(id, campaign_id, history);
         }
       }
     ];

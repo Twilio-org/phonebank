@@ -12,7 +12,7 @@ export default class ContactLists extends Component {
   }
 
   render() {
-    const { all_contact_lists, account_info, history, setCurrentContactList } = this.props;
+    const { all_contact_lists, account_info, history } = this.props;
     const thisPage = 'Contact List';
     const { view_edit } = buttons_obj;
     const { redirect_path } = contactListsHeaders;
@@ -26,7 +26,7 @@ export default class ContactLists extends Component {
               account_info={account_info}
               history={history}
               button_collection={view_edit}
-              setCurrentItem={setCurrentContactList}
+              componentClickHandler={() => {}}
               thisPage={thisPage}
               tableHeaders={contactListsHeaders}
               newPath={redirect_path}
