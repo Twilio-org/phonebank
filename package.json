@@ -9,7 +9,7 @@
     "db:setup": "babel-node --presets env,es2015,stage-1 server/db/setup.js",
     "db:teardown": "babel-node --presets env,es2015,stage-1 server/db/teardown.js",
     "db:seed": "babel-node --presets env,es2015,stage-1 server/db/seed.js",
-    "db:refresh": "npm run db:teardown && npm db:setup && npm db:seed",
+    "db:refresh": "npm run db:teardown && npm run db:setup && npm run db:seed",
     "lint": "eslint --ext js --ext jsx .",
     "build": "webpack -d  --watch && cp public/index.html dist/index.html && webpack-dev-server --content-base src/ --inline",
     "build:prod": "webpack -p && cp public/index.html dist/index.html",
