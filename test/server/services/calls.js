@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-import { expect } from 'chai';
-import cleanUp from '../bootstrap';
-import Call from '../../../server/db/services/calls';
-import Contact from '../../../server/db/services/contacts';
-import Campaign from '../../../server/db/services/campaigns';
-import Script from '../../../server/db/services/scripts';
-import ContactList from '../../../server/db/services/contact_lists';
-=======
 /* eslint-disable jest/valid-expect */
 /* eslint-disable no-undef */
 import { expect } from 'chai';
@@ -17,7 +8,6 @@ import contactListsService from '../../../server/db/services/contact_lists';
 import contactsService from '../../../server/db/services/contacts';
 import scriptsService from '../../../server/db/services/scripts';
 import usersService from '../../../server/db/services/users';
->>>>>>> Stashed changes
 
 describe('Calls Service tests', () => {
   after((done) => {
@@ -50,23 +40,6 @@ describe('Calls Service tests', () => {
         external_id: 'test12345'
       };
 
-<<<<<<< Updated upstream
-      this.callSaveParams = {};
-
-      Script.saveNewScript(this.scriptParams)
-        .then((script) => {
-          this.campaignParams.script_id = script.attributes.id;
-          ContactList.saveNewContactList(this.contactListParam)
-            .then((contactList) => {
-              this.campaignParams.contact_lists_id = contactList.attributes.id;
-              Campaign.saveNewCampaign(this.campaignParams)
-                .then((campaign) => {
-                  this.callSaveParams.campaign_id = campaign.attributes.id;
-                  Contact.saveNewContact(this.contactSaveParams)
-                    .then((contact) => {
-                      this.callSaveParams.contact_id = contact.attributes.id;
-                      done();
-=======
       this.userSaveParams = {
         firstName: 'John',
         lastName: 'Doe',
@@ -94,7 +67,6 @@ describe('Calls Service tests', () => {
                         this.callSaveParams.user_id = user.attributes.id;
                         done();
                       });
->>>>>>> Stashed changes
                     });
                 });
             });
@@ -102,19 +74,13 @@ describe('Calls Service tests', () => {
     });
 
     it('should correctly populate a call', (done) => {
-<<<<<<< Updated upstream
-      Call.populateCall(this.callSaveParams)
-=======
       callsService.populateCall(this.callSaveParams)
->>>>>>> Stashed changes
         .then((call) => {
           expect(call.attributes.campaign_id).to.equal(this.callSaveParams.campaign_id);
           expect(call.attributes.contact_id).to.equal(this.callSaveParams.contact_id);
           done();
         }, done);
     });
-<<<<<<< Updated upstream
-=======
 
     it('should return an assigned call', (done) => {
       const { user_id, campaign_id } = this.callSaveParams;
@@ -125,6 +91,5 @@ describe('Calls Service tests', () => {
           done();
         }, done);
     });
->>>>>>> Stashed changes
   });
 });
