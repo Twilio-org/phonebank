@@ -260,5 +260,99 @@ export default {
         sequence_number: 3
       }
     ]
+  },
+  usersFixture: {
+    defaultUsers: {
+      current_user: {},
+      all_users: []
+    },
+    listFixture: [
+      {
+        id: 1,
+        first_name: 'andi',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'true',
+        is_banned: 'false',
+        is_admin: 'true',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      },
+      {
+        id: 2,
+        first_name: 'alyse',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'false',
+        is_banned: 'false',
+        is_admin: 'false',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      },
+      {
+        id: 3,
+        first_name: 'william',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'false',
+        is_banned: 'true',
+        is_admin: 'false',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      }
+    ],
+    updatedListFixture: [
+      {
+        id: 1,
+        first_name: 'andi',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'false',
+        is_banned: 'true',
+        is_admin: 'false',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      },
+      {
+        id: 2,
+        first_name: 'alyse',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'false',
+        is_banned: 'false',
+        is_admin: 'false',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      },
+      {
+        id: 3,
+        first_name: 'william',
+        last_name: 'oneto',
+        phone_number: '1231231234',
+        email: 'nene@aol.com',
+        is_active: 'false',
+        is_banned: 'true',
+        is_admin: 'false',
+        created_at: '2017-08-24T01:01:01.145Z',
+        updated_at: '2017-08-25T22:01:10.202Z'
+      }
+    ],
+    mapFixture: {
+      id: 1,
+      first_name: 'andi',
+      last_name: 'oneto',
+      phone_number: '1231231234',
+      email: 'nene@aol.com',
+      is_active: 'true',
+      is_banned: 'false',
+      is_admin: 'true',
+      created_at: '2017-08-24T01:01:01.145Z',
+      updated_at: '2017-08-25T22:01:10.202Z'
+    }
   }
 };

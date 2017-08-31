@@ -14,6 +14,10 @@ const tableInfo = {
   contact_lists: {
     headers: [['Name', 'name'], ['Created At', 'created_at']],
     redirect_path: '/admin/contactLists/new'
+  },
+  users: {
+    headers: [['First Name', 'first_name'], ['Last Name', 'last_name'], ['Email', 'email'], ['Phone Number', 'phone_number'], ['Admin', 'is_admin'], ['Banned', 'is_banned'], ['Active Status', 'is_active'], ['Joined', 'created_at']],
+    redirect_path: null
   }
 };
 

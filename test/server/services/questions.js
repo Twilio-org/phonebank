@@ -1,9 +1,13 @@
 import * as chai from 'chai';
+import cleanUp from '../bootstrap';
 import Question from '../../../server/db/services/questions';
 
 const expect = chai.expect;
 
 describe('Question service tests', () => {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
     console.log('Now running questions service tests: ');
     beforeEach(() => {

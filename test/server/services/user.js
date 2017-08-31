@@ -1,4 +1,5 @@
 import { expect, Should } from 'chai';
+import cleanUp from '../bootstrap';
 import bcrypt from 'bcrypt';
 import User from '../../../server/db/services/users';
 import Campaign from '../../../server/db/services/campaigns';
@@ -8,8 +9,11 @@ import Script from '../../../server/db/services/scripts';
 const should = Should();
 
 describe('User service tests', function() {
+  after((done) => {
+    cleanUp(done);
+  });
   describe('Data insertion', function() {
-    beforeEach(() => {
+    before(() => {
       this.userSaveParams1 = {
         firstName: 'John',
         lastName: 'Doe',
@@ -30,6 +34,7 @@ describe('User service tests', function() {
     it('should be able to save first user\'s first name and last name', (done) => {
       User.saveNewUser(this.userSaveParams1)
         .then((user) => {
+          this.userSaveParams1.id = user.attributes.id;
           expect(user.attributes.first_name).to.equal('John');
           expect(user.attributes.last_name).to.equal('Doe');
           done();
@@ -37,7 +42,7 @@ describe('User service tests', function() {
     });
 
     it('should hash first user\'s password', (done) => {
-      User.getUserByEmail({ email: 'John@gmail.com' })
+      User.getUserById({ id: this.userSaveParams1.id })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('hatch', passwordHash, (err, match) => {
@@ -50,6 +55,7 @@ describe('User service tests', function() {
     it('should be able to save second user\'s first name and last name', (done) => {
       User.saveNewUser(this.userSaveParams2)
         .then((user) => {
+          this.userSaveParams2.id = user.attributes.id;
           expect(user.attributes.first_name).to.equal('Jane');
           expect(user.attributes.last_name).to.equal('Doe');
           done();
@@ -57,7 +63,7 @@ describe('User service tests', function() {
     });
 
     it('should hash second user\'s password', (done) => {
-      User.getUserByEmail({ email: 'Jane@gmail.com' })
+      User.getUserById({ id: this.userSaveParams2.id })
         .then(user => user.attributes.password_hash)
         .then((passwordHash) => {
           bcrypt.compare('hatch1', passwordHash, (err, match) => {
@@ -65,6 +71,71 @@ describe('User service tests', function() {
             done();
           });
         });
+    });
+  });
+
+  describe('Data retrieval', function() {
+    before(() => {
+      this.userRetrieveParam1 = {};
+      this.userRetrieveParam2 = {};
+    })
+    it('should retrieve first user\'s first name, last name, and account status by email', (done) => {
+      User.getUserByEmail({ email: 'John@gmail.com' })
+        .then((user) => {
+          this.userRetrieveParam1.id = user.attributes.id;
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
+          done();
+        }, done);
+    });
+
+    it('should retrieve second user\'s first name, last name, and account status by email', (done) => {
+      User.getUserByEmail({ email: 'Jane@gmail.com' })
+        .then((user) => {
+          this.userRetrieveParam2.id = user.attributes.id;
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('Jane');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.equal(true);
+          done();
+        }, done);
+    });
+
+    it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
+      User.getUserById({ id: this.userRetrieveParam1.id })
+        .then((user) => {
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('John');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.be.true;
+          done();
+        }, done);
+    });
+
+    it('should retrieve second user\'s first name, last name, and account status by ID', (done) => {
+      User.getUserById({ id: this.userRetrieveParam2.id })
+        .then((user) => {
+          should.exist(user);
+          expect(user.attributes.first_name).to.equal('Jane');
+          expect(user.attributes.last_name).to.equal('Doe');
+          expect(user.attributes.is_active).to.be.true;
+          done();
+        }, done);
+    });
+    it('should retrieve all users', (done) => {
+      User.getAllUsers()
+        .then((users) => {
+          const { models } = users;
+          const [entry1, entry2] = models;
+          expect(models.length).to.equal(2);
+          expect(entry1.attributes.first_name).to.equal('John');
+          expect(entry1.attributes.last_name).to.equal('Doe');
+          expect(entry2.attributes.first_name).to.equal('Jane');
+          expect(entry2.attributes.last_name).to.equal('Doe');
+          done();
+        }, done);
     });
   });
 
@@ -129,9 +200,8 @@ describe('User service tests', function() {
     it('should return Campaigns associated with a given user id', (done) => {
       User.getUserCampaigns(this.campaignUserParam)
         .then(campaigns => {
-          const firstReturnedCampaign = campaigns.models[0]
-          const attributeNames = Object.keys(firstReturnedCampaign.attributes)
-
+          const firstReturnedCampaign = campaigns.models[0];
+          const attributeNames = Object.keys(firstReturnedCampaign.attributes);
           expect(campaigns.models.length).to.equal(1);
           expect(attributeNames.includes('script_id')).to.equal(true);
           expect(attributeNames.includes('contact_lists_id')).to.equal(true);
@@ -146,69 +216,8 @@ describe('User service tests', function() {
     });
   });
 
-  describe('Data retrieval', function() {
-    it('should retrieve first user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'John@gmail.com'})
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('John');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.equal(true);
-          done();
-        }, done);
-    });
-
-    it('should retrieve second user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'Jane@gmail.com'})
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('Jane');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.equal(true);
-          done();
-        }, done);
-    });
-
-    it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 1 })
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('John');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.be.true;
-          done();
-        }, done);
-    });
-
-    it('should retrieve second user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 2 })
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('Jane');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.be.true;
-          done();
-        }, done);
-    });
-    it('should retrieve all users', (done) => {
-      User.getAllUsers()
-        .then((users) => {
-          const { models } = users;
-          const [entry1, entry2, entry3] = models;
-          expect(models.length).to.equal(3);
-          expect(entry1.attributes.first_name).to.equal('John');
-          expect(entry1.attributes.last_name).to.equal('Doe');
-          expect(entry2.attributes.first_name).to.equal('Jane');
-          expect(entry2.attributes.last_name).to.equal('Doe');
-          expect(entry3.attributes.first_name).to.equal('Jack');
-          expect(entry3.attributes.last_name).to.equal('J');
-          done();
-        }, done);
-    });
-  });
-
   describe('Data update', function() {
-    beforeEach(() => {
+    before(() => {
       this.userUpdateParams2 = {
         id: 2,
         firstName: 'Jane',
