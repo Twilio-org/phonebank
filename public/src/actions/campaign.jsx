@@ -24,8 +24,8 @@ export function setUserCampaignJoin(response) {
 }
 
 export function saveNewCampaign(campaignInfo, history) {
-  const { name, title, description, script_id, contact_lists_id } = campaignInfo[0];
-  const status = campaignInfo[1];
+  const [{ name, title, description, script_id, contact_lists_id }, status] = campaignInfo;
+
   return dispatch => axios.post('/campaigns',
     {
       name,
