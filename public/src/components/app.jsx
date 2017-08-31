@@ -37,7 +37,7 @@ class App extends Component {
           history={history}
         />
         <section id="content">
-          <Grid>
+          <Grid fluid>
             {this.props.children}
           </Grid>
         </section>
