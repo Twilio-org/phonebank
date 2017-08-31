@@ -50,35 +50,6 @@ describe('campaign actions', () => {
     });
   });
 
-  describe('setJoinedCampaignsList: ', () => {
-    const setCampaignsListResult = setJoinedCampaignsList(campaignListFixtures);
-    describe('type: ', () => {
-      const { type } = setCampaignsListResult;
-      it('should have a type property (not undefined): ', () => {
-        expect(type).toBeDefined();
-      });
-      it('should have the type property "SET_VOLUNTEER_JOINED_CAMPAIGNS"', () => {
-        expect(type).toEqual('SET_VOLUNTEER_JOINED_CAMPAIGNS');
-      });
-      it('should not be null: ', () => {
-        expect(type === null).toBe(false);
-      });
-    });
-    describe('payload: ', () => {
-      const { payload } = setCampaignsListResult;
-      it('should have a payload that is an array of objects: ', () => {
-        expect(Array.isArray(payload)).toBe(true);
-      });
-      it('should contain 3 objects', () => {
-        const firstObjectProps = checkObjectProps(expectedCampaignProps, payload[0]);
-        const secondObjectProps = checkObjectProps(expectedCampaignProps, payload[1]);
-        const thirdObjectProps = checkObjectProps(expectedCampaignProps, payload[2]);
-        expect(payload.length).toBe(3);
-        expect(thirdObjectProps && secondObjectProps && firstObjectProps).toBe(true);
-      });
-    });
-  });
-
   describe('setCurrentCampaign', () => {
     const setCurrentCampaignResult = setCurrentCampaign(campaignFixture);
     describe('type: ', () => {
@@ -143,13 +114,13 @@ describe('campaign actions', () => {
     });
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
-        const expectedAction = setJoinedCampaignsList(campaignListFixtures);
+        const expectedAction = setCampaignsList(campaignListFixtures);
         return store.dispatch(fetchCampaignsByUser(1))
           .then(() => {
             const [dispatchedActions] = store.getActions();
             const { type, payload } = dispatchedActions;
             expect(dispatchedActions).toEqual(expectedAction);
-            expect(type).toBe('SET_VOLUNTEER_JOINED_CAMPAIGNS');
+            expect(type).toBe('SET_CAMPAIGNS');
             expect(payload).toEqual(campaignListFixtures);
           });
       });
