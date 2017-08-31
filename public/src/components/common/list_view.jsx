@@ -11,11 +11,13 @@ const TableListView = (props) => {
           account_info: { last_name, first_name, is_admin },
           history,
           button_collection,
-          setCurrentItem,
+          componentClickHandler,
           thisPage,
           tableHeaders,
           newPath,
-          currentUser } = props;
+          currentUser,
+          auth } = props;
+
   const { headers } = tableHeaders;
 
   return (
@@ -51,9 +53,10 @@ const TableListView = (props) => {
                 <TableRow
                   currentUser={currentUser}
                   key={item.id}
+                  auth={auth}
                   is_admin={is_admin}
                   item={item}
-                  handleClick={is_admin ? setCurrentItem : () => {}}
+                  handleClick={componentClickHandler}
                   buttons={button_collection}
                   page={thisPage}
                   headers={headers}
