@@ -1,5 +1,3 @@
-/* eslint-disable jest/valid-expect */
-/* eslint-disable no-undef */
 import { expect } from 'chai';
 import callsService from '../../../server/db/services/calls';
 import campaignsService from '../../../server/db/services/campaigns';
