@@ -226,7 +226,7 @@ describe('User service tests', function() {
         id: this.campaignUserParam.id,
         campaign_id: this.campaignUserParam.campaign_id
       };
-      User.getUserCampaignAssociation(params)
+      usersService.getUserCampaignAssociation(params)
         .then((campaign) => {
           expect(campaign).to.exist;
           expect(campaign).to.not.be.null;
@@ -240,7 +240,7 @@ describe('User service tests', function() {
         id: this.campaignUserParam.id,
         campaign_id: 2345
       };
-      User.getUserCampaignAssociation(params)
+      usersService.getUserCampaignAssociation(params)
         .then((campaign) => {
           expect(campaign).to.be.null;
           done();
@@ -251,69 +251,9 @@ describe('User service tests', function() {
         id: 2345,
         campaign_id: this.campaignUserParam.campaign_id
       };
-      User.getUserCampaignAssociation(params)
+      usersService.getUserCampaignAssociation(params)
         .then((campaign) => {
           expect(campaign).to.be.null;
-          done();
-        }, done);
-    });
-  });
-  describe('Data retrieval', function() {
-    it('should retrieve first user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'John@gmail.com'})
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('John');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.equal(true);
-          done();
-        }, done);
-    });
-
-    it('should retrieve second user\'s first name, last name, and account status by email', (done) => {
-      User.getUserByEmail({ email: 'Jane@gmail.com'})
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('Jane');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.equal(true);
-          done();
-        }, done);
-    });
-
-    it('should retrieve first user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 1 })
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('John');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.be.true;
-          done();
-        }, done);
-    });
-
-    it('should retrieve second user\'s first name, last name, and account status by ID', (done) => {
-      User.getUserById({ id: 2 })
-        .then((user) => {
-          should.exist(user);
-          expect(user.attributes.first_name).to.equal('Jane');
-          expect(user.attributes.last_name).to.equal('Doe');
-          expect(user.attributes.is_active).to.be.true;
-          done();
-        }, done);
-    });
-    it('should retrieve all users', (done) => {
-      User.getAllUsers()
-        .then((users) => {
-          const { models } = users;
-          const [entry1, entry2, entry3] = models;
-          expect(models.length).to.equal(3);
-          expect(entry1.attributes.first_name).to.equal('John');
-          expect(entry1.attributes.last_name).to.equal('Doe');
-          expect(entry2.attributes.first_name).to.equal('Jane');
-          expect(entry2.attributes.last_name).to.equal('Doe');
-          expect(entry3.attributes.first_name).to.equal('Jack');
-          expect(entry3.attributes.last_name).to.equal('J');
           done();
         }, done);
     });
