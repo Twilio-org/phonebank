@@ -10,6 +10,7 @@ export default class DashboardButtonGroup extends Component {
     this.handleContactListsClick = this.handleContactListsClick.bind(this);
     this.handleAvailCampaignsClick = this.handleAvailCampaignsClick.bind(this);
     this.handleJoinedCampaignsClick = this.handleJoinedCampaignsClick.bind(this);
+    this.handleUsersClick = this.handleUsersClick.bind(this);
   }
 
   handleQuestionsClick() {
@@ -30,6 +31,9 @@ export default class DashboardButtonGroup extends Component {
   handleJoinedCampaignsClick() {
     this.props.history.push('/volunteers/campaigns');
   }
+  handleUsersClick() {
+    this.props.history.push('/admin/users');
+  }
 
   render() {
     const { pathname } = this.props.history.location;
@@ -41,6 +45,7 @@ export default class DashboardButtonGroup extends Component {
             <Button type="button" onClick={this.handleScriptsClick}>All Scripts</Button>
             <Button type="button" onClick={this.handleQuestionsClick}>All Questions</Button>
             <Button type="button" onClick={this.handleContactListsClick}>All Contact Lists</Button>
+            <Button type="button" onClick={this.handleUsersClick}>All Users</Button>
           </ButtonGroup>
         ) : (
           <ButtonGroup>

@@ -15,7 +15,7 @@ const ListBtnGroup = (props) => {
               key={key}
               onClick={handler}
             >
-              {text}
+              {text()}
             </Button>);
         })
       }
