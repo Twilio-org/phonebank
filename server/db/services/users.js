@@ -78,6 +78,6 @@ export default {
   getUserCampaignAssociation: (params) => {
     const { id, campaign_id } = params;
     return new User({ id }).campaigns().query({ where: { campaign_id } }).fetchOne()
-      .then(campaign => JSON.stringify(campaign));
+      .then(campaign => campaign);
   }
 };
