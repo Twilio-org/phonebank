@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { setUserAuthCredentials, clearAuthCredentials, logout, loginUser, logoutUser } from '../../../public/src/actions/login';
 import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
-import { defaultUserAccountInfo } from '../../../public/src/reducers/account_info';
+import { defaultUserAccountInfo } from '../../../public/src/reducers/users';
 import { defaultAuthStatus } from '../../../public/src/reducers/login';
 
 exposeLocalStorageMock();

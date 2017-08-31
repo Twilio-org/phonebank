@@ -59,3 +59,20 @@ export function fetchCampaigns(status = '') {
     console.log('error fetching all campaigns from the db: ', err);
   });
 }
+
+export function fetchCampaignsByUser(userId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((campaigns) => {
+    const { data: campaignsList } = campaigns;
+    return dispatch(setCampaignsList(campaignsList));
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in fetching joined campaigns from database: ${err}`,
+      name: 'fetchCampaignsByUser'
+    };
+    throw customError;
+  });
+}

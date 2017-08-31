@@ -1,5 +1,6 @@
 import faker from 'faker';
 import campaignsService from '../db/services/campaigns';
+import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
 import contactsService from '../db/services/contacts';
 import questionsService from '../db/services/questions';
@@ -83,6 +84,8 @@ const contactListParams = {
 };
 let campaignScriptId;
 
+const callParams = [];
+
 function createUser(params) {
   return new User(params).save()
   .then().catch(err => console.log(err));
@@ -105,6 +108,11 @@ function createContact(params) {
 
 function createContactListContact(params) {
   return contactListsService.addContactToContactList(params)
+  .then().catch(err => console.log(err));
+}
+
+function createCall(params) {
+  return callsService.populateCall(params)
   .then().catch(err => console.log(err));
 }
 
@@ -152,6 +160,7 @@ Promise.all(generatePromiseActions(userParams, createUser))
                             id: contactList.attributes.id,
                             contact_id: contactId
                           });
+                          callParams.push({ contact_id: contactId });
                         });
 
                         Promise.all(generatePromiseActions(contactListContactParams,
@@ -170,10 +179,22 @@ Promise.all(generatePromiseActions(userParams, createUser))
                               .then((campaign) => {
                                 const campaignId = campaign.attributes.id;
                                 const userId = userIds[1];
+                                const cloneCallParams = callParams.map(call =>
+                                  Object.assign({}, call, { campaign_id: campaignId }));
+
                                 usersService.addCampaignToUser({
                                   campaign_id: campaignId,
                                   id: userId
-                                }).then(console.log('All Entries created.'))catch(err => console.log(err));
+                                }).then(console.log('All Entries created.'))
+                                  .catch(err => console.log(err));
+
+                                Promise.all(generatePromiseActions(cloneCallParams, createCall))
+                                  .then(() => {
+                                    usersService.addCampaignToUser({
+                                      campaign_id: campaignId,
+                                      id: userId
+                                    });
+                                  }).catch(err => console.log(err));
                               }).catch(err => console.log(err));
                           }).catch(err => console.log(err));
                       }).catch(err => console.log(err));

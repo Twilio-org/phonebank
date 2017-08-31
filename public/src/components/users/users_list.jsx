@@ -29,7 +29,7 @@ export default class UsersList extends Component {
               account_info={account_info}
               history={history}
               button_collection={user_management}
-              setCurrentItem={adminUpdateUserInfo}
+              componentClickHandler={adminUpdateUserInfo}
               thisPage={thisPage}
               tableHeaders={userHeaders}
               newPath={redirect_path}
