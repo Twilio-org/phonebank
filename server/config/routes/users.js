@@ -9,6 +9,9 @@ import { addCampaignToUser,
          updateUserById,
          getUserCampaignAssociation } from '../../controllers/users';
 
+import { assignCall } from '../../controllers/calls';
+
+
 const router = express.Router();
 
 router.use(passport.authenticate('jwt', { session: false }));
@@ -21,5 +24,6 @@ router.route('/:id/manage').put(manageUserById);
 router.route('/:id/campaigns').post(addCampaignToUser);
 router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
+router.route('/:id/campaigns/:campaign_id/calls').post(assignCall);
 
 export default router;
