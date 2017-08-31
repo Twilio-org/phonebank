@@ -41,7 +41,7 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case CLEAR_CALL_CURRENT:
       return {
         ...state,
-        current_call: payload
+        current_call: undefined
       };
     case CLEAR_NEXT_CALL:
       return {
