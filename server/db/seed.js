@@ -1,4 +1,5 @@
 import faker from 'faker';
+import bookshelf from './db';
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
@@ -182,18 +183,14 @@ Promise.all(generatePromiseActions(userParams, createUser))
                                 const cloneCallParams = callParams.map(call =>
                                   Object.assign({}, call, { campaign_id: campaignId }));
 
-                                usersService.addCampaignToUser({
-                                  campaign_id: campaignId,
-                                  id: userId
-                                }).then(console.log('All Entries created.'))
-                                  .catch(err => console.log(err));
-
                                 Promise.all(generatePromiseActions(cloneCallParams, createCall))
                                   .then(() => {
                                     usersService.addCampaignToUser({
                                       campaign_id: campaignId,
                                       id: userId
-                                    });
+                                    }).then(() => {
+                                      bookshelf.knex.destroy(() => console.log('All Entries created.'));
+                                    }).catch(err => console.log(err));
                                   }).catch(err => console.log(err));
                               }).catch(err => console.log(err));
                           }).catch(err => console.log(err));
@@ -202,4 +199,4 @@ Promise.all(generatePromiseActions(userParams, createUser))
               }).catch(err => console.log(err));
           }).catch(err => console.log(err));
       }).catch(err => console.log(err));
-  }).catch(err => console.log(err));
+  });
