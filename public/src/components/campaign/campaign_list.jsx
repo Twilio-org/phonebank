@@ -18,7 +18,6 @@ export default class CampaignList extends Component {
       account_info,
       auth,
       history,
-      setCurrentCampaign,
       addCampaignToUser
     } = this.props;
     const thisPage = 'Campaign';
@@ -37,9 +36,7 @@ export default class CampaignList extends Component {
               button_collection={account_info.is_admin ?
                                    admin_campaigns :
                                    volunteer_campaigns}
-              setCurrentItem={account_info.is_admin ?
-                                setCurrentCampaign :
-                                addCampaignToUser}
+              componentClickHandler={addCampaignToUser}
               thisPage={thisPage}
               tableHeaders={campaignHeaders}
               newPath={redirect_path}
