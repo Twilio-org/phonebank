@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-import { fetchUser } from '../../actions/account_info';
-import { deleteUser } from '../../actions/edit_account';
+import { fetchUser, deleteUser } from '../../actions/users';
 
 export class AccountPage extends Component {
   constructor(props) {
