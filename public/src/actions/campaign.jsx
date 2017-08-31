@@ -70,5 +70,8 @@ export function fetchCampaigns(status = '') {
 export function verifyVolunteerCampaign(userId, campaignId) {
   return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}`)
     .then(response => dispatch(setUserCampaignJoin(response)))
-    .catch(err => dispatch(setUserCampaignJoin(undefined)));
+    .catch((err) => {
+      console.log('error with verifying volunteer added to camp: ', err);
+      return dispatch(setUserCampaignJoin(undefined));
+    });
 }
