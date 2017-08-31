@@ -13,12 +13,6 @@ export function promoteNextToCurrent() {
   };
 }
 
-export function clearCallIncrement() {
-  return {
-    type: CLEAR_COUNT_CALLS,
-    payload: undefined
-  };
-}
 
 export function setCurrentCall(callObj) {
   return {
@@ -36,15 +30,20 @@ export function setNextCall(nextCallObj) {
 
 export function clearNextCall() {
   return {
-    type: CLEAR_NEXT_CALL,
-    payload: undefined
+    type: CLEAR_NEXT_CALL
+  };
+}
+
+export function clearCallIncrement() {
+  return {
+    type: CLEAR_COUNT_CALLS,
+    payload: 0
   };
 }
 
 export function clearCurrentCall() {
   return {
-    type: CLEAR_CALL_CURRENT,
-    payload: undefined
+    type: CLEAR_CALL_CURRENT
   };
 }
 
