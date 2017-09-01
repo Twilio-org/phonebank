@@ -13,6 +13,10 @@ export default class CallPage extends Component {
     //         current_call,
     //         script_questions,
     //         current_script } = this.props;
+    const { current_campaign, fetchScript, fetchScriptQuestions } = this.props;
+    const { script_id } = current_campaign;
+    fetchScript(script_id);
+    fetchScriptQuestions(script_id);
   }
 
   render() {
@@ -22,7 +26,7 @@ export default class CallPage extends Component {
             next_call,
             current_call,
             script_questions,
-            current_script } = this.props;
+            current_script, ...storeProps } = this.props;
     return (
       <Row className="show-grid">
         <Col xs={5} md={4} lg={3}>
@@ -39,6 +43,7 @@ export default class CallPage extends Component {
             script_questions={script_questions}
             current_call={current_call}
             next_call={next_call}
+            {...storeProps}
           />
         </Col>
       </Row>
