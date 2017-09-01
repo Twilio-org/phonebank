@@ -4,7 +4,7 @@ const tableInfo = {
     redirect_path: '/admin/campaigns/new'
   },
   scripts: {
-    headers: [['Name', 'name'], ['Body', 'body'], ['Description', 'created_at'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
+    headers: [['Name', 'name'], ['Body', 'body'], ['Description', 'description'], ['Created At', 'created_at'], ['Updated At', 'updated_at']],
     redirect_path: '/admin/scripts/new'
   },
   questions: {
