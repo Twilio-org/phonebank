@@ -171,3 +171,19 @@ export function getUserCampaigns(req, res, next) {
     })
     .catch(err => console.log('could not retrieve user\'s campaigns:', err));
 }
+
+export function getUserCampaignAssociation(req, res) {
+  const { id, campaign_id } = req.params;
+  const params = { id, campaign_id };
+  return usersService.getUserCampaignAssociation(params)
+    .then((campaign) => {
+      if (campaign !== null) {
+        res.sendStatus(204);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      res.status(404).json({ message: `Cannot process request for campaign_user association: ${err}` });
+    });
+}
