@@ -77,7 +77,6 @@ export function recordAttempt(req, res) {
       if (userHasJoined) {
         callsService.getCallById({ id: call_id }).then((call) => {
           const { contact_id, campaign_id } = call.attributes;
-          console.log('~~~~~~~~~~~contact_id: ', contact_id);
 
           return callsService.recordAttempt({ id: call_id, outcome, notes })
             .then(() => {
@@ -100,12 +99,9 @@ export function recordAttempt(req, res) {
                     campaign_id,
                     attempt_num: new_attempt_num
                   };
-                  console.log('~~~~~~~~~~~newCallParams: ', newCallParams);
                   return callsService.createNewAttempt(newCallParams)
                     .then((newCallRecord) => {
-                      console.log('~*~*~*~*~*! New Call Record', newCallRecord);
                       if (newCallRecord) {
-                        console.log('@@@@@@@@@');
                         return res.status(200).json({ message: 'call log successfully updated & call requeued.' });
                       }
                       return console.log('114');
