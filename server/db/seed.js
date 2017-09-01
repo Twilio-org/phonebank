@@ -7,6 +7,7 @@ import questionsService from '../db/services/questions';
 import scriptsService from '../db/services/scripts';
 import usersService from '../db/services/users';
 import User from './models/users';
+import responsesService from '../db/services/responses';
 
 function getRandomFourDigitInt() {
   return Math.floor(Math.random() * (10000 - 1000)) + 1000;
