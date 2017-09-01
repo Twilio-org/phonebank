@@ -24,30 +24,6 @@ function outcomeIsValid(outcome) {
   return validOutcomes.includes(outcome.toUpperCase());
 }
 
-export function assignCall(req, res) {
-  const { id, campaign_id } = req.params;
-  const user_id = parseInt(id, 10);
-  const user_campaign_id = parseInt(campaign_id, 10);
-
-  userHasJoinedCampaign(user_id, user_campaign_id)
-    .then((userHasJoined) => {
-      if (userHasJoined) {
-        return callsService.assignCall({
-          campaign_id: user_campaign_id,
-          user_id
-        }).then((call) => {
-          if (call) {
-            return res.status(200).json(call);
-          }
-
-          return res.status(404).json({ message: 'no calls available' });
-        }).catch(err => console.log('Could not assign call:', err));
-      }
-      return res.status(401).json({ message: 'User has not joined that campaign' });
-    }).catch(err => console.log(err));
-}
-
-
 function updateNoCallContact(outcome, id) {
   const { updateContactDoNotCallById, updateContactInvalidNumberById } = contactsService;
   const outcomeMap = {
@@ -84,6 +60,29 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
     }
   }
   return res.status(200).json({ message: 'call log successfully updated' });
+}
+
+export function assignCall(req, res) {
+  const { id, campaign_id } = req.params;
+  const user_id = parseInt(id, 10);
+  const user_campaign_id = parseInt(campaign_id, 10);
+
+  userHasJoinedCampaign(user_id, user_campaign_id)
+  .then((userHasJoined) => {
+    if (userHasJoined) {
+      return callsService.assignCall({
+        campaign_id: user_campaign_id,
+        user_id
+      }).then((call) => {
+        if (call) {
+          return res.status(200).json(call);
+        }
+
+        return res.status(404).json({ message: 'no calls available' });
+      }).catch(err => console.log('Could not assign call:', err));
+    }
+    return res.status(401).json({ message: 'User has not joined that campaign' });
+  }).catch(err => console.log(err));
 }
 
 export function recordAttempt(req, res) {
