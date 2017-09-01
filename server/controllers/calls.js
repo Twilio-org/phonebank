@@ -63,9 +63,8 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
 }
 
 export function assignCall(req, res) {
-  const { id, campaign_id } = req.params;
-  const user_id = parseInt(id, 10);
-  const user_campaign_id = parseInt(campaign_id, 10);
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
   userHasJoinedCampaign(user_id, user_campaign_id)
   .then((userHasJoined) => {
@@ -87,14 +86,9 @@ export function assignCall(req, res) {
 
 export function recordAttempt(req, res) {
   const { outcome, notes } = req.body;
-  const {
-    call_id: string_call_id,
-    id: string_user_id,
-    campaign_id: string_campaign_id
-  } = req.params;
-  const call_id = parseInt(string_call_id, 10);
-  const user_id = parseInt(string_user_id, 10);
-  const user_campaign_id = parseInt(string_campaign_id, 10);
+  const call_id = parseInt(req.params.call_id, 10);
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
   if (!outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
@@ -109,13 +103,12 @@ export function recordAttempt(req, res) {
           if (status === 'ASSIGNED') {
             return putCallAttempt(call_id, outcome, notes)
               .then(() => {
-                const { attempt_num: string_attempt_num } = call.attributes;
-                const attempt_num = parseInt(string_attempt_num, 10);
+                const attempt_num = parseInt(call.attributes.attempt_num, 10);
 
                 afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
               }).catch(err => console.log('could not set call status to attempted: ', err));
           }
-          return res.status(400).json({ message: 'that call has not been assigned' });
+          return res.status(400).json({ message: 'call has not been assigned' });
         }).catch(err => console.log('could not find call for updating: ', err));
       }
       return res.status(401).json({ message: 'User has not joined that campaign' });
