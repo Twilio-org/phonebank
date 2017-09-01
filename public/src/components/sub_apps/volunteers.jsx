@@ -28,13 +28,13 @@ export default class Volunteers extends Component {
           component={ConnectedAccountPage}
         />
         <Route
+          path={`${parent}/campaigns/all`}
+          component={CampaignsContainer}
+        />
+        <Route
           exact
           path={`${parent}/campaigns/:id/calls`}
           component={CallsContainer}
-        />
-        <Route
-          path={`${parent}/campaigns/all`}
-          component={CampaignsContainer}
         />
         <Route
           path={`${parent}/campaigns`}

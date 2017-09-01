@@ -11,6 +11,8 @@ export const CLEAR_CALL_CURRENT = 'CLEAR_CALL_CURRENT';
 export const CLEAR_NEXT_CALL = 'CLEAR_NEXT_CALL';
 export const CLEAR_COUNT_CALLS = 'CLEAR_COUNT_CALLS';
 export const PROMOTE_NEXT = 'PROMOTE_NEXT';
+export const UPDATE_CALL_STATUS = 'UPDATE_CALL_STATUS';
+export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
@@ -52,6 +54,16 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
       return {
         ...state,
         calls_made: payload
+      };
+    case UPDATE_CALL_STATUS:
+      return {
+        ...state,
+        current_call_status: payload
+      };
+    case UPDATE_CALL_OUTCOME:
+      return {
+        ...state,
+        current_call_outcome: payload
       };
     default:
       return state;

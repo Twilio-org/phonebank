@@ -5,14 +5,9 @@ import CallsPageMain from './calls_page_main';
 
 export default class CallPage extends Component {
   componentDidMount() {
-    console.log('#############meow', this.props);
-    // const { current_campaign,
-    //         has_user_joined_campaign,
-    //         calls_made,
-    //         next_call,
-    //         current_call,
-    //         script_questions,
-    //         current_script } = this.props;
+    const { id } = this.props.match.params;
+    const { user_id } = this.props;
+    return this.props.assignToCall(user_id, id);
   }
 
   render() {
@@ -22,14 +17,24 @@ export default class CallPage extends Component {
             next_call,
             current_call,
             script_questions,
-            current_script } = this.props;
+            current_script,
+            current_call_status,
+            current_call_outcome,
+            updateCallOutcome,
+            updateCallStatus } = this.props;
+    const isCurrentCall = !!Object.keys(current_call).length;
     return (
       <Row className="show-grid">
         <Col xs={5} md={4} lg={3}>
           <CallsSideBar
+            is_current_call={isCurrentCall}
             current_campaign={current_campaign}
             joined_campaign={has_user_joined_campaign}
+            call_status={current_call_status}
+            call_outcome={current_call_outcome}
             calls_made={calls_made}
+            updateCallStatus={updateCallStatus}
+            updateCallOutcome={updateCallOutcome}
           />
         </Col>
         <Col xs={7} md={8} lg={9}>
