@@ -34,8 +34,8 @@ export default {
   },
 
   createNewAttempt: (params) => {
-    const { attemp_num, campaign_id, contact_id } = params;
-    return new Call({ attemp_num, campaign_id, contact_id }).save();
+    const { attempt_num, campaign_id, contact_id } = params;
+    return new Call({ attempt_num, campaign_id, contact_id }).save();
   },
 
   getCallById: (params) => {
