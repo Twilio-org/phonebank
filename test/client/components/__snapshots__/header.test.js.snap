@@ -5,7 +5,7 @@ exports[`<Header /> rendering renders correctly 1`] = `
   className="navbar navbar-default"
 >
   <div
-    className="container"
+    className="container-fluid"
   >
     <div
       className="row"

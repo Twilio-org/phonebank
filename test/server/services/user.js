@@ -221,8 +221,43 @@ describe('User service tests', function() {
           done();
         }, done);
     });
+    it('should get an association between a campaign and a user', (done) => {
+      const params = {
+        id: this.campaignUserParam.id,
+        campaign_id: this.campaignUserParam.campaign_id
+      };
+      usersService.getUserCampaignAssociation(params)
+        .then((campaign) => {
+          expect(campaign).to.exist;
+          expect(campaign).to.not.be.null;
+          expect(campaign).to.be.a('object');
+          expect(campaign.id).to.equal(this.campaignUserParam.campaign_id);
+          done();
+        }, done);
+    });
+    it('should not get an association between an invalid campaign and a user', (done) => {
+      const params = {
+        id: this.campaignUserParam.id,
+        campaign_id: 2345
+      };
+      usersService.getUserCampaignAssociation(params)
+        .then((campaign) => {
+          expect(campaign).to.be.null;
+          done();
+        }, done);
+    });
+    it('should not get an association between a campaign and an invalid user', (done) => {
+      const params = {
+        id: 2345,
+        campaign_id: this.campaignUserParam.campaign_id
+      };
+      usersService.getUserCampaignAssociation(params)
+        .then((campaign) => {
+          expect(campaign).to.be.null;
+          done();
+        }, done);
+    });
   });
-
   describe('Data update', function() {
     before((done) => {
       this.userUpdateParams2 = {

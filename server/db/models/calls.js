@@ -2,6 +2,7 @@ import db from '../db';
 import Campaign from './campaigns';
 import User from './users';
 import Contact from './contacts';
+import Response from './responses';
 
 export default db.Model.extend({
   tableName: 'calls',
@@ -14,5 +15,8 @@ export default db.Model.extend({
   },
   users() {
     return this.belongsTo(User);
+  },
+  responses() {
+    return this.hasMany(Response);
   }
 });

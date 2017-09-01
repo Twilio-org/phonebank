@@ -5,9 +5,11 @@ import { addCampaignToUser,
          getUserById,
          getUserCampaigns,
          manageUserById,
-         updateUserById } from '../../controllers/users';
+         updateUserById,
+         getUserCampaignAssociation } from '../../controllers/users';
 import { assignCall, recordAttempt } from '../../controllers/calls';
 import { passport } from '../auth/local';
+
 
 const router = express.Router();
 
@@ -20,6 +22,7 @@ router.route('/:id').patch(deactivateUserById);
 router.route('/:id/manage').put(manageUserById);
 router.route('/:id/campaigns').post(addCampaignToUser);
 router.route('/:id/campaigns').get(getUserCampaigns);
+router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').post(assignCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 
