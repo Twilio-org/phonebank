@@ -28,7 +28,7 @@ export default {
   recordAttempt: (params) => {
     const { id, notes, outcome } = params;
     return new Call({ id })
-      .save({ notes, outcome }, { patch: true })
+      .save({ notes, outcome, status: 'ATTEMPTED' }, { patch: true })
       .then(call => call)
       .catch(err => console.log(err));
   },
