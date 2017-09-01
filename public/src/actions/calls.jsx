@@ -1,15 +1,10 @@
 import axios from 'axios';
 
-import { SET_CALL_CURRENT, SET_CALL_NEXT, INCREMENT_CALLS, CLEAR_CALL_CURRENT, CLEAR_NEXT_CALL, CLEAR_COUNT_CALLS, PROMOTE_NEXT, UPDATE_CALL_STATUS, UPDATE_CALL_OUTCOME } from '../reducers/calls';
+import { SET_CALL_CURRENT, SET_CALL_NEXT, INCREMENT_CALLS, CLEAR_CALL_CURRENT, CLEAR_NEXT_CALL, CLEAR_COUNT_CALLS, UPDATE_CALL_STATUS, UPDATE_CALL_OUTCOME, SET_CALL_CONTACT_INFO } from '../reducers/calls';
 
 export function incrementCallCount() {
   return {
     type: INCREMENT_CALLS
-  };
-}
-export function promoteNextToCurrent() {
-  return {
-    type: PROMOTE_NEXT
   };
 }
 
@@ -61,6 +56,26 @@ export function updateCallStatus(status) {
   };
 }
 
+export function setContactInfo(contactInfo) {
+  return {
+    type: SET_CALL_CONTACT_INFO,
+    payload: contactInfo
+  };
+}
+
+export function getContactInfo(contactId) {
+  return dispatch => axios.get(`/contacts/${contactId}`,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then((contact) => {
+    const { data: contactObj } = contact;
+    const { name, phone_number } = contactObj;
+    dispatch(setContactInfo({ name, phone_number }));
+  }).catch();
+}
+
 export function assignToCall(userId, campaignId, currentCall) {
   return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null,
     {
@@ -68,9 +83,11 @@ export function assignToCall(userId, campaignId, currentCall) {
     }
   )
     .then((call) => {
-      console.log('call: ', call);
       const { data: callObj } = call;
-      return !currentCall ? dispatch(setCurrentCall(callObj)) : dispatch(setNextCall(callObj));
+      const { status, outcome } = callObj;
+      dispatch(setCurrentCall(callObj));
+      dispatch(updateCallOutcome(outcome));
+      dispatch(updateCallStatus(status));
     })
     .catch(err => console.log(err));
 }
