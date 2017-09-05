@@ -22,7 +22,7 @@ function mapStateToProps(state) {
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
     contact_name: state.calls.contact_name,
-    contact_number: state.calls.contact_number
+    user_call_sid: state.account_info.user_call_sid
   };
 }
 

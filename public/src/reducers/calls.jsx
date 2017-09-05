@@ -11,8 +11,7 @@ const defaultCalls = {
   call_ended: null,
   call_started: null,
   notes: null,
-  contact_name: undefined,
-  contact_number: undefined
+  contact_name: undefined
 };
 
 
@@ -26,6 +25,7 @@ export const PROMOTE_NEXT = 'PROMOTE_NEXT';
 export const UPDATE_CALL_STATUS = 'UPDATE_CALL_STATUS';
 export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
+
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
@@ -73,7 +73,6 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case SET_CALL_CONTACT_INFO:
       return {
         ...state,
-        contact_number: payload.phone_number,
         contact_name: payload.name
       };
     default:

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Badge } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
 
 import FieldGroup from '../../components/common/form/field_group';

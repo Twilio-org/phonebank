@@ -51,7 +51,7 @@ export default class CallsSideBar extends Component {
   }
 
   render() {
-    const { status } = this.props;
+    const { status, user_call_sid } = this.props;
     const outcomes = [
       {
         value: 'Bad Number',
@@ -78,16 +78,16 @@ export default class CallsSideBar extends Component {
         style: 'success'
       }
     ];
-    if (status === 'ASSIGNED') {
+
+    if (status === 'ASSIGNED' && !!user_call_sid) {
       return (<Button onClick={this.handleStartCallClick}>Connect Call</Button>);
     }
     if (!!status && status === 'IN_PROGRESS') {
-      const { contact_name, contact_number, handleSubmit } = this.props;
+      const { contact_name, handleSubmit } = this.props;
 
       return (
         <div>
           <div>Now Calling: {contact_name}</div>
-          <div>Phone Number: {contact_number}</div>
           <Toolbar
             outcomes={outcomes}
             handleOutcome={this.handleOutcomeClick}

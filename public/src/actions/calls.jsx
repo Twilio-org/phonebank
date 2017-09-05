@@ -63,9 +63,9 @@ export function getCallContactInfo(contactId) {
   )
   .then((contact) => {
     const { data: contactObj } = contact;
-    const { first_name, last_name, phone_number } = contactObj;
+    const { first_name, last_name } = contactObj;
     const name = last_name ? `${first_name} ${last_name}` : first_name;
-    dispatch(setCallContactInfo({ name, phone_number }));
+    dispatch(setCallContactInfo({ name }));
   }).catch();
 }
 // handling form submission and fetching next call object

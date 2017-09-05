@@ -18,9 +18,10 @@ const Toolbar = (props) => {
             onChange={handleOutcome}
           >
             {outcomes.map((outcome, index) => {
-              const { value } = outcome;
+              const { value, style } = outcome;
               return (
                 <ToggleButton
+                  bsStyle={style}
                   value={value.toUpperCase()}
                   key={value.concat(index)}
                   name={value}
