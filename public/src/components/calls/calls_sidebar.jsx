@@ -53,8 +53,11 @@ export default class CallsSideBar extends Component {
 
   render() {
     const { status, user_call_sid } = this.props;
-    console.log(user_call_sid, '$$$$$$$$$$$$');
     const outcomes = [
+      {
+        value: 'Answered',
+        style: 'success'
+      },
       {
         value: 'Bad Number',
         style: 'danger'
@@ -74,16 +77,18 @@ export default class CallsSideBar extends Component {
       {
         value: 'Incomplete',
         style: 'warning'
-      },
-      {
-        value: 'Answered',
-        style: 'success'
       }
     ];
 
     if (status === 'ASSIGNED' && !!user_call_sid) {
-      const { contact_name, updateCallStatus } = this.props;
-      return (<PreCallButtonGroup updateCallStatus={updateCallStatus} contact_name={contact_name} />);
+      const { contact_name, updateCallStatus, history } = this.props;
+      return (
+        <PreCallButtonGroup
+          history={history}
+          updateCallStatus={updateCallStatus}
+          contact_name={contact_name}
+        />
+      );
     }
     if (!!status && status === 'IN_PROGRESS') {
       const { contact_name, handleSubmit } = this.props;

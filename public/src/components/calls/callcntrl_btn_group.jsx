@@ -2,6 +2,7 @@ import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
+  // this needs to have 
   const { handleNext, handleStop } = props;
   return (
     <div>
