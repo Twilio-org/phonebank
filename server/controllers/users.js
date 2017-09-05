@@ -187,3 +187,39 @@ export function getUserCampaignAssociation(req, res) {
       res.status(404).json({ message: `Cannot process request for campaign_user association: ${err}` });
     });
 }
+
+export function updateUserCallSidField(req, res, next) {
+  const { id } = req.params;
+  const call_sid = 'CAdksl234591adfide294821kdau3u3933';
+  const params = { id, call_sid };
+  return usersService.updateUserById(params)
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(404).json({ message: `Could process request to update user Call SID: ${err}` });
+    });
+}
+
+export function clearUserCallSidField(req, res, next) {
+  const { id } = req.params;
+  const params = {
+    id,
+    call_sid: null
+  };
+  return usersService.updateUserById(params)
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(404).json({ message: `Could not process request to clear user Call SID: ${err}` });
+    });
+}
