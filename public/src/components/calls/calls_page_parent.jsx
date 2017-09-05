@@ -77,6 +77,7 @@ export default class CallPage extends Component {
               script_questions={script_questions}
               current_call={current_call}
               call_active={call_active}
+              outcome={outcome}
               {...storeProps}
             />
           </Col>
