@@ -1,4 +1,4 @@
-const defaultCalls = {
+export const defaultCalls = {
   current_call: undefined,
   next_call: undefined,
   calls_made: 0
