@@ -1,18 +1,32 @@
 import axios from 'axios';
 
-import { SET_CALL_CURRENT, SET_CALL_NEXT, INCREMENT_CALLS, CLEAR_CALL_CURRENT, CLEAR_NEXT_CALL, CLEAR_COUNT_CALLS, PROMOTE_NEXT } from '../reducers/calls';
+import { SET_CALL_CURRENT,
+         INCREMENT_CALLS,
+         CLEAR_CALL_CURRENT,
+         CLEAR_COUNT_CALLS,
+         UPDATE_CALL_STATUS,
+         UPDATE_CALL_OUTCOME,
+         SET_CALL_CONTACT_INFO,
+         SET_CURRENT_CALL_ACTIVE,
+         SET_CURRENT_CALL_INACTIVE } from '../reducers/calls';
 
 export function incrementCallCount() {
   return {
     type: INCREMENT_CALLS
   };
 }
-export function promoteNextToCurrent() {
+
+export function setCurrentCallActive() {
   return {
-    type: PROMOTE_NEXT
+    type: SET_CURRENT_CALL_ACTIVE
   };
 }
 
+export function setCurrentCallInactive() {
+  return {
+    type: SET_CURRENT_CALL_INACTIVE
+  };
+}
 
 export function setCurrentCall(callObj) {
   return {
@@ -21,18 +35,6 @@ export function setCurrentCall(callObj) {
   };
 }
 
-export function setNextCall(nextCallObj) {
-  return {
-    type: SET_CALL_NEXT,
-    payload: nextCallObj
-  };
-}
-
-export function clearNextCall() {
-  return {
-    type: CLEAR_NEXT_CALL
-  };
-}
 
 export function clearCallIncrement() {
   return {
@@ -47,11 +49,55 @@ export function clearCurrentCall() {
   };
 }
 
-export function assignToCall(userId, campaignId, currentCall) {
-  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`)
+export function updateCallOutcome(outcome) {
+  return {
+    type: UPDATE_CALL_OUTCOME,
+    payload: outcome.toUpperCase()
+  };
+}
+
+export function updateCallStatus(status) {
+  return {
+    type: UPDATE_CALL_STATUS,
+    payload: status.toUpperCase()
+  };
+}
+
+export function setCallContactInfo(contactInfo) {
+  return {
+    type: SET_CALL_CONTACT_INFO,
+    payload: contactInfo
+  };
+}
+
+export function getCallContactInfo(contactId) {
+  return dispatch => axios.get(`/contacts/${contactId}`,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then((contact) => {
+    const { data: contactObj } = contact;
+    const { first_name, last_name } = contactObj;
+    const name = last_name ? `${first_name} ${last_name}` : first_name;
+    dispatch(setCallContactInfo({ name }));
+  }).catch();
+}
+// handling form submission and fetching next call object
+// export function submitAndFetchNext() {};
+
+export function assignToCall(userId, campaignId) {
+  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
     .then((call) => {
       const { data: callObj } = call;
-      return !currentCall ? dispatch(setCurrentCall(callObj)) : dispatch(setNextCall(callObj));
+      const { status, outcome } = callObj;
+      dispatch(setCurrentCall(callObj));
+      dispatch(updateCallOutcome(outcome));
+      dispatch(updateCallStatus(status));
     })
     .catch(err => console.log(err));
 }
