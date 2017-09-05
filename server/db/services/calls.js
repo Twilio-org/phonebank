@@ -12,6 +12,7 @@ export default {
 
     return new Call()
       .where({ campaign_id, status: 'AVAILABLE' })
+      .orderBy('id', 'ASC')
       .fetch()
       .then((call) => {
         if (call) {
@@ -23,5 +24,26 @@ export default {
         return null;
       })
       .catch(err => console.log('Error in call service when finding call to assign:', err));
+  },
+
+  recordAttempt: (params) => {
+    const { id, notes, outcome } = params;
+    return new Call({ id })
+      .save({ notes, outcome, status: 'ATTEMPTED' }, { patch: true })
+      .then(call => call)
+      .catch(err => console.log(err));
+  },
+
+  createNewAttempt: (params) => {
+    const { attempt_num, campaign_id, contact_id } = params;
+    return new Call({ attempt_num, campaign_id, contact_id }).save();
+  },
+
+  getCallById: (params) => {
+    const { id } = params;
+    return new Call({ id })
+    .fetch()
+    .then(call => call)
+    .catch(err => console.log(err));
   }
 };

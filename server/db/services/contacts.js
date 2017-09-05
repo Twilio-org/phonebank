@@ -62,27 +62,27 @@ export default {
     return new Contact()
         .where(extractedParams)
         .fetch();
+  },
+  updateContactDoNotCallById: (params) => {
+    const { id } = params;
+    const extractedParams = {
+      do_not_call: true
+    };
+    return new Contact()
+      .where({ id })
+      .save(extractedParams, {
+        method: 'update'
+      });
+  },
+  updateContactInvalidNumberById: (params) => {
+    const { id } = params;
+    const extractedParams = {
+      is_invalid_number: true
+    };
+    return new Contact()
+      .where({ id })
+      .save(extractedParams, {
+        method: 'update'
+      });
   }
-  // updateContactDoNotCallById: (params, Model) => {
-  //   const { id } = params;
-  //   const extractedParams = {
-  //     do_not_call: params.do_not_call
-  //   };
-  //   return new Model()
-  //     .where({ id })
-  //     .save(extractedParams, {
-  //       method: 'update'
-  //     });
-  // },
-  // updateContactInvalidNumberById: (params, Model) => {
-  //   const { id } = params;
-  //   const extractedParams = {
-  //     is_invalid_number: params.is_invalid_number
-  //   };
-  //   return new Model()
-  //     .where({ id })
-  //     .save(extractedParams, {
-  //       method: 'update'
-  //     });
-  // }
 };
