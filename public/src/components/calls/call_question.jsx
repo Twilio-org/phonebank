@@ -54,7 +54,7 @@ const CallQuestion = (props) => {
                       id={`option${i}`}
                       component="input"
                       type="checkbox"
-                      name={`${questionRespFieldName}[${i}]`}
+                      name={`${questionRespFieldName}[${option}]`}
                       onChange={setQuestionId}
                     />
                     {`  ${option}`}
