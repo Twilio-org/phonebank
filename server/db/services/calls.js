@@ -1,12 +1,6 @@
 import Call from '../models/calls';
 
 export default {
-  populateCall: (params) => {
-    const { campaign_id, contact_id } = params;
-
-    return new Call({ campaign_id, contact_id }).save();
-  },
-
   assignCall: (params) => {
     const { user_id, campaign_id } = params;
 
@@ -26,14 +20,6 @@ export default {
       .catch(err => console.log('Error in call service when finding call to assign:', err));
   },
 
-  recordAttempt: (params) => {
-    const { id, notes, outcome } = params;
-    return new Call({ id })
-      .save({ notes, outcome, status: 'ATTEMPTED' }, { patch: true })
-      .then(call => call)
-      .catch(err => console.log(err));
-  },
-
   createNewAttempt: (params) => {
     const { attempt_num, campaign_id, contact_id } = params;
     return new Call({ attempt_num, campaign_id, contact_id }).save();
@@ -45,5 +31,27 @@ export default {
     .fetch()
     .then(call => call)
     .catch(err => console.log(err));
+  },
+
+  populateCall: (params) => {
+    const { campaign_id, contact_id } = params;
+
+    return new Call({ campaign_id, contact_id }).save();
+  },
+
+  recordAttempt: (params) => {
+    const { id, notes, outcome } = params;
+    return new Call({ id })
+      .save({ notes, outcome, status: 'ATTEMPTED' }, { patch: true })
+      .then(call => call)
+      .catch(err => console.log(err));
+  },
+
+  releaseCall: (params) => {
+    const { id } = params;
+    return new Call({ id })
+      .save({ status: 'AVAILABLE', user_id: null }, { patch: true })
+      .then(call => call)
+      .catch(err => console.log('error in calls service when releasing call: ', err));
   }
 };
