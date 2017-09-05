@@ -3,11 +3,11 @@ import { addCampaignToUser,
          deactivateUserById,
          getAllUsers,
          getUserById,
+         getUserCampaignAssociation,
          getUserCampaigns,
          manageUserById,
-         updateUserById,
-         getUserCampaignAssociation } from '../../controllers/users';
-import { assignCall, recordAttempt } from '../../controllers/calls';
+         updateUserById } from '../../controllers/users';
+import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
 
 
@@ -24,6 +24,7 @@ router.route('/:id/campaigns').post(addCampaignToUser);
 router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').post(assignCall);
+router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 
 export default router;
