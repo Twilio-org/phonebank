@@ -1,20 +1,12 @@
 import axios from 'axios';
 
 import { SET_CALL_CURRENT,
-         INCREMENT_CALLS,
          CLEAR_CALL_CURRENT,
-         CLEAR_COUNT_CALLS,
          UPDATE_CALL_STATUS,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
          SET_CURRENT_CALL_ACTIVE,
          SET_CURRENT_CALL_INACTIVE } from '../reducers/calls';
-
-export function incrementCallCount() {
-  return {
-    type: INCREMENT_CALLS
-  };
-}
 
 export function setCurrentCallActive() {
   return {
@@ -32,14 +24,6 @@ export function setCurrentCall(callObj) {
   return {
     type: SET_CALL_CURRENT,
     payload: callObj
-  };
-}
-
-
-export function clearCallIncrement() {
-  return {
-    type: CLEAR_COUNT_CALLS,
-    payload: 0
   };
 }
 
