@@ -1,32 +1,117 @@
 import callsService from '../db/services/calls';
+import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 
-export function assignCall(req, res) {
-  const user_id = req.params.id;
-  const user_campaign_id = parseInt(req.params.campaign_id, 10);
-
-  return usersService.getUserCampaigns({ id: user_id })
+function userHasJoinedCampaign(userId, campaignId) {
+  return usersService.getUserCampaigns({ id: userId })
     .then((campaigns) => {
-      const campaignIds = campaigns.models.map(campaign => campaign.id);
+      const userCampaigns = campaigns.models.filter(campaign => campaign.id === campaignId);
 
-      if (campaignIds.includes(user_campaign_id)) {
-        return callsService.assignCall({
-          campaign_id: user_campaign_id,
-          user_id
-        }).then((call) => {
-          if (call) {
-            return res.status(200).json(call);
-          }
-
-          return res.status(404).json({ message: 'no calls available' });
-        }).catch(err => console.log('Could not assign call:', err));
-      }
-
-      return res.status(401).json({ message: 'User has not joined that campaign' });
-    })
-    .catch(err => console.log('Could not assign call:', err));
+      return !!userCampaigns.length;
+    });
 }
 
-export function dummy(asdf) {
-  return asdf + 1;
+function outcomeIsValid(outcome) {
+  const validOutcomes = [
+    'ANSWERED',
+    'BAD_NUMBER',
+    'DO_NOT_CALL',
+    'LEFT_MSG',
+    'NO_ANSWER',
+    'INCOMPLETE'
+  ];
+
+  return validOutcomes.includes(outcome.toUpperCase());
+}
+
+function updateNoCallContact(outcome, id) {
+  const { updateContactDoNotCallById, updateContactInvalidNumberById } = contactsService;
+  const outcomeMap = {
+    DO_NOT_CALL: updateContactDoNotCallById,
+    BAD_NUMBER: updateContactInvalidNumberById
+  };
+  return outcomeMap[outcome]({ id });
+}
+
+function lookUpCall(id) {
+  return callsService.getCallById({ id });
+}
+
+function putCallAttempt(id, outcome, notes) {
+  return callsService.recordAttempt({ id, outcome, notes });
+}
+
+function saveNewAttempt(contact_id, campaign_id, attempt_num) {
+  const newCallParams = { contact_id, campaign_id, attempt_num };
+
+  return callsService.createNewAttempt(newCallParams);
+}
+
+function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id) {
+  if (outcome === 'DO_NOT_CALL' || outcome === 'BAD_NUMBER') {
+    return updateNoCallContact(outcome, contact_id)
+      .then(() => res.status(200).json({ message: 'contact and call log updated successfully.' }))
+      .catch(err => console.log('could not update contact do-not-call status: ', err));
+  } else if (outcome === 'LEFT_MSG' || outcome === 'NO_ANSWER' || outcome === 'INCOMPLETE') {
+    if (attempt_num < 3) {
+      return saveNewAttempt(contact_id, campaign_id, attempt_num + 1)
+        .then(() => res.status(200).json({ message: 'call log successfully updated & call requeued.' }))
+        .catch(err => console.log('could not create new blank call attempt: ', err));
+    }
+  }
+  return res.status(200).json({ message: 'call log successfully updated' });
+}
+
+export function assignCall(req, res) {
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
+
+  userHasJoinedCampaign(user_id, user_campaign_id)
+  .then((userHasJoined) => {
+    if (userHasJoined) {
+      return callsService.assignCall({
+        campaign_id: user_campaign_id,
+        user_id
+      }).then((call) => {
+        if (call) {
+          return res.status(200).json(call);
+        }
+
+        return res.status(404).json({ message: 'no calls available' });
+      }).catch(err => console.log('Could not assign call:', err));
+    }
+    return res.status(401).json({ message: 'User has not joined that campaign' });
+  }).catch(err => console.log(err));
+}
+
+export function recordAttempt(req, res) {
+  const { outcome, notes } = req.body;
+  const call_id = parseInt(req.params.call_id, 10);
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
+
+  if (!outcomeIsValid(outcome)) {
+    return res.status(400).json({ message: 'Outcome is not valid' });
+  }
+
+  return userHasJoinedCampaign(user_id, user_campaign_id)
+    .then((userHasJoined) => {
+      if (userHasJoined) {
+        return lookUpCall(call_id).then((call) => {
+          const { contact_id, campaign_id, status } = call.attributes;
+
+          if (status === 'ASSIGNED') {
+            return putCallAttempt(call_id, outcome, notes)
+              .then(() => {
+                const attempt_num = parseInt(call.attributes.attempt_num, 10);
+
+                afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
+              }).catch(err => console.log('could not set call status to attempted: ', err));
+          }
+          return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
+        }).catch(err => console.log('could not find call for updating: ', err));
+      }
+      return res.status(401).json({ message: 'User has not joined that campaign' });
+    })
+    .catch(err => console.log('could not check if user has joined campaign: ', err));
 }
