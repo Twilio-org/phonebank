@@ -2,13 +2,27 @@ import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
-  // this needs to have 
-  const { handleNext, handleStop } = props;
+  // TODO: SUBMIT DOES NOTHING RN... NOTHING
+  const { handleHangUp, submitHandler, outcome, call_active } = props;
   return (
     <div>
       <ButtonGroup>
-        <Button onClick={handleNext} bsSize="small" bsStyle="success">Next Call</Button>
-        <Button onClick={handleStop} bsSize="small" bsStyle="danger">Stop Calling</Button>
+        <Button
+          disabled={outcome === 'PENDING' || !call_active}
+          onClick={handleHangUp}
+          bsSize="small"
+          bsStyle="danger"
+        >
+          Hang Up
+        </Button>
+        <Button
+          disabled={outcome === 'PENDING'}
+          onClick={submitHandler}
+          bsSize="small"
+          bsStyle="success"
+        >
+          Submit and Next Call
+        </Button>
       </ButtonGroup>
     </div>
   );

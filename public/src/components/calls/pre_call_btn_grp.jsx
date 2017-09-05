@@ -4,9 +4,10 @@ import { ButtonGroup, Button } from 'react-bootstrap';
 export default class PreCallButtonGroup extends Component {
   constructor(props) {
     super(props);
-    this.handleStartCallingClick = this.handleStartCallingClick.bind(this);
-    this.handleStopCallingClick = this.handleStopCallingClick.bind(this);
-    this.handleSkipClick = this.handleSkipClick.bind(this);
+    const handlers = ['handleStartCallingClick', 'handleStopCallingClick', 'handleSkipClick', 'handleBadNameClick'];
+    handlers.forEach((handler) => {
+      this[handler] = this[handler].bind(this);
+    });
   }
 
   handleStartCallingClick() {
@@ -15,13 +16,22 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleSkipClick() {
+    const { call_id } = this.props;
+    console.log('skip requested');
+  }
+
+  handleBadNameClick() {
+    const { call_id } = this.props;
     // send update for bad number(marking call as assigned)
     // will also need to assign a new call
+    // EP: '/users/:id/campaigns/:campaign_id/calls/:call_id'
+    console.log('bad name request');
   }
 
   handleStopCallingClick() {
     const { history } = this.props;
     // TODO: logic for unassigning call if current call is assigned
+    console.log('should also unassign call from user');
     history.push('/volunteers/campaigns');
   }
 
@@ -41,7 +51,7 @@ export default class PreCallButtonGroup extends Component {
 
         <div>
           <ButtonGroup vertical id="pre_call_side">
-            <Button onClick={} bsStyle="warning">Skip this person</Button>
+            <Button onClick={this.handleSkipClick} bsStyle="warning">Skip this person</Button>
             <Button bsStyle="danger">Bad Name</Button>
             <Button onClick={this.handleStopCallingClick} bsStyle="info">Stop Calling</Button>
           </ButtonGroup>

@@ -6,11 +6,25 @@ import { SET_CALL_CURRENT,
          CLEAR_COUNT_CALLS,
          UPDATE_CALL_STATUS,
          UPDATE_CALL_OUTCOME,
-         SET_CALL_CONTACT_INFO } from '../reducers/calls';
+         SET_CALL_CONTACT_INFO,
+         SET_CURRENT_CALL_ACTIVE,
+         SET_CURRENT_CALL_INACTIVE } from '../reducers/calls';
 
 export function incrementCallCount() {
   return {
     type: INCREMENT_CALLS
+  };
+}
+
+export function setCurrentCallActive() {
+  return {
+    type: SET_CURRENT_CALL_ACTIVE
+  };
+}
+
+export function setCurrentCallInactive() {
+  return {
+    type: SET_CURRENT_CALL_INACTIVE
   };
 }
 
@@ -20,6 +34,7 @@ export function setCurrentCall(callObj) {
     payload: callObj
   };
 }
+
 
 export function clearCallIncrement() {
   return {

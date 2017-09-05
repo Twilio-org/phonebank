@@ -32,13 +32,17 @@ export default class CallPage extends Component {
             assignToCall,
             user_id,
             history,
+            setCurrentCallActive,
+            setCurrentCallInactive,
             ...storeProps } = this.props;
     const { id } = current_campaign;
     if (current_call) {
       const { status,
               outcome,
               contact_id,
-              user_call_sid } = this.props;
+              user_call_sid,
+              call_id,
+              call_active } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -60,6 +64,10 @@ export default class CallPage extends Component {
               updateCallOutcome={updateCallOutcome}
               getCallContactInfo={getCallContactInfo}
               user_call_sid={user_call_sid}
+              activateCall={setCurrentCallActive}
+              inactivateCall={setCurrentCallInactive}
+              call_id={call_id}
+              call_active={call_active}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

@@ -9,7 +9,7 @@ import PreCallButtonGroup from './pre_call_btn_grp';
 export default class CallsSideBar extends Component {
   constructor(props) {
     super(props);
-    const clickHandlers = ['handleStartCallClick', 'handleOutcomeClick', 'handleNextClick', 'handleStopClick'];
+    const clickHandlers = ['handleSubmitResponses', 'handleHangUp', 'handleStartCallClick', 'handleOutcomeClick', 'handleNextClick', 'handleStopClick'];
     clickHandlers.forEach((func) => {
       this[func] = this[func].bind(this);
     });
@@ -22,14 +22,6 @@ export default class CallsSideBar extends Component {
     }
   }
 
-  shouldComponentUpdate() {
-    const { status } = this.props;
-    if (status === 'ASSIGNED' || 'AVAILABLE') {
-      return true;
-    }
-    return false;
-  }
-
   handleStartCallClick() {
     const { updateCallStatus } = this.props;
     return updateCallStatus('IN_PROGRESS');
@@ -37,6 +29,10 @@ export default class CallsSideBar extends Component {
 
   handleOutcomeClick(text) {
     const { updateCallOutcome, updateCallStatus } = this.props;
+    if (text === 'ANSWERED') {
+      const { activateCall } = this.props;
+      activateCall();
+    }
     updateCallOutcome(text.toUpperCase());
     updateCallStatus('ATTEMPTED');
   }
@@ -49,6 +45,15 @@ export default class CallsSideBar extends Component {
   handleStopClick() {
     const { history } = this.props;
     history.push('/volunteers/campaigns');
+  }
+
+  handleHangUp() {
+    const { inactivateCall } = this.props;
+    inactivateCall();
+  }
+
+  handleSubmitResponses() {
+    console.log('THIS DOES NOTHING... NOTHING AT ALL!', this.props);
   }
 
   render() {
@@ -81,17 +86,18 @@ export default class CallsSideBar extends Component {
     ];
 
     if (status === 'ASSIGNED' && !!user_call_sid) {
-      const { contact_name, updateCallStatus, history } = this.props;
+      const { contact_name, updateCallStatus, history, call_id } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
           updateCallStatus={updateCallStatus}
           contact_name={contact_name}
+          call_id={call_id}
         />
       );
     }
-    if (!!status && status === 'IN_PROGRESS') {
-      const { contact_name, handleSubmit } = this.props;
+    if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED')) {
+      const { contact_name, handleSubmit, call_active, outcome } = this.props;
 
       return (
         <div>
@@ -103,7 +109,12 @@ export default class CallsSideBar extends Component {
           <div>
             <SideBarForm handleSubmit={handleSubmit} />
             <div>
-              <CallControl handleNext={this.handleNextClick} handleStop={this.handleStopClick} />
+              <CallControl
+                call_active={call_active}
+                submitHandler={this.handleSubmitResponses}
+                handleHangUp={this.handleHangUp}
+                outcome={outcome}
+              />
             </div>
           </div>
         </div>
