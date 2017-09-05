@@ -48,7 +48,7 @@ export function clearCurrentCall() {
 }
 
 export function assignToCall(userId, campaignId, currentCall) {
-  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`)
+  return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}/calls`)
     .then((call) => {
       const { data: callObj } = call;
       return !currentCall ? dispatch(setCurrentCall(callObj)) : dispatch(setNextCall(callObj));
