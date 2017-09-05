@@ -33,6 +33,10 @@ function updateNoCallContact(outcome, id) {
   return outcomeMap[outcome]({ id });
 }
 
+function checkCallIsAssigned(status) {
+  return status === 'ASSIGNED';
+}
+
 function lookUpCall(id) {
   return callsService.getCallById({ id });
 }
@@ -100,13 +104,37 @@ export function recordAttempt(req, res) {
         return lookUpCall(call_id).then((call) => {
           const { contact_id, campaign_id, status } = call.attributes;
 
-          if (status === 'ASSIGNED') {
+          if (checkCallIsAssigned(status)) {
             return putCallAttempt(call_id, outcome, notes)
               .then(() => {
                 const attempt_num = parseInt(call.attributes.attempt_num, 10);
 
                 afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
               }).catch(err => console.log('could not set call status to attempted: ', err));
+          }
+          return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
+        }).catch(err => console.log('could not find call for updating: ', err));
+      }
+      return res.status(401).json({ message: 'User has not joined that campaign' });
+    })
+    .catch(err => console.log('could not check if user has joined campaign: ', err));
+}
+
+export function releaseCall(req, res) {
+  const call_id = parseInt(req.params.call_id, 10);
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
+
+  return userHasJoinedCampaign(user_id, user_campaign_id)
+    .then((userHasJoined) => {
+      if (userHasJoined) {
+        return lookUpCall(call_id).then((call) => {
+          const { status } = call.attributes;
+
+          if (checkCallIsAssigned(status)) {
+            return callsService.releaseCall({ id: call_id })
+              .then(() => res.status(200).json({ message: 'call successfully released' }))
+              .catch(err => console.log('could not release call: ', err));
           }
           return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
         }).catch(err => console.log('could not find call for updating: ', err));
