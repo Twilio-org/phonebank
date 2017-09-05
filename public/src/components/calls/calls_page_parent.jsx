@@ -42,7 +42,9 @@ export default class CallPage extends Component {
               contact_id,
               user_call_sid,
               call_id,
-              call_active } = this.props;
+              call_active,
+              updateCallAttempt,
+              releaseCall } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -68,6 +70,8 @@ export default class CallPage extends Component {
               inactivateCall={setCurrentCallInactive}
               call_id={call_id}
               call_active={call_active}
+              updateAttempt={updateCallAttempt}
+              releaseCall={releaseCall}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

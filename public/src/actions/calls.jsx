@@ -81,10 +81,9 @@ export function getCallContactInfo(contactId) {
     const { first_name, last_name } = contactObj;
     const name = last_name ? `${first_name} ${last_name}` : first_name;
     dispatch(setCallContactInfo({ name }));
-  }).catch();
+  })
+  .catch(err => console.log(err));
 }
-// handling form submission and fetching next call object
-// export function submitAndFetchNext() {};
 
 export function assignToCall(userId, campaignId) {
   return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null,
@@ -94,10 +93,34 @@ export function assignToCall(userId, campaignId) {
   )
     .then((call) => {
       const { data: callObj } = call;
-      const { status, outcome } = callObj;
+      // dispatch(clearCurrentCall());
       dispatch(setCurrentCall(callObj));
-      dispatch(updateCallOutcome(outcome));
-      dispatch(updateCallStatus(status));
     })
     .catch(err => console.log(err));
+}
+
+export function releaseCall(userId, campaignId, callId) {
+  return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then(() => {
+    dispatch(clearCurrentCall());
+  })
+  .catch(err => err);
+}
+
+export function updateCallAttempt(userId, campaignId, callId, outcome, notes = null) {
+  const params = { outcome, notes };
+  return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
+    params,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then(() => {
+    dispatch(assignToCall(userId, campaignId));
+  })
+  .catch();
 }

@@ -16,22 +16,31 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleSkipClick() {
-    const { call_id } = this.props;
-    console.log('skip requested');
+    const { call_id, user_id, campaign_id, releaseCall, nextCall } = this.props;
+    const promisifyReleaseCall = (callId, userId, campaignId) => {
+      return new Promise((resolve, reject) => {
+        const err = releaseCall(userId, campaignId, callId);
+        if (!err) {
+          resolve(true);
+        } else {
+          reject(err);
+        }
+      });
+    };
+    return promisifyReleaseCall(call_id, user_id, campaign_id)
+      .then(() => nextCall(user_id, campaign_id))
+      .catch(err => console.log(err));
   }
 
   handleBadNameClick() {
-    const { call_id } = this.props;
-    // send update for bad number(marking call as assigned)
-    // will also need to assign a new call
-    // EP: '/users/:id/campaigns/:campaign_id/calls/:call_id'
-    console.log('bad name request');
+    const { call_id, user_id, campaign_id, updateAttempt } = this.props;
+    const outcome = 'BAD_NUMBER';
+    return updateAttempt(user_id, campaign_id, call_id, outcome);
   }
 
   handleStopCallingClick() {
-    const { history } = this.props;
-    // TODO: logic for unassigning call if current call is assigned
-    console.log('should also unassign call from user');
+    const { history, call_id, user_id, campaign_id, releaseCall } = this.props;
+    releaseCall(user_id, campaign_id, call_id);
     history.push('/volunteers/campaigns');
   }
 
@@ -52,7 +61,7 @@ export default class PreCallButtonGroup extends Component {
         <div>
           <ButtonGroup vertical id="pre_call_side">
             <Button onClick={this.handleSkipClick} bsStyle="warning">Skip this person</Button>
-            <Button bsStyle="danger">Bad Name</Button>
+            <Button onClick={this.handleBadNameClick} bsStyle="danger">Bad Name</Button>
             <Button onClick={this.handleStopCallingClick} bsStyle="info">Stop Calling</Button>
           </ButtonGroup>
         </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 
 import Toolbar from './btn_toolbar';
 import CallControl from './callcntrl_btn_group';
@@ -86,18 +85,31 @@ export default class CallsSideBar extends Component {
     ];
 
     if (status === 'ASSIGNED' && !!user_call_sid) {
-      const { contact_name, updateCallStatus, history, call_id } = this.props;
+      const { contact_name,
+              updateCallStatus,
+              history,
+              call_id,
+              user_id,
+              campaign_id,
+              updateAttempt,
+              releaseCall,
+              nextCall } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
           updateCallStatus={updateCallStatus}
           contact_name={contact_name}
           call_id={call_id}
+          user_id={user_id}
+          campaign_id={campaign_id}
+          updateAttempt={updateAttempt}
+          releaseCall={releaseCall}
+          nextCall={nextCall}
         />
       );
     }
     if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED')) {
-      const { contact_name, handleSubmit, call_active, outcome } = this.props;
+      const { contact_name, handleSubmit, call_active, outcome, } = this.props;
 
       return (
         <div>

@@ -7,7 +7,7 @@ import CallPage from '../components/calls/calls_page_parent';
 import { setCampaignCurrent } from '../actions/campaign';
 
 import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
-import { assignToCall, updateCallOutcome, updateCallStatus, getCallContactInfo, setCurrentCallActive, setCurrentCallInactive } from '../actions/calls';
+import { assignToCall, updateCallOutcome, updateCallStatus, getCallContactInfo, setCurrentCallActive, setCurrentCallInactive, updateCallAttempt, releaseCall } from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
@@ -43,7 +43,9 @@ export default withRouter(
           updateCallStatus,
           getCallContactInfo,
           setCurrentCallActive,
-          setCurrentCallInactive
+          setCurrentCallInactive,
+          updateCallAttempt,
+          releaseCall
         }
       )(CallPage)
     )
