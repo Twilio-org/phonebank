@@ -10,7 +10,6 @@ import { addCampaignToUser,
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
 
-
 const router = express.Router();
 
 router.use(passport.authenticate('jwt', { session: false }));
