@@ -37,7 +37,8 @@ export default class CallPage extends Component {
     if (current_call) {
       const { status,
               outcome,
-              contact_id } = this.props;
+              contact_id,
+              user_call_sid } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -58,6 +59,7 @@ export default class CallPage extends Component {
               updateCallStatus={updateCallStatus}
               updateCallOutcome={updateCallOutcome}
               getCallContactInfo={getCallContactInfo}
+              user_call_sid={user_call_sid}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

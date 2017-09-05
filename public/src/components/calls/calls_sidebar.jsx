@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Toolbar from './btn_toolbar';
 import CallControl from './callcntrl_btn_group';
 import SideBarForm from './side_bar_form';
+import PreCallButtonGroup from './pre_call_btn_grp';
 
 export default class CallsSideBar extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ export default class CallsSideBar extends Component {
 
   render() {
     const { status, user_call_sid } = this.props;
+    console.log(user_call_sid, '$$$$$$$$$$$$');
     const outcomes = [
       {
         value: 'Bad Number',
@@ -63,15 +65,15 @@ export default class CallsSideBar extends Component {
       },
       {
         value: 'No Answer',
-        style: 'warn'
+        style: 'warning'
       },
       {
         value: 'Left Message',
-        style: 'warn'
+        style: 'warning'
       },
       {
         value: 'Incomplete',
-        style: 'warn'
+        style: 'warning'
       },
       {
         value: 'Answered',
@@ -80,7 +82,8 @@ export default class CallsSideBar extends Component {
     ];
 
     if (status === 'ASSIGNED' && !!user_call_sid) {
-      return (<Button onClick={this.handleStartCallClick}>Connect Call</Button>);
+      const { contact_name, updateCallStatus } = this.props;
+      return (<PreCallButtonGroup updateCallStatus={updateCallStatus} contact_name={contact_name} />);
     }
     if (!!status && status === 'IN_PROGRESS') {
       const { contact_name, handleSubmit } = this.props;
