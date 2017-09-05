@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import CallPage from '../components/calls/calls_page_parent';
 
 import { setCampaignCurrent } from '../actions/campaign';
-
+import { clearUserCallSID } from '../actions/users';
 import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
 import { assignToCall, updateCallOutcome, updateCallStatus, getCallContactInfo, setCurrentCallActive, setCurrentCallInactive, updateCallAttempt, releaseCall } from '../actions/calls';
 
@@ -45,7 +45,8 @@ export default withRouter(
           setCurrentCallActive,
           setCurrentCallInactive,
           updateCallAttempt,
-          releaseCall
+          releaseCall,
+          clearUserCallSID
         }
       )(CallPage)
     )

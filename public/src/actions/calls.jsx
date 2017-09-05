@@ -93,7 +93,6 @@ export function assignToCall(userId, campaignId) {
   )
     .then((call) => {
       const { data: callObj } = call;
-      // dispatch(clearCurrentCall());
       dispatch(setCurrentCall(callObj));
     })
     .catch(err => console.log(err));
@@ -106,7 +105,7 @@ export function releaseCall(userId, campaignId, callId) {
     }
   )
   .then(() => {
-    dispatch(clearCurrentCall());
+    dispatch(setCurrentCallInactive());
   })
   .catch(err => err);
 }

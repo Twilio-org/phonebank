@@ -21,6 +21,13 @@ export default class CallsSideBar extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.contact_id) {
+      const { contact_id, getCallContactInfo } = this.props;
+      getCallContactInfo(contact_id);
+    }
+  }
+
   handleStartCallClick() {
     const { updateCallStatus } = this.props;
     return updateCallStatus('IN_PROGRESS');
@@ -93,7 +100,8 @@ export default class CallsSideBar extends Component {
               campaign_id,
               updateAttempt,
               releaseCall,
-              nextCall } = this.props;
+              nextCall,
+              clearUserCallSID } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -105,11 +113,12 @@ export default class CallsSideBar extends Component {
           updateAttempt={updateAttempt}
           releaseCall={releaseCall}
           nextCall={nextCall}
+          clearUserCallSID={clearUserCallSID}
         />
       );
     }
     if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED')) {
-      const { contact_name, handleSubmit, call_active, outcome, } = this.props;
+      const { contact_name, handleSubmit, call_active, outcome } = this.props;
 
       return (
         <div>

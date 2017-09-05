@@ -9,6 +9,7 @@ export const defaultUserAccountInfo = {
 
 export const SET_USER_ACCOUNT_INFO = 'SET_USER_ACCOUNT_INFO';
 export const SET_USER_CALL_SID = 'SET_USER_CALL_SID';
+export const CLEAR_USER_CALL_SID = 'CLEAR_USER_CALL_SID';
 
 export function accountInfoReducer(state = defaultUserAccountInfo, action) {
   const { type, payload } = action;
@@ -26,6 +27,11 @@ export function accountInfoReducer(state = defaultUserAccountInfo, action) {
       return {
         ...state,
         user_call_sid: payload
+      };
+    case CLEAR_USER_CALL_SID:
+      return {
+        ...state,
+        user_call_sid: null
       };
     default:
       return state;
