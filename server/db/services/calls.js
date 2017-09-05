@@ -12,6 +12,7 @@ export default {
 
     return new Call()
       .where({ campaign_id, status: 'AVAILABLE' })
+      .orderBy('id', 'ASC')
       .fetch()
       .then((call) => {
         if (call) {

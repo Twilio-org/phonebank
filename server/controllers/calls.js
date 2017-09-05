@@ -108,7 +108,7 @@ export function recordAttempt(req, res) {
                 afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
               }).catch(err => console.log('could not set call status to attempted: ', err));
           }
-          return res.status(400).json({ message: 'call has not been assigned' });
+          return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
         }).catch(err => console.log('could not find call for updating: ', err));
       }
       return res.status(401).json({ message: 'User has not joined that campaign' });
