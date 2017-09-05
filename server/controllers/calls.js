@@ -114,17 +114,16 @@ export function recordAttempt(req, res) {
             if (checkCallIsAssigned(status)) {
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-                  parsedResponses.forEach((resp) => {
+                  Promise.all(parsedResponses.map((resp) => {
                     const { question_id, response } = resp;
                     const responseParams = { call_id, question_id, response };
-                    responsesService.saveNewResponse(responseParams)
-                      .then(() => {
-                        console.log('Response saved successfully');
-                      }).catch(err => console.log('could not save response', err));
-                  });
-                  const attempt_num = parseInt(call.attributes.attempt_num, 10);
-
-                  afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
+                    return responsesService.saveNewResponse(responseParams);
+                  }))
+                    .then(() => {
+                      console.log('Response saved successfully');
+                      const attempt_num = parseInt(call.attributes.attempt_num, 10);
+                      afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
+                    }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
             return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
