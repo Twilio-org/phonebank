@@ -9,11 +9,14 @@ const CallQuestion = (props) => {
   const questionText = question.description;
   const options = question.responses ? question.responses.split(',') : [];
 
-  const questionIdFieldName = `responses[${num}]['question_id']`;
-  const questionRespFieldName = `responses[${num}]['response']`;
+  const responsesFieldName = `responses[${num}]`;
+  const questionTypeFieldName = `${responsesFieldName}['type']`;
+  const questionIdFieldName = `${responsesFieldName}['question_id']`;
+  const questionRespFieldName = `${responsesFieldName}['response']`;
 
   const setQuestionId = () => {
     change(form, questionIdFieldName, question.question_id);
+    change(form, questionTypeFieldName, question.type);
   };
 
   if (question.type === 'paragraph') {

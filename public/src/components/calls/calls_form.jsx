@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-// import { Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
 import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
   render() {
-    const { questions, change, form, status } = this.props;
+    const { questions, change, form, call_active } = this.props;
     return (
       <form>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={status !== 'pending'}>
+        <fieldset disabled={!call_active}>
           {
             questions && questions.map((question, i) => (
               <CallQuestion
