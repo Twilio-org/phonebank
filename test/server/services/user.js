@@ -395,5 +395,35 @@ describe('User service tests', function() {
           done();
         }, done);
     });
+    it('should return a null call_sid for userManageParams2', (done) => {
+      usersService.getUserById({ id: this.userManageParams2.id })
+        .then((user) => {
+          expect(user.attributes.call_sid).to.be.null;
+          done();
+        }, done);
+    });
+    it('should update the call_sid for userManageParans2', (done) => {
+      const call_sid = 'CA1234567890qwertyuiopasdfghjklzxc';
+      const params = {
+        call_sid,
+        id: this.userManageParams2.id
+      };
+      usersService.updateUserById(params)
+        .then((user) => {
+          expect(user.attributes.call_sid).to.equal(call_sid);
+          done();
+        }, done);
+    });
+    it('should clear the call_sid for userManageParams2', (done) => {
+      const params = {
+        id: this.userManageParams2.id,
+        call_sid: null
+      };
+      usersService.updateUserById(params)
+        .then((user) => {
+          expect(user.attributes.call_sid).to.be.null;
+          done();
+        }, done);
+    });
   });
 });
