@@ -16,16 +16,16 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleSkipClick() {
-    const { call_id } = this.props;
-    console.log('skip requested');
+    // const { call_id } = this.props;
+    console.log('skip requested', this.props);
   }
 
   handleBadNameClick() {
-    const { call_id } = this.props;
+    // const { call_id } = this.props;
     // send update for bad number(marking call as assigned)
     // will also need to assign a new call
     // EP: '/users/:id/campaigns/:campaign_id/calls/:call_id'
-    console.log('bad name request');
+    console.log('bad name request', this.props);
   }
 
   handleStopCallingClick() {

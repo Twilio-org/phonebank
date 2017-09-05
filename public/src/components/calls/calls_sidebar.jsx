@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 
 import Toolbar from './btn_toolbar';
 import CallControl from './callcntrl_btn_group';
