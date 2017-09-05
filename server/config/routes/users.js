@@ -1,5 +1,5 @@
 import express from 'express';
-// import { passport } from '../auth/local';
+import { passport } from '../auth/local';
 import { addCampaignToUser,
          getAllUsers,
          getUserById,
@@ -16,7 +16,7 @@ import { assignCall } from '../../controllers/calls';
 
 const router = express.Router();
 
-// router.use(passport.authenticate('jwt', { session: false }));
+router.use(passport.authenticate('jwt', { session: false }));
 
 router.route('/').get(getAllUsers);
 router.route('/:id').get(getUserById);
