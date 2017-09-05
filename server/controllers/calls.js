@@ -1,6 +1,7 @@
 import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
+import responsesService from '../db/services/responses';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -85,7 +86,7 @@ export function assignCall(req, res) {
 }
 
 export function recordAttempt(req, res) {
-  const { outcome, notes } = req.body;
+  const { outcome, notes, responses } = req.body;
   const call_id = parseInt(req.params.call_id, 10);
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
@@ -99,10 +100,17 @@ export function recordAttempt(req, res) {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
           const { contact_id, campaign_id, status } = call.attributes;
-
           if (status === 'ASSIGNED') {
             return putCallAttempt(call_id, outcome, notes)
               .then(() => {
+                JSON.parse(responses).forEach((resp) => {
+                  const { question_id, response } = resp;
+                  const responseParams = { call_id, question_id, response };
+                  responsesService.saveNewResponse(responseParams)
+                    .then(() => {
+                      console.log('Response saved successfully');
+                    }).catch(err => console.log('could not save response', err));
+                });
                 const attempt_num = parseInt(call.attributes.attempt_num, 10);
 
                 afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
