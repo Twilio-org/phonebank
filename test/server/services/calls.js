@@ -168,4 +168,48 @@ describe('Calls Service tests', function() {
         }, done);
     });
   });
+
+  describe('call releasing', () => {
+    before((done) => {
+      const { user_id, campaign_id } = this.callSaveParams;
+
+      this.contactSaveParams2 = {
+        first_name: 'Yet',
+        last_name: 'Another',
+        phone_number: '+11820020002',
+        email: 'yet@gmail.com',
+        external_id: 'test12345'
+      };
+
+      contactsService.saveNewContact(this.contactSaveParams2)
+        .then((contact) => {
+          this.callSaveParams.contact_id = contact.id;
+          callsService.populateCall(this.callSaveParams)
+            .then((call) => {
+              callsService.assignCall({ user_id, campaign_id })
+                .then((call) => {
+                  this.callSaveParams.call_id = call.id;
+                  done();
+                }, done);
+            }, done);
+        }, done);
+
+
+    });
+
+    it('should set a call\'s status to \'AVAILABLE\' and user_id to null', (done) => {
+      const attemptedCallParams = {
+        id: this.callSaveParams.call_id,
+        notes: 'these are some notes',
+        outcome: 'ANSWERED'
+      };
+
+      callsService.releaseCall(attemptedCallParams)
+        .then((call) => {
+            expect(call.attributes.status).to.equal('AVAILABLE');
+            expect(call.attributes.user_id).to.equal(null);
+            done();
+          });
+    });
+  });
 });
