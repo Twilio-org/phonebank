@@ -16,7 +16,6 @@ const TableListView = (props) => {
           tableHeaders,
           newPath,
           currentUser,
-          all_campaigns,
           auth } = props;
 
   const { headers } = tableHeaders;
