@@ -91,6 +91,12 @@ export function assignCall(req, res) {
 
 export function recordAttempt(req, res) {
   const { outcome, notes, responses } = req.body;
+  let parsedResponses;
+  try {
+    parsedResponses = JSON.parse(responses);
+  } catch (err) {
+    return res.status(400).json({ message: 'Invalid JSON object' });
+  }
   const call_id = parseInt(req.params.call_id, 10);
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
@@ -103,24 +109,27 @@ export function recordAttempt(req, res) {
     .then((userHasJoined) => {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
-          const { contact_id, campaign_id, status } = call.attributes;
-          if (checkCallIsAssigned(status)) {
-            return putCallAttempt(call_id, outcome, notes)
-              .then(() => {
-                JSON.parse(responses).forEach((resp) => {
-                  const { question_id, response } = resp;
-                  const responseParams = { call_id, question_id, response };
-                  responsesService.saveNewResponse(responseParams)
-                    .then(() => {
-                      console.log('Response saved successfully');
-                    }).catch(err => console.log('could not save response', err));
-                });
-                const attempt_num = parseInt(call.attributes.attempt_num, 10);
+          if (call) {
+            const { contact_id, campaign_id, status } = call.attributes;
+            if (checkCallIsAssigned(status)) {
+              return putCallAttempt(call_id, outcome, notes)
+                .then(() => {
+                  parsedResponses.forEach((resp) => {
+                    const { question_id, response } = resp;
+                    const responseParams = { call_id, question_id, response };
+                    responsesService.saveNewResponse(responseParams)
+                      .then(() => {
+                        console.log('Response saved successfully');
+                      }).catch(err => console.log('could not save response', err));
+                  });
+                  const attempt_num = parseInt(call.attributes.attempt_num, 10);
 
-                afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
-              }).catch(err => console.log('could not set call status to attempted: ', err));
+                  afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
+                }).catch(err => console.log('could not set call status to attempted: ', err));
+            }
+            return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
           }
-          return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
+          return res.status(404).json({ message: 'Call ID does not exist' });
         }).catch(err => console.log('could not find call for updating: ', err));
       }
       return res.status(401).json({ message: 'User has not joined that campaign' });
