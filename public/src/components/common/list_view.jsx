@@ -16,6 +16,7 @@ const TableListView = (props) => {
           tableHeaders,
           newPath,
           currentUser,
+          all_campaigns,
           auth } = props;
 
   const { headers } = tableHeaders;
@@ -51,6 +52,7 @@ const TableListView = (props) => {
             item_collection.map(item =>
               (
                 <TableRow
+                  all_campaigns={item_collection}
                   currentUser={currentUser}
                   key={item.id}
                   auth={auth}

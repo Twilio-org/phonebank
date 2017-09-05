@@ -14,15 +14,22 @@ export default class CampaignList extends Component {
 
   render() {
     const {
-      all_campaigns,
       account_info,
+      addCampaignToUser,
+      all_campaigns,
       auth,
       history,
-      addCampaignToUser
+      setCurrentCampaign
     } = this.props;
     const thisPage = 'Campaign';
     const { admin_campaigns, volunteer_campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
+
+    function handleClick(id, campaign_id, historyObj, campaign_list) {
+      const joined = campaign_list.filter(campaign => campaign.id === campaign_id)[0];
+      setCurrentCampaign(joined);
+      addCampaignToUser(id, campaign_id, historyObj);
+    }
 
     return (
       <div>
@@ -36,7 +43,7 @@ export default class CampaignList extends Component {
               button_collection={account_info.is_admin ?
                                    admin_campaigns :
                                    volunteer_campaigns}
-              componentClickHandler={addCampaignToUser}
+              componentClickHandler={handleClick}
               thisPage={thisPage}
               tableHeaders={campaignHeaders}
               newPath={redirect_path}

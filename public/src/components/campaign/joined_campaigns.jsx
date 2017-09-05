@@ -18,6 +18,14 @@ export default class JoinedCampaigns extends Component {
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
+
+    if (
+      joined_campaigns.length !== 0 &&
+      Object.getOwnPropertyNames(current_campaign).length === 0
+    ) {
+      setCurrentCampaign(joined_campaigns[0]);
+    }
+
     return (
       <div>
         <Banner
@@ -43,12 +51,15 @@ export default class JoinedCampaigns extends Component {
               />
             </Col>
             <Col xs={7} md={8} lg={9}>
-              <CurrentCampaign
-                history={history}
-                id={current_campaign}
-                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
-                campaign={current_campaign}
-              />
+              { joined_campaigns.length !== 0 ?
+              (
+                <CurrentCampaign
+                  history={history}
+                  id={current_campaign}
+                  defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
+                  campaign={current_campaign}
+                />
+              ) : '' }
             </Col>
           </Row>
         </section>

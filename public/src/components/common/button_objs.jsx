@@ -102,7 +102,7 @@ export default {
     ];
   },
   volunteer_campaigns(props) {
-    const { item, auth, history, handleClick } = props;
+    const { item, auth, history, handleClick, all_campaigns } = props;
     const { id: campaign_id } = item;
     const { id } = auth;
     return [
@@ -112,7 +112,7 @@ export default {
         size: 'xsmall',
         style: 'success',
         handler: () => {
-          handleClick(id, campaign_id, history);
+          handleClick(id, campaign_id, history, all_campaigns);
         }
       }
     ];
