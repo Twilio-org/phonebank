@@ -3,8 +3,6 @@ import { PageHeader, HelpBlock, Panel } from 'react-bootstrap';
 import CallsForm from './calls_form';
 
 export default class CallsPageMain extends Component {
-  componentDidMount() {
-  }
   render() {
     const { current_campaign, current_script, script_questions, ...storeProps } = this.props;
     return (

@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, change } from 'redux-form';
 
 import CallPage from '../components/calls/calls_page_parent';
 
@@ -30,6 +30,7 @@ export default withRouter(
           fetchScript,
           fetchScriptQuestions,
           setCampaignCurrent,
+          change,
           ...callsActions
         }
       )(CallPage)

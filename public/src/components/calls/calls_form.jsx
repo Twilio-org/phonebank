@@ -4,16 +4,21 @@ import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
   render() {
-    const { handleSubmit, questions } = this.props;
-    const current_call_status = 'pending';
+    const { questions, change, form, status } = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={current_call_status !== 'pending'}>
+        <fieldset disabled={status !== 'pending'}>
           {
             questions && questions.map((question, i) => (
-              <CallQuestion question={question} num={i} key={question.title} />
+              <CallQuestion
+                question={question}
+                num={i}
+                key={question.title}
+                change={change}
+                form={form}
+              />
             ))
           }
         </fieldset>
