@@ -58,19 +58,8 @@ const scriptParams = {
 const fullContactFirstName = faker.name.firstName();
 const fullContactLastName = faker.name.lastName();
 const fullContactEmail = `${fullContactFirstName}.${fullContactLastName}@notrealemail.com`;
+
 const contactParams = [
-  {
-    first_name: faker.name.firstName(),
-    phone_number: `555-555-${getRandomFourDigitInt()}`
-  },
-  {
-    first_name: faker.name.firstName(),
-    phone_number: `555-555-${getRandomFourDigitInt()}`
-  },
-  {
-    first_name: faker.name.firstName(),
-    phone_number: `555-555-${getRandomFourDigitInt()}`
-  },
   {
     first_name: fullContactFirstName,
     last_name: fullContactLastName,
@@ -79,6 +68,15 @@ const contactParams = [
     external_id: 'external_id'
   }
 ];
+
+for (let i = 0; i < 49; i += 1) {
+  const contact = {
+    first_name: faker.name.firstName(),
+    phone_number: `555-555-${getRandomFourDigitInt()}`
+  };
+  contactParams.push(contact);
+}
+
 const contactListParams = {
   name: 'Contact List 1'
 };
