@@ -14,6 +14,7 @@ import ViewQuestionContainer from '../../containers/view_question';
 import { ConnectedAccountPage } from '../../components/account/account';
 import ScriptPage from '../../containers/view_script';
 import AdminUsersContainer from '../../containers/list_users';
+import CreateContactListContainer from '../../containers/create_contact_list';
 
 export default class Admin extends Component {
   componentDidMount() {
@@ -70,6 +71,10 @@ export default class Admin extends Component {
         <Route
           path={`${parent}/scripts`}
           component={AdminScriptsContainer}
+        />
+        <Route
+          path={`${parent}/contactLists/new`}
+          component={CreateContactListContainer}
         />
         <Route
           path={`${parent}/contactLists`}

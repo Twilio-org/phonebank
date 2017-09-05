@@ -1,28 +1,32 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-// import { Field } from 'redux-form';
 
 import Toolbar from './btn_toolbar';
 import CallControl from './callcntrl_btn_group';
+import SideBarForm from './side_bar_form';
 
 export default class CallsSideBar extends Component {
   constructor(props) {
     super(props);
-    // const clickHandlers = ['handleStartCallClick', 'handleStartCallClick', 'handleOutcomeClick', 'handleNextClick', 'handleStopClick'];
-    // clickHandlers.forEach((func) => {
-    //   this[func] = this[func].bind(this);
-    // });
-    this.handleStartCallClick = this.handleStartCallClick.bind(this);
-    this.handleOutcomeClick = this.handleOutcomeClick.bind(this);
-    this.handleNextClick = this.handleNextClick.bind(this);
-    this.handleStopClick = this.handleStopClick.bind(this);
+    const clickHandlers = ['handleStartCallClick', 'handleOutcomeClick', 'handleNextClick', 'handleStopClick'];
+    clickHandlers.forEach((func) => {
+      this[func] = this[func].bind(this);
+    });
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     if (this.props.contact_id) {
-      const { contact_id } = this.props;
-      // this.props.getContactInfo(contact_id);
+      const { contact_id, getCallContactInfo } = this.props;
+      getCallContactInfo(contact_id);
     }
+  }
+
+  shouldComponentUpdate() {
+    const { status } = this.props;
+    if (status === 'ASSIGNED' || 'AVAILABLE') {
+      return true;
+    }
+    return false;
   }
 
   handleStartCallClick() {
@@ -33,12 +37,12 @@ export default class CallsSideBar extends Component {
   handleOutcomeClick(text) {
     const { updateCallOutcome, updateCallStatus } = this.props;
     updateCallOutcome(text.toUpperCase());
-    // updateCallStatus('ATTEMPTED');
+    updateCallStatus('ATTEMPTED');
   }
 
   handleNextClick() {
-    const { user_id, camp_id, current_call, nextCall } = this.props;
-    nextCall(user_id, camp_id, current_call);
+    const { user_id, campaign_id, nextCall } = this.props;
+    nextCall(user_id, campaign_id);
   }
 
   handleStopClick() {
@@ -47,11 +51,7 @@ export default class CallsSideBar extends Component {
   }
 
   render() {
-    // const { call_status,
-    //         call_outcome,
-    //         status,
-    //         outcome } = this.props;
-    const { status, outcome } = this.props;
+    const { status } = this.props;
     const outcomes = [
       {
         value: 'Bad Number',
@@ -82,28 +82,27 @@ export default class CallsSideBar extends Component {
       return (<Button onClick={this.handleStartCallClick}>Connect Call</Button>);
     }
     if (!!status && status === 'IN_PROGRESS') {
+      const { contact_name, contact_number, handleSubmit } = this.props;
+
       return (
-        <div>Call Active
+        <div>
+          <div>Now Calling: {contact_name}</div>
+          <div>Phone Number: {contact_number}</div>
           <Toolbar
             outcomes={outcomes}
             handleOutcome={this.handleOutcomeClick}
           />
           <div>
+            <SideBarForm handleSubmit={handleSubmit} />
             <div>
-              <form>
-                <textarea rows="5" cols="13" placeholder="notes"  />
-              </form>
+              <CallControl handleNext={this.handleNextClick} handleStop={this.handleStopClick} />
             </div>
-              <div>
-                <CallControl handleNext={this.handleNextClick} handleStop={this.handleStopClick} />
-              </div>
           </div>
-
         </div>
       );
     }
     return (
-      <div>Meow, this is the calls sidebar~!</div>
+      <div>SideBar Loading</div>
     );
   }
 }

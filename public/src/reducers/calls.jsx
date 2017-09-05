@@ -1,12 +1,20 @@
 const defaultCalls = {
-  current_call: undefined,
-  next_call: undefined,
+  current_call: false,
   calls_made: 0,
+  call_id: null,
+  user_id: null,
+  campaign_id: null,
+  call_sid: null,
+  contact_id: null,
   status: undefined,
   outcome: undefined,
+  call_ended: null,
+  call_started: null,
+  notes: null,
   contact_name: undefined,
   contact_number: undefined
 };
+
 
 export const SET_CALL_CURRENT = 'SET_CALL_CURRENT';
 export const SET_CALL_NEXT = 'SET_CALL_NEXT';
@@ -21,24 +29,21 @@ export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
-  // for switching call from next to current;
-  const { next_call } = state;
   switch (type) {
     case SET_CALL_CURRENT:
       return {
         ...state,
-        current_call: payload
-      };
-    case SET_CALL_NEXT:
-      return {
-        ...state,
-        next_call: payload
-      };
-    case PROMOTE_NEXT:
-      return {
-        ...state,
-        current_call: next_call,
-        next_call: undefined
+        current_call: true,
+        call_id: payload.id,
+        user_id: payload.user_id,
+        campaign_id: payload.campaign_id,
+        call_sid: payload.call_sid,
+        contact_id: payload.contact_id,
+        status: payload.status,
+        outcome: payload.outcome,
+        call_ended: payload.call_ended,
+        call_started: payload.call_started,
+        notes: payload.notes
       };
     case INCREMENT_CALLS:
       return {
@@ -48,12 +53,7 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case CLEAR_CALL_CURRENT:
       return {
         ...state,
-        current_call: undefined
-      };
-    case CLEAR_NEXT_CALL:
-      return {
-        ...state,
-        next_call: undefined
+        ...defaultCalls
       };
     case CLEAR_COUNT_CALLS:
       return {
@@ -73,8 +73,8 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case SET_CALL_CONTACT_INFO:
       return {
         ...state,
-        contact_number: payload.contact_number,
-        contact_name: payload.contact_name
+        contact_number: payload.phone_number,
+        contact_name: payload.name
       };
     default:
       return state;
