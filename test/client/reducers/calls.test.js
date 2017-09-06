@@ -66,15 +66,15 @@ describe('volunteerCallsReducer tests: ', () => {
             call_started,
             notes,
             current_call_contact_name,
-            call_active } = defaultState;
+            call_current_active } = defaultState;
     it('should return the default state if the action type does not match any cases: ', () => {
       expect(defaultState).toEqual(initialState);
     });
     it('should have a property named current_call which is a boolean: ', () => {
       expect(typeof current_call === 'boolean' && current_call === false).toBe(true);
     });
-    it('should have a property named call_active which is a boolean: ', () => {
-      expect(typeof call_active === 'boolean' && call_active === false).toBe(true);
+    it('should have a property named call_current_active which is a boolean: ', () => {
+      expect(typeof call_current_active === 'boolean' && call_current_active === false).toBe(true);
     });
     it('should have a property named call_id which is null: ', () => {
       expect(typeof call_id === 'object' && call_id === null).toBe(true);
@@ -179,15 +179,15 @@ describe('volunteerCallsReducer tests: ', () => {
       const { current_call_contact_name } = testResult;
       expect(current_call_contact_name).toBe('meow');
     });
-    describe('should set call_active when SET_CURRENT_CALL_ACTIVE is dispatched: ', () => {
+    describe('should set call_current_active when SET_CURRENT_call_current_active is dispatched: ', () => {
       testResult = volunteerCallsReducer(initialState, callActive);
-      const { call_active } = testResult;
-      expect(call_active).toBe(true);
+      const { call_current_active } = testResult;
+      expect(call_current_active).toBe(true);
     });
-    describe('should set call_active when SET_CURRENT_CALL_INACTIVE is dispatched: ', () => {
+    describe('should set call_current_active when SET_CURRENT_CALL_INACTIVE is dispatched: ', () => {
       testResult = volunteerCallsReducer(initialState, callInactive);
-      const { call_active } = testResult;
-      expect(call_active).toBe(false);
+      const { call_current_active } = testResult;
+      expect(call_current_active).toBe(false);
     });
     describe('it should handle non-matching action types: ', () => {
       it('should return the default state if the action type is not a case in the reducer: ', () => {

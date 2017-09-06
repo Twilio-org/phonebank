@@ -24,7 +24,6 @@ export const SET_CURRENT_CALL_INACTIVE = 'SET_CURRENT_CALL_INACTIVE';
 export const SET_VOLUNTEER_ACTIVE = 'SET_VOLUNTEER_ACTIVE';
 export const CLEAR_VOLUNTEER_ACTIVE = 'CLEAR_VOLUNTEER_ACTIVE';
 
-
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
   switch (type) {

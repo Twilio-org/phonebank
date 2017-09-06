@@ -92,7 +92,6 @@ export function assignToCall(userId, campaignId) {
     .then((call) => {
       const { data: callObj } = call;
       const { status, outcome } = callObj;
-      console.log('status and outcome: ', status, outcome);
       if (status !== 'ASSIGNED' || outcome !== 'PENDING') {
         return new Error('error from db assignment');
       }
