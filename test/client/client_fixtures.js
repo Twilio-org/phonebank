@@ -354,5 +354,37 @@ export default {
       created_at: '2017-08-24T01:01:01.145Z',
       updated_at: '2017-08-25T22:01:10.202Z'
     }
+  },
+  callsFixture: {
+    call: {
+      id: 1,
+      campaign_id: 1,
+      contact_id: 1,
+      attempt_num: 1,
+      user_id: null,
+      status: 'AVAILABLE',
+      outcome: 'PENDING',
+      notes: null,
+      call_sid: null,
+      call_started: null,
+      call_ended: null,
+      created_at: '2017-08-15T21:35:30.321Z',
+      updated_at: '2017-08-15T21:35:30.321Z'
+    },
+    assignedCall: {
+      id: 1,
+      campaign_id: 1,
+      contact_id: 1,
+      attempt_num: 1,
+      user_id: 1,
+      status: 'AVAILABLE',
+      outcome: 'PENDING',
+      notes: null,
+      call_sid: null,
+      call_started: null,
+      call_ended: null,
+      created_at: '2017-08-15T21:35:30.321Z',
+      updated_at: '2017-08-15T21:35:30.321Z'
+    }
   }
 };
