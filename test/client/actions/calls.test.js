@@ -1,10 +1,11 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { mockStore } from '../client_test_helpers';
+import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
 import { setCurrentCall, setNextCall, assignToCall } from '../../../public/src/actions/calls';
 import { defaultCalls } from '../../../public/src/reducers/calls';
 import fixtures from '../client_fixtures';
 
+exposeLocalStorageMock();
 let mocker;
 let store;
 const { call, assignedCall, currentCall } = fixtures.callsFixture;
