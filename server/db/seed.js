@@ -1,4 +1,5 @@
 import faker from 'faker';
+import db from './db';
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
@@ -126,13 +127,11 @@ function generatePromiseActions(paramsArray, createFunction) {
 
 Promise.all(generatePromiseActions(userParams, createUser))
   .then((users) => {
-    const userIds = users.map(user => user.attributes.id);
     Promise.all(generatePromiseActions(questionParams, createQuestion))
       .then((questions) => {
         scriptsService.saveNewScript(scriptParams)
           .then((script) => {
             campaignScriptId = script.attributes.id;
-            // console.log(questions);
             const id = campaignScriptId;
             const questionIds = questions.map(question => question.attributes.id);
             const scriptQuestionParams = [];
@@ -176,15 +175,18 @@ Promise.all(generatePromiseActions(userParams, createUser))
                             campaignsService.saveNewCampaign(campaignParams)
                               .then((campaign) => {
                                 const campaignId = campaign.attributes.id;
-                                const userId = userIds[1];
+                                const userId = users.map(user => user.attributes.id)[1];
                                 const cloneCallParams = callParams.map(call =>
                                   Object.assign({}, call, { campaign_id: campaignId }));
+
                                 Promise.all(generatePromiseActions(cloneCallParams, createCall))
                                   .then(() => {
                                     usersService.addCampaignToUser({
                                       campaign_id: campaignId,
                                       id: userId
-                                    });
+                                    }).then(() => {
+                                      db.knex.destroy(() => console.log('All Entries created.'));
+                                    }).catch(err => console.log(err));
                                   }).catch(err => console.log(err));
                               }).catch(err => console.log(err));
                           }).catch(err => console.log(err));
@@ -193,5 +195,4 @@ Promise.all(generatePromiseActions(userParams, createUser))
               }).catch(err => console.log(err));
           }).catch(err => console.log(err));
       }).catch(err => console.log(err));
-  }).catch(err => console.log(err));
-
+  });
