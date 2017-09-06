@@ -38,6 +38,7 @@ export default class CallsSideBar extends Component {
     if (text === 'ANSWERED') {
       const { activateCall } = this.props;
       activateCall();
+      return;
     }
     updateCallOutcome(text.toUpperCase());
     updateCallStatus('ATTEMPTED');
@@ -54,8 +55,9 @@ export default class CallsSideBar extends Component {
   }
 
   handleHangUp() {
-    const { inactivateCall } = this.props;
+    const { inactivateCall, updateCallStatus } = this.props;
     inactivateCall();
+    updateCallStatus('HUNG_UP');
   }
 
   handleSubmitResponses() {
@@ -117,7 +119,7 @@ export default class CallsSideBar extends Component {
         />
       );
     }
-    if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED')) {
+    if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED' || status === 'HUNG_UP')) {
       const { current_call_contact_name, handleSubmit, call_current_active, outcome } = this.props;
 
       return (
@@ -135,6 +137,7 @@ export default class CallsSideBar extends Component {
                 submitHandler={this.handleSubmitResponses}
                 handleHangUp={this.handleHangUp}
                 outcome={outcome}
+                status={status}
               />
             </div>
           </div>
