@@ -12,7 +12,7 @@ describe('Component testing for <CallsSideBar />: ', () => {
       campaign_id: 1,
       clearUserCallSID: jest.fn(),
       contact_id: 1,
-      contact_name: 'tom waits',
+      current_call_contact_name: 'tom waits',
       getCallContactInfo: jest.fn(),
       handleSubmit: jest.fn(),
       history: {
@@ -24,13 +24,13 @@ describe('Component testing for <CallsSideBar />: ', () => {
       updateAttempt: jest.fn(),
       updateCallOutcome: jest.fn(),
       updateCallStatus: jest.fn(),
-      user_call_sid: 'meowmeowmeowmeow'
+      call_volunteer_active: false
     };
 
     describe('Component and Prop tests for when status is ASSIGNED: ', () => {
       const fluxProps = {
         user_id: 1,
-        call_active: false,
+        call_volunteer_active: true,
         outcome: 'PENDING',
         status: 'ASSIGNED'
       };
@@ -59,7 +59,7 @@ describe('Component testing for <CallsSideBar />: ', () => {
     describe('Component and Prop tests when status is IN_PROGRESS or ATTEMPTED', () => {
       const fluxProps = {
         user_id: 1,
-        call_active: true,
+        call_volunteer_active: true,
         outcome: 'PENDING',
         status: 'IN_PROGRESS'
       };
