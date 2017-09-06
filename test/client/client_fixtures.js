@@ -369,24 +369,20 @@ export default {
       attempt_num: 1,
       notes: null
     },
-    callState: {
-      call_id: 1,
-      campaign_id: 1,
-      clearUserCallSID: jest.fn(),
-      contact_id: 1,
-      contact_name: 'tom waits',
-      getCallContactInfo: jest.fn(),
-      handleSubmit: jest.fn(),
-      history: {
-        push: jest.fn()
-      },
-      inactivateCall: jest.fn(),
-      nextCall: jest.fn(),
-      releaseCall: jest.fn(),
-      updateAttempt: jest.fn(),
-      updateCallOutcome: jest.fn(),
-      updateCallStatus: jest.fn(),
-      user_call_sid: 'meowmeowmeowmeow'
+    initialState: {
+      current_call: false,
+      call_id: null,
+      user_id: null,
+      campaign_id: null,
+      call_sid: null,
+      contact_id: null,
+      status: undefined,
+      outcome: undefined,
+      call_ended: null,
+      call_started: null,
+      notes: null,
+      contact_name: undefined,
+      call_active: false
     }
   }
 };
