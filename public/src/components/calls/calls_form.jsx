@@ -8,7 +8,7 @@ export default class CallsForm extends Component {
       <form>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={status === 'IN_PROGRESS' || status === 'HUNG_UP'}>
+        <fieldset disabled={status !== 'IN_PROGRESS' || status !== 'HUNG_UP'}>
           {
             questions && questions.map((question, i) => (
               <CallQuestion
