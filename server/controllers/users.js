@@ -188,7 +188,7 @@ export function getUserCampaignAssociation(req, res) {
     });
 }
 
-export function updateUserCallSidField(req, res, next) {
+export function updateUserCallSIDField(req, res, next) {
   const { id } = req.params;
   const call_sid = 'CAdksl234591adfide294821kdau3u3933';
   const params = { id, call_sid };
@@ -201,11 +201,11 @@ export function updateUserCallSidField(req, res, next) {
       }
     })
     .catch((err) => {
-      res.status(404).json({ message: `Could process request to update user Call SID: ${err}` });
+      res.status(404).json({ message: `Could not process request to update user Call SID: ${err}` });
     });
 }
 
-export function clearUserCallSidField(req, res, next) {
+export function clearUserCallSIDField(req, res, next) {
   const { id } = req.params;
   const params = {
     id,
