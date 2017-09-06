@@ -7,22 +7,22 @@ import fixtures from '../client_fixtures';
 
 let mocker;
 let store;
-const { call1, assignedCall1, currentCall2 } = fixtures.callsFixture;
+const { call, assignedCall, currentCall } = fixtures.callsFixture;
 
 describe('Call Actions', () => {
   describe('assignToCall Action', () => {
     store = mockStore(defaultCalls);
     mocker = new MockAdapter(axios);
     beforeEach(() => {
-      mocker.onGet('/users/1/campaigns/1/calls').reply(200, assignedCall1);
+      mocker.onGet('/users/1/campaigns/1/calls').reply(200, assignedCall);
     });
     afterEach(() => {
       mocker.reset();
     });
     it('should dispatch setCurrentCall action if a currentCall does not exist', () => {
       const userId = 1;
-      const { type, payload } = setCurrentCall(assignedCall1);
-      store.dispatch(assignToCall(userId, call1.campaign_id))
+      const { type, payload } = setCurrentCall(assignedCall);
+      store.dispatch(assignToCall(userId, call.campaign_id))
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(type);
@@ -34,8 +34,8 @@ describe('Call Actions', () => {
     });
     it('should dispatch setNextCall action if a currentCall exists', () => {
       const userId = 1;
-      const { type, payload } = setNextCall(assignedCall1);
-      store.dispatch(assignToCall(userId, call1.campaign_id, currentCall2))
+      const { type, payload } = setNextCall(assignedCall);
+      store.dispatch(assignToCall(userId, call.campaign_id, currentCall))
         .then(() => {
           const actions = store.getActions();
           expect(actions[1].type).toEqual(type);
