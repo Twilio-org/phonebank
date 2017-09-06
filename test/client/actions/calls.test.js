@@ -8,7 +8,7 @@ import fixtures from '../client_fixtures';
 exposeLocalStorageMock();
 let mocker;
 let store;
-const { call, assignedCall, currentCall } = fixtures.callsFixture;
+const { call, assignedCall } = fixtures.callsFixture;
 
 describe('Call Actions', () => {
   describe('assignToCall Action', () => {
