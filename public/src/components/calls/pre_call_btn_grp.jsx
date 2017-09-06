@@ -28,18 +28,23 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleStopCallingClick() {
-    const { history, call_id, user_id, campaign_id, releaseCall, clearUserCallSID } = this.props;
+    const { history,
+            call_id,
+            user_id,
+            campaign_id,
+            releaseCall,
+            clearVolunteerActive } = this.props;
     releaseCall(user_id, campaign_id, call_id);
-    clearUserCallSID();
+    clearVolunteerActive();
     history.push('/volunteers/campaigns');
   }
 
   render() {
-    const { contact_name } = this.props;
+    const { current_call_contact_name } = this.props;
     return (
       <div>
         <h5>Now Calling:</h5>
-        <h3>{contact_name}</h3>
+        <h3>{current_call_contact_name}</h3>
 
         <Button
           onClick={this.handleStartCallingClick}

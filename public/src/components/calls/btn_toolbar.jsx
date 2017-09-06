@@ -14,7 +14,7 @@ const Toolbar = (props) => {
         <ButtonGroup vertical>
           <ToggleButtonGroup
             type="radio"
-            name="meow"
+            name="side-bar-toggle"
             onChange={handleOutcome}
           >
             {outcomes.map((outcome, index) => {

@@ -59,14 +59,13 @@ describe('volunteerCallsReducer tests: ', () => {
             call_id,
             user_id,
             campaign_id,
-            call_sid,
             contact_id,
             status,
             outcome,
             call_ended,
             call_started,
             notes,
-            contact_name,
+            current_call_contact_name,
             call_active } = defaultState;
     it('should return the default state if the action type does not match any cases: ', () => {
       expect(defaultState).toEqual(initialState);
@@ -86,9 +85,6 @@ describe('volunteerCallsReducer tests: ', () => {
     it('should have a property named campaign_id which is null: ', () => {
       expect(typeof campaign_id === 'object' && campaign_id === null).toBe(true);
     });
-    it('should have a property named call_sid which is null: ', () => {
-      expect(typeof call_sid === 'object' && call_sid === null).toBe(true);
-    });
     it('should have a property named contact_id which is null: ', () => {
       expect(typeof contact_id === 'object' && contact_id === null).toBe(true);
     });
@@ -107,21 +103,20 @@ describe('volunteerCallsReducer tests: ', () => {
     it('should have a property named outcome which is undefined: ', () => {
       expect(outcome).toBe(undefined);
     });
-    it('should have a property named contact_name which is undefined: ', () => {
-      expect(contact_name).toBe(undefined);
+    it('should have a property named current_call_contact_name which is undefined: ', () => {
+      expect(current_call_contact_name).toBe(undefined);
     });
   });
 
   describe('case matching and handling payload: ', () => {
     let testResult;
-    const setCallProps = ['current_call', 'call_id', 'user_id', 'campaign_id', 'call_sid', 'contact_id', 'status', 'outcome', 'call_ended', 'call_started', 'notes'];
+    const setCallProps = ['current_call', 'call_id', 'user_id', 'campaign_id', 'contact_id', 'status', 'outcome', 'call_ended', 'call_started', 'notes'];
     describe(`should the correct props (${setCallProps}) "SET_USERS" is dispatched: `, () => {
       testResult = volunteerCallsReducer(initialState, currentCall);
       const { current_call,
               call_id,
               user_id,
               campaign_id,
-              call_sid,
               contact_id,
               status,
               outcome } = testResult;
@@ -136,9 +131,6 @@ describe('volunteerCallsReducer tests: ', () => {
       });
       it('should set campaign_id to be an integer', () => {
         expect(campaign_id).toBe(1);
-      });
-      it('should update call_sid to be a null', () => {
-        expect(typeof call_sid === 'object' && call_sid === null).toBe(true);
       });
       it('should set contact_id to be an integer', () => {
         expect(contact_id).toBe(1);
@@ -156,7 +148,6 @@ describe('volunteerCallsReducer tests: ', () => {
         call_id: null,
         user_id: null,
         campaign_id: null,
-        call_sid: null,
         contact_id: null,
         status: undefined,
         outcome: undefined,
@@ -185,8 +176,8 @@ describe('volunteerCallsReducer tests: ', () => {
     });
     describe('should set contact when SET_CALL_CONTACT_INFO is dispatched: ', () => {
       testResult = volunteerCallsReducer(initialState, setContact);
-      const { contact_name } = testResult;
-      expect(contact_name).toBe('meow');
+      const { current_call_contact_name } = testResult;
+      expect(current_call_contact_name).toBe('meow');
     });
     describe('should set call_active when SET_CURRENT_CALL_ACTIVE is dispatched: ', () => {
       testResult = volunteerCallsReducer(initialState, callActive);

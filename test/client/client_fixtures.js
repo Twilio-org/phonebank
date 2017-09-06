@@ -365,7 +365,6 @@ export default {
       status: 'ASSIGNED',
       call_started: null,
       call_ended: null,
-      call_sid: null,
       attempt_num: 1,
       notes: null
     },
@@ -374,14 +373,13 @@ export default {
       call_id: null,
       user_id: null,
       campaign_id: null,
-      call_sid: null,
       contact_id: null,
       status: undefined,
       outcome: undefined,
       call_ended: null,
       call_started: null,
       notes: null,
-      contact_name: undefined,
+      current_call_contact_name: undefined,
       call_active: false
     }
   }

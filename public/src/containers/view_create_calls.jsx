@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form';
 import CallPage from '../components/calls/calls_page_parent';
 
 import { setCampaignCurrent } from '../actions/campaign';
-import { clearUserCallSID } from '../actions/users';
+
 import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
 import { assignToCall,
          updateCallOutcome,
@@ -14,7 +14,8 @@ import { assignToCall,
          setCurrentCallActive,
          setCurrentCallInactive,
          updateCallAttempt,
-         releaseCall } from '../actions/calls';
+         releaseCall,
+         clearVolunteerActive } from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
@@ -28,9 +29,9 @@ function mapStateToProps(state) {
     status: state.calls.status,
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
-    contact_name: state.calls.contact_name,
-    user_call_sid: state.account_info.user_call_sid,
-    call_active: state.calls.call_active
+    current_call_contact_name: state.calls.current_call_contact_name,
+    call_volunteer_active: state.calls.call_volunteer_active,
+    call_current_active: state.calls.call_current_active
   };
 }
 
@@ -52,7 +53,7 @@ export default withRouter(
           setCurrentCallInactive,
           updateCallAttempt,
           releaseCall,
-          clearUserCallSID
+          clearVolunteerActive
         }
       )(CallPage)
     )

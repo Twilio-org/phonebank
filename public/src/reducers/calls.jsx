@@ -3,15 +3,15 @@ const defaultCalls = {
   call_id: null,
   user_id: null,
   campaign_id: null,
-  call_sid: null,
   contact_id: null,
   status: undefined,
   outcome: undefined,
   call_ended: null,
   call_started: null,
   notes: null,
-  contact_name: undefined,
-  call_active: false
+  current_call_contact_name: undefined,
+  call_current_active: false,
+  call_volunteer_active: false
 };
 
 export const SET_CALL_CURRENT = 'SET_CALL_CURRENT';
@@ -21,6 +21,8 @@ export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
 export const SET_CURRENT_CALL_ACTIVE = 'SET_CURRENT_CALL_ACTIVE';
 export const SET_CURRENT_CALL_INACTIVE = 'SET_CURRENT_CALL_INACTIVE';
+export const SET_VOLUNTEER_ACTIVE = 'SET_VOLUNTEER_ACTIVE';
+export const CLEAR_VOLUNTEER_ACTIVE = 'CLEAR_VOLUNTEER_ACTIVE';
 
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
@@ -33,7 +35,6 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
         call_id: payload.id,
         user_id: payload.user_id,
         campaign_id: payload.campaign_id,
-        call_sid: payload.call_sid,
         contact_id: payload.contact_id,
         status: payload.status,
         outcome: payload.outcome,
@@ -44,12 +45,12 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case SET_CURRENT_CALL_ACTIVE:
       return {
         ...state,
-        call_active: true
+        call_current_active: true
       };
     case SET_CURRENT_CALL_INACTIVE:
       return {
         ...state,
-        call_active: false
+        call_current_active: false
       };
     case CLEAR_CALL_CURRENT:
       return {
@@ -69,7 +70,17 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case SET_CALL_CONTACT_INFO:
       return {
         ...state,
-        contact_name: payload.name
+        current_call_contact_name: payload.name
+      };
+    case SET_VOLUNTEER_ACTIVE:
+      return {
+        ...state,
+        call_volunteer_active: true
+      };
+    case CLEAR_VOLUNTEER_ACTIVE:
+      return {
+        ...state,
+        call_volunteer_active: false
       };
     default:
       return state;

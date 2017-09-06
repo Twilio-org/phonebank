@@ -25,7 +25,7 @@ export default class CallPage extends Component {
             current_script,
             updateCallOutcome,
             updateCallStatus,
-            contact_name,
+            current_call_contact_name,
             getCallContactInfo,
             assignToCall,
             user_id,
@@ -38,19 +38,19 @@ export default class CallPage extends Component {
       const { status,
               outcome,
               contact_id,
-              user_call_sid,
+              call_volunteer_active,
               call_id,
-              call_active,
+              call_current_active,
               updateCallAttempt,
               releaseCall,
-              clearUserCallSID } = this.props;
+              clearVolunteerActive } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
             <CallsSideBar
               current_campaign={current_campaign}
               joined_campaign={has_user_joined_campaign}
-              contact_name={contact_name}
+              current_call_contact_name={current_call_contact_name}
               status={status}
               outcome={outcome}
               contact_id={contact_id}
@@ -62,14 +62,14 @@ export default class CallPage extends Component {
               updateCallStatus={updateCallStatus}
               updateCallOutcome={updateCallOutcome}
               getCallContactInfo={getCallContactInfo}
-              user_call_sid={user_call_sid}
+              call_volunteer_active={call_volunteer_active}
               activateCall={setCurrentCallActive}
               inactivateCall={setCurrentCallInactive}
               call_id={call_id}
-              call_active={call_active}
+              call_current_active={call_current_active}
               updateAttempt={updateCallAttempt}
               releaseCall={releaseCall}
-              clearUserCallSID={clearUserCallSID}
+              clearVolunteerActive={clearVolunteerActive}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

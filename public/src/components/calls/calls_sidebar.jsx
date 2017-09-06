@@ -63,7 +63,7 @@ export default class CallsSideBar extends Component {
   }
 
   render() {
-    const { status, user_call_sid } = this.props;
+    const { status, call_volunteer_active } = this.props;
     const outcomes = [
       {
         value: 'Answered',
@@ -91,8 +91,8 @@ export default class CallsSideBar extends Component {
       }
     ];
 
-    if (status === 'ASSIGNED' && !!user_call_sid) {
-      const { contact_name,
+    if (status === 'ASSIGNED' && call_volunteer_active) {
+      const { current_call_contact_name,
               updateCallStatus,
               history,
               call_id,
@@ -101,28 +101,28 @@ export default class CallsSideBar extends Component {
               updateAttempt,
               releaseCall,
               nextCall,
-              clearUserCallSID } = this.props;
+              clearVolunteerActive } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
           updateCallStatus={updateCallStatus}
-          contact_name={contact_name}
+          current_call_contact_name={current_call_contact_name}
           call_id={call_id}
           user_id={user_id}
           campaign_id={campaign_id}
           updateAttempt={updateAttempt}
           releaseCall={releaseCall}
           nextCall={nextCall}
-          clearUserCallSID={clearUserCallSID}
+          clearVolunteerActive={clearVolunteerActive}
         />
       );
     }
     if (!!status && (status === 'IN_PROGRESS' || status === 'ATTEMPTED')) {
-      const { contact_name, handleSubmit, call_active, outcome } = this.props;
+      const { current_call_contact_name, handleSubmit, call_current_active, outcome } = this.props;
 
       return (
         <div>
-          <div>Now Calling: {contact_name}</div>
+          <div>Now Calling: {current_call_contact_name}</div>
           <Toolbar
             outcomes={outcomes}
             handleOutcome={this.handleOutcomeClick}
@@ -131,7 +131,7 @@ export default class CallsSideBar extends Component {
             <SideBarForm handleSubmit={handleSubmit} />
             <div>
               <CallControl
-                call_active={call_active}
+                call_current_active={call_current_active}
                 submitHandler={this.handleSubmitResponses}
                 handleHangUp={this.handleHangUp}
                 outcome={outcome}

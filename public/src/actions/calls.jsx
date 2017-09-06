@@ -6,7 +6,21 @@ import { SET_CALL_CURRENT,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
          SET_CURRENT_CALL_ACTIVE,
-         SET_CURRENT_CALL_INACTIVE } from '../reducers/calls';
+         SET_CURRENT_CALL_INACTIVE,
+         SET_VOLUNTEER_ACTIVE,
+         CLEAR_VOLUNTEER_ACTIVE } from '../reducers/calls';
+
+export function setVolunteerActive() {
+  return {
+    type: SET_VOLUNTEER_ACTIVE
+  };
+}
+
+export function clearVolunteerActive() {
+  return {
+    type: CLEAR_VOLUNTEER_ACTIVE
+  };
+}
 
 export function setCurrentCallActive() {
   return {
@@ -77,7 +91,12 @@ export function assignToCall(userId, campaignId) {
   )
     .then((call) => {
       const { data: callObj } = call;
-      dispatch(setCurrentCall(callObj));
+      const { status, outcome } = callObj;
+      console.log('status and outcome: ', status, outcome);
+      if (status !== 'ASSIGNED' || outcome !== 'PENDING') {
+        return new Error('error from db assignment');
+      }
+      return dispatch(setCurrentCall(callObj));
     })
     .catch(err => console.log(err));
 }
@@ -94,6 +113,7 @@ export function releaseCall(userId, campaignId, callId) {
   .catch(err => err);
 }
 
+// TODO: waiting for backend to be modified to accept status puts
 export function updateCallAttempt(userId, campaignId, callId, outcome, notes = null) {
   const params = { outcome, notes };
   return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
