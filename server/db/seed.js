@@ -55,27 +55,27 @@ const scriptParams = {
   description: 'This is the first script.',
   body: 'Script 1 body'
 };
+
+const contactParams = new Array(50).fill(null).map(() => {
+  const phone_number = `555-555-${getRandomFourDigitInt()}`;
+  const first_name = faker.name.firstName();
+  return {
+    first_name,
+    phone_number
+  };
+});
+
 const fullContactFirstName = faker.name.firstName();
 const fullContactLastName = faker.name.lastName();
 const fullContactEmail = `${fullContactFirstName}.${fullContactLastName}@notrealemail.com`;
 
-const contactParams = [
-  {
-    first_name: fullContactFirstName,
-    last_name: fullContactLastName,
-    phone_number: `555-555-${getRandomFourDigitInt()}`,
-    email: fullContactEmail,
-    external_id: 'external_id'
-  }
-];
-
-for (let i = 0; i < 49; i += 1) {
-  const contact = {
-    first_name: faker.name.firstName(),
-    phone_number: `555-555-${getRandomFourDigitInt()}`
-  };
-  contactParams.push(contact);
-}
+contactParams.push({
+  first_name: fullContactFirstName,
+  last_name: fullContactLastName,
+  phone_number: `555-555-${getRandomFourDigitInt()}`,
+  email: fullContactEmail,
+  external_id: 'external_id'
+});
 
 const contactListParams = {
   name: 'Contact List 1'
