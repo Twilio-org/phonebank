@@ -1,18 +1,17 @@
 import express from 'express';
-import { passport } from '../auth/local';
 import { addCampaignToUser,
+         deactivateUserById,
          getAllUsers,
          getUserById,
+         getUserCampaignAssociation,
          getUserCampaigns,
-         deactivateUserById,
          manageUserById,
          updateUserById,
-         getUserCampaignAssociation,
          updateUserCallSIDField,
          clearUserCallSIDField } from '../../controllers/users';
 
-import { assignCall } from '../../controllers/calls';
-
+import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
+import { passport } from '../auth/local';
 
 const router = express.Router();
 
@@ -29,5 +28,7 @@ router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
 router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
+router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
+router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 
 export default router;
