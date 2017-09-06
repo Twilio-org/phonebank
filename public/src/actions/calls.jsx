@@ -47,11 +47,13 @@ export function clearCurrentCall() {
   };
 }
 
-export function assignToCall(userId, campaignId, currentCall) {
-  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`)
+export function assignToCall(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}/calls`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
     .then((call) => {
       const { data: callObj } = call;
-      return !currentCall ? dispatch(setCurrentCall(callObj)) : dispatch(setNextCall(callObj));
+      dispatch(setCurrentCall(callObj));
     })
     .catch(err => console.log(err));
 }

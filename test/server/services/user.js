@@ -285,10 +285,15 @@ describe('User service tests', function() {
         isBanned: true
       };
 
+      this.userCallSIDParams = {
+        call_sid: 'CA1234567890qwertyuiopasdfghjklzxc'
+      };
+
       usersService.getAllUsers()
         .then((users) => {
           this.userUpdateParams2.id = users.models[0].attributes.id;
           this.userManageParams2.id = users.models[0].attributes.id;
+          this.userCallSIDParams.id = users.models[0].attributes.id;
           this.userUpdateParams1.id = users.models[1].attributes.id;
           this.userManageParams1.id = users.models[1].attributes.id;
           done();
@@ -391,6 +396,49 @@ describe('User service tests', function() {
       usersService.getUserById({ id: this.userManageParams2.id })
         .then((user) => {
           expect(user.attributes.is_active).to.equal(false);
+          done();
+        }, done);
+    });
+    it('should return a null call_sid for current user', (done) => {
+      usersService.getUserById({ id: this.userCallSIDParams.id })
+        .then((user) => {
+          expect(user.attributes.call_sid).to.be.null;
+          done();
+        }, done);
+    });
+    it('should update the call_sid for user', (done) => {
+      usersService.updateUserById(this.userCallSIDParams)
+        .then((user) => {
+          expect(user.attributes.call_sid).to.equal(this.userCallSIDParams.call_sid);
+          done();
+        }, done);
+    });
+    it('should not change other attributes by updating the call_sid', (done) => {
+      usersService.getUserById({ id: this.userCallSIDParams.id })
+        .then((user) => {
+          expect(user.attributes.call_sid).to.equal(this.userCallSIDParams.call_sid);
+          expect(user.attributes.first_name).to.equal(this.userUpdateParams2.firstName);
+          expect(user.attributes.last_name).to.equal(this.userUpdateParams2.lastName);
+          done();
+        }, done);
+    });
+    it('should clear the call_sid for user', (done) => {
+      const params = {
+        id: this.userCallSIDParams.id,
+        call_sid: null
+      };
+      usersService.updateUserById(params)
+        .then((user) => {
+          expect(user.attributes.call_sid).to.be.null;
+          done();
+        }, done);
+    });
+    it('should not change other attributes after clearing the call_sid', (done) => {
+      usersService.getUserById({ id: this.userCallSIDParams.id })
+        .then((user) => {
+          expect(user.attributes.call_sid).to.be.null;
+          expect(user.attributes.first_name).to.equal(this.userUpdateParams2.firstName);
+          expect(user.attributes.last_name).to.equal(this.userUpdateParams2.lastName);
           done();
         }, done);
     });

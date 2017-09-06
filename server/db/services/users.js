@@ -37,8 +37,8 @@ export default {
       email: params.email,
       is_admin: params.isAdmin,
       is_active: params.isActive,
-      is_banned: params.isBanned
-
+      is_banned: params.isBanned,
+      call_sid: params.call_sid
     };
     return new User()
       .where({ id })

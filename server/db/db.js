@@ -137,6 +137,7 @@ const createUsersTable = () =>
         table.boolean('is_admin').defaultTo(false);
         table.boolean('is_banned').defaultTo(false);
         table.boolean('is_active').defaultTo(true);
+        table.string('call_sid', 34);
         table.timestamp('created_at').defaultTo(bookshelf.knex.fn.now());
         table.timestamp('updated_at').defaultTo(bookshelf.knex.fn.now());
       });
