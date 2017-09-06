@@ -53,9 +53,8 @@ export default withRouter(
           setCurrentCallInactive,
           updateCallAttempt,
           releaseCall,
-          clearVolunteerActive
-          change,
-          ...callsActions
+          clearVolunteerActive,
+          change
         }
       )(CallPage)
     )

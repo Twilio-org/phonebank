@@ -84,7 +84,7 @@ export function getCallContactInfo(contactId) {
 }
 
 export function assignToCall(userId, campaignId) {
-  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null,
+  return dispatch => axios.get(`/users/${userId}/campaigns/${campaignId}/calls`,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
