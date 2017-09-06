@@ -402,7 +402,7 @@ describe('User service tests', function() {
           done();
         }, done);
     });
-    it('should update the call_sid for userManageParans2', (done) => {
+    it('should update the call_sid for userManageParams2', (done) => {
       const call_sid = 'CA1234567890qwertyuiopasdfghjklzxc';
       const params = {
         call_sid,
