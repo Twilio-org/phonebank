@@ -17,15 +17,15 @@ import { adminUsersReducer } from './reducers/admin_users';
 import { volunteerCallsReducer } from './reducers/calls';
 
 const appReducer = combineReducers({
-  form: formReducer,
-  auth: authStatusReducer,
   account_info: accountInfoReducer,
   admin_campaigns: campaignListReducer,
   admin_questions: adminQuestionsReducer,
   admin_scripts: adminScriptsReducer,
   admin_contact_lists: adminContactListsReducer,
   admin_users: adminUsersReducer,
+  auth: authStatusReducer,
   calls: volunteerCallsReducer
+  form: formReducer,
 });
 
 const rootReducer = (state, action) => {

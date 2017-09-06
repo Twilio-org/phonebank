@@ -51,15 +51,12 @@ export default class JoinedCampaigns extends Component {
               />
             </Col>
             <Col xs={7} md={8} lg={9}>
-              { joined_campaigns.length !== 0 ?
-              (
-                <CurrentCampaign
-                  history={history}
-                  id={current_campaign}
-                  defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
-                  campaign={current_campaign}
-                />
-              ) : '' }
+              <CurrentCampaign
+                history={history}
+                id={current_campaign}
+                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
+                campaign={current_campaign}
+              />
             </Col>
           </Row>
         </section>
