@@ -26,7 +26,9 @@ export default class CallPage extends Component {
             next_call,
             current_call,
             script_questions,
-            current_script, ...storeProps } = this.props;
+            current_script,
+            status,
+             ...storeProps } = this.props;
     return (
       <Row className="show-grid">
         <Col xs={5} md={4} lg={3}>
@@ -43,7 +45,7 @@ export default class CallPage extends Component {
             script_questions={script_questions}
             current_call={current_call}
             next_call={next_call}
-            // call_active={call_active}
+            status={status}
             {...storeProps}
           />
         </Col>

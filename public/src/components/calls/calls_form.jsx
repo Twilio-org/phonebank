@@ -3,12 +3,12 @@ import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
   render() {
-    const { questions, change, form, call_active } = this.props;
+    const { questions, change, form, status } = this.props;
     return (
       <form>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={!call_active}>
+        <fieldset disabled={status === 'IN_PROGRESS' || status === 'HUNG_UP'}>
           {
             questions && questions.map((question, i) => (
               <CallQuestion
