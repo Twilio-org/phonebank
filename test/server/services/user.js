@@ -422,7 +422,7 @@ describe('User service tests', function() {
           done();
         }, done);
     });
-    it('should clear the call_sid for userManageParams2', (done) => {
+    it('should clear the call_sid for user', (done) => {
       const params = {
         id: this.userCallSIDParams.id,
         call_sid: null
