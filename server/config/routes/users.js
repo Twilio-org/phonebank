@@ -8,8 +8,8 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          getUserCampaignAssociation,
-         updateUserCallSidField,
-         clearUserCallSidField } from '../../controllers/users';
+         updateUserCallSIDField,
+         clearUserCallSIDField } from '../../controllers/users';
 
 import { assignCall } from '../../controllers/calls';
 
@@ -27,7 +27,7 @@ router.route('/:id/campaigns').post(addCampaignToUser);
 router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
-router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSidField);
-router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSidField);
+router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSIDField);
+router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 
 export default router;
