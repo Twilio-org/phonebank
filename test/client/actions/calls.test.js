@@ -19,7 +19,7 @@ describe('Call Actions', () => {
     afterEach(() => {
       mocker.reset();
     });
-    it('should dispatch setCurrentCall action if a currentCall does not exist', () => {
+    it('should dispatch setCurrentCall action', () => {
       const userId = 1;
       const { type, payload } = setCurrentCall(assignedCall);
       store.dispatch(assignToCall(userId, call.campaign_id))
@@ -30,19 +30,6 @@ describe('Call Actions', () => {
         })
         .catch((err) => {
           console.log(`Error in assignToCall action dispatch setCurrentCall is: ${err}`);
-        });
-    });
-    it('should dispatch setNextCall action if a currentCall exists', () => {
-      const userId = 1;
-      const { type, payload } = setNextCall(assignedCall);
-      store.dispatch(assignToCall(userId, call.campaign_id, currentCall))
-        .then(() => {
-          const actions = store.getActions();
-          expect(actions[1].type).toEqual(type);
-          expect(actions[1].payload).toEqual(payload);
-        })
-        .catch((err) => {
-          console.log(`Error in assignToCall action dispatch setNextCall is: ${err}`);
         });
     });
   });
