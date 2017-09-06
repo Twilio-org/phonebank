@@ -354,5 +354,39 @@ export default {
       created_at: '2017-08-24T01:01:01.145Z',
       updated_at: '2017-08-25T22:01:10.202Z'
     }
+  },
+  callsFixtures: {
+    dbFixture: {
+      id: 1,
+      campaign_id: 1,
+      contact_id: 1,
+      user_id: 1,
+      outcome: 'PENDING',
+      status: 'ASSIGNED',
+      call_started: null,
+      call_ended: null,
+      call_sid: null,
+      attempt_num: 1,
+      notes: null
+    },
+    callState: {
+      call_id: 1,
+      campaign_id: 1,
+      clearUserCallSID: jest.fn(),
+      contact_id: 1,
+      contact_name: 'tom waits',
+      getCallContactInfo: jest.fn(),
+      handleSubmit: jest.fn(),
+      history: {
+        push: jest.fn()
+      },
+      inactivateCall: jest.fn(),
+      nextCall: jest.fn(),
+      releaseCall: jest.fn(),
+      updateAttempt: jest.fn(),
+      updateCallOutcome: jest.fn(),
+      updateCallStatus: jest.fn(),
+      user_call_sid: 'meowmeowmeowmeow'
+    }
   }
 };

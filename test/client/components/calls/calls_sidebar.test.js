@@ -26,7 +26,7 @@ describe('Component testing for <CallsSideBar />: ', () => {
       updateCallStatus: jest.fn(),
       user_call_sid: 'meowmeowmeowmeow'
     };
-    
+
     describe('Component and Prop tests for when status is ASSIGNED: ', () => {
       const fluxProps = {
         user_id: 1,

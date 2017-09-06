@@ -14,12 +14,8 @@ const defaultCalls = {
   call_active: false
 };
 
-
 export const SET_CALL_CURRENT = 'SET_CALL_CURRENT';
-export const SET_CALL_NEXT = 'SET_CALL_NEXT';
 export const CLEAR_CALL_CURRENT = 'CLEAR_CALL_CURRENT';
-export const CLEAR_NEXT_CALL = 'CLEAR_NEXT_CALL';
-export const PROMOTE_NEXT = 'PROMOTE_NEXT';
 export const UPDATE_CALL_STATUS = 'UPDATE_CALL_STATUS';
 export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
