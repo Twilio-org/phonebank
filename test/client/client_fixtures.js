@@ -356,7 +356,7 @@ export default {
     }
   },
   callsFixture: {
-    call1: {
+    call: {
       id: 1,
       campaign_id: 1,
       contact_id: 1,
@@ -371,12 +371,12 @@ export default {
       created_at: '2017-08-15T21:35:30.321Z',
       updated_at: '2017-08-15T21:35:30.321Z'
     },
-    currentCall2: {
+    currentCall: {
       id: 2,
       campaign_id: 1,
       contact_id: 1,
       attempt_num: 1,
-      user_id: null,
+      user_id: 1,
       status: 'AVAILABLE',
       outcome: 'PENDING',
       notes: null,
@@ -386,7 +386,7 @@ export default {
       created_at: '2017-08-15T21:35:30.321Z',
       updated_at: '2017-08-15T21:35:30.321Z'
     },
-    assignedCall1: {
+    assignedCall: {
       id: 1,
       campaign_id: 1,
       contact_id: 1,
