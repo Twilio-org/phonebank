@@ -45,7 +45,6 @@ describe('User service tests', function() {
       usersService.getUserById({ id: this.userSaveParams1.id })
         .then((user) => {
           const passwordHash = user.attributes.password_hash;
-
           bcrypt.compare('hatch', passwordHash, (err, match) => {
             expect(match).to.be.true;
             done();
@@ -67,7 +66,6 @@ describe('User service tests', function() {
       usersService.getUserById({ id: this.userSaveParams2.id })
         .then((user) => {
           const passwordHash = user.attributes.password_hash;
-
           bcrypt.compare('hatch1', passwordHash, (err, match) => {
             expect(match).to.be.true;
             done();
@@ -258,6 +256,7 @@ describe('User service tests', function() {
         }, done);
     });
   });
+
   describe('Data update', function() {
     before((done) => {
       this.userUpdateParams2 = {
