@@ -25,7 +25,6 @@ function mapStateToProps(state) {
     script_questions: state.admin_scripts.script_questions,
     current_call: state.calls.current_call,
     call_id: state.calls.call_id,
-    calls_made: state.calls.calls_made,
     status: state.calls.status,
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,

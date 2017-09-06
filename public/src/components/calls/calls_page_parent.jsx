@@ -20,14 +20,12 @@ export default class CallPage extends Component {
   render() {
     const { current_campaign,
             has_user_joined_campaign,
-            calls_made,
             current_call,
             script_questions,
             current_script,
             updateCallOutcome,
             updateCallStatus,
             contact_name,
-            contact_number,
             getCallContactInfo,
             assignToCall,
             user_id,
@@ -53,8 +51,6 @@ export default class CallPage extends Component {
               current_campaign={current_campaign}
               joined_campaign={has_user_joined_campaign}
               contact_name={contact_name}
-              contact_number={contact_number}
-              calls_made={calls_made}
               status={status}
               outcome={outcome}
               contact_id={contact_id}
