@@ -289,8 +289,6 @@ describe('User service tests', function() {
         call_sid: 'CA1234567890qwertyuiopasdfghjklzxc'
       };
 
-      // this.call_sid = 'CA1234567890qwertyuiopasdfghjklzxc';
-
       usersService.getAllUsers()
         .then((users) => {
           this.userUpdateParams2.id = users.models[0].attributes.id;
@@ -404,19 +402,13 @@ describe('User service tests', function() {
     it('should return a null call_sid for current user', (done) => {
       usersService.getUserById({ id: this.userCallSIDParams.id })
         .then((user) => {
-          console.log('user in call_sid null is: ', user);
           expect(user.attributes.call_sid).to.be.null;
           done();
         }, done);
     });
     it('should update the call_sid for user', (done) => {
-      // const params = {
-      //   id: this.userCallSIDParams.id,
-      //   call_sid: this.call_sid
-      // };
       usersService.updateUserById(this.userCallSIDParams)
         .then((user) => {
-          console.log('user after update call_sid is: ', user);
           expect(user.attributes.call_sid).to.equal(this.userCallSIDParams.call_sid);
           done();
         }, done);
@@ -424,8 +416,6 @@ describe('User service tests', function() {
     it('should not change other attributes by updating the call_sid', (done) => {
       usersService.getUserById({ id: this.userCallSIDParams.id })
         .then((user) => {
-          console.log('user in other attributes ', user);
-          console.log('this.userUpdateParams2 is: ', this.userUpdateParams2);
           expect(user.attributes.call_sid).to.equal(this.userCallSIDParams.call_sid);
           expect(user.attributes.first_name).to.equal(this.userUpdateParams2.firstName);
           expect(user.attributes.last_name).to.equal(this.userUpdateParams2.lastName);
@@ -439,7 +429,6 @@ describe('User service tests', function() {
       };
       usersService.updateUserById(params)
         .then((user) => {
-          console.log('user after clear call_sid is: ', user);
           expect(user.attributes.call_sid).to.be.null;
           done();
         }, done);
