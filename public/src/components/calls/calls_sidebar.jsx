@@ -30,7 +30,7 @@ export default class CallsSideBar extends Component {
 
   handleStartCallClick() {
     const { updateCallStatus } = this.props;
-    return updateCallStatus('IN_PROGRESS');
+    updateCallStatus('IN_PROGRESS');
   }
 
   handleOutcomeClick(text) {

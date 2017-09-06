@@ -28,5 +28,5 @@ const CallControl = (props) => {
   );
 };
 
-CallControl.dsiplayName = 'CallControl';
+CallControl.displayName = 'CallControl';
 export default CallControl;

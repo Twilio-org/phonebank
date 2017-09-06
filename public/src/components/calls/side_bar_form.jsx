@@ -7,8 +7,8 @@ import FieldGroup from '../../components/common/form/field_group';
 const SideBarForm = (props) => {
   const { handleSubmit } = props;
   const inputFieldProps = {
-    label: 'notes',
-    name: 'Notes'
+    label: 'Notes',
+    name: 'notes'
   };
   return (
     <div>
