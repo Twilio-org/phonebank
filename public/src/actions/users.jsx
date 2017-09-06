@@ -1,11 +1,18 @@
 import axios from 'axios';
 import { logoutUser } from './login';
-import { SET_USER_ACCOUNT_INFO } from '../reducers/users';
+import { SET_USER_ACCOUNT_INFO, SET_USER_CALL_SID } from '../reducers/users';
 
 export function setAccountInfo(user) {
   return {
     type: SET_USER_ACCOUNT_INFO,
     payload: user
+  };
+}
+
+export function setUserCallSID(userCallSID = 'dummyCallSid') {
+  return {
+    type: SET_USER_CALL_SID,
+    payload: userCallSID
   };
 }
 

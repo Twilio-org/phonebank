@@ -19,6 +19,7 @@ import CreateContactListContainer from '../../containers/create_contact_list';
 export default class Admin extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
+    console.log('id in admin compo: ', id);
     const { fetchUser } = this.props;
     fetchUser(id);
   }

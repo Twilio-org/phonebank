@@ -1,8 +1,20 @@
 const defaultCalls = {
-  current_call: undefined,
-  next_call: undefined,
-  calls_made: 0
+  current_call: false,
+  calls_made: 0,
+  call_id: null,
+  user_id: null,
+  campaign_id: null,
+  call_sid: null,
+  contact_id: null,
+  status: undefined,
+  outcome: undefined,
+  call_ended: null,
+  call_started: null,
+  notes: null,
+  contact_name: undefined,
+  call_active: false
 };
+
 
 export const SET_CALL_CURRENT = 'SET_CALL_CURRENT';
 export const SET_CALL_NEXT = 'SET_CALL_NEXT';
@@ -11,27 +23,40 @@ export const CLEAR_CALL_CURRENT = 'CLEAR_CALL_CURRENT';
 export const CLEAR_NEXT_CALL = 'CLEAR_NEXT_CALL';
 export const CLEAR_COUNT_CALLS = 'CLEAR_COUNT_CALLS';
 export const PROMOTE_NEXT = 'PROMOTE_NEXT';
+export const UPDATE_CALL_STATUS = 'UPDATE_CALL_STATUS';
+export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
+export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
+export const SET_CURRENT_CALL_ACTIVE = 'SET_CURRENT_CALL_ACTIVE';
+export const SET_CURRENT_CALL_INACTIVE = 'SET_CURRENT_CALL_INACTIVE';
+
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
-  // for switching call from next to current;
-  const { next_call } = state;
   switch (type) {
     case SET_CALL_CURRENT:
       return {
         ...state,
-        current_call: payload
+        current_call: true,
+        call_id: payload.id,
+        user_id: payload.user_id,
+        campaign_id: payload.campaign_id,
+        call_sid: payload.call_sid,
+        contact_id: payload.contact_id,
+        status: payload.status,
+        outcome: payload.outcome,
+        call_ended: payload.call_ended,
+        call_started: payload.call_started,
+        notes: payload.notes
       };
-    case SET_CALL_NEXT:
+    case SET_CURRENT_CALL_ACTIVE:
       return {
         ...state,
-        next_call: payload
+        call_active: true
       };
-    case PROMOTE_NEXT:
+    case SET_CURRENT_CALL_INACTIVE:
       return {
         ...state,
-        current_call: next_call,
-        next_call: undefined
+        call_active: false
       };
     case INCREMENT_CALLS:
       return {
@@ -41,17 +66,27 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
     case CLEAR_CALL_CURRENT:
       return {
         ...state,
-        current_call: undefined
-      };
-    case CLEAR_NEXT_CALL:
-      return {
-        ...state,
-        next_call: undefined
+        ...defaultCalls
       };
     case CLEAR_COUNT_CALLS:
       return {
         ...state,
         calls_made: payload
+      };
+    case UPDATE_CALL_STATUS:
+      return {
+        ...state,
+        status: payload
+      };
+    case UPDATE_CALL_OUTCOME:
+      return {
+        ...state,
+        outcome: payload
+      };
+    case SET_CALL_CONTACT_INFO:
+      return {
+        ...state,
+        contact_name: payload.name
       };
     default:
       return state;

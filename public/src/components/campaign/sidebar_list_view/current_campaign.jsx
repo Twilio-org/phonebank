@@ -2,9 +2,10 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
-  const { campaign, id, defaultMsg, history } = props;
+  const { campaign, id, defaultMsg, history, setUserCallSID } = props;
   const handleClick = () => {
     const { id: campaignId } = id;
+    setUserCallSID();
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
   if (!campaign.title) {
