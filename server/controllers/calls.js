@@ -90,18 +90,22 @@ export function assignCall(req, res) {
 }
 
 export function recordAttempt(req, res) {
-  const { outcome, notes, responses } = req.body;
+  const { outcome, notes, responses, status: newStatus } = req.body;
   let parsedResponses;
-  try {
-    parsedResponses = JSON.parse(responses);
-  } catch (err) {
-    return res.status(400).json({ message: 'Invalid JSON object' });
+  // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
+  if (responses) {
+    try {
+      parsedResponses = JSON.parse(responses);
+    } catch (err) {
+      return res.status(400).json({ message: 'Invalid JSON object' });
+    }
   }
   const call_id = parseInt(req.params.call_id, 10);
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
-  if (!outcomeIsValid(outcome)) {
+  // not necessary if just updating the status
+  if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
 
@@ -112,6 +116,11 @@ export function recordAttempt(req, res) {
           if (call) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (checkCallIsAssigned(status)) {
+              if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
+                return callsService.updateCallStatus({ id: call_id, status: newStatus })
+                .then(() => res.status(200).json({ message: `call status updated to ${newStatus}` }))
+                .catch(err => console.log('error updating status in calls controller: ', err));
+              }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
                   Promise.all(parsedResponses.map((resp) => {
