@@ -422,12 +422,11 @@ describe('User service tests', function() {
           done();
         }, done);
     });
-    it('should clear the call_sid for user', (done) => {
+    it('should clear the call_sid for user on clearUserCallSID service', (done) => {
       const params = {
-        id: this.userCallSIDParams.id,
-        call_sid: null
+        id: this.userCallSIDParams.id
       };
-      usersService.updateUserById(params)
+      usersService.clearUserCallSID(params)
         .then((user) => {
           expect(user.attributes.call_sid).to.be.null;
           done();
