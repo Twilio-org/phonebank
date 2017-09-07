@@ -12,3 +12,5 @@ export function sayHelloUser(userFirstName, campaignName) {
   helloUser.play({ loop: 0 }, 'https://api.twilio.com/cowbell.mp3');
   return helloUser.toString();
 }
+
+export const lintDummy = { twilioClient, CALLER_ID };
