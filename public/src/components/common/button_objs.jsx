@@ -112,7 +112,6 @@ export default {
         size: 'xsmall',
         style: 'success',
         handler: () => {
-          // this will need to set a dummy user_sid in the state
           handleClick(id, campaign_id, history);
         }
       }

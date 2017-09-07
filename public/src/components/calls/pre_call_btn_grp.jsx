@@ -16,9 +16,8 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleSkipClick() {
-    const { call_id, user_id, campaign_id, releaseCall, nextCall } = this.props;
-    releaseCall(user_id, campaign_id, call_id);
-    nextCall(user_id, campaign_id);
+    const { call_id, user_id, campaign_id, status, releaseCall } = this.props;
+    releaseCall(user_id, campaign_id, call_id, status, true);
   }
 
   handleBadNameClick() {
@@ -33,9 +32,8 @@ export default class PreCallButtonGroup extends Component {
             user_id,
             campaign_id,
             releaseCall,
-            clearVolunteerActive } = this.props;
-    releaseCall(user_id, campaign_id, call_id);
-    clearVolunteerActive();
+            status } = this.props;
+    releaseCall(user_id, campaign_id, call_id, status);
     history.push('/volunteers/campaigns');
   }
 

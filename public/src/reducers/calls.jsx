@@ -10,7 +10,6 @@ const defaultCalls = {
   call_started: null,
   notes: null,
   current_call_contact_name: undefined,
-  call_current_active: false,
   call_volunteer_active: false
 };
 
@@ -19,10 +18,8 @@ export const CLEAR_CALL_CURRENT = 'CLEAR_CALL_CURRENT';
 export const UPDATE_CALL_STATUS = 'UPDATE_CALL_STATUS';
 export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
-export const SET_CURRENT_CALL_ACTIVE = 'SET_CURRENT_CALL_ACTIVE';
-export const SET_CURRENT_CALL_INACTIVE = 'SET_CURRENT_CALL_INACTIVE';
-export const SET_VOLUNTEER_ACTIVE = 'SET_VOLUNTEER_ACTIVE';
-export const CLEAR_VOLUNTEER_ACTIVE = 'CLEAR_VOLUNTEER_ACTIVE';
+export const SET_VOLUNTEER_CALL_ACTIVE = 'SET_VOLUNTEER_CALL_ACTIVE';
+export const CLEAR_VOLUNTEER_CALL_ACTIVE = 'CLEAR_VOLUNTEER_CALL_ACTIVE';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
@@ -40,16 +37,6 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
         call_ended: payload.call_ended,
         call_started: payload.call_started,
         notes: payload.notes
-      };
-    case SET_CURRENT_CALL_ACTIVE:
-      return {
-        ...state,
-        call_current_active: true
-      };
-    case SET_CURRENT_CALL_INACTIVE:
-      return {
-        ...state,
-        call_current_active: false
       };
     case CLEAR_CALL_CURRENT:
       return {
@@ -71,12 +58,12 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
         ...state,
         current_call_contact_name: payload.name
       };
-    case SET_VOLUNTEER_ACTIVE:
+    case SET_VOLUNTEER_CALL_ACTIVE:
       return {
         ...state,
         call_volunteer_active: true
       };
-    case CLEAR_VOLUNTEER_ACTIVE:
+    case CLEAR_VOLUNTEER_CALL_ACTIVE:
       return {
         ...state,
         call_volunteer_active: false

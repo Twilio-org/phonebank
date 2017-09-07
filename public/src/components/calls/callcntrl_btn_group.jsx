@@ -3,12 +3,12 @@ import { ButtonGroup, Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
   // TODO: SUBMIT DOES NOTHING RN... NOTHING
-  const { handleHangUp, submitHandler, outcome, call_current_active, status } = props;
+  const { handleHangUp, submitHandler, outcome, status } = props;
   return (
     <div>
       <ButtonGroup>
         <Button
-          disabled={outcome === 'PENDING' && !call_current_active}
+          disabled={outcome === 'PENDING' || status !== 'IN_PROGRESS'}
           onClick={handleHangUp}
           bsSize="small"
           bsStyle="danger"

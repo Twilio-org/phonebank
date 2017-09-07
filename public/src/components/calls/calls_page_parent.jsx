@@ -30,10 +30,8 @@ export default class CallPage extends Component {
             assignToCall,
             user_id,
             history,
-            setCurrentCallActive,
-            setCurrentCallInactive,
             ...storeProps } = this.props;
-    const { id } = current_campaign;
+    const { id: campaign_id } = current_campaign;
     if (current_call) {
       const { status,
               outcome,
@@ -57,14 +55,12 @@ export default class CallPage extends Component {
               nextCall={assignToCall}
               current_call={current_call}
               user_id={user_id}
-              campaign_id={id}
+              campaign_id={campaign_id}
               history={history}
               updateCallStatus={updateCallStatus}
               updateCallOutcome={updateCallOutcome}
               getCallContactInfo={getCallContactInfo}
               call_volunteer_active={call_volunteer_active}
-              activateCall={setCurrentCallActive}
-              inactivateCall={setCurrentCallInactive}
               call_id={call_id}
               call_current_active={call_current_active}
               updateAttempt={updateCallAttempt}

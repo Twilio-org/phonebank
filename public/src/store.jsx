@@ -38,9 +38,9 @@ const middleware = [immutable(), createLogger(), promise(), thunk];
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
 
-persistStore(store);
+// persistStore(store);
 
 // to reset the store:
-// persistStore(store).purge();
+persistStore(store).purge();
 
 export default store;

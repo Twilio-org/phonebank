@@ -19,7 +19,6 @@ import fixtures from '../client_fixtures';
 const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
 
 const expectedProps = Object.keys(dbFixture);
-const numOfProps = expectedProps.length;
 
 function hasProp(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
@@ -41,8 +40,8 @@ describe('Call Actions', () => {
       it('should have a defined type property: ', () => {
         expect(type).toBeDefined();
       });
-      it('should have the type property SET_VOLUNTEER_ACTIVE: ', () => {
-        expect(type).toBe('SET_VOLUNTEER_ACTIVE');
+      it('should have the type property SET_VOLUNTEER_CALL_ACTIVE: ', () => {
+        expect(type).toBe('SET_VOLUNTEER_CALL_ACTIVE');
       });
       it('should not be null: ', () => {
         expect(type === null).toBe(false);
@@ -64,8 +63,8 @@ describe('Call Actions', () => {
       it('should have a defined type property: ', () => {
         expect(type).toBeDefined();
       });
-      it('should have the type CLEAR_VOLUNTEER_ACTIVE: ', () => {
-        expect(type).toBe('CLEAR_VOLUNTEER_ACTIVE');
+      it('should have the type CLEAR_VOLUNTEER_CALL_ACTIVE: ', () => {
+        expect(type).toBe('CLEAR_VOLUNTEER_CALL_ACTIVE');
       });
       it('should not be null: ', () => {
         expect(type === null).toBe(false);
@@ -76,52 +75,6 @@ describe('Call Actions', () => {
       it('should not have a payload: ', () => {
         expect(payload).toBeUndefined();
         expect(hasProp(clearVolunteerActiveResult, payload)).toBe(false);
-      });
-    });
-  });
-
-  describe('setCurrentCallActive: ', () => {
-    const setCurrentCallActiveResult = setCurrentCallActive();
-    describe('type: ', () => {
-      const { type } = setCurrentCallActiveResult;
-      it('should have a defined type property: ', () => {
-        expect(type).toBeDefined();
-      });
-      it('should have the type SET_CURRENT_CALL_ACTIVE: ', () => {
-        expect(type).toBe('SET_CURRENT_CALL_ACTIVE');
-      });
-      it('should not be null: ', () => {
-        expect(type === null).toBe(false);
-      });
-    });
-    describe('payload: ', () => {
-      const { payload } = setCurrentCallActiveResult;
-      it('should not have a payload: ', () => {
-        expect(payload).toBeUndefined();
-        expect(hasProp(setCurrentCallActiveResult, payload)).toBe(false);
-      });
-    });
-  });
-
-  describe('setCurrentCallInactive: ', () => {
-    const setCurrentCallInactiveResult = setCurrentCallInactive();
-    describe('type: ', () => {
-      const { type } = setCurrentCallInactiveResult;
-      it('should have a defined type property: ', () => {
-        expect(type).toBeDefined();
-      });
-      it('should have the type SET_CURRENT_CALL_INACTIVE: ', () => {
-        expect(type).toBe('SET_CURRENT_CALL_INACTIVE');
-      });
-      it('should not be null: ', () => {
-        expect(type === null).toBe(false);
-      });
-    });
-    describe('payload: ', () => {
-      const { payload } = setCurrentCallInactiveResult;
-      it('should not have a payload: ', () => {
-        expect(payload).toBeUndefined();
-        expect(hasProp(setCurrentCallInactiveResult, payload)).toBe(false);
       });
     });
   });
@@ -282,19 +235,41 @@ describe('Call Actions', () => {
       mock.reset();
     });
 
-    describe('axios delete request: ', () => {
+    describe('axios delete request when next is false: ', () => {
       it('dispatched actions in the store:', () => {
-        const expectedAction = setCurrentCallInactive();
-        return store.dispatch(releaseCall(1, 1, 1))
+        const expectedAction = clearCurrentCall();
+        return store.dispatch(releaseCall(1, 1, 1, 'HUNG_UP'))
           .then(() => {
             const [dispatchedAction] = store.getActions();
             const { type, payload } = dispatchedAction;
             expect(dispatchedAction).toEqual(expectedAction);
-            expect(type).toBe('SET_CURRENT_CALL_INACTIVE');
+            expect(type).toBe('CLEAR_CALL_CURRENT');
             expect(payload).toBeUndefined();
             expect(hasProp(dispatchedAction, 'payload')).toBe(false);
           })
           .catch(err => err);
+      });
+    });
+    describe('axios delete request when next is true', () => {
+      it('dispatched actions in the store:', () => {
+        const expectedAction = undefined;
+        return store.dispatch(releaseCall(1, 1, 1, 'ASSIGNED', true))
+          .then(() => {
+            const dispatchedAction = store.getActions();
+            console.log('###### dispatchedAction: ', dispatchedAction);
+            expect(dispatchedAction[1]).toEqual(expectedAction);
+          })
+          .catch(err => err);
+      });
+    });
+    describe('axios delete request when status is IN_PROGRESS', () => {
+      it('dispatched actions in the store:', () => {
+        store.dispatch(releaseCall(1, 1, 1, 'INPROGRESS', true))
+          .then(() => {
+          })
+          .catch((err) => {
+            expect(err).toBeDefined();
+          });
       });
     });
   });
@@ -325,5 +300,4 @@ describe('Call Actions', () => {
         });
     });
   });
-
 });

@@ -5,9 +5,7 @@ import { volunteerCallsReducer,
          CLEAR_CALL_CURRENT,
          UPDATE_CALL_STATUS,
          UPDATE_CALL_OUTCOME,
-         SET_CALL_CONTACT_INFO,
-         SET_CURRENT_CALL_ACTIVE,
-         SET_CURRENT_CALL_INACTIVE } from '../../../public/src/reducers/calls';
+         SET_CALL_CONTACT_INFO } from '../../../public/src/reducers/calls';
 
 const { dbFixture, initialState } = fixtures.callsFixtures;
 
@@ -32,12 +30,6 @@ const mockCallActions = [
     payload: { name: 'meow' }
   },
   {
-    type: SET_CURRENT_CALL_ACTIVE
-  },
-  {
-    type: SET_CURRENT_CALL_INACTIVE
-  },
-  {
     type: 'SET_CALL_CATS',
     payload: 'many cats'
   }
@@ -48,8 +40,6 @@ const [currentCall,
       updateStatus,
       updateOutcome,
       setContact,
-      callActive,
-      callInactive,
       fake] = mockCallActions;
 
 describe('volunteerCallsReducer tests: ', () => {
@@ -65,16 +55,12 @@ describe('volunteerCallsReducer tests: ', () => {
             call_ended,
             call_started,
             notes,
-            current_call_contact_name,
-            call_current_active } = defaultState;
+            current_call_contact_name } = defaultState;
     it('should return the default state if the action type does not match any cases: ', () => {
       expect(defaultState).toEqual(initialState);
     });
     it('should have a property named current_call which is a boolean: ', () => {
       expect(typeof current_call === 'boolean' && current_call === false).toBe(true);
-    });
-    it('should have a property named call_current_active which is a boolean: ', () => {
-      expect(typeof call_current_active === 'boolean' && call_current_active === false).toBe(true);
     });
     it('should have a property named call_id which is null: ', () => {
       expect(typeof call_id === 'object' && call_id === null).toBe(true);
@@ -155,12 +141,13 @@ describe('volunteerCallsReducer tests: ', () => {
         call_started: null,
         notes: null
       };
-      testResult = volunteerCallsReducer(initialState, clearCurrent);
       it('should return default state to the correct props: ', () => {
+        testResult = volunteerCallsReducer(initialState, clearCurrent);
         expect(testResult).toEqual({ ...initialState, ...defaultState });
       });
     });
     describe('should set call status when UPDATE_CALL_STATUS is dispatched: ', () => {
+
       testResult = volunteerCallsReducer(initialState, updateStatus);
       const { status } = testResult;
       it('should set the status to IN_PROGRESS: ', () => {
@@ -179,19 +166,9 @@ describe('volunteerCallsReducer tests: ', () => {
       const { current_call_contact_name } = testResult;
       expect(current_call_contact_name).toBe('meow');
     });
-    describe('should set call_current_active when SET_CURRENT_call_current_active is dispatched: ', () => {
-      testResult = volunteerCallsReducer(initialState, callActive);
-      const { call_current_active } = testResult;
-      expect(call_current_active).toBe(true);
-    });
-    describe('should set call_current_active when SET_CURRENT_CALL_INACTIVE is dispatched: ', () => {
-      testResult = volunteerCallsReducer(initialState, callInactive);
-      const { call_current_active } = testResult;
-      expect(call_current_active).toBe(false);
-    });
     describe('it should handle non-matching action types: ', () => {
+      testResult = volunteerCallsReducer(initialState, fake);
       it('should return the default state if the action type is not a case in the reducer: ', () => {
-        testResult = volunteerCallsReducer(initialState, fake);
         expect(testResult).toEqual(initialState);
       });
     });

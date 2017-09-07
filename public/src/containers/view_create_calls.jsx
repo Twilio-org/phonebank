@@ -11,8 +11,6 @@ import { assignToCall,
          updateCallOutcome,
          updateCallStatus,
          getCallContactInfo,
-         setCurrentCallActive,
-         setCurrentCallInactive,
          updateCallAttempt,
          releaseCall,
          clearVolunteerActive } from '../actions/calls';
@@ -29,9 +27,7 @@ function mapStateToProps(state) {
     status: state.calls.status,
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
-    current_call_contact_name: state.calls.current_call_contact_name,
-    call_volunteer_active: state.calls.call_volunteer_active,
-    call_current_active: state.calls.call_current_active
+    current_call_contact_name: state.calls.current_call_contact_name
   };
 }
 
@@ -49,8 +45,6 @@ export default withRouter(
           updateCallOutcome,
           updateCallStatus,
           getCallContactInfo,
-          setCurrentCallActive,
-          setCurrentCallInactive,
           updateCallAttempt,
           releaseCall,
           clearVolunteerActive,

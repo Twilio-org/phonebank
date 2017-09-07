@@ -5,32 +5,18 @@ import { SET_CALL_CURRENT,
          UPDATE_CALL_STATUS,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
-         SET_CURRENT_CALL_ACTIVE,
-         SET_CURRENT_CALL_INACTIVE,
-         SET_VOLUNTEER_ACTIVE,
-         CLEAR_VOLUNTEER_ACTIVE } from '../reducers/calls';
+         SET_VOLUNTEER_CALL_ACTIVE,
+         CLEAR_VOLUNTEER_CALL_ACTIVE } from '../reducers/calls';
 
 export function setVolunteerActive() {
   return {
-    type: SET_VOLUNTEER_ACTIVE
+    type: SET_VOLUNTEER_CALL_ACTIVE
   };
 }
 
 export function clearVolunteerActive() {
   return {
-    type: CLEAR_VOLUNTEER_ACTIVE
-  };
-}
-
-export function setCurrentCallActive() {
-  return {
-    type: SET_CURRENT_CALL_ACTIVE
-  };
-}
-
-export function setCurrentCallInactive() {
-  return {
-    type: SET_CURRENT_CALL_INACTIVE
+    type: CLEAR_VOLUNTEER_CALL_ACTIVE
   };
 }
 
@@ -103,14 +89,20 @@ export function assignToCall(userId, campaignId) {
     .catch(err => console.log(err));
 }
 
-export function releaseCall(userId, campaignId, callId) {
+export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
+  if (currentCallStatus === 'IN_PROGRESS') {
+    return new Error('Error with releaseCall: cannot releave a call that is active.');
+  }
   return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
   .then(() => {
-    dispatch(setCurrentCallInactive());
+    if (next) {
+      return dispatch(assignToCall(userId, campaignId));
+    }
+    return dispatch(clearCurrentCall());
   })
   .catch(err => err);
 }
