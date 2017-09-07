@@ -422,12 +422,11 @@ describe('User service tests', function() {
           done();
         }, done);
     });
-    it('should clear the call_sid for user on updateUserById service', (done) => {
+    it('should clear the call_sid for user on clearUserCallSID service', (done) => {
       const params = {
-        id: this.userCallSIDParams.id,
-        call_sid: null
+        id: this.userCallSIDParams.id
       };
-      usersService.updateUserById(params)
+      usersService.clearUserCallSID(params)
         .then((user) => {
           expect(user.attributes.call_sid).to.be.null;
           done();
@@ -439,16 +438,6 @@ describe('User service tests', function() {
           expect(user.attributes.call_sid).to.be.null;
           expect(user.attributes.first_name).to.equal(this.userUpdateParams2.firstName);
           expect(user.attributes.last_name).to.equal(this.userUpdateParams2.lastName);
-          done();
-        }, done);
-    });
-    it('should clear the call_sid for user on clearUserCallSID service', (done) => {
-      const params = {
-        id: this.userCallSIDParams.id
-      };
-      usersService.clearUserCallSID(params)
-        .then((user) => {
-          expect(user.attributes.call_sid).to.be.null;
           done();
         }, done);
     });
