@@ -1,4 +1,5 @@
 import usersService from '../db/services/users';
+import twilioModule from '../util/twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -188,9 +189,14 @@ export function getUserCampaignAssociation(req, res) {
     });
 }
 
-export function updateUserCallSIDField(req, res) {
-  const { id } = req.params;
-  const call_sid = 'CAdksl234591adfide294821kdau3u3933';
+export function updateUserCallSID(req, res) {
+  const { id, campaign_id } = req.params;
+  usersService.getUserById({ id })
+    .then((user) => {
+      const { phone_number } = user;
+      const call_sid = twilioModule.callVolunteer(id, campaign_id, phone_number);
+    });
+  // const call_sid = 'CAdksl234591adfide294821kdau3u3933';
   const params = { id, call_sid };
   return usersService.updateUserById(params)
     .then((user) => {
