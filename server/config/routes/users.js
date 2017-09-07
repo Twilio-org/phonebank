@@ -1,15 +1,15 @@
 import express from 'express';
 import { addCampaignToUser,
+         clearUserCallSIDField,
          deactivateUserById,
          getAllUsers,
+         getCallStartTwiml,
          getUserById,
          getUserCampaignAssociation,
          getUserCampaigns,
          manageUserById,
          updateUserById,
-         updateUserCallSIDField,
-         clearUserCallSIDField } from '../../controllers/users';
-
+         updateUserCallSIDField } from '../../controllers/users';
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
 
@@ -30,5 +30,6 @@ router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
+router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
 
 export default router;
