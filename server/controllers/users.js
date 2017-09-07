@@ -193,20 +193,24 @@ export function updateUserCallSID(req, res) {
   const { id, campaign_id } = req.params;
   usersService.getUserById({ id })
     .then((volunteer) => {
-      const { phone_number } = volunteer;
-      const call_sid = twilioModule.callVolunteer(id, campaign_id, phone_number);
-      const params = { id, call_sid };
-      return usersService.updateUserById(params)
-        .then((user) => {
-          if (user) {
-            res.status(200).json(user);
-          } else {
-            res.status(404).json({ message: 'Could not process request to update user Call SID' });
-          }
+      const { phone_number } = volunteer.attributes;
+      twilioModule.callVolunteer(id, campaign_id, phone_number)
+        .then((call) => {
+          const { sid: call_sid } = call;
+          const params = { id, call_sid };
+          return usersService.updateUserById(params)
+            .then((user) => {
+              if (user) {
+                res.status(200).json(user);
+              } else {
+                res.status(404).json({ message: 'Could not process request to update user Call SID' });
+              }
+            })
+            .catch((err) => {
+              res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
+            });
         })
-        .catch((err) => {
-          res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
-        });
+        .catch(err => console.log(err));
     })
     .catch((err) => {
       res.status(500).json({ message: `Could not process request to get user by id: ${err}` });
@@ -230,4 +234,8 @@ export function clearUserCallSIDField(req, res) {
     .catch((err) => {
       res.status(500).json({ message: `Could not process request to clear user Call SID: ${err}` });
     });
+}
+
+export function printSID(req) {
+  console.log('the req in printSID is: ', req);
 }
