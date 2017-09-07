@@ -1,29 +1,320 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
-import { setCurrentCall, setNextCall, assignToCall } from '../../../public/src/actions/calls';
-import { defaultCalls } from '../../../public/src/reducers/calls';
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
+import { setCurrentCall,
+         assignToCall,
+         setVolunteerActive,
+         clearVolunteerActive,
+         setCurrentCallActive,
+         setCurrentCallInactive,
+         clearCurrentCall,
+         updateCallOutcome,
+         updateCallStatus,
+         setCallContactInfo,
+         getCallContactInfo,
+         releaseCall,
+         updateCallAttempt } from '../../../public/src/actions/calls';
 import fixtures from '../client_fixtures';
 
+const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
+
+const expectedProps = Object.keys(dbFixture);
+const numOfProps = expectedProps.length;
+
+function hasProp(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
 exposeLocalStorageMock();
-let mocker;
-let store;
-const { call, assignedCall } = fixtures.callsFixture;
 
 describe('Call Actions', () => {
-  describe('assignToCall Action', () => {
-    store = mockStore(defaultCalls);
-    mocker = new MockAdapter(axios);
+  let mock;
+  let store;
+  beforeEach(() => {
+    store = mockStore(initialState);
+  });
+
+  describe('setVolunteerActive: ', () => {
+    const setVolunteerActiveResult = setVolunteerActive();
+    describe('type: ', () => {
+      const { type } = setVolunteerActiveResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type property SET_VOLUNTEER_ACTIVE: ', () => {
+        expect(type).toBe('SET_VOLUNTEER_ACTIVE');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setVolunteerActiveResult;
+      it('should not have a payload: ', () => {
+        expect(payload).toBeUndefined();
+        expect(hasProp(setVolunteerActiveResult, payload)).toBe(false);
+      });
+    });
+  });
+
+  describe('clearVolunteerActive: ', () => {
+    const clearVolunteerActiveResult = clearVolunteerActive();
+    describe('type: ', () => {
+      const { type } = clearVolunteerActiveResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type CLEAR_VOLUNTEER_ACTIVE: ', () => {
+        expect(type).toBe('CLEAR_VOLUNTEER_ACTIVE');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = clearVolunteerActiveResult;
+      it('should not have a payload: ', () => {
+        expect(payload).toBeUndefined();
+        expect(hasProp(clearVolunteerActiveResult, payload)).toBe(false);
+      });
+    });
+  });
+
+  describe('setCurrentCallActive: ', () => {
+    const setCurrentCallActiveResult = setCurrentCallActive();
+    describe('type: ', () => {
+      const { type } = setCurrentCallActiveResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type SET_CURRENT_CALL_ACTIVE: ', () => {
+        expect(type).toBe('SET_CURRENT_CALL_ACTIVE');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setCurrentCallActiveResult;
+      it('should not have a payload: ', () => {
+        expect(payload).toBeUndefined();
+        expect(hasProp(setCurrentCallActiveResult, payload)).toBe(false);
+      });
+    });
+  });
+
+  describe('setCurrentCallInactive: ', () => {
+    const setCurrentCallInactiveResult = setCurrentCallInactive();
+    describe('type: ', () => {
+      const { type } = setCurrentCallInactiveResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type SET_CURRENT_CALL_INACTIVE: ', () => {
+        expect(type).toBe('SET_CURRENT_CALL_INACTIVE');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setCurrentCallInactiveResult;
+      it('should not have a payload: ', () => {
+        expect(payload).toBeUndefined();
+        expect(hasProp(setCurrentCallInactiveResult, payload)).toBe(false);
+      });
+    });
+  });
+
+  describe('setCurrentCall: ', () => {
+    const setCurrentCallResult = setCurrentCall(dbFixture);
+    describe('type: ', () => {
+      const { type } = setCurrentCallResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type SET_CALL_CURRENT: ', () => {
+        expect(type).toBe('SET_CALL_CURRENT');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setCurrentCallResult;
+      it('should be an object: ', () => {
+        expect(typeof payload).toBe('object');
+        expect(Array.isArray(payload)).toBe(false);
+      });
+      it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
+        const payloadProps = Object.keys(payload);
+        console.log(payloadProps.length, expectedProps.length);
+        expect(payloadProps).toEqual(expectedProps);
+      });
+    });
+  });
+
+  describe('clearCurrentCall: ', () => {
+    const clearCurrentCallResult = clearCurrentCall();
+    describe('type: ', () => {
+      const { type } = clearCurrentCallResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type CLEAR_CALL_CURRENT: ', () => {
+        expect(type).toBe('CLEAR_CALL_CURRENT');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = clearCurrentCallResult;
+      it('should not have a payload: ', () => {
+        expect(payload).toBeUndefined();
+        expect(hasProp(clearCurrentCallResult, payload)).toBe(false);
+      });
+    });
+  });
+
+  describe('updateCallOutcome: ', () => {
+    const updateCallOutcomeResult = updateCallOutcome('left_message');
+    describe('type: ', () => {
+      const { type } = updateCallOutcomeResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type UPDATE_CALL_OUTCOME: ', () => {
+        expect(type).toBe('UPDATE_CALL_OUTCOME');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = updateCallOutcomeResult;
+      it('should be an object: ', () => {
+        expect(typeof payload).toBe('string');
+        expect(payload).toBe('LEFT_MESSAGE');
+        expect(payload === 'PENDING').toBe(false);
+      });
+    });
+  });
+
+  describe('updateCallStatus: ', () => {
+    const updateCallStatusResult = updateCallStatus('in_progress');
+    describe('type: ', () => {
+      const { type } = updateCallStatusResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type UPDATE_CALL_STATUS: ', () => {
+        expect(type).toBe('UPDATE_CALL_STATUS');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = updateCallStatusResult;
+      it('should be an object: ', () => {
+        expect(typeof payload).toBe('string');
+        expect(payload).toBe('IN_PROGRESS');
+        expect(payload === 'ASSIGNED').toBe(false);
+      });
+    });
+  });
+
+  describe('setCallContactInfo: ', () => {
+    const setCallContactInfoResult = setCallContactInfo({ name: 'andipants' });
+    describe('type: ', () => {
+      const { type } = setCallContactInfoResult;
+      it('should have a defined type property: ', () => {
+        expect(type).toBeDefined();
+      });
+      it('should have the type SET_CALL_CONTACT_INFO: ', () => {
+        expect(type).toBe('SET_CALL_CONTACT_INFO');
+      });
+      it('should not be null: ', () => {
+        expect(type === null).toBe(false);
+      });
+    });
+    describe('payload: ', () => {
+      const { payload } = setCallContactInfoResult;
+      it('should be an object: ', () => {
+        expect(typeof payload).toBe('object');
+        expect(Array.isArray(payload)).toBe(false);
+        expect(payload).toEqual({ name: 'andipants' });
+      });
+    });
+  });
+
+  describe('getCallContactInfo: ', () => {
+    mock = new MockAdapter(axios);
     beforeEach(() => {
-      mocker.onGet('/users/1/campaigns/1/calls').reply(200, assignedCall);
+      mock.onGet('/contacts/:id').reply(200, contactFixture);
     });
     afterEach(() => {
-      mocker.reset();
+      mock.reset();
+    });
+    it('axios GET request: ', () => {
+      const { first_name, last_name } = contactFixture;
+      const name = last_name ? `${first_name} ${last_name}` : first_name;
+      const expectedAction = setCallContactInfo({ name });
+      return store.dispatch(getCallContactInfo(1))
+        .then(() => {
+          const [dispatchedAction] = store.getActions();
+          const { type, payload } = dispatchedAction;
+          expect(dispatchedAction).toEqual(expectedAction);
+          expect(type).toBe('SET_CALL_CONTACT_INFO');
+          expect(payload).toEqual({ name });
+        })
+        .catch(err => err);
+    });
+  });
+
+  describe('releaseCall: ', () => {
+    mock = new MockAdapter(axios);
+    beforeEach(() => {
+      mock.onDelete('/users/:userId/campaigns/:campaignId/calls/:callId').reply(200);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+
+    describe('axios delete request: ', () => {
+      it('dispatched actions in the store:', () => {
+        const expectedAction = setCurrentCallInactive();
+        return store.dispatch(releaseCall(1, 1, 1))
+          .then(() => {
+            const [dispatchedAction] = store.getActions();
+            const { type, payload } = dispatchedAction;
+            expect(dispatchedAction).toEqual(expectedAction);
+            expect(type).toBe('SET_CURRENT_CALL_INACTIVE');
+            expect(payload).toBeUndefined();
+            expect(hasProp(dispatchedAction, 'payload')).toBe(false);
+          })
+          .catch(err => err);
+      });
+    });
+  });
+
+  // describe('updateCallAttempt: ', () => {});
+
+  describe('assignToCall Action', () => {
+    // TODO: SHOULD THROW ERROR IF ASSIGNMENT NOT CORRECT!!!!
+    mock = new MockAdapter(axios);
+    beforeEach(() => {
+      mock.onGet('/users/1/campaigns/1/calls').reply(200, dbFixture);
+    });
+    afterEach(() => {
+      mock.reset();
     });
     it('should dispatch setCurrentCall action', () => {
       const userId = 1;
-      const { type, payload } = setCurrentCall(assignedCall);
-      store.dispatch(assignToCall(userId, call.campaign_id))
+      const { campaign_id } = dbFixture;
+      const { type, payload } = setCurrentCall(dbFixture);
+      store.dispatch(assignToCall(userId, campaign_id))
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).toEqual(type);
@@ -34,4 +325,5 @@ describe('Call Actions', () => {
         });
     });
   });
+
 });

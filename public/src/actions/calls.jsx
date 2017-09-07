@@ -92,8 +92,11 @@ export function assignToCall(userId, campaignId) {
     .then((call) => {
       const { data: callObj } = call;
       const { status, outcome } = callObj;
-      if (status !== 'ASSIGNED' || outcome !== 'PENDING') {
-        return new Error('error from db assignment');
+      if (status !== 'ASSIGNED') {
+        return new Error('Invalid call status, problem with call assignment.');
+      }
+      if (outcome !== 'PENDING') {
+        return new Error('Invalid outcome, problem with call assignment.');
       }
       return dispatch(setCurrentCall(callObj));
     })

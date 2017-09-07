@@ -273,9 +273,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'true',
-        is_banned: 'false',
-        is_admin: 'true',
+        is_active: true,
+        is_banned: false,
+        is_admin: true,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       },
@@ -285,9 +285,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'false',
-        is_banned: 'false',
-        is_admin: 'false',
+        is_active: false,
+        is_banned: false,
+        is_admin: false,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       },
@@ -297,9 +297,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'false',
-        is_banned: 'true',
-        is_admin: 'false',
+        is_active: false,
+        is_banned: true,
+        is_admin: false,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       }
@@ -311,9 +311,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'false',
-        is_banned: 'true',
-        is_admin: 'false',
+        is_active: false,
+        is_banned: true,
+        is_admin: false,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       },
@@ -323,9 +323,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'false',
-        is_banned: 'false',
-        is_admin: 'false',
+        is_active: false,
+        is_banned: false,
+        is_admin: false,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       },
@@ -335,9 +335,9 @@ export default {
         last_name: 'oneto',
         phone_number: '1231231234',
         email: 'nene@aol.com',
-        is_active: 'false',
-        is_banned: 'true',
-        is_admin: 'false',
+        is_active: false,
+        is_banned: true,
+        is_admin: false,
         created_at: '2017-08-24T01:01:01.145Z',
         updated_at: '2017-08-25T22:01:10.202Z'
       }
@@ -348,9 +348,9 @@ export default {
       last_name: 'oneto',
       phone_number: '1231231234',
       email: 'nene@aol.com',
-      is_active: 'true',
-      is_banned: 'false',
-      is_admin: 'true',
+      is_active: true,
+      is_banned: false,
+      is_admin: true,
       created_at: '2017-08-24T01:01:01.145Z',
       updated_at: '2017-08-25T22:01:10.202Z'
     }
@@ -366,7 +366,10 @@ export default {
       call_started: null,
       call_ended: null,
       attempt_num: 1,
-      notes: null
+      notes: null,
+      call_sid: null,
+      created_at: '2017-08-15T21:35:30.321Z',
+      updated_at: '2017-08-15T21:35:30.321Z'
     },
     initialState: {
       current_call: false,
@@ -382,38 +385,18 @@ export default {
       current_call_contact_name: undefined,
       call_current_active: false,
       call_volunteer_active: false
-    }
-  },
-  callsFixture: {
-    call: {
-      id: 1,
-      campaign_id: 1,
-      contact_id: 1,
-      attempt_num: 1,
-      user_id: null,
-      status: 'AVAILABLE',
-      outcome: 'PENDING',
-      notes: null,
-      call_sid: null,
-      call_started: null,
-      call_ended: null,
-      created_at: '2017-08-15T21:35:30.321Z',
-      updated_at: '2017-08-15T21:35:30.321Z'
     },
-    assignedCall: {
+    contactFixture: {
       id: 1,
-      campaign_id: 1,
-      contact_id: 1,
-      attempt_num: 1,
-      user_id: 1,
-      status: 'AVAILABLE',
-      outcome: 'PENDING',
-      notes: null,
-      call_sid: null,
-      call_started: null,
-      call_ended: null,
-      created_at: '2017-08-15T21:35:30.321Z',
-      updated_at: '2017-08-15T21:35:30.321Z'
+      external_id: 123,
+      first_name: 'craig',
+      last_name: 'bella',
+      email: 'horses@aol.com',
+      phone_number: '+12345678901',
+      is_invalid_number: false,
+      do_not_call: false,
+      created_at: '2017-08-24T01:01:01.145Z',
+      updated_at: '2017-08-25T22:01:10.202Z'
     }
   }
 };
