@@ -2,7 +2,12 @@ import Twilio from 'twilio';
 
 // Account SID and Auth Token are stored as environmental variables
 // Twilio Node module will check for them automatically upon initialization
-const twilioClient = new Twilio();
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+console.log(TWILIO_ACCOUNT_SID);
+
+const twilioClient = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+
 const CALLER_ID = process.env.TWILIO_CALLER_ID;
 const DEV_PATH = process.env.DEV_PATH;
 
