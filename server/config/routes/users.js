@@ -8,7 +8,8 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          updateUserCallSID,
-         clearUserCallSIDField } from '../../controllers/users';
+         clearUserCallSIDField,
+         printSID } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
@@ -30,5 +31,6 @@ router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSID);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
+router.route('/:id/campaigns/:campaign_id/calls/start').get(printSID);
 
 export default router;
