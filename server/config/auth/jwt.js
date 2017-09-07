@@ -1,6 +1,6 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import usersService from '../../db/services/users';
 
