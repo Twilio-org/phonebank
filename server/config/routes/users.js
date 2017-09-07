@@ -7,7 +7,7 @@ import { addCampaignToUser,
          getUserCampaigns,
          manageUserById,
          updateUserById,
-         updateUserCallSID,
+         startTwilioConnection,
          clearUserCallSIDField,
          printSID } from '../../controllers/users';
 
@@ -27,7 +27,7 @@ router.route('/:id/campaigns').post(addCampaignToUser);
 router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
-router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSID);
+router.route('/:id/campaigns/:campaign_id/calls').post(startTwilioConnection);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
