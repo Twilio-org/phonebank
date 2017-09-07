@@ -9,21 +9,25 @@ export default class JoinedCampaigns extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
     if (id) {
+      this.props.clearCampaigns();
       this.props.fetchCampaignsByUser(id);
     }
   }
 
   render() {
-    const { history, joined_campaigns, current_campaign, setCurrentCampaign } = this.props;
+    const { history, joined_campaigns, setCurrentCampaign } = this.props;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
 
+    let { current_campaign } = this.props;
     if (
-      joined_campaigns.length !== 0 &&
+      joined_campaigns &&
+      current_campaign &&
+      Object.getOwnPropertyNames(joined_campaigns).length > 0 &&
       Object.getOwnPropertyNames(current_campaign).length === 0
     ) {
-      setCurrentCampaign(joined_campaigns[0]);
+      current_campaign = joined_campaigns[0];
     }
 
     return (
@@ -54,7 +58,10 @@ export default class JoinedCampaigns extends Component {
               <CurrentCampaign
                 history={history}
                 id={current_campaign}
-                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
+                defaultMsg={joined_campaigns &&
+                            Object.getOwnPropertyNames(joined_campaigns).length > 0 ?
+                              'Select a campaign' :
+                              'Join a campaign'}
                 campaign={current_campaign}
               />
             </Col>

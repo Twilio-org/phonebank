@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
+import { CLEAR_CAMPAIGNS,
+         SET_CAMPAIGNS,
+         SET_CAMPAIGN_CURRENT,
+         SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -13,6 +16,12 @@ export function setCurrentCampaign(campaignDataObj) {
   return {
     type: SET_CAMPAIGN_CURRENT,
     payload: campaignDataObj
+  };
+}
+
+export function clearCampaigns() {
+  return {
+    type: CLEAR_CAMPAIGNS
   };
 }
 

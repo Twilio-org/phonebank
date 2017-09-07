@@ -3,8 +3,7 @@ import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
   const { campaign, id, defaultMsg, history } = props;
-  console.log('~~~~~~~~~~~~~~', Object.getOwnPropertyNames(campaign).length === 0)
-  if (Object.getOwnPropertyNames(campaign).length === 0) {
+  if (!campaign) {
     return (
       <div id={id}>
         <p className="lead">{defaultMsg}</p>
