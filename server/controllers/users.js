@@ -239,6 +239,7 @@ export function getCallStartTwiml(req, res) {
             if (campaign) {
               const campaignName = campaign.name;
               const helloUserTwiml = sayHelloUser(userFirstName, campaignName);
+              console.log(helloUserTwiml);
               res.status(200)
               .set({ 'Content-Type': 'text/xml' })
               .send(helloUserTwiml);
