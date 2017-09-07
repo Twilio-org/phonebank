@@ -5,5 +5,6 @@ import Twilio from 'twilio';
 const twilioClient = new Twilio();
 const CALLER_ID = process.env.TWILIO_CALLER_ID;
 
+// Added the below console.logs to pass linting - please delete!
 console.log(twilioClient);
 console.log(CALLER_ID);
