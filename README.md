@@ -55,10 +55,10 @@ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 Setup a Twilio account
 
 - If you haven't already, sign up for an account at [twilio.com](https://www.twilio.com)
+- If you don't have one, you can [purchase a Twilio phone number](https://www.twilio.com/console/phone-numbers/search)
+- If you wish to set your TWILIO_CALLER_ID to a phone number other than a Twilio phone number, you can [add a verified caller id to your account](https://www.twilio.com/console/phone-numbers/verified)
 - Create a configuration file for your application:
 `cp .env.example .env`
 - Replace TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_CALLER_ID with the appropriate values from your [account dashboard](https://www.twilio.com/user/account)
-- If you don't have one, you can [purchase a Twilio phone number](https://www.twilio.com/console/phone-numbers/search)
-- If you wish to set your TWILIO_CALLER_ID to a phone number other than a Twilio phone number, you can [add a verified caller id to your account](https://www.twilio.com/console/phone-numbers/verified)
 
 
