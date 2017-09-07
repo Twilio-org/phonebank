@@ -44,6 +44,4 @@ export default function middleware(app, express) {
   // pass the
   app.use(errorHandle.catchForward);
   app.use(errorHandle.handleError);
-
-  console.log(process.env.secretOrKey);
 }
