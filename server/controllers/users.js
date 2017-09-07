@@ -228,7 +228,7 @@ export function volunteerCallback(req, res) {
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).json({ message: 'Could not process request to clear user Call SID on volunteer callback' });
+        res.status(404).json({ message: 'Could not find user with id on volunteer callback' });
       }
     })
     .catch((err) => {
