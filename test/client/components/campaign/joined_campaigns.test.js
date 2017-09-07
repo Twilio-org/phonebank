@@ -9,6 +9,7 @@ const props = {
   },
   auth: { id: 1 },
   fetchCampaignsByUser: jest.fn(),
+  clearCampaigns: jest.fn(),
   current_campaign: {},
   joined_campaigns: [],
   account_info: {
@@ -29,36 +30,18 @@ describe('<JoinedCampaigns />', () => {
     it('should render 1 <SidebarList>', () => {
       expect(wrapper.find('SidebarList').length).toBe(1);
     });
-  });
-  describe('Mounting', () => {
-    it('Should call the fetchQuestion action on mount', () => {
-      mount(<JoinedCampaigns {...props} />);
-      expect(props.fetchCampaignsByUser).toHaveBeenCalled();
-    });
-  });
-  describe('<CurrentCampaign> render switch', () => {
-    it('should render 1 <CurrentCampaign> when elements are present in current_campaign prop', () => {
-      const campaignsPresentProps = {
-        history: {
-          goBack: jest.fn(),
-          location: { pathname: ''}
-        },
-        auth: { id: 1 },
-        fetchCampaignsByUser: jest.fn(),
-        current_campaign: {},
-        joined_campaigns: [1],
-        account_info: {
-          first_name: "Test",
-          last_name: "Tests"
-        },
-        setCurrentCampaign: jest.fn()
-      };
-      const wrapper = shallow(<JoinedCampaigns {...campaignsPresentProps} />);
+    it('should render 1 <CurrentCampaign>', () => {
       expect(wrapper.find('CurrentCampaign').length).toBe(1);
     });
-    it('should render 0 <CurrentCampaign> when no elements are present in current_campaign prop', () => {
-      const wrapper = shallow(<JoinedCampaigns {...props} />);
-      expect(wrapper.find('CurrentCampaign').length).toBe(0);
+  });
+  describe('Mounting', () => {
+    it('Should call the clearCampaigns action on mount', () => {
+      mount(<JoinedCampaigns {...props} />);
+      expect(props.clearCampaigns).toHaveBeenCalled();
+    });
+    it('Should call the fetchCampaignsByUser action on mount', () => {
+      mount(<JoinedCampaigns {...props} />);
+      expect(props.fetchCampaignsByUser).toHaveBeenCalled();
     });
   });
 });
