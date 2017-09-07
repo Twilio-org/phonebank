@@ -1,11 +1,11 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, change } from 'redux-form';
 
 import CallPage from '../components/calls/calls_page_parent';
 
 import { setCampaignCurrent } from '../actions/campaign';
-import { setScriptCurrent, setScriptQuestions } from '../actions/admin_scripts';
+import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
 import callsActions from '../actions/calls';
 
 function mapStateToProps(state) {
@@ -27,7 +27,10 @@ export default withRouter(
       connect(mapStateToProps,
         { setScriptCurrent,
           setScriptQuestions,
+          fetchScript,
+          fetchScriptQuestions,
           setCampaignCurrent,
+          change,
           ...callsActions
         }
       )(CallPage)
