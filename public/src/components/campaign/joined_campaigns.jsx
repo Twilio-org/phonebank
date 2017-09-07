@@ -9,15 +9,17 @@ export default class JoinedCampaigns extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
     if (id) {
-      this.props.fetchCampaignsByUser(id);
+      this.props.clearCampaigns();
+      this.props.fetchCampaignsByUser(id, this.props.current_campaign);
     }
   }
 
   render() {
-    const { history, joined_campaigns, current_campaign, setCurrentCampaign } = this.props;
+    const { current_campaign, history, joined_campaigns, setCurrentCampaign } = this.props;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
+
     return (
       <div>
         <Banner
@@ -46,7 +48,9 @@ export default class JoinedCampaigns extends Component {
               <CurrentCampaign
                 history={history}
                 id={current_campaign}
-                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
+                defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
+                              'Select a campaign' :
+                              'Join a campaign'}
                 campaign={current_campaign}
               />
             </Col>
