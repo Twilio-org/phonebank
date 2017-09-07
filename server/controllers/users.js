@@ -233,16 +233,15 @@ export function getCallStartTwiml(req, res) {
   return usersService.getUserById({ id: user_id })
     .then((user) => {
       if (user) {
-        const userFirstName = user.first_name;
+        const userFirstName = user.attributes.first_name;
         return campaignsService.getCampaignById({ id: campaign_id })
           .then((campaign) => {
             if (campaign) {
-              const campaignName = campaign.name;
+              const campaignName = campaign.attributes.name;
               const helloUserTwiml = sayHelloUser(userFirstName, campaignName);
-              console.log(helloUserTwiml);
-              res.status(200)
-              .set({ 'Content-Type': 'text/xml' })
-              .send(helloUserTwiml);
+              return res.status(200)
+                .set({ 'Content-Type': 'text/xml' })
+                .send(helloUserTwiml);
             }
             return res.status(404).json({ message: `Could not find campaign with id ${campaign_id}` });
           }).catch(err => console.log('error fetching campaign by id in getCallStartTwiml user controller function: ', err));

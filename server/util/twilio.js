@@ -23,12 +23,9 @@ export function callUser(user_id, campaign_id, phone_number) {
 }
 
 export function sayHelloUser(userFirstName, campaignName) {
-  // console.log(twilioClient);
-  console.log(twilioClient.TwiML);
-  twilioClient.TwiML.build((res) => {
-    res.say(`Welcome, ${userFirstName}. You will be calling on behalf of ${campaignName}. Please follow the instructions on your computer screen to start calling.`);
-    res.play({ loop: 0 }, 'https://api.twilio.com/cowbell.mp3');
-  })
-  .then(twiml => twiml)
-  .catch(err => console.log('error generating twilio for volunterr call start in twilio utility:', err));
+  const VoiceResponse = Twilio.twiml.VoiceResponse;
+  const helloUser = new VoiceResponse();
+  helloUser.say(`Welcome, ${userFirstName}. You will be calling on behalf of ${campaignName}. Please follow the instructions on your computer screen to start calling.`);
+  helloUser.play({ loop: 0 }, 'https://api.twilio.com/cowbell.mp3');
+  return helloUser.toString();
 }
