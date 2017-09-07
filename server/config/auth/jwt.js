@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import usersService from '../../db/services/users';
 
-dotenv.config();
+// dotenv.config();
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
