@@ -209,11 +209,7 @@ export function updateUserCallSIDField(req, res) {
 
 export function clearUserCallSIDField(req, res) {
   const { id } = req.params;
-  const params = {
-    id,
-    call_sid: null
-  };
-  return usersService.updateUserById(params)
+  return usersService.clearUserCallSID({ id })
     .then((user) => {
       if (user) {
         res.status(200).json(user);
@@ -248,4 +244,19 @@ export function getCallStartTwiml(req, res) {
       }
       return res.status(404).json({ message: `Could not find user with id ${user_id}` });
     }).catch(err => console.log('error fetching user by id in getCallStartTwiml user controller function: ', err));
+}
+
+export function volunteerCallback(req, res) {
+  const { id } = req.params;
+  return usersService.clearUserCallSID({ id })
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'Could not find user with id on volunteer callback' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Could not process request to clear user Call SID on volunteer callback: ${err}` });
+    });
 }

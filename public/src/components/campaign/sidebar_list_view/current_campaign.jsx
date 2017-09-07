@@ -3,17 +3,17 @@ import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
   const { campaign, id, defaultMsg, history } = props;
-  const handleClick = () => {
-    const { id: campaignId } = id;
-    history.push(`/volunteers/campaigns/${campaignId}/calls`);
-  };
-  if (!campaign.title) {
+  if (!campaign) {
     return (
       <div id={id}>
         <p className="lead">{defaultMsg}</p>
       </div>
     );
   }
+  const handleClick = () => {
+    const { id: campaignId } = id;
+    history.push(`/volunteers/campaigns/${campaignId}/calls`);
+  };
   return (
     <div id={id}>
       <h3>{campaign.title}</h3>

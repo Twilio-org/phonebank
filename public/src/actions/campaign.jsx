@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { destroy } from 'redux-form';
-import { SET_CAMPAIGNS, SET_CAMPAIGN_CURRENT, SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
+import { CLEAR_CAMPAIGNS,
+         SET_CAMPAIGNS,
+         SET_CAMPAIGN_CURRENT,
+         SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -13,6 +16,12 @@ export function setCurrentCampaign(campaignDataObj) {
   return {
     type: SET_CAMPAIGN_CURRENT,
     payload: campaignDataObj
+  };
+}
+
+export function clearCampaigns() {
+  return {
+    type: CLEAR_CAMPAIGNS
   };
 }
 
@@ -76,12 +85,16 @@ export function verifyVolunteerCampaign(userId, campaignId) {
   });
 }
 
-export function fetchCampaignsByUser(userId) {
+export function fetchCampaignsByUser(userId, current_campaign) {
   return dispatch => axios.get(`/users/${userId}/campaigns`, {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
+    if (!current_campaign || Object.getOwnPropertyNames(current_campaign).length === 0) {
+      dispatch(setCampaignsList(campaignsList));
+      return dispatch(setCurrentCampaign(campaignsList[0]));
+    }
     return dispatch(setCampaignsList(campaignsList));
   })
   .catch((err) => {

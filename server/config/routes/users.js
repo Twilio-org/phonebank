@@ -9,7 +9,10 @@ import { addCampaignToUser,
          getUserCampaigns,
          manageUserById,
          updateUserById,
-         updateUserCallSIDField } from '../../controllers/users';
+         updateUserCallSIDField,
+         volunteerCallback,
+         clearUserCallSIDField } from '../../controllers/users';
+
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
 
@@ -31,5 +34,6 @@ router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
+router.route('/:id/callback').post(volunteerCallback);
 
 export default router;
