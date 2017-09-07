@@ -8,6 +8,7 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          updateUserCallSIDField,
+         volunteerCallback,
          clearUserCallSIDField } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
@@ -30,5 +31,6 @@ router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
+router.route('/:id/callback').post(volunteerCallback);
 
 export default router;
