@@ -57,3 +57,33 @@ export function assignToCall(userId, campaignId) {
     })
     .catch(err => console.log(err));
 }
+
+// post and delete to: '/:id/campaigns/:campaign_id/calls'
+
+export function initateVolunteerTwilioCon(userId, campaignId, volunteerCallActive) {
+  if (volunteerCallActive) {
+    return new Error('twilio call connection already active.');
+  }
+  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then(() => {
+    // uncomment after 180 pr goes in
+    // dispatch(setVolunteerActive());
+  })
+  .catch(err => err);
+}
+
+export function endVolunterTwilioCon(userId, campaignId, volunteerCallActive) {
+  if (!volunteerCallActive) {
+    return new Error('twilio call connection not active, cannot complete request.');
+  }
+  return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then(() => {
+    // uncomment after 180 pr goes in
+    // dispatch(setVolunteerInactive);
+  })
+  .catch(err => err);
+}
