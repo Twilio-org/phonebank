@@ -85,12 +85,16 @@ export function verifyVolunteerCampaign(userId, campaignId) {
   });
 }
 
-export function fetchCampaignsByUser(userId) {
+export function fetchCampaignsByUser(userId, current_campaign) {
   return dispatch => axios.get(`/users/${userId}/campaigns`, {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
+    if (!current_campaign || Object.getOwnPropertyNames(current_campaign).length === 0) {
+      dispatch(setCampaignsList(campaignsList));
+      return dispatch(setCurrentCampaign(campaignsList[0]));
+    }
     return dispatch(setCampaignsList(campaignsList));
   })
   .catch((err) => {

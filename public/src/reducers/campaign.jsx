@@ -30,7 +30,7 @@ export function campaignListReducer(state = defaultCampaigns, action) {
     case CLEAR_CAMPAIGNS:
       return {
         ...state,
-        all_campaigns: undefined
+        all_campaigns: defaultCampaigns.all_campaigns
       };
     default:
       return state;

@@ -51,7 +51,6 @@ const TableListView = (props) => {
             item_collection.map(item =>
               (
                 <TableRow
-                  all_campaigns={item_collection}
                   currentUser={currentUser}
                   key={item.id}
                   auth={auth}

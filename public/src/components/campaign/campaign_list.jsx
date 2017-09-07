@@ -25,10 +25,9 @@ export default class CampaignList extends Component {
     const { admin_campaigns, volunteer_campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
 
-    function handleClick(id, campaign_id, historyObj, campaign_list) {
-      const joined = campaign_list.filter(campaign => campaign.id === campaign_id)[0];
-      setCurrentCampaign(joined);
-      addCampaignToUser(id, campaign_id, historyObj);
+    function handleClick(id, historyObj, campaign) {
+      setCurrentCampaign(campaign);
+      addCampaignToUser(id, campaign.id, historyObj);
     }
 
     return (
