@@ -1,5 +1,5 @@
 import usersService from '../db/services/users';
-import twilioModule from '../util/twilio';
+import callVolunteer from '../util/twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -189,12 +189,12 @@ export function getUserCampaignAssociation(req, res) {
     });
 }
 
-export function updateUserCallSID(req, res) {
+export function startTwilioConnection(req, res) {
   const { id, campaign_id } = req.params;
   usersService.getUserById({ id })
     .then((volunteer) => {
       const { phone_number } = volunteer.attributes;
-      twilioModule.callVolunteer(id, campaign_id, phone_number)
+      callVolunteer(id, campaign_id, phone_number)
         .then((call) => {
           const { sid: call_sid } = call;
           const params = { id, call_sid };
