@@ -13,7 +13,7 @@ import contactsRouter from './routes/contacts';
 import contactListsRouter from './routes/contact_lists';
 import { passport, serializeLogin } from './auth/local';
 
-dotenv.config();
+dotenv.config({ path: '.env' });
 
 export default function middleware(app, express) {
   // use body-parser to format request and attach it to req objects.
