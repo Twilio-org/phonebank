@@ -1,6 +1,7 @@
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
+import dotenv from 'dotenv';
 import indexRouter from './routes/index';
 import scriptsRouter from './routes/scripts';
 import questionsRouter from './routes/questions';
@@ -11,6 +12,8 @@ import errorHandle from './errorHandle';
 import contactsRouter from './routes/contacts';
 import contactListsRouter from './routes/contact_lists';
 import { passport, serializeLogin } from './auth/local';
+
+dotenv.config({ path: '.env' });
 
 export default function middleware(app, express) {
   // use body-parser to format request and attach it to req objects.

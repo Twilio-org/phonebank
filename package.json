@@ -65,7 +65,8 @@
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "twilio": "^3.6.5"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
