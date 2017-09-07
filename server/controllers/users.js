@@ -192,22 +192,24 @@ export function getUserCampaignAssociation(req, res) {
 export function updateUserCallSID(req, res) {
   const { id, campaign_id } = req.params;
   usersService.getUserById({ id })
-    .then((user) => {
-      const { phone_number } = user;
+    .then((volunteer) => {
+      const { phone_number } = volunteer;
       const call_sid = twilioModule.callVolunteer(id, campaign_id, phone_number);
-    });
-  // const call_sid = 'CAdksl234591adfide294821kdau3u3933';
-  const params = { id, call_sid };
-  return usersService.updateUserById(params)
-    .then((user) => {
-      if (user) {
-        res.status(200).json(user);
-      } else {
-        res.status(404).json({ message: 'Could not process request to update user Call SID' });
-      }
+      const params = { id, call_sid };
+      return usersService.updateUserById(params)
+        .then((user) => {
+          if (user) {
+            res.status(200).json(user);
+          } else {
+            res.status(404).json({ message: 'Could not process request to update user Call SID' });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
+        });
     })
     .catch((err) => {
-      res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
+      res.status(500).json({ message: `Could not process request to get user by id: ${err}` });
     });
 }
 
