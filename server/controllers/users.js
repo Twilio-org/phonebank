@@ -207,11 +207,7 @@ export function updateUserCallSIDField(req, res) {
 
 export function clearUserCallSIDField(req, res) {
   const { id } = req.params;
-  const params = {
-    id,
-    call_sid: null
-  };
-  return usersService.updateUserById(params)
+  return usersService.clearUserCallSID({ id })
     .then((user) => {
       if (user) {
         res.status(200).json(user);
@@ -221,5 +217,21 @@ export function clearUserCallSIDField(req, res) {
     })
     .catch((err) => {
       res.status(500).json({ message: `Could not process request to clear user Call SID: ${err}` });
+    });
+}
+
+
+export function volunteerCallback(req, res) {
+  const { id } = req.params;
+  return usersService.clearUserCallSID({ id })
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'Could not find user with id on volunteer callback' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Could not process request to clear user Call SID on volunteer callback: ${err}` });
     });
 }
