@@ -10,8 +10,7 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          updateUserCallSIDField,
-         volunteerCallback,
-         clearUserCallSIDField } from '../../controllers/users';
+         volunteerCallback } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
