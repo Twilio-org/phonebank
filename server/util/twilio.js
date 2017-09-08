@@ -9,7 +9,7 @@ export function sayHelloUser(userFirstName, campaignName) {
   const VoiceResponse = Twilio.twiml.VoiceResponse;
   const helloUser = new VoiceResponse();
   helloUser.say(`Welcome, ${userFirstName}. You will be calling on behalf of ${campaignName}. Please follow the instructions on your computer screen to start calling.`);
-  helloUser.play({ loop: 0 }, 'https://api.twilio.com/cowbell.mp3');
+  helloUser.play({ loop: 0 }, 'http://com.twilio.music.classical.s3.amazonaws.com/ith_chopin-15-2.mp3');
   return helloUser.toString();
 }
 
