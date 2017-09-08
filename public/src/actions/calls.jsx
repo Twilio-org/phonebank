@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
+import helper from '../helpers/serializer';
 
 import { SET_CALL_CURRENT,
          CLEAR_CALL_CURRENT,
@@ -119,4 +121,24 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
     dispatch(assignToCall(userId, campaignId));
   })
   .catch();
+}
+
+export function submitCallResponses(data) {
+  const { id, campaign_id, call_id, outcome, responses, notes } = data;
+  return dispatch => axios.put(`/users/${id}/campaigns/${campaign_id}/calls/${call_id}`, {
+    outcome,
+    notes,
+    responses: helper.ResponsesSerializer(responses)
+  })
+  .then((res) => {
+    dispatch(destroy('CallResponse'));
+    return res;
+  })
+  .catch((err) => {
+    const customError = {
+      message: `error in submitting call responses: ${err}`,
+      name: 'submitCallResponses function error in actions/calls.jsx'
+    };
+    throw customError;
+  });
 }

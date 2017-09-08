@@ -41,7 +41,8 @@ export default class CallPage extends Component {
               call_current_active,
               updateCallAttempt,
               releaseCall,
-              clearVolunteerActive } = this.props;
+              clearVolunteerActive,
+              submitCallResponses } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -66,6 +67,7 @@ export default class CallPage extends Component {
               updateAttempt={updateCallAttempt}
               releaseCall={releaseCall}
               clearVolunteerActive={clearVolunteerActive}
+              submitCallResponses={submitCallResponses}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

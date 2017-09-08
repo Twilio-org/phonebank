@@ -55,7 +55,8 @@ export default class CallsSideBar extends Component {
               updateAttempt,
               releaseCall,
               nextCall,
-              clearVolunteerActive } = this.props;
+              clearVolunteerActive,
+              submitCallResponses } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -87,6 +88,7 @@ export default class CallsSideBar extends Component {
           status={status}
           updateCallOutcome={updateCallOutcome}
           updateCallStatus={updateCallStatus}
+          submitCallResponses={submitCallResponses}
         />
       );
     }
