@@ -107,7 +107,6 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
   .catch(err => err);
 }
 
-// TODO: waiting for backend to be modified to accept status puts
 export function updateCallAttempt(userId, campaignId, callId, outcome, notes = null) {
   const params = { outcome, notes };
   return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
