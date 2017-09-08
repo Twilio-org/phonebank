@@ -90,7 +90,7 @@ export function assignToCall(userId, campaignId) {
 }
 
 export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
-  if (currentCallStatus === 'IN_PROGRESS') {
+  if (currentCallStatus !== 'ASSIGNED') {
     return new Error('Error with releaseCall: cannot releave a call that is active.');
   }
   return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
