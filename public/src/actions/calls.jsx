@@ -122,7 +122,6 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
   .catch(err => err);
 }
 
-// post and delete to: '/:id/campaigns/:campaign_id/calls'
 export function initateVolunteerTwilioCon(userId, campaignId, volunteerCallActive) {
   if (volunteerCallActive) {
     return new Error('twilio call connection already active.');
