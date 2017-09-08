@@ -8,10 +8,9 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          updateUserCallSIDField,
-         volunteerCallback,
-         clearUserCallSIDField } from '../../controllers/users';
+         volunteerCallback } from '../../controllers/users';
 
-import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
+import { assignCall, recordAttempt, releaseCall, hangUpCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
 
 const router = express.Router();
@@ -28,7 +27,7 @@ router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
 router.route('/:id/campaigns/:campaign_id/calls').post(updateUserCallSIDField);
-router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
+router.route('/:id/campaigns/:campaign_id/calls').delete(hangUpCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/callback').post(volunteerCallback);

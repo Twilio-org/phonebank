@@ -159,3 +159,30 @@ export function releaseCall(req, res) {
     })
     .catch(err => console.log('could not check if user has joined campaign: ', err));
 }
+
+
+export function hangUpCall(req, res) {
+  const { id } = req.params;
+  return usersService.getUserById({ id })
+    .then((user) => {
+      if (user) {
+        const { call_sid } = user.attributes;
+        return callsService.hangUpCall({ call_sid })
+          .then((call) => {
+            console.log('Current call session status successfully updated', call);
+            return usersService.clearUserCallSID({ id })
+              .then(() => res.status(202).json({ message: 'call succesfully hung up' }))
+              .catch(() => res.status(400).json({ message: 'call could not be terminated' }));
+          })
+          .catch((error) => {
+            console.log('Could not terminate call from Twilio client', error);
+            return res.status(500).json({ message: 'unable to terminate call from Twilio client' });
+          });
+      }
+      return res.status(404).json({ message: 'User ID could not be found' });
+    })
+    .catch((error) => {
+      console.log('could not get user by id', error);
+      res.status(500).json({ message: 'could not get user\'s by ID ' });
+    });
+}
