@@ -4,6 +4,7 @@ export const defaultCampaigns = {
   has_user_joined_campaign: false
 };
 
+export const CLEAR_CAMPAIGNS = 'CLEAR_CAMPAIGNS';
 export const SET_CAMPAIGNS = 'SET_CAMPAIGNS';
 export const SET_CAMPAIGN_CURRENT = 'SET_CAMPAIGN_CURRENT';
 export const SET_USER_CAMPAIGN_JOIN = 'SET_USER_CAMPAIGN_JOIN';
@@ -25,6 +26,11 @@ export function campaignListReducer(state = defaultCampaigns, action) {
       return {
         ...state,
         has_user_joined_campaign: payload
+      };
+    case CLEAR_CAMPAIGNS:
+      return {
+        ...state,
+        all_campaigns: defaultCampaigns.all_campaigns
       };
     default:
       return state;

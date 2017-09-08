@@ -30,6 +30,9 @@ export PG_PORT="5432"
 export PG_CONNECTION_STRING="postgres://$PG_USER:$PG_PASSWORD@localhost:$PG_PORT/$PG_DB"
 export PG_CONNECTION_STRING_TEST="${PG_CONNECTION_STRING}_test"
 export secretOrKey="a secret key should be entered here"
+export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+export TWILIO_AUTH_TOKEN="your_auth_token"
+export TWILIO_CALLER_ID=""+1XXXYYYZZZZ"
 ```
 
 Set up the database.
@@ -50,4 +53,16 @@ Optionally set up Postgres to launch at startup.
 mkdir -p ~/Library/LaunchAgents
 ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+```
+
+Setup a Twilio account
+
+- If you haven't already, sign up for an account at [twilio.com](https://www.twilio.com)
+- If you don't have one, you can [purchase a Twilio phone number](https://www.twilio.com/console/phone-numbers/search)
+- If you wish to set your TWILIO_CALLER_ID to a phone number other than a Twilio phone number, you can [add a verified caller id to your account](https://www.twilio.com/console/phone-numbers/verified)
+- Export TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_CALLER_ID in your `.bash_profile` (example below) with the appropriate values from your [account dashboard](https://www.twilio.com/user/account):
+```
+export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+export TWILIO_AUTH_TOKEN="your_auth_token"
+export TWILIO_CALLER_ID=""+1XXXYYYZZZZ"
 ```

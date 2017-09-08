@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Field } from 'redux-form';
 import { Row, Col, Badge, ControlLabel, FormGroup } from 'react-bootstrap';
 import FieldGroup from '../../components/common/form/field_group';
@@ -68,6 +69,7 @@ const CallQuestion = (props) => {
       </Row>
     );
   }
+
   return (
     <Row>
       <Col sm={1}>

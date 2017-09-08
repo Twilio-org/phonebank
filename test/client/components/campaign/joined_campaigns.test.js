@@ -9,6 +9,7 @@ const props = {
   },
   auth: { id: 1 },
   fetchCampaignsByUser: jest.fn(),
+  clearCampaigns: jest.fn(),
   current_campaign: {},
   joined_campaigns: [],
   account_info: {
@@ -18,8 +19,8 @@ const props = {
   setCurrentCampaign: jest.fn()
 };
 describe('<JoinedCampaigns />', () => {
-  const wrapper = shallow(<JoinedCampaigns {...props} />);
   describe('rendering', () => {
+    const wrapper = shallow(<JoinedCampaigns {...props} />);
     it('should render 1 <Banner>', () => {
       expect(wrapper.find('Banner').length).toBe(1);
     });
@@ -34,7 +35,11 @@ describe('<JoinedCampaigns />', () => {
     });
   });
   describe('Mounting', () => {
-    it('Should call the fetchQuestion action on mount', () => {
+    it('Should call the clearCampaigns action on mount', () => {
+      mount(<JoinedCampaigns {...props} />);
+      expect(props.clearCampaigns).toHaveBeenCalled();
+    });
+    it('Should call the fetchCampaignsByUser action on mount', () => {
       mount(<JoinedCampaigns {...props} />);
       expect(props.fetchCampaignsByUser).toHaveBeenCalled();
     });

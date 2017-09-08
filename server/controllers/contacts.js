@@ -28,7 +28,7 @@ export function getContactById(req, res, next) {
     id: req.params.id
   };
 
-  return contactsService.getContactByExternalId(params)
+  return contactsService.getContactById(params)
     .then((contact) => {
       if (contact) {
         res.status(200).json(contact);
