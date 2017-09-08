@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import JoinedCampaigns from '../components/campaign/joined_campaigns';
-import { fetchCampaignsByUser, setCurrentCampaign } from '../actions/campaign';
+import { setVolunteerActive } from '../actions/calls';
+import { clearCampaigns, fetchCampaignsByUser, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
   return {
@@ -12,6 +13,10 @@ function mapStateToProps(state) {
   };
 }
 const JoinedCampaignsContainer = withRouter(
-  connect(mapStateToProps, { fetchCampaignsByUser, setCurrentCampaign })(JoinedCampaigns)
+  connect(mapStateToProps,
+    { fetchCampaignsByUser,
+      setCurrentCampaign,
+      setVolunteerActive,
+      clearCampaigns })(JoinedCampaigns)
 );
 export default JoinedCampaignsContainer;

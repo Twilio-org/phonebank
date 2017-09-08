@@ -1,5 +1,8 @@
 import usersService from '../db/services/users';
 import callVolunteer from '../util/twilio';
+import campaignsService from '../db/services/campaigns';
+import { sayCallCompleted, sayHelloUser } from '../util/twilio';
+
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -219,11 +222,7 @@ export function startTwilioConnection(req, res) {
 
 export function clearUserCallSIDField(req, res) {
   const { id } = req.params;
-  const params = {
-    id,
-    call_sid: null
-  };
-  return usersService.updateUserById(params)
+  return usersService.clearUserCallSID({ id })
     .then((user) => {
       if (user) {
         res.status(200).json(user);
@@ -236,6 +235,53 @@ export function clearUserCallSIDField(req, res) {
     });
 }
 
+<<<<<<< HEAD
 export function printSID(req) {
   console.log('the req in printSID is: ', req);
+=======
+export function getCallStartTwiml(req, res) {
+  const user_id = parseInt(req.params.id, 10);
+  const campaign_id = parseInt(req.params.campaign_id, 10);
+
+  return usersService.getUserById({ id: user_id })
+    .then((user) => {
+      if (user) {
+        const userFirstName = user.attributes.first_name;
+        return campaignsService.getCampaignById({ id: campaign_id })
+          .then((campaign) => {
+            if (campaign) {
+              const campaignName = campaign.attributes.name;
+              const helloUserTwiml = sayHelloUser(userFirstName, campaignName);
+              return res.status(200)
+                .set({ 'Content-Type': 'text/xml' })
+                .send(helloUserTwiml);
+            }
+            return res.status(404).json({ message: `Could not find campaign with id ${campaign_id}` });
+          }).catch(err => console.log('error fetching campaign by id in getCallStartTwiml user controller function: ', err));
+      }
+      return res.status(404).json({ message: `Could not find user with id ${user_id}` });
+    }).catch(err => console.log('error fetching user by id in getCallStartTwiml user controller function: ', err));
+}
+
+export function volunteerCallback(req, res) {
+  const { id } = req.params;
+  return usersService.clearUserCallSID({ id })
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({ message: 'Could not find user with id on volunteer callback' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Could not process request to clear user Call SID on volunteer callback: ${err}` });
+    });
+}
+
+export function getCallCompleteTwiml(req, res) {
+  const callCompletedTwiml = sayCallCompleted();
+  return res.status(200)
+    .set({ 'Content-Type': 'text/xml' })
+    .send(callCompletedTwiml);
+>>>>>>> 49f63f7a4f43ac5ce7440e6bb0c4d90660090c70
 }
