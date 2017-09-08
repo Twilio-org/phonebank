@@ -1,13 +1,25 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { mockStore, exposeLocalStorageMock, checkObjectProps, isObjectEmpty } from '../client_test_helpers';
+import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
 import { setCurrentUser, setUserList, fetchAllUsers as fetchAllUsersOriginal, adminUpdateUserInfo } from '../../../public/src/actions/admin_users';
 
 exposeLocalStorageMock();
 
 localStorage.setItem('auth_token', '123123123');
+
+function parsePayload(payloadObj) {
+  return payloadObj.map((obj) => {
+    const { is_active, is_banned, is_admin } = obj;
+    return {
+      ...obj,
+      is_active: JSON.parse(is_active),
+      is_banned: JSON.parse(is_banned),
+      is_admin: JSON.parse(is_admin)
+    };
+  });
+}
 
 const { defaultUsers: initialState,
         listFixture: usersListFixture,
@@ -90,6 +102,7 @@ describe('admin users list actions tests: ', () => {
     });
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
+        // test has problem bc of the json stringify method
         const currentUserId = 1;
         const filteredUsersList = usersListFixture.filter(userObj => userObj.id !== currentUserId);
         const expectedAction = setUserList(filteredUsersList);
@@ -97,9 +110,11 @@ describe('admin users list actions tests: ', () => {
           .then(() => {
             const [dispatchedActions] = store.getActions();
             const { type, payload } = dispatchedActions;
-            expect(dispatchedActions).toEqual(expectedAction);
+            const { type: expectedType, payload: expectedPayload } = expectedAction;
+            expect(type).toBe(expectedType);
+            expect(parsePayload(payload)).toEqual(parsePayload(expectedPayload));
             expect(type).toBe('SET_USERS');
-            expect(payload).toEqual(filteredUsersList);
+            expect(parsePayload(payload)).toEqual(filteredUsersList);
           })
           .catch((err) => {
             console.log('error with fetchAllUsers test: ', err);

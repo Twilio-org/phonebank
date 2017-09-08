@@ -14,7 +14,18 @@ const { listFixture: campaignListFixtures } = fixtures.campaignFixtures;
 const { listFixture: questionListFixtures } = fixtures.questionFixtures;
 const { listFixture: scriptListFixtures } = fixtures.scriptFixtures;
 const { listFixture: contactListFixtures } = fixtures.contactListFixtures;
-const { listFixture: userListFixtures } = fixtures.usersFixture;
+const { listFixture: rawUserListFixtures } = fixtures.usersFixture;
+
+const userListFixtures = rawUserListFixtures.map((obj) => {
+  const { is_active, is_banned, is_admin } = obj;
+  return {
+    ...obj,
+    is_active: JSON.stringify(is_active),
+    is_banned: JSON.stringify(is_banned),
+    is_admin: JSON.stringify(is_admin)
+  };
+});
+
 const { mapFixture: account_info } = fixtures.accountFixtures;
 
 describe('Component testing for CampaignList, QuestionList, Script List, Contact Lists, and Users List: ', () => {

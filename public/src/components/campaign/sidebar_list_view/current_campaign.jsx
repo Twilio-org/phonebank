@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
-  const { campaign, id, defaultMsg, history } = props;
+  const { campaign, id, defaultMsg, history, setVolunteerActive } = props;
   if (!campaign) {
     return (
       <div id={id}>
@@ -12,6 +12,7 @@ const CurrentCampaign = (props) => {
   }
   const handleClick = () => {
     const { id: campaignId } = id;
+    setVolunteerActive();
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
   return (
