@@ -57,7 +57,7 @@ function outcomeIsValid(outcome) {
   return validOutcomes.includes(outcome.toUpperCase());
 }
 
-function validateStatus(currStatus, prevStatus) {
+function validateStatusForUpdate(currStatus, prevStatus) {
   const validTransitions = {
     ASSIGNED: 'IN_PROGRESS',
     IN_PROGRESS: 'HUNG_UP',
@@ -116,7 +116,7 @@ export function recordAttempt(req, res) {
   // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED') {
     if (!responses || !outcome) {
-      res.staus(404).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
+      res.staus(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
     }
     try {
       parsedResponses = JSON.parse(responses);
@@ -140,7 +140,7 @@ export function recordAttempt(req, res) {
           if (call) {
             const { contact_id, campaign_id, status } = call.attributes;
             console.log('new status: ', newStatus, 'prev status: ', status);
-            if (validateStatus(newStatus, status)) {
+            if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
                 return callsService.updateCallStatus({ id: call_id, status: newStatus })
                 .then(() => res.status(200).json({ message: `call status updated to ${newStatus}` }))
