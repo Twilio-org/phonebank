@@ -17,5 +17,12 @@ export default {
       .where({ status })
       .orderBy('id', 'DESC')
       .fetchAll();
+  },
+
+  getCampaignById: (params) => {
+    const { id } = params;
+
+    return new Campaign({ id })
+      .fetch();
   }
 };
