@@ -37,12 +37,6 @@ describe('Component testing for <Toolbar />: ', () => {
         const numberOfButtonToolbar = wrapper.find('ButtonToolbar').length;
         expect(numberOfButtonToolbar).toBe(1);
       });
-      it('should have 1 ButtonGroup component: ', () => {
-        // NOTE: this component is new to react-bootstrap and kind of buggy
-        // under the hood it's a button group
-        const numToggleButtonGroup = wrapper.find('ButtonGroup').length;
-        expect(numToggleButtonGroup).toBe(1);
-      });
       const { outcomes } = props;
       const expectedComponents = outcomes.length;
       it(`should have ${expectedComponents} ToggleButton components: `, () => {

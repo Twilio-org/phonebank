@@ -48,14 +48,23 @@ export default class PreCallButtonGroup extends Component {
           onClick={this.handleStartCallingClick}
           bsStyle="success"
         >
-          Start Call
+          <i className="material-icons small">phone_in_talk</i> Start Call
         </Button>
 
         <div>
           <ButtonGroup vertical id="pre_call_side">
-            <Button onClick={this.handleSkipClick} bsStyle="warning">Skip this person</Button>
-            <Button onClick={this.handleBadNameClick} bsStyle="danger">Bad Name</Button>
-            <Button onClick={this.handleStopCallingClick} bsStyle="info">Stop Calling</Button>
+            <Button onClick={this.handleSkipClick} bsStyle="warning">
+              <i className="material-icons md-16">skip_next</i>
+              Skip this person
+            </Button>
+            <Button onClick={this.handleBadNameClick} bsStyle="danger">
+              <i className="material-icons md-16">block</i>
+              Bad Name
+            </Button>
+            <Button onClick={this.handleStopCallingClick} bsStyle="info">
+              <i className="material-icons md-16">stop</i>
+              Stop Calling
+            </Button>
           </ButtonGroup>
         </div>
       </div>

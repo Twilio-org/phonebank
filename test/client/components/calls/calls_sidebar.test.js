@@ -68,22 +68,9 @@ describe('Component testing for <CallsSideBar />: ', () => {
 
       describe('Component rendering: ', () => {
         const wrapper = shallow(<CallsSideBar {...props} />);
-
-        it('should have 4 div element: ', () => {
-          const numberOfDivElements = wrapper.find('div').length;
-          expect(numberOfDivElements).toBe(4);
-        });
-        it('should have 1 Toolbar component: ', () => {
-          const numberOfToolbars = wrapper.find('Toolbar').length;
-          expect(numberOfToolbars).toBe(1);
-        });
-        it('should have 1 SideBarForm component: ', () => {
-          const numSideBarForm = wrapper.find('SideBarForm').length;
-          expect(numSideBarForm).toBe(1);
-        });
-        it('should have 1 CallControl componen: ', () => {
-          const numCallControl = wrapper.find('CallControl').length;
-          expect(numCallControl).toBe(1);
+        it('should have 1 ActiveCallControl componen: ', () => {
+          const numActiveCallControl = wrapper.find('ActiveCallControl').length;
+          expect(numActiveCallControl).toBe(1);
         });
       });
 

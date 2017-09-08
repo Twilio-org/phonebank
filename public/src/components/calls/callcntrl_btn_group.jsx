@@ -1,29 +1,21 @@
 import React from 'react';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
-  // TODO: SUBMIT DOES NOTHING RN... NOTHING
-  const { handleHangUp, submitHandler, outcome, status } = props;
+  const { handler, text, outcome, status, htmlID } = props;
+  const style = text === 'Hang Up' ? 'danger' : 'success';
+  const disableStatus = text === 'Hang Up' ? (outcome === 'PENDING' || status !== 'IN_PROGRESS') : (outcome === 'PENDING' && status !== 'HUNG_UP');
+
   return (
-    <div>
-      <ButtonGroup>
-        <Button
-          disabled={outcome === 'PENDING' || status !== 'IN_PROGRESS'}
-          onClick={handleHangUp}
-          bsSize="small"
-          bsStyle="danger"
-        >
-          Hang Up
-        </Button>
-        <Button
-          disabled={outcome === 'PENDING' && status !== 'HUNG_UP'}
-          onClick={submitHandler}
-          bsSize="small"
-          bsStyle="success"
-        >
-          Submit and Next Call
-        </Button>
-      </ButtonGroup>
+    <div id={htmlID}>
+      <Button
+        disabled={disableStatus}
+        onClick={handler}
+        bsSize="small"
+        bsStyle={style}
+      >
+        {text === 'Hang Up' ? (<i className="material-icons md-16">call end</i>) : (<i className="material-icons md-18">skip_next</i>) }{text}
+      </Button>
     </div>
   );
 };

@@ -22,13 +22,9 @@ describe('Component testing for <CallControl />: ', () => {
         const numberOfDivElements = wrapper.find('div').length;
         expect(numberOfDivElements).toBe(1);
       });
-      it('should have 2 Button components: ', () => {
+      it('should have 1 Button components: ', () => {
         const numberOfButtons = wrapper.find('Button').length;
-        expect(numberOfButtons).toBe(2);
-      });
-      it('should have 1 ButtonGroup component: ', () => {
-        const numButtonGroup = wrapper.find('ButtonGroup').length;
-        expect(numButtonGroup).toBe(1);
+        expect(numberOfButtons).toBe(1);
       });
     });
 

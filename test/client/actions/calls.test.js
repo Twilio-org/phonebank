@@ -1,19 +1,19 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
+import { mockStore, exposeLocalStorageMock } from '../client_test_helpers';
 import { setCurrentCall,
          assignToCall,
          setVolunteerActive,
          clearVolunteerActive,
-         setCurrentCallActive,
-         setCurrentCallInactive,
          clearCurrentCall,
          updateCallOutcome,
          updateCallStatus,
          setCallContactInfo,
          getCallContactInfo,
-         releaseCall,
-         updateCallAttempt } from '../../../public/src/actions/calls';
+         releaseCall } from '../../../public/src/actions/calls';
+         /* updateCallAttempt */
+         // setCurrentCallActive,
+         // setCurrentCallInactive,
 import fixtures from '../client_fixtures';
 
 const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
@@ -101,7 +101,6 @@ describe('Call Actions', () => {
       });
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
         const payloadProps = Object.keys(payload);
-        console.log(payloadProps.length, expectedProps.length);
         expect(payloadProps).toEqual(expectedProps);
       });
     });
@@ -205,7 +204,7 @@ describe('Call Actions', () => {
   describe('getCallContactInfo: ', () => {
     mock = new MockAdapter(axios);
     beforeEach(() => {
-      mock.onGet('/contacts/:id').reply(200, contactFixture);
+      mock.onGet('/contacts/1').reply(200, contactFixture);
     });
     afterEach(() => {
       mock.reset();
@@ -229,7 +228,8 @@ describe('Call Actions', () => {
   describe('releaseCall: ', () => {
     mock = new MockAdapter(axios);
     beforeEach(() => {
-      mock.onDelete('/users/:userId/campaigns/:campaignId/calls/:callId').reply(200);
+      mock.onDelete('/users/1/campaigns/1/calls/1').reply(200);
+      mock.onGet('/users/1/campaigns/1/calls').reply(200, dbFixture);
     });
     afterEach(() => {
       mock.reset();
@@ -238,7 +238,7 @@ describe('Call Actions', () => {
     describe('axios delete request when next is false: ', () => {
       it('dispatched actions in the store:', () => {
         const expectedAction = clearCurrentCall();
-        return store.dispatch(releaseCall(1, 1, 1, 'HUNG_UP'))
+        return store.dispatch(releaseCall(1, 1, 1, 'ASSIGNED'))
           .then(() => {
             const [dispatchedAction] = store.getActions();
             const { type, payload } = dispatchedAction;
@@ -250,13 +250,13 @@ describe('Call Actions', () => {
           .catch(err => err);
       });
     });
+    // TODO: will uncomment when last ticket with actions are in
     describe('axios delete request when next is true', () => {
       it('dispatched actions in the store:', () => {
         const expectedAction = undefined;
         return store.dispatch(releaseCall(1, 1, 1, 'ASSIGNED', true))
           .then(() => {
             const dispatchedAction = store.getActions();
-            console.log('###### dispatchedAction: ', dispatchedAction);
             expect(dispatchedAction[1]).toEqual(expectedAction);
           })
           .catch(err => err);
@@ -264,12 +264,8 @@ describe('Call Actions', () => {
     });
     describe('axios delete request when status is IN_PROGRESS', () => {
       it('dispatched actions in the store:', () => {
-        store.dispatch(releaseCall(1, 1, 1, 'INPROGRESS', true))
-          .then(() => {
-          })
-          .catch((err) => {
-            expect(err).toBeDefined();
-          });
+        const shouldBeError = releaseCall(1, 1, 1, 'IN_PROGRESS', true);
+        expect(shouldBeError.constructor).toBe(Error);
       });
     });
   });
