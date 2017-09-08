@@ -5,6 +5,12 @@ import Twilio from 'twilio';
 const twilioClient = new Twilio();
 const CALLER_ID = process.env.TWILIO_CALLER_ID;
 
-// Added the below console.logs to pass linting - please delete!
-console.log(twilioClient);
-console.log(CALLER_ID);
+export function sayCallCompleted() {
+  const VoiceResponse = Twilio.twiml.VoiceResponse;
+  const CallCompleted = new VoiceResponse();
+  CallCompleted.say('Call completed. Please submit the form to continue.');
+  CallCompleted.play({ loop: 0 }, 'http://com.twilio.music.classical.s3.amazonaws.com/ith_chopin-15-2.mp3');
+  return CallCompleted.toString();
+}
+
+export const lintDummy = { twilioClient, CALLER_ID };

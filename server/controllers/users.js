@@ -1,4 +1,5 @@
 import usersService from '../db/services/users';
+import { sayCallCompleted } from '../util/twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -220,7 +221,6 @@ export function clearUserCallSIDField(req, res) {
     });
 }
 
-
 export function volunteerCallback(req, res) {
   const { id } = req.params;
   return usersService.clearUserCallSID({ id })
@@ -234,4 +234,11 @@ export function volunteerCallback(req, res) {
     .catch((err) => {
       res.status(500).json({ message: `Could not process request to clear user Call SID on volunteer callback: ${err}` });
     });
+}
+
+export function getCallCompleteTwiml(req, res) {
+  const callCompletedTwiml = sayCallCompleted();
+  return res.status(200)
+    .set({ 'Content-Type': 'text/xml' })
+    .send(callCompletedTwiml);
 }
