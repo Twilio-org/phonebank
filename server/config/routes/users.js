@@ -37,5 +37,4 @@ router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwi
 router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
 router.route('/:id/manage').put(manageUserById);
 
-
 export default router;
