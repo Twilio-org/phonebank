@@ -9,15 +9,23 @@ export default class JoinedCampaigns extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
     if (id) {
-      this.props.fetchCampaignsByUser(id);
+      this.props.clearCampaigns();
+      this.props.fetchCampaignsByUser(id, this.props.current_campaign);
     }
   }
 
   render() {
-    const { history, joined_campaigns, current_campaign, setCurrentCampaign } = this.props;
+    const { history,
+            joined_campaigns,
+            current_campaign,
+            setCurrentCampaign,
+            initateVolunteerTwilioCon,
+            call_volunteer_active } = this.props;
+    const { id: userId } = this.props.auth;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
+
     return (
       <div>
         <Banner
@@ -45,9 +53,15 @@ export default class JoinedCampaigns extends Component {
             <Col xs={7} md={8} lg={9}>
               <CurrentCampaign
                 history={history}
-                id={current_campaign}
-                defaultMsg={joined_campaigns.length > 0 ? 'Select a campaign' : 'Join a campaign'}
+                userId={userId}
+                currentCampaign={current_campaign}
+                defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
+                              'Select a campaign' :
+                              'Join a campaign'}
                 campaign={current_campaign}
+                initiateTwilioCall={initateVolunteerTwilioCon}
+                volunteerCallActive={call_volunteer_active}
+
               />
             </Col>
           </Row>

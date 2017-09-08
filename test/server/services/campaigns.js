@@ -52,6 +52,7 @@ describe('Campaign service tests', () => {
     it('should save new campaign', (done) => {
       campaignsService.saveNewCampaign(this.campaignParams1)
         .then((campaign) => {
+          this.campaign1id = campaign.id;
           expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
           expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
           expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
@@ -125,6 +126,20 @@ describe('Campaign service tests', () => {
           expect(models[0].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
           done();
         });
+    });
+    it('should get a campaign by its id', (done) => {
+      const id = this.campaign1id;
+      campaignsService.getCampaignById({ id })
+        .then((campaign) => {
+          expect(campaign.id).to.equal(id);
+          expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
+          expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
+          expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
+          expect(campaign.attributes.status).to.equal(this.campaignParams1.status);
+          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
+          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          done();
+        })
     });
   });
 });

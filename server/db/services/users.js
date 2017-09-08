@@ -79,5 +79,17 @@ export default {
     const { id, campaign_id } = params;
     return new User({ id }).campaigns().query({ where: { campaign_id } }).fetchOne()
       .then(campaign => campaign);
+  },
+
+  clearUserCallSID: (params) => {
+    const { id } = params;
+    const extractedParams = {
+      call_sid: null
+    };
+    return new User()
+      .where({ id })
+      .save(extractedParams, {
+        method: 'update'
+      });
   }
 };
