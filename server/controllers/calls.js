@@ -61,15 +61,13 @@ function validateStatusForUpdate(currStatus, prevStatus) {
   const validTransitions = {
     ASSIGNED: 'IN_PROGRESS',
     IN_PROGRESS: 'HUNG_UP',
-    HUNG_UP: true
+    HUNG_UP: 'ATTEMPTED'
   };
   if (!validTransitions[currStatus]) {
-    console.log('not a valid status');
     return false;
   }
   if (currStatus === 'IN_PROGRESS' || currStatus === 'HUNG_UP') {
     if (validTransitions[prevStatus] !== currStatus) {
-      console.log('invalid status transtion');
       return false;
     }
   }
@@ -139,11 +137,10 @@ export function recordAttempt(req, res) {
         return lookUpCall(call_id).then((call) => {
           if (call) {
             const { contact_id, campaign_id, status } = call.attributes;
-            console.log('new status: ', newStatus, 'prev status: ', status);
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
                 return callsService.updateCallStatus({ id: call_id, status: newStatus })
-                .then(() => res.status(200).json({ message: `call status updated to ${newStatus}` }))
+                .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
                 .catch(err => console.log('error updating status in calls controller: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
@@ -154,7 +151,6 @@ export function recordAttempt(req, res) {
                     return responsesService.saveNewResponse(responseParams);
                   }))
                     .then(() => {
-                      console.log('Response saved successfully');
                       const attempt_num = parseInt(call.attributes.attempt_num, 10);
                       afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
                     }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));

@@ -47,7 +47,6 @@ export default class CallsSideBar extends Component {
 
     if (status === 'ASSIGNED') {
       const { current_call_contact_name,
-              updateCallStatus,
               history,
               call_id,
               user_id,
@@ -60,7 +59,6 @@ export default class CallsSideBar extends Component {
         <PreCallButtonGroup
           history={history}
           status={status}
-          updateCallStatus={updateCallStatus}
           current_call_contact_name={current_call_contact_name}
           call_id={call_id}
           user_id={user_id}
@@ -76,8 +74,11 @@ export default class CallsSideBar extends Component {
       const { current_call_contact_name,
               handleSubmit,
               outcome,
-              updateCallStatus,
-              updateCallOutcome } = this.props;
+              updateCallOutcome,
+              updateAttempt,
+              campaign_id,
+              user_id,
+              call_id } = this.props;
 
       return (
         <ActiveCallControl
@@ -86,7 +87,10 @@ export default class CallsSideBar extends Component {
           outcome={outcome}
           status={status}
           updateCallOutcome={updateCallOutcome}
-          updateCallStatus={updateCallStatus}
+          updateAttempt={updateAttempt}
+          campaign_id={campaign_id}
+          user_id={user_id}
+          call_id={call_id}
         />
       );
     }

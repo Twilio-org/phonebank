@@ -107,16 +107,22 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
   .catch(err => err);
 }
 
-export function updateCallAttempt(userId, campaignId, callId, outcome, notes = null) {
-  const params = { outcome, notes };
+export function updateCallAttempt(userId, campaignId, callId, status, outcome = null, notes = null) {
+  const params = { outcome, notes, status };
   return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
     params,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then(() => {
-    dispatch(assignToCall(userId, campaignId));
+  .then((currentCall) => {
+    const { call: currentCallObj } = currentCall.data;
+    console.log(currentCall, '%%%%%%%%%%%%%%%%%%%')
+    const { status: currentCallStatus } = currentCallObj;
+    if (currentCallStatus === 'ATTEMPTED') {
+      return dispatch(assignToCall(userId, campaignId));
+    }
+    return dispatch(updateCallStatus(currentCallStatus));
   })
   .catch();
 }
