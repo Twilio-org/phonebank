@@ -78,6 +78,7 @@ export function assignToCall(userId, campaignId) {
     .then((call) => {
       const { data: callObj } = call;
       const { status, outcome } = callObj;
+      console.log('SHOULD BE NEW CALL: ', callObj.id, status);
       if (status !== 'ASSIGNED') {
         return new Error('Invalid call status, problem with call assignment.');
       }
@@ -100,6 +101,7 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
   )
   .then(() => {
     if (next) {
+      console.log('AFTER RELEASE CALL, SHOULD ASSIGN: ', userId, campaignId, 'old callid: ', callId);
       return dispatch(assignToCall(userId, campaignId));
     }
     return dispatch(clearCurrentCall());
