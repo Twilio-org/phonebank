@@ -15,7 +15,8 @@ export default class ActiveCallControl extends Component {
 
   handleHangUp() {
     const { call_id, user_id, campaign_id, updateAttempt } = this.props;
-    updateAttempt(user_id, campaign_id, call_id, 'HUNG_UP');
+    const params = { user_id, campaign_id, call_id, status: 'HUNG_UP' };
+    updateAttempt(params);
   }
 
   handleSubmitResponses() {
@@ -25,7 +26,8 @@ export default class ActiveCallControl extends Component {
   handleOutcomeClick(text) {
     const { updateCallOutcome, call_id, user_id, campaign_id, updateAttempt } = this.props;
     if (text !== 'ANSWERED') {
-      updateAttempt(user_id, campaign_id, call_id, 'HUNG_UP');
+      const params = { user_id, campaign_id, call_id, status: 'HUNG_UP' };
+      updateAttempt(params);
     }
     updateCallOutcome(text.toUpperCase());
   }

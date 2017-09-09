@@ -114,7 +114,7 @@ export function recordAttempt(req, res) {
   // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED') {
     if (!responses || !outcome) {
-      res.staus(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
+      res.status(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
     }
     try {
       parsedResponses = JSON.parse(responses);

@@ -107,8 +107,14 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
   .catch(err => err);
 }
 
-export function updateCallAttempt(userId, campaignId, callId, status, outcome, notes) {
-  const params = { outcome, notes, status };
+export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
+  const { user_id: userId,
+          campaign_id: campaignId,
+          call_id: callId,
+          status,
+          outcome,
+          notes } = callUpdateParams;
+  const params = { status, outcome, notes };
   return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
     params,
     {
@@ -119,7 +125,7 @@ export function updateCallAttempt(userId, campaignId, callId, status, outcome, n
     const { call: currentCallObj } = currentCall.data;
     const { status: currentCallStatus } = currentCallObj;
     if (currentCallStatus === 'ATTEMPTED') {
-      return dispatch(assignToCall(userId, campaignId));
+      return dispatch(assignCall(userId, campaignId));
     }
     return dispatch(updateCallStatus(currentCallStatus));
   })
