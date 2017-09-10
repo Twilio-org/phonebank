@@ -28,6 +28,7 @@ export function setCurrentCall(callObj) {
 }
 
 export function clearCurrentCall() {
+  console.log('SHOULD BE CLEARING THE CURRENT CALL');
   return {
     type: CLEAR_CALL_CURRENT
   };
@@ -48,6 +49,7 @@ export function updateCallStatus(status) {
 }
 
 export function setCallContactInfo(contactInfo) {
+  console.log('SETTING CONTACT INFO: ', contactInfo);
   return {
     type: SET_CALL_CONTACT_INFO,
     payload: contactInfo
@@ -100,10 +102,10 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
     }
   )
   .then(() => {
-    if (next) {
-      console.log('AFTER RELEASE CALL, SHOULD ASSIGN: ', userId, campaignId, 'old callid: ', callId);
-      return dispatch(assignToCall(userId, campaignId));
-    }
+    // if (next) {
+    //   console.log('AFTER RELEASE CALL, SHOULD ASSIGN: ', userId, campaignId, 'old callid: ', callId);
+    //   return dispatch(assignToCall(userId, campaignId));
+    // }
     return dispatch(clearCurrentCall());
   })
   .catch(err => err);

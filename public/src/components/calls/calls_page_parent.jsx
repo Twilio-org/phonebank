@@ -5,16 +5,23 @@ import CallsPageMain from './calls_page_main';
 
 export default class CallPage extends Component {
   componentDidMount() {
-    const { id: campaign_id } = this.props.match.params;
-    const { user_id,
-            current_campaign,
+    // const { id: campaign_id } = this.props.match.params;
+    console.log('PROPS in parent mount: ', this.props.current_call);
+    const { current_campaign,
             fetchScript,
-            fetchScriptQuestions,
-            assignToCall } = this.props;
+            fetchScriptQuestions } = this.props;
     const { script_id } = current_campaign;
-    assignToCall(user_id, campaign_id);
     fetchScript(script_id);
     fetchScriptQuestions(script_id);
+  }
+  componentDidUpdate() {
+    const { current_call } = this.props;
+    if (!current_call) {
+      const { id: campaign_id } = this.props.match.params;
+      const { user_id, assignToCall } = this.props;
+      console.log('FETCHING NEXT CALL FROM PARENT UPDATE');
+      assignToCall(user_id, campaign_id);
+    }
   }
 
   render() {

@@ -6,23 +6,23 @@ import ActiveCallControl from './active_call_control';
 export default class CallsSideBar extends Component {
   constructor(props) {
     super(props);
-    // const clickHandlers = ['handleStartCallClick', 'handleNextClick', 'handleStopClick'];
-    // clickHandlers.forEach((func) => {
-    //   this[func] = this[func].bind(this);
-    // });
     this.fetchCallContactHelper = (context) => {
       if (context.props.contact_id) {
         const { contact_id, getCallContactInfo } = context.props;
+        console.log('contactid: ', contact_id);
         getCallContactInfo(contact_id);
       }
     };
   }
 
   componentDidMount() {
+    console.log('PROPS in sidebar mount: ', this.props.current_call);
+    console.log('GETTING CONTACTINFO FROM MOUNT');
     this.fetchCallContactHelper(this);
   }
 
   componentDidUpdate() {
+    console.log('GETTING CONTACTINFO FROM UPDATE');
     this.fetchCallContactHelper(this);
   }
 

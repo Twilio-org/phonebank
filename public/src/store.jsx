@@ -5,7 +5,7 @@ import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
 import immutable from 'redux-immutable-state-invariant';
-import { createLogger } from 'redux-logger';
+// import { createLogger } from 'redux-logger';
 
 import { authStatusReducer, LOGOUT_USER } from './reducers/login';
 import { accountInfoReducer } from './reducers/users';
@@ -34,13 +34,12 @@ const rootReducer = (state, action) => {
   return appReducer(newState, action);
 };
 
-const middleware = [immutable(), createLogger(), promise(), thunk];
+const middleware = [immutable(), promise(), thunk];
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middleware), autoRehydrate()));
 
-// persistStore(store);
+persistStore(store);
 
-// to reset the store:
-persistStore(store).purge();
+// persistStore(store).purge();
 
 export default store;
