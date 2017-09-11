@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "babel": "babel --presets=env,es2015,stage-1 ./test --out-dir build",
+    "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "db": "psql -U $PG_USER -d $PG_USER",
     "db:test": "psql -U $PG_USER -d phonebank_test",
     "db:setup": "babel-node --presets env,es2015,stage-1 server/db/setup.js",
