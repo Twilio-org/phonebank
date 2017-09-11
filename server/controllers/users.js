@@ -1,5 +1,4 @@
 import usersService from '../db/services/users';
-// import callVolunteer from '../util/twilio';
 import campaignsService from '../db/services/campaigns';
 import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
 
