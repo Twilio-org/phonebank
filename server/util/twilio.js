@@ -14,6 +14,6 @@ export function hangUp(callSid) {
   return twilioClient.calls(callSid)
     .update({
       status: 'completed'
-      // statussCallback: //insert Lupita's callback route.
+      // statusCallback: //insert Lupita's callback route.
     });
 }
