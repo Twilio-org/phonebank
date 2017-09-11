@@ -6,10 +6,6 @@ import ActiveCallControl from './active_call_control';
 export default class CallsSideBar extends Component {
   constructor(props) {
     super(props);
-    // const clickHandlers = ['handleStartCallClick', 'handleNextClick', 'handleStopClick'];
-    // clickHandlers.forEach((func) => {
-    //   this[func] = this[func].bind(this);
-    // });
     this.fetchCallContactHelper = (context) => {
       if (context.props.contact_id) {
         const { contact_id, getCallContactInfo } = context.props;

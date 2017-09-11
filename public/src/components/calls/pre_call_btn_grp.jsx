@@ -14,7 +14,6 @@ export default class PreCallButtonGroup extends Component {
     const { call_id, user_id, campaign_id, updateAttempt } = this.props;
     const params = { user_id, campaign_id, call_id, status: 'IN_PROGRESS' };
     updateAttempt(params);
-    // updateCallStatus('IN_PROGRESS');
   }
 
   handleSkipClick() {

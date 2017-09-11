@@ -101,7 +101,6 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
   )
   .then(() => {
     if (next) {
-      console.log('AFTER RELEASE CALL, SHOULD ASSIGN: ', userId, campaignId, 'old callid: ', callId);
       return dispatch(assignToCall(userId, campaignId));
     }
     return dispatch(clearCurrentCall());
