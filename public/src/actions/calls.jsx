@@ -124,8 +124,9 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
 }
 
 export function submitCallResponses(data) {
-  const { id, campaign_id, call_id, outcome, responses, notes } = data;
-  return dispatch => axios.put(`/users/${id}/campaigns/${campaign_id}/calls/${call_id}`, {
+  console.log('======', data);
+  const { user_id, campaign_id, call_id, outcome, responses, notes } = data;
+  return dispatch => axios.put(`/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`, {
     outcome,
     notes,
     responses: helper.ResponsesSerializer(responses)
