@@ -9,7 +9,7 @@ const twilioClient = new Twilio();
 console.log('Twilio in twilio module is: ', Twilio);
 
 const CALLER_ID = process.env.TWILIO_CALLER_ID;
-const DEV_PATH = process.env.DEV_PATH;
+const DEV_PATH = 'http://cfef812c.ngrok.io';
 
 export function callVolunteer(user_id, campaign_id, phone_number) {
   return new Promise((resolve, reject) => {
