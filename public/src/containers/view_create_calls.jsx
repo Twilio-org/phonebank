@@ -13,8 +13,7 @@ import { assignToCall,
          getCallContactInfo,
          updateCallAttempt,
          releaseCall,
-         clearVolunteerActive,
-         submitCallResponses } from '../actions/calls';
+         clearVolunteerActive } from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
@@ -35,7 +34,7 @@ function mapStateToProps(state) {
 export default withRouter(
   reduxForm({
     form: 'CallResponse',
-    submit: responseSubmit
+    onSubmit: responseSubmit
   })(
       connect(mapStateToProps,
         { setScriptCurrent,
@@ -50,7 +49,6 @@ export default withRouter(
           updateCallAttempt,
           releaseCall,
           clearVolunteerActive,
-          submitCallResponses,
           change,
           submit
         }

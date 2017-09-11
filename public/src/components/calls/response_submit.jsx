@@ -1,7 +1,6 @@
-import { SubmissionError } from 'redux-form'
+import { submitCallResponses } from '../../actions/calls';
 
-function responseSubmit(values) {
-  console.log(values);
+export default function responseSubmit(values) {
+  console.log('THISSSS IS THE FORM SUBMIT =================================', values);
+  submitCallResponses(values);
 }
-
-export default responseSubmit;
