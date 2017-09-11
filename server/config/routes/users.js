@@ -33,7 +33,6 @@ router.route('/:id/campaigns/:campaign_id/calls').post(startTwilioConnection);
 router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
-// router.route('/:id/campaigns/:campaign_id/calls/start').get(printSID);
 router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwiml);
 router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
 router.route('/:id/manage').put(manageUserById);
