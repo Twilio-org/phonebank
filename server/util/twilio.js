@@ -6,7 +6,7 @@ const twilioClient = new Twilio();
 console.log('Twilio in twilio module is: ', Twilio);
 
 const CALLER_ID = process.env.TWILIO_CALLER_ID;
-const DEV_PATH = 'http://7e22fba8.ngrok.io';
+const DEV_PATH = process.env.DEV_PATH;
 
 export function callVolunteer(user_id, campaign_id, phone_number) {
   return new Promise((resolve, reject) => {
