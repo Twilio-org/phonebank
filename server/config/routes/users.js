@@ -11,9 +11,7 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          startTwilioConnection,
-         updateUserCallSIDField,
-         volunteerCallback,
-         printSID } from '../../controllers/users';
+         volunteerCallback } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
