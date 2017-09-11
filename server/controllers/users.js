@@ -1,7 +1,7 @@
 import usersService from '../db/services/users';
-import callVolunteer from '../util/twilio';
+// import callVolunteer from '../util/twilio';
 import campaignsService from '../db/services/campaigns';
-import { sayCallCompleted, sayHelloUser } from '../util/twilio';
+import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
 
 
 function cleanUserObject(user) {
