@@ -58,7 +58,6 @@ export default class JoinedCampaigns extends Component {
                 defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
                               'Select a campaign' :
                               'Join a campaign'}
-                campaign={current_campaign}
                 initiateTwilioCall={initateVolunteerTwilioCon}
                 volunteerCallActive={call_volunteer_active}
 
