@@ -1,6 +1,9 @@
 import usersService from '../db/services/users';
 import campaignsService from '../db/services/campaigns';
+import contactsService from '../db/services/contacts';
+import callsService from '../db/services/calls';
 import { sayCallCompleted, sayHelloUser } from '../util/twilio';
+import { sayDialingContact } from '../util/ao_twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -266,4 +269,51 @@ export function getCallCompleteTwiml(req, res) {
   return res.status(200)
     .set({ 'Content-Type': 'text/xml' })
     .send(callCompletedTwiml);
+}
+
+function getContactIdIfNotExist(callId, contactId) {
+  return new Promise((resolve, reject) => {
+    if (!contactId) {
+      callsService.getCallById({ id: callId })
+      .then((call) => {
+        const { contact_id } = call;
+        resolve({ contact_id });
+      })
+      .catch(err => reject(err));
+    } else {
+      resolve({ contact_id: contactId });
+    }
+  });
+}
+
+export function connectVolunteerToContact(req, res) {
+  // NOTE: could also contact id from the from the fe in the body....
+  // need to look up contact id => contact name
+  const user_id = parseInt(req.params.usser_id, 10);
+  const campaign_id = parseInt(req.params.campaign_id, 10);
+  const call_id = parseInt(req.params.call_id, 10);
+  const { contact_id: contactId } = req.body;
+
+  return getContactIdIfNotExist(call_id, contactId)
+  .then((contact) => {
+    let { contact_id } = contact;
+    if (typeof contact_id !== 'number') {
+      contact_id = parseInt(contact_id, 10);
+    }
+    return contactsService.getContactById({ id: contact_id })
+      .then((contactObj) => {
+        if (contactObj) {
+          const { phone_number, first_name, last_name } = contactObj;
+          const name = last_name ? `${first_name} ${last_name}` : first_name;
+          const nowCallingTwiml = sayDialingContact(name, phone_number, user_id, campaign_id);
+          return res.status(200)
+            .set({ 'Content-Type': 'text/xml' })
+            .send(nowCallingTwiml);
+        }
+        return res.status(404).json({ message: `Could not find contact id: ${contact_id}` });
+      })
+      .catch((err) => {
+        res.status(500).json({ message: `Could not process request to connect volunteer to contact id: ${contact_id}:  ${err}` });
+      });
+  });
 }

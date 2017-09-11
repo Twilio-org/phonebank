@@ -11,7 +11,8 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          updateUserCallSIDField,
-         volunteerCallback } from '../../controllers/users';
+         volunteerCallback,
+         connectVolunteerToContact } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
 import { passport } from '../auth/local';
@@ -36,5 +37,6 @@ router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwiml);
 router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
 router.route('/:id/manage').put(manageUserById);
+router.route('/:id/campaigns/:campaign_id/calls/:call_id/connect').post(connectVolunteerToContact);
 
 export default router;
