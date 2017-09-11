@@ -33,6 +33,7 @@ export function assignCall(req, res) {
         user_id
       }).then((call) => {
         if (call) {
+          console.log('call in controller: ', call);
           return res.status(200).json(call);
         }
 

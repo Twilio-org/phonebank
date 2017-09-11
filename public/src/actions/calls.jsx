@@ -21,6 +21,7 @@ export function clearVolunteerActive() {
 }
 
 export function setCurrentCall(callObj) {
+  console.log('SET CALL CURRENT RUNNING WITH THIS CALL: ', callObj);
   return {
     type: SET_CALL_CURRENT,
     payload: callObj
@@ -93,6 +94,7 @@ export function assignToCall(userId, campaignId) {
 }
 
 export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
+  debugger;
   if (currentCallStatus !== 'ASSIGNED') {
     return new Error('Error with releaseCall: cannot releave a call that is active.');
   }
