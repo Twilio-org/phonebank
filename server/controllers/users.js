@@ -235,10 +235,6 @@ export function clearUserCallSIDField(req, res) {
     });
 }
 
-// <<<<<<< HEAD
-// export function printSID(req) {
-//   console.log('the req in printSID is: ', req);
-// =======
 export function getCallStartTwiml(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const campaign_id = parseInt(req.params.campaign_id, 10);

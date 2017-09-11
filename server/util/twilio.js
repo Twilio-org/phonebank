@@ -1,7 +1,4 @@
 import Twilio from 'twilio';
-// import dotenv from 'dotenv';
-
-// dotenv.load();
 
 // Account SID and Auth Token are stored as environmental variables
 // Twilio Node module will check for them automatically upon initialization
