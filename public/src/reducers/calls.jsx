@@ -20,6 +20,7 @@ export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
 export const SET_VOLUNTEER_CALL_ACTIVE = 'SET_VOLUNTEER_CALL_ACTIVE';
 export const CLEAR_VOLUNTEER_CALL_ACTIVE = 'CLEAR_VOLUNTEER_CALL_ACTIVE';
+export const SEND_CALL_RESPONSES = 'SEND_CALL_RESPONSES';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;

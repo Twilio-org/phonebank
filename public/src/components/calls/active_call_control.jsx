@@ -19,7 +19,6 @@ export default class ActiveCallControl extends Component {
   }
 
   handleSubmitResponses() {
-    console.log('THIS DOES NOTHING... NOTHING AT ALL!', this.props);
     const { outcome,
             status,
             updateCallStatus,
@@ -31,15 +30,10 @@ export default class ActiveCallControl extends Component {
     if (status === 'IN_PROGRESS') {
       updateCallStatus('HUNG_UP');
     }
-    try {
-      handleSubmit(data => (
-        submitCallResponses({ campaign_id, user_id, call_id, outcome, ...data })
-      ));
-      updateCallStatus('ATTEMPTED');
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
+    handleSubmit((formData) => {
+      // updateCallStatus('ATTEMPTED');
+      submitCallResponses({ campaign_id, user_id, call_id, outcome, ...formData });
+    });
       // if call is still in progress, hang up
     // submit form data
       // validate that call outcome should have been clicked

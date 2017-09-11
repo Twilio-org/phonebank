@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, change } from 'redux-form';
-
+import { reduxForm, change, submit } from 'redux-form';
+import responseSubmit from '../components/calls/response_submit';
 import CallPage from '../components/calls/calls_page_parent';
 
 import { setCampaignCurrent } from '../actions/campaign';
@@ -34,7 +34,8 @@ function mapStateToProps(state) {
 
 export default withRouter(
   reduxForm({
-    form: 'CallResponse'
+    form: 'CallResponse',
+    submit: responseSubmit
   })(
       connect(mapStateToProps,
         { setScriptCurrent,
@@ -50,7 +51,8 @@ export default withRouter(
           releaseCall,
           clearVolunteerActive,
           submitCallResponses,
-          change
+          change,
+          submit
         }
       )(CallPage)
     )

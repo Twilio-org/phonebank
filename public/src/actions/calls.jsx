@@ -8,7 +8,8 @@ import { SET_CALL_CURRENT,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
          SET_VOLUNTEER_CALL_ACTIVE,
-         CLEAR_VOLUNTEER_CALL_ACTIVE } from '../reducers/calls';
+         CLEAR_VOLUNTEER_CALL_ACTIVE,
+         SEND_CALL_RESPONSES } from '../reducers/calls';
 
 export function setVolunteerActive() {
   return {
@@ -30,9 +31,7 @@ export function setCurrentCall(callObj) {
 }
 
 export function clearCurrentCall() {
-  return {
-    type: CLEAR_CALL_CURRENT
-  };
+  return { type: CLEAR_CALL_CURRENT };
 }
 
 export function updateCallOutcome(outcome) {
@@ -54,6 +53,10 @@ export function setCallContactInfo(contactInfo) {
     type: SET_CALL_CONTACT_INFO,
     payload: contactInfo
   };
+}
+
+export function sendCallResponseData() {
+  return { type: SEND_CALL_RESPONSES };
 }
 
 export function getCallContactInfo(contactId) {
@@ -124,22 +127,25 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
 }
 
 export function submitCallResponses(data) {
-  console.log('======', data);
   const { user_id, campaign_id, call_id, outcome, responses, notes } = data;
   return dispatch => axios.put(`/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`, {
     outcome,
     notes,
     responses: helper.ResponsesSerializer(responses)
   })
-  .then((res) => {
+  .then(() => {
+    console.log('-------------------------------- HIIII');
+    dispatch(sendCallResponseData());
     dispatch(destroy('CallResponse'));
-    return res;
+    dispatch(clearCurrentCall());
+    // return res;
   })
   .catch((err) => {
-    const customError = {
-      message: `error in submitting call responses: ${err}`,
-      name: 'submitCallResponses function error in actions/calls.jsx'
-    };
-    throw customError;
+    return err;
+    // const customError = {
+    //   message: `error in submitting call responses: ${err}`,
+    //   name: 'submitCallResponses function error in actions/calls.jsx'
+    // };
+    // throw customError;
   });
 }
