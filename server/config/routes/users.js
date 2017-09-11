@@ -14,11 +14,11 @@ import { addCampaignToUser,
          volunteerCallback } from '../../controllers/users';
 
 import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
-import { passport } from '../auth/local';
+// import { passport } from '../auth/local';
 
 const router = express.Router();
 
-router.use(passport.authenticate('jwt', { session: false }));
+// router.use(passport.authenticate('jwt', { session: false }));
 
 router.route('/').get(getAllUsers);
 router.route('/:id').get(getUserById);
