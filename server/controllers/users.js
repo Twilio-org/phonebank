@@ -235,10 +235,10 @@ export function clearUserCallSIDField(req, res) {
     });
 }
 
-<<<<<<< HEAD
-export function printSID(req) {
-  console.log('the req in printSID is: ', req);
-=======
+// <<<<<<< HEAD
+// export function printSID(req) {
+//   console.log('the req in printSID is: ', req);
+// =======
 export function getCallStartTwiml(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const campaign_id = parseInt(req.params.campaign_id, 10);
@@ -283,5 +283,4 @@ export function getCallCompleteTwiml(req, res) {
   return res.status(200)
     .set({ 'Content-Type': 'text/xml' })
     .send(callCompletedTwiml);
->>>>>>> 49f63f7a4f43ac5ce7440e6bb0c4d90660090c70
 }
