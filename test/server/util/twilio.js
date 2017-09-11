@@ -3,7 +3,7 @@ import chai from 'chai';
 import rewire from 'rewire';
 import Twilio from 'twilio';
 import sinon from 'sinon';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 import mockery from 'mockery';
 import chaiAsPromised from 'chai-as-promised';
 import cleanUp from '../bootstrap';
@@ -35,7 +35,7 @@ describe('XML Generation', () => {
 });
 
 
-dotenv.load();
+// dotenv.load();
 chai.use(chaiAsPromised);
 
 const should = Should();
