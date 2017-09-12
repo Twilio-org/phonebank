@@ -1,6 +1,4 @@
 import Call from '../models/calls';
-import { hangUp } from '../../util/twilio';
-
 
 export default {
   assignCall: (params) => {
