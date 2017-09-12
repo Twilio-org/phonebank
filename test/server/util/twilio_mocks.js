@@ -36,3 +36,11 @@ export function callStatusUpdate() {
 export function createCall() {
   // Allie's create call callback Object goes here
 }
+
+export const testTwilioClient = {
+  calls(callSid) {
+    return {
+      update: () => callStatusUpdate()
+    };
+  }
+};

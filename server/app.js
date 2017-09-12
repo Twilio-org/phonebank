@@ -11,7 +11,6 @@ const app = express();
 const port = normalizePort(process.env.PORT || '3000');
 
 initializeTwilioClient(new Twilio());
-initializeTwilioLibrary(Twilio);
 app.set('port', port);
 
 // Create HTTP server.

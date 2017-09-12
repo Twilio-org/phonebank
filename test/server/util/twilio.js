@@ -1,20 +1,12 @@
-import Twilio from 'twilio';
 import { expect } from 'chai';
-import { callStatusUpdate } from './twilio_mocks';
-import { sayCallCompleted, sayHelloUser, hangUp, initializeTwilioClient, initializeTwilioLibrary } from '../../../server/util/twilio';
+import { callStatusUpdate, testTwilioClient } from './twilio_mocks';
+import { sayCallCompleted, sayHelloUser, hangUp, initializeTwilioClient } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function () {
   before(() => {
-    this.twilioClient = {
-      calls(callSid) {
-        return {
-          update: () => callStatusUpdate()
-        };
-      }
-    };
-    initializeTwilioClient(this.twilioClient);
+    initializeTwilioClient(testTwilioClient);
   });
-  it('should mock calls', (done) => {
+  it('should be able to hang up calls', (done) => {
     expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(callStatusUpdate());
     done();
   });
@@ -22,9 +14,6 @@ describe('Twilio client methods', function () {
 describe('XML Generation', function () {
   const userFirstName = 'User';
   const campaignName = 'Pacific Northwest LGBTQ+ Survey';
-  before(() => {
-    initializeTwilioLibrary(Twilio);
-  });
 
   it('should return TwiML that uses the user\'s first name and the campaign\'s name in the start call template', () => {
     expect(sayHelloUser(userFirstName, campaignName)).to.equal(
