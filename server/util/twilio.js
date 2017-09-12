@@ -15,7 +15,6 @@ export function callVolunteer(user_id, campaign_id, phone_number) {
       from: CALLER_ID,
       statusCallback: `${DEV_PATH}/users/${user_id}/callback`,
       statusCallbackMethod: 'POST',
-      statusCallbackEvent: ['completed', 'busy', 'no-answer', 'canceled', 'failed'],
       method: 'POST'
     })
     .then((call) => {
