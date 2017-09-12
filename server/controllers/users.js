@@ -193,10 +193,10 @@ export function getUserCampaignAssociation(req, res) {
 
 export function startTwilioConnection(req, res) {
   const { id, campaign_id } = req.params;
-  usersService.getUserById({ id })
+  return usersService.getUserById({ id })
     .then((volunteer) => {
       const { phone_number } = volunteer.attributes;
-      callVolunteer(id, campaign_id, phone_number)
+      return callVolunteer(id, campaign_id, phone_number)
         .then((call) => {
           const { sid: call_sid } = call;
           const params = { id, call_sid };
@@ -212,7 +212,10 @@ export function startTwilioConnection(req, res) {
               res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
             });
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+          res.status(500).json({ message: `Could not process request to create a call: ${err}` });
+          console.log(err);
+        });
     })
     .catch((err) => {
       res.status(500).json({ message: `Could not process request to get user by id: ${err}` });
