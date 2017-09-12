@@ -1,7 +1,7 @@
 import http from 'http';
 import express from 'express';
 import Twilio from 'twilio';
-import { initializeTwilioClient, initializeTwilioLibrary } from './util/twilio';
+import { initializeTwilioClient } from './util/twilio';
 // import routes from './config/routes';
 import middleware from './config/middleware';
 import normalizePort from './config/port';
