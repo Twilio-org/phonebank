@@ -6,7 +6,6 @@ const CurrentCampaign = (props) => {
           defaultMsg,
           history,
           userId,
-          call_volunteer_active,
           initiateTwilioCall } = props;
   const { id: campaignId } = currentCampaign;
   if (!currentCampaign) {
@@ -17,7 +16,7 @@ const CurrentCampaign = (props) => {
     );
   }
   const handleClick = () => {
-    initiateTwilioCall(userId, campaignId, call_volunteer_active);
+    initiateTwilioCall(userId, campaignId);
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
   const { description, status, title } = currentCampaign;

@@ -59,7 +59,6 @@ export default class JoinedCampaigns extends Component {
                               'Select a campaign' :
                               'Join a campaign'}
                 initiateTwilioCall={initateVolunteerTwilioCon}
-                volunteerCallActive={call_volunteer_active}
 
               />
             </Col>

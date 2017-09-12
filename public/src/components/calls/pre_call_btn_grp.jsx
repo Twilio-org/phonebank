@@ -34,10 +34,9 @@ export default class PreCallButtonGroup extends Component {
             campaign_id,
             releaseCall,
             status,
-            call_volunteer_active,
             endVolunterTwilioCon } = this.props;
     releaseCall(user_id, campaign_id, call_id, status);
-    endVolunterTwilioCon(user_id, campaign_id, call_volunteer_active);
+    endVolunterTwilioCon(user_id, campaign_id);
     history.push('/volunteers/campaigns');
   }
 
