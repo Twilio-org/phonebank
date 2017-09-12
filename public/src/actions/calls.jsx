@@ -55,10 +55,6 @@ export function setCallContactInfo(contactInfo) {
   };
 }
 
-export function sendCallResponseData() {
-  return { type: SEND_CALL_RESPONSES };
-}
-
 export function getCallContactInfo(contactId) {
   return dispatch => axios.get(`/contacts/${contactId}`,
     {
@@ -138,17 +134,15 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
 }
 
 export function submitCallResponses(data) {
-  const { user_id, campaign_id, call_id, outcome, responses, notes } = data;
+  const { user_id, campaign_id, call_id, outcome, responses, notes, status } = data;
   const serializedResponses = helper.ResponsesSerializer(responses);
-  const responseData = { outcome, notes, responses: serializedResponses };
+  const responseData = { outcome, notes, responses: serializedResponses, status };
   const path = `/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`;
   const auth = { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } };
 
   return (dispatch) => {
-    // debugger;
     axios.put(path, responseData, auth)
     .then(() => {
-      dispatch(sendCallResponseData());
       dispatch(destroy('CallResponse'));
       dispatch(clearCurrentCall());
     })
@@ -157,7 +151,7 @@ export function submitCallResponses(data) {
         message: `error in submitting call responses: ${err}`,
         name: 'submitCallResponses function error in actions/calls.jsx'
       };
-      throw customError;
+      return customError;
     });
   };
 }

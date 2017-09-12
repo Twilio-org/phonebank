@@ -25,18 +25,8 @@ export default class ActiveCallControl extends Component {
   }
 
   handleSubmitResponses(values) {
-    console.log('thi is the data recieved in handle submit!!!!!!', this.props);
-    const { status, updateCallStatus, submitCallResponses } = this.props;
-    // if (status === 'IN_PROGRESS') {
-    //   updateCallStatus('HUNG_UP');
-    // }
-    // debugger;
-    console.log('I AM SUBMITTING DATA---------------------------------------!!!!!!!', values);
-    submitCallResponses(values);
-      // if call is still in progress, hang up
-    // submit form data
-      // validate that call outcome should have been clicked
-    // fetch new call
+    const { submitCallResponses } = this.props;
+    submitCallResponses({ ...values, status: 'ATTEMPTED' });
   }
 
   handleOutcomeClick(text) {

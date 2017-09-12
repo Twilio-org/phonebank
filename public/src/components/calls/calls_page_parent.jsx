@@ -19,10 +19,8 @@ export default class CallPage extends Component {
   componentDidUpdate() {
     const { id: campaign_id } = this.props.match.params;
     const { current_call, assignToCall, user_id } = this.props;
-    console.log('CAMPAIGN_ID IN PARENT PAGE =======>', campaign_id);
     if (!current_call) {
       assignToCall(user_id, campaign_id);
-      console.log('RAN ASSIGNTOCALL');
     }
   }
 
