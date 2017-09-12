@@ -198,7 +198,7 @@ export function hangUpCall(req, res) {
     .then((user) => {
       if (user) {
         const { call_sid } = user.attributes;
-        return hangUp(call_sid)
+        return hangUp(call_sid, id)
           .then((call) => {
             console.log('Current call session status successfully updated', call);
             return usersService.clearUserCallSID({ id })
