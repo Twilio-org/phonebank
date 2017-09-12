@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
   const { handler, text, outcome, status, htmlID } = props;
+  console.log('Call control props', props);
   const style = text === 'Hang Up' ? 'danger' : 'success';
   const disableStatus = text === 'Hang Up' ? (outcome === 'PENDING' || status !== 'IN_PROGRESS') : (outcome === 'PENDING' && status !== 'HUNG_UP');
 

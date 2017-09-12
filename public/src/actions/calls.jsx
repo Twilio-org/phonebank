@@ -128,23 +128,26 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
 
 export function submitCallResponses(data) {
   const { user_id, campaign_id, call_id, outcome, responses, notes } = data;
-  console.log('THIS IS THE ACTION submitCallResponses ================= \n', data);
   const serializedResponses = helper.ResponsesSerializer(responses);
-  return dispatch => axios.put(`/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`, {
-    outcome,
-    notes,
-    responses: serializedResponses
-  }, { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } })
-  .then(() => {
-    dispatch(sendCallResponseData());
-    dispatch(destroy('CallResponse'));
-    dispatch(clearCurrentCall());
-  })
-  .catch((err) => {
-    const customError = {
-      message: `error in submitting call responses: ${err}`,
-      name: 'submitCallResponses function error in actions/calls.jsx'
-    };
-    throw customError;
-  });
+  const responseData = { outcome, notes, responses: serializedResponses };
+  const path = `/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`;
+  const auth = { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } };
+
+  return (dispatch) => {
+    // debugger;
+    axios.put(path, responseData, auth)
+    .then((res) => {
+      console.log('IIIIII WORKED!!!!!', res);
+      // dispatch(sendCallResponseData());
+      dispatch(destroy('CallResponse'));
+      // dispatch(clearCurrentCall());
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error in submitting call responses: ${err}`,
+        name: 'submitCallResponses function error in actions/calls.jsx'
+      };
+      throw customError;
+    });
+  };
 }
