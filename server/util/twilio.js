@@ -2,16 +2,21 @@ import Twilio from 'twilio';
 
 // Account SID and Auth Token are stored as environmental variables
 // Twilio Node module will check for them automatically upon initialization
-//
-//
-//
-// UNCOMMENT THE BELOW TWO LINES WHEN MERGING THE PLACE CALLS PR
-// |
-// |
-// |
-// V
-// const twilioClient = new Twilio();
-// const CALLER_ID = process.env.TWILIO_CALLER_ID;
+const twilioClient = new Twilio();
+
+const CALLER_ID = process.env.TWILIO_CALLER_ID;
+const DEV_PATH = process.env.DEV_PATH;
+
+export function callVolunteer(user_id, campaign_id, phone_number) {
+  return twilioClient.calls.create({
+    url: `${DEV_PATH}/users/${user_id}/campaigns/${campaign_id}/calls/start`,
+    to: phone_number,
+    from: CALLER_ID,
+    statusCallback: `${DEV_PATH}/users/${user_id}/callback`,
+    statusCallbackMethod: 'POST',
+    method: 'POST'
+  });
+}
 
 export function sayHelloUser(userFirstName, campaignName) {
   const VoiceResponse = Twilio.twiml.VoiceResponse;
