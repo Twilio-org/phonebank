@@ -11,9 +11,11 @@ import { setCurrentCall,
          setCallContactInfo,
          getCallContactInfo,
          updateCallAttempt,
+         setCurrentCallActive,
+         setCurrentCallInactive,
+         initateVolunteerTwilioCon,
+         endVolunterTwilioCon,
          releaseCall } from '../../../public/src/actions/calls';
-         // setCurrentCallActive,
-         // setCurrentCallInactive,
 import fixtures from '../client_fixtures';
 
 const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
