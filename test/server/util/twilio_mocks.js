@@ -32,3 +32,7 @@ export function callStatusUpdate() {
     uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAcbbf06f666c72c51c59200de56ae54ff.json`
   };
 }
+
+export function createCall() {
+  // Allie's create call callback Object goes here
+}
