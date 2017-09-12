@@ -155,7 +155,7 @@ const createCallsTable = () =>
         table.enu('attempt_num', ['1', '2', '3']).defaultTo('1').notNullable();
         table.unique(['campaign_id', 'contact_id', 'attempt_num']);
         table.integer('user_id').references('users.id');
-        table.enu('status', ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'ATTEMPTED']).defaultTo('AVAILABLE').notNullable();
+        table.enu('status', ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'HUNG_UP', 'ATTEMPTED']).defaultTo('AVAILABLE').notNullable();
         table.enu('outcome', ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE']).defaultTo('PENDING').notNullable();
         table.string('notes');
         table.string('call_sid', 34);

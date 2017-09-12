@@ -11,8 +11,9 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleStartCallingClick() {
-    const { updateCallStatus } = this.props;
-    updateCallStatus('IN_PROGRESS');
+    const { call_id, user_id, campaign_id, updateAttempt } = this.props;
+    const params = { user_id, campaign_id, call_id, status: 'IN_PROGRESS' };
+    updateAttempt(params);
   }
 
   handleSkipClick() {
@@ -22,8 +23,8 @@ export default class PreCallButtonGroup extends Component {
 
   handleBadNameClick() {
     const { call_id, user_id, campaign_id, updateAttempt } = this.props;
-    const outcome = 'BAD_NUMBER';
-    updateAttempt(user_id, campaign_id, call_id, outcome);
+    const params = { user_id, campaign_id, call_id, status: 'ATTEMPTED', outcome: 'BAD_NUMBER' };
+    updateAttempt(params);
   }
 
   handleStopCallingClick() {

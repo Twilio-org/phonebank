@@ -39,6 +39,14 @@ export default {
     return new Call({ campaign_id, contact_id }).save();
   },
 
+  updateCallStatus: (params) => {
+    const { id, status } = params;
+    return new Call({ id })
+      .save({ status }, { patch: true })
+      .then(call => call)
+      .catch(err => err);
+  },
+
   recordAttempt: (params) => {
     const { id, notes, outcome } = params;
     return new Call({ id })
