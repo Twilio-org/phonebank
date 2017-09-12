@@ -72,6 +72,7 @@ export default class CallPage extends Component {
               clearVolunteerActive={clearVolunteerActive}
               change={change}
               submit={submit}
+              submitCallResponses={submitCallResponses}
               {...otherProps}
             />
           </Col>

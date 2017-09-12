@@ -128,24 +128,23 @@ export function updateCallAttempt(userId, campaignId, callId, outcome, notes = n
 
 export function submitCallResponses(data) {
   const { user_id, campaign_id, call_id, outcome, responses, notes } = data;
+  console.log('THIS IS THE ACTION submitCallResponses ================= \n', data);
+  const serializedResponses = helper.ResponsesSerializer(responses);
   return dispatch => axios.put(`/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`, {
     outcome,
     notes,
-    responses: helper.ResponsesSerializer(responses)
-  })
+    responses: serializedResponses
+  }, { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } })
   .then(() => {
-    console.log('-------------------------------- HIIII');
     dispatch(sendCallResponseData());
     dispatch(destroy('CallResponse'));
     dispatch(clearCurrentCall());
-    // return res;
   })
   .catch((err) => {
-    return err;
-    // const customError = {
-    //   message: `error in submitting call responses: ${err}`,
-    //   name: 'submitCallResponses function error in actions/calls.jsx'
-    // };
-    // throw customError;
+    const customError = {
+      message: `error in submitting call responses: ${err}`,
+      name: 'submitCallResponses function error in actions/calls.jsx'
+    };
+    throw customError;
   });
 }

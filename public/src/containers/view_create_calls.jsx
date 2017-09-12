@@ -1,11 +1,10 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, change, submit } from 'redux-form';
-import responseSubmit from '../components/calls/response_submit';
+import { reduxForm, change } from 'redux-form';
 import CallPage from '../components/calls/calls_page_parent';
 
 import { setCampaignCurrent } from '../actions/campaign';
-
+import validateCall from '../helpers/call_response_validation';
 import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
 import { assignToCall,
          updateCallOutcome,
@@ -13,6 +12,7 @@ import { assignToCall,
          getCallContactInfo,
          updateCallAttempt,
          releaseCall,
+         submitCallResponses,
          clearVolunteerActive } from '../actions/calls';
 
 function mapStateToProps(state) {
@@ -34,7 +34,7 @@ function mapStateToProps(state) {
 export default withRouter(
   reduxForm({
     form: 'CallResponse',
-    onSubmit: responseSubmit
+    validate: validateCall
   })(
       connect(mapStateToProps,
         { setScriptCurrent,
@@ -50,7 +50,7 @@ export default withRouter(
           releaseCall,
           clearVolunteerActive,
           change,
-          submit
+          submitCallResponses
         }
       )(CallPage)
     )

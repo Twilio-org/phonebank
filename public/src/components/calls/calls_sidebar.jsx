@@ -82,6 +82,7 @@ export default class CallsSideBar extends Component {
               campaign_id,
               user_id,
               call_id,
+              submitCallResponses,
               ...otherProps } = this.props;
 
       return (
@@ -96,6 +97,7 @@ export default class CallsSideBar extends Component {
           updateCallStatus={updateCallStatus}
           change={change}
           submit={submit}
+          submitCallResponses={submitCallResponses}
           {...otherProps}
         />
       );
