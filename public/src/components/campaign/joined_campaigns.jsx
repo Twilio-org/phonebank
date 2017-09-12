@@ -15,7 +15,11 @@ export default class JoinedCampaigns extends Component {
   }
 
   render() {
-    const { current_campaign, history, joined_campaigns, setCurrentCampaign } = this.props;
+    const { history,
+            joined_campaigns,
+            current_campaign,
+            setCurrentCampaign,
+            setVolunteerActive } = this.props;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
@@ -52,6 +56,7 @@ export default class JoinedCampaigns extends Component {
                               'Select a campaign' :
                               'Join a campaign'}
                 campaign={current_campaign}
+                setVolunteerActive={setVolunteerActive}
               />
             </Col>
           </Row>
