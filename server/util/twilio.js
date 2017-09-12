@@ -2,8 +2,16 @@ import Twilio from 'twilio';
 
 // Account SID and Auth Token are stored as environmental variables
 // Twilio Node module will check for them automatically upon initialization
-const twilioClient = new Twilio();
-const CALLER_ID = process.env.TWILIO_CALLER_ID;
+//
+//
+//
+// UNCOMMENT THE BELOW TWO LINES WHEN MERGING THE PLACE CALLS PR
+// |
+// |
+// |
+// V
+// const twilioClient = new Twilio();
+// const CALLER_ID = process.env.TWILIO_CALLER_ID;
 
 export function sayHelloUser(userFirstName, campaignName) {
   const VoiceResponse = Twilio.twiml.VoiceResponse;
@@ -13,4 +21,10 @@ export function sayHelloUser(userFirstName, campaignName) {
   return helloUser.toString();
 }
 
-export const lintDummy = { twilioClient, CALLER_ID };
+export function sayCallCompleted() {
+  const VoiceResponse = Twilio.twiml.VoiceResponse;
+  const CallCompleted = new VoiceResponse();
+  CallCompleted.say('Call completed. Please submit the form to continue.');
+  CallCompleted.play({ loop: 0 }, 'http://com.twilio.music.classical.s3.amazonaws.com/ith_chopin-15-2.mp3');
+  return CallCompleted.toString();
+}

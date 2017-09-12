@@ -19,8 +19,9 @@ export default class ActiveCallControl extends Component {
     change(form, 'user_id', user_id);
   }
   handleHangUp() {
-    const { updateCallStatus } = this.props;
-    updateCallStatus('HUNG_UP');
+    const { call_id, user_id, campaign_id, updateAttempt } = this.props;
+    const params = { user_id, campaign_id, call_id, status: 'HUNG_UP' };
+    updateAttempt(params);
   }
 
   handleSubmitResponses(values) {
@@ -39,9 +40,10 @@ export default class ActiveCallControl extends Component {
   }
 
   handleOutcomeClick(text) {
-    const { updateCallOutcome, updateCallStatus } = this.props;
+    const { updateCallOutcome, call_id, user_id, campaign_id, updateAttempt } = this.props;
     if (text !== 'ANSWERED') {
-      updateCallStatus('HUNG_UP');
+      const params = { user_id, campaign_id, call_id, status: 'HUNG_UP' };
+      updateAttempt(params);
     }
     updateCallOutcome(text.toUpperCase());
   }

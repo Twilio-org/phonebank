@@ -6,10 +6,6 @@ import ActiveCallControl from './active_call_control';
 export default class CallsSideBar extends Component {
   constructor(props) {
     super(props);
-    const clickHandlers = ['handleStartCallClick', 'handleNextClick', 'handleStopClick'];
-    clickHandlers.forEach((func) => {
-      this[func] = this[func].bind(this);
-    });
     this.fetchCallContactHelper = (context) => {
       if (context.props.contact_id) {
         const { contact_id, getCallContactInfo } = context.props;
@@ -26,28 +22,11 @@ export default class CallsSideBar extends Component {
     this.fetchCallContactHelper(this);
   }
 
-  handleStartCallClick() {
-    const { updateCallStatus } = this.props;
-    updateCallStatus('IN_PROGRESS');
-  }
-
-  handleNextClick() {
-    const { user_id, campaign_id, nextCall } = this.props;
-    nextCall(user_id, campaign_id);
-  }
-
-  handleStopClick() {
-    const { history, user_id, campaign_id, call_id, status, releaseCall } = this.props;
-    releaseCall(user_id, campaign_id, call_id, status);
-    history.push('/volunteers/campaigns');
-  }
-
   render() {
     const { status } = this.props;
 
     if (status === 'ASSIGNED') {
       const { current_call_contact_name,
-              updateCallStatus,
               history,
               call_id,
               user_id,
@@ -60,7 +39,6 @@ export default class CallsSideBar extends Component {
         <PreCallButtonGroup
           history={history}
           status={status}
-          updateCallStatus={updateCallStatus}
           current_call_contact_name={current_call_contact_name}
           call_id={call_id}
           user_id={user_id}
@@ -75,13 +53,12 @@ export default class CallsSideBar extends Component {
     if (!!status && (status === 'IN_PROGRESS' || status === 'HUNG_UP')) {
       const { current_call_contact_name,
               outcome,
-              updateCallStatus,
               updateCallOutcome,
-              change,
-              submit,
+              updateAttempt,
               campaign_id,
               user_id,
               call_id,
+              change,
               submitCallResponses,
               ...otherProps } = this.props;
 
@@ -94,9 +71,8 @@ export default class CallsSideBar extends Component {
           user_id={user_id}
           call_id={call_id}
           updateCallOutcome={updateCallOutcome}
-          updateCallStatus={updateCallStatus}
+          updateAttempt={updateAttempt}
           change={change}
-          submit={submit}
           submitCallResponses={submitCallResponses}
           {...otherProps}
         />
