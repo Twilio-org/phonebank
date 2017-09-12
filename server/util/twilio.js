@@ -1,5 +1,5 @@
 import Twilio from 'twilio';
-// TwilioClient and TwilioLibrary initialized in app.js
+// TwilioClient initialized in app.js
 let twilioClient;
 // Account SID and Auth Token are stored as environmental variables
 // Twilio Node module will check for them automatically upon initialization
