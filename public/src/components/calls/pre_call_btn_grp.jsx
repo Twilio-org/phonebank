@@ -35,8 +35,13 @@ export default class PreCallButtonGroup extends Component {
             releaseCall,
             status,
             endVolunterTwilioCon } = this.props;
+    const endCallParams = {
+      user_id,
+      campaign_id,
+      action: 'disconnect'
+    };
     releaseCall(user_id, campaign_id, call_id, status);
-    endVolunterTwilioCon(user_id, campaign_id);
+    endVolunterTwilioCon(endCallParams);
     history.push('/volunteers/campaigns');
   }
 

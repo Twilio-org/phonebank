@@ -43,18 +43,6 @@ export function fetchUser(id) {
   .catch(err => err);
 }
 
-export function checkIfVolunteerHasTwilioConnection(id) {
-  return () => axios.get(`/users/${id}`, {
-    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-  })
-  .then((res) => {
-    const { data: userObject } = res;
-    const { call_sid } = userObject;
-    return !!call_sid;
-  })
-  .catch(err => err);
-}
-
 export function updateUser(userId, userInfo, history) {
   const { first_name, last_name, email, phone_number } = userInfo;
 

@@ -16,7 +16,12 @@ const CurrentCampaign = (props) => {
     );
   }
   const handleClick = () => {
-    initiateTwilioCall(userId, campaignId);
+    const initiateCallParams = {
+      userId,
+      campaignId,
+      action: 'connect'
+    };
+    initiateTwilioCall(initiateCallParams);
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
   const { description, status, title } = currentCampaign;

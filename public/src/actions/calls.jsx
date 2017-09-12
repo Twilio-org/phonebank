@@ -8,8 +8,6 @@ import { SET_CALL_CURRENT,
          SET_VOLUNTEER_CALL_ACTIVE,
          CLEAR_VOLUNTEER_CALL_ACTIVE } from '../reducers/calls';
 
-import { checkIfVolunteerHasTwilioConnection } from './users';
-
 export function setVolunteerActive() {
   return {
     type: SET_VOLUNTEER_CALL_ACTIVE
@@ -68,7 +66,7 @@ export function getCallContactInfo(contactId) {
     const name = last_name ? `${first_name} ${last_name}` : first_name;
     dispatch(setCallContactInfo({ name }));
   })
-  .catch(err => console.log(err));
+  .catch(err => err);
 }
 
 export function assignToCall(userId, campaignId) {
@@ -88,7 +86,63 @@ export function assignToCall(userId, campaignId) {
       }
       return dispatch(setCurrentCall(callObj));
     })
-    .catch(err => console.log(err));
+    .catch(err => err);
+}
+
+export function initateTwilioCon(userId, campaignId) {
+  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    if (call_sid) {
+      return dispatch(setVolunteerActive());
+    }
+    return new Error('error with initiating twilio connection, no call_sid on user object');
+  })
+  .catch(err => err);
+}
+
+export function endTwilioCon(userId, campaignId) {
+  return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    if (!call_sid) {
+      return dispatch(clearVolunteerActive());
+    }
+    return new Error('error disconnecting from twilio, call_sid still present');
+  })
+  .catch(err => err);
+}
+
+export function checkTwilioCon(params, initiateCall = initateTwilioCon, endCall = endTwilioCon) {
+  const { userId, campaignId, action } = params;
+  return dispatch => axios.get(`/users/${userId}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    const connected = !!call_sid;
+    if (action === 'connect') {
+      if (!connected) {
+        return dispatch(initiateCall(userId, campaignId));
+      }
+      return new Error('twilio call connection already active.');
+    }
+    if (action === 'disconnect') {
+      if (connected) {
+        return dispatch(endCall(userId, campaignId));
+      }
+      return new Error('twilio call connection not active, cannot complete request.');
+    }
+    return new Error('invalid action for reqest to connect to Twilio');
+  })
+  .catch(err => err);
 }
 
 export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
@@ -104,7 +158,7 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
     if (next) {
       return dispatch(assignToCall(userId, campaignId));
     }
-    // dispatch(endVolunterTwilioCon(userId, campaignId))
+    dispatch(endTwilioCon(userId, campaignId));
     return dispatch(clearCurrentCall());
   })
   .catch(err => err);
@@ -134,29 +188,3 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
   })
   .catch(err => err);
 }
-
-
-export function initateVolunteerTwilioCon(userId, campaignId) {
-  // instead of relying on this, actually check the user's active status with the server
-  // NEW ACTION TO SEE IF USER IS ACTIVE!
-  if (!checkIfVolunteerHasTwilioConnection(userId)) {
-    return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
-      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-    })
-    .then(() => dispatch(setVolunteerActive()))
-    .catch(err => err);
-  }
-  return new Error('twilio call connection already active.');
-}
-
-export function endVolunterTwilioCon(userId, campaignId) {
-  if (checkIfVolunteerHasTwilioConnection(userId)) {
-    return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
-      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-    })
-    .then(() => dispatch(clearVolunteerActive()))
-    .catch(err => err);
-  }
-  return new Error('twilio call connection not active, cannot complete request.');
-}
-
