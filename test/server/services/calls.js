@@ -169,6 +169,44 @@ describe('Calls Service tests', function() {
     });
   });
 
+  describe('updating call status (updateCallStatus): ', () => {
+    before((done) => {
+      const { user_id, campaign_id } = this.callSaveParams;
+      this.contactSaveParams3 = {
+        first_name: 'Oh',
+        last_name: 'Hey',
+        phone_number: '+11820020002',
+        email: 'Hiiii@gmail.com',
+        external_id: 'test12345'
+      };
+      contactsService.saveNewContact(this.contactSaveParams3)
+        .then((contact) => {
+          this.callSaveParams.contact_id = contact.id;
+          callsService.populateCall(this.callSaveParams)
+            .then((call) => {
+              callsService.assignCall({ user_id, campaign_id })
+                .then((call) => {
+                  this.callSaveParams.call_id = call.id;
+                  this.callSaveParams.status = call.status;
+                  done();
+                }, done);
+            }, done);
+        }, done);
+    });
+    it('should do important things: ', (done) => {
+      const { call_id } = this.callSaveParams;
+      const updateParams = { id: call_id, status: 'IN_PROGRESS' };
+      callsService.updateCallStatus(updateParams)
+        .then((call) => {
+          const { status } = call.attributes;
+          expect(status).to.not.equal(this.callSaveParams.status);
+          expect(status).to.equal('IN_PROGRESS');
+          done();
+        }, done)
+        .catch(err => err);
+    });
+  });
+
   describe('call releasing', () => {
     before((done) => {
       const { user_id, campaign_id } = this.callSaveParams;
@@ -180,7 +218,6 @@ describe('Calls Service tests', function() {
         email: 'yet@gmail.com',
         external_id: 'test12345'
       };
-
       contactsService.saveNewContact(this.contactSaveParams2)
         .then((contact) => {
           this.callSaveParams.contact_id = contact.id;
@@ -193,8 +230,6 @@ describe('Calls Service tests', function() {
                 }, done);
             }, done);
         }, done);
-
-
     });
 
     it('should set a call\'s status to \'AVAILABLE\' and user_id to null', (done) => {

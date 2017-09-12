@@ -13,6 +13,38 @@ function userHasJoinedCampaign(userId, campaignId) {
     });
 }
 
+function updateNoCallContact(outcome, id) {
+  const { updateContactDoNotCallById, updateContactInvalidNumberById } = contactsService;
+  const outcomeMap = {
+    DO_NOT_CALL: updateContactDoNotCallById,
+    BAD_NUMBER: updateContactInvalidNumberById
+  };
+  return outcomeMap[outcome]({ id });
+}
+
+export function assignCall(req, res) {
+  const user_id = parseInt(req.params.id, 10);
+  const user_campaign_id = parseInt(req.params.campaign_id, 10);
+
+  userHasJoinedCampaign(user_id, user_campaign_id)
+  .then((userHasJoined) => {
+    if (userHasJoined) {
+      return callsService.assignCall({
+        campaign_id: user_campaign_id,
+        user_id
+      }).then((call) => {
+        if (call) {
+          return res.status(200).json(call);
+        }
+
+        return res.status(404).json({ message: 'no calls available' });
+      }).catch(err => console.log('Could not assign call:', err));
+    }
+    return res.status(401).json({ message: 'User has not joined that campaign' });
+  }).catch(err => console.log(err));
+}
+
+/* ======== Call update HELPERS ========== */
 function outcomeIsValid(outcome) {
   const validOutcomes = [
     'ANSWERED',
@@ -26,13 +58,21 @@ function outcomeIsValid(outcome) {
   return validOutcomes.includes(outcome.toUpperCase());
 }
 
-function updateNoCallContact(outcome, id) {
-  const { updateContactDoNotCallById, updateContactInvalidNumberById } = contactsService;
-  const outcomeMap = {
-    DO_NOT_CALL: updateContactDoNotCallById,
-    BAD_NUMBER: updateContactInvalidNumberById
+function validateStatusForUpdate(currStatus, prevStatus) {
+  const validTransitions = {
+    ASSIGNED: 'IN_PROGRESS',
+    IN_PROGRESS: 'HUNG_UP',
+    HUNG_UP: 'ATTEMPTED'
   };
-  return outcomeMap[outcome]({ id });
+  if (!validTransitions[currStatus]) {
+    return false;
+  }
+  if (currStatus === 'IN_PROGRESS' || currStatus === 'HUNG_UP') {
+    if (validTransitions[prevStatus] !== currStatus) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function checkCallIsAssigned(status) {
@@ -67,42 +107,28 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   }
   return res.status(200).json({ message: 'call log successfully updated' });
 }
-
-export function assignCall(req, res) {
-  const user_id = parseInt(req.params.id, 10);
-  const user_campaign_id = parseInt(req.params.campaign_id, 10);
-
-  userHasJoinedCampaign(user_id, user_campaign_id)
-  .then((userHasJoined) => {
-    if (userHasJoined) {
-      return callsService.assignCall({
-        campaign_id: user_campaign_id,
-        user_id
-      }).then((call) => {
-        if (call) {
-          return res.status(200).json(call);
-        }
-
-        return res.status(404).json({ message: 'no calls available' });
-      }).catch(err => console.log('Could not assign call:', err));
-    }
-    return res.status(401).json({ message: 'User has not joined that campaign' });
-  }).catch(err => console.log(err));
-}
+/* ======== END HELPERS ========== */
 
 export function recordAttempt(req, res) {
-  const { outcome, notes, responses } = req.body;
+  const { outcome, notes, responses, status: newStatus } = req.body;
   let parsedResponses;
-  try {
-    parsedResponses = JSON.parse(responses);
-  } catch (err) {
-    return res.status(400).json({ message: 'Invalid JSON object' });
+  // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
+  if (newStatus === 'ATTEMPTED') {
+    if (!responses || !outcome) {
+      res.status(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
+    }
+    try {
+      parsedResponses = JSON.parse(responses);
+    } catch (err) {
+      return res.status(400).json({ message: 'Invalid JSON object' });
+    }
   }
   const call_id = parseInt(req.params.call_id, 10);
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
-  if (!outcomeIsValid(outcome)) {
+  // not necessary if just updating the status
+  if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
 
@@ -112,7 +138,12 @@ export function recordAttempt(req, res) {
         return lookUpCall(call_id).then((call) => {
           if (call) {
             const { contact_id, campaign_id, status } = call.attributes;
-            if (checkCallIsAssigned(status)) {
+            if (validateStatusForUpdate(newStatus, status)) {
+              if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
+                return callsService.updateCallStatus({ id: call_id, status: newStatus })
+                .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
+                .catch(err => console.log('error updating status in calls controller: ', err));
+              }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
                   Promise.all(parsedResponses.map((resp) => {
@@ -121,7 +152,6 @@ export function recordAttempt(req, res) {
                     return responsesService.saveNewResponse(responseParams);
                   }))
                     .then(() => {
-                      console.log('Response saved successfully');
                       const attempt_num = parseInt(call.attributes.attempt_num, 10);
                       afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
                     }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
