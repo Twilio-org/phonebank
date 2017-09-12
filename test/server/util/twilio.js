@@ -1,11 +1,8 @@
 import { expect } from 'chai';
-import { callStatusUpdate, testTwilioClient } from './twilio_mocks';
-import { sayCallCompleted, sayHelloUser, hangUp, initializeTwilioClient } from '../../../server/util/twilio';
+import { callStatusUpdate } from './twilio_mocks';
+import { sayCallCompleted, sayHelloUser, hangUp } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function () {
-  before(() => {
-    initializeTwilioClient(testTwilioClient);
-  });
   it('should be able to hang up calls', (done) => {
     expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(callStatusUpdate());
     done();
