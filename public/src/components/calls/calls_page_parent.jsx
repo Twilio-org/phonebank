@@ -16,6 +16,15 @@ export default class CallPage extends Component {
     fetchScript(script_id);
     fetchScriptQuestions(script_id);
   }
+  componentDidUpdate() {
+    const { id: campaign_id } = this.props.match.params;
+    const { current_call, assignToCall, user_id } = this.props;
+    console.log('CAMPAIGN_ID IN PARENT PAGE =======>', campaign_id);
+    if (!current_call) {
+      assignToCall(user_id, campaign_id);
+      console.log('RAN ASSIGNTOCALL');
+    }
+  }
 
   render() {
     const { current_campaign,
@@ -71,7 +80,6 @@ export default class CallPage extends Component {
               releaseCall={releaseCall}
               clearVolunteerActive={clearVolunteerActive}
               change={change}
-              submit={submit}
               submitCallResponses={submitCallResponses}
               {...otherProps}
             />

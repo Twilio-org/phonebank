@@ -136,11 +136,10 @@ export function submitCallResponses(data) {
   return (dispatch) => {
     // debugger;
     axios.put(path, responseData, auth)
-    .then((res) => {
-      console.log('IIIIII WORKED!!!!!', res);
-      // dispatch(sendCallResponseData());
+    .then(() => {
+      dispatch(sendCallResponseData());
       dispatch(destroy('CallResponse'));
-      // dispatch(clearCurrentCall());
+      dispatch(clearCurrentCall());
     })
     .catch((err) => {
       const customError = {

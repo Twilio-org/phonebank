@@ -93,7 +93,7 @@ export function recordAttempt(req, res) {
   const { outcome, notes, responses } = req.body;
   let parsedResponses;
   try {
-    parsedResponses = JSON.parse(responses);
+    parsedResponses = JSON.parse(JSON.stringify(responses));
   } catch (err) {
     return res.status(400).json({ message: 'Invalid JSON object' });
   }
