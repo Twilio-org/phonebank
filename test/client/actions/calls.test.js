@@ -10,8 +10,8 @@ import { setCurrentCall,
          updateCallStatus,
          setCallContactInfo,
          getCallContactInfo,
+         updateCallAttempt,
          releaseCall } from '../../../public/src/actions/calls';
-         /* updateCallAttempt */
          // setCurrentCallActive,
          // setCurrentCallInactive,
 import fixtures from '../client_fixtures';
@@ -250,7 +250,6 @@ describe('Call Actions', () => {
           .catch(err => err);
       });
     });
-    // TODO: will uncomment when last ticket with actions are in
     describe('axios delete request when next is true', () => {
       it('dispatched actions in the store:', () => {
         const expectedAction = undefined;
@@ -270,7 +269,36 @@ describe('Call Actions', () => {
     });
   });
 
-  // describe('updateCallAttempt: ', () => {});
+  describe('updateCallAttempt: ', () => {
+    mock = new MockAdapter(axios);
+    beforeEach(() => {
+      mock.onPut('/users/1/campaigns/1/calls/1/calls/1').reply(200);
+      mock.onGet('/users/1/campaigns/1/calls').reply(200, dbFixture);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    // TODO: when form submission is finished, finish case for when call status is marked ATTEMPTED
+    describe('aixios put request when call status is not ATTEMPTED: ', () => {
+      it('should dispatch UPDATE_CALL_STATUS: ', () => {
+        const expectedAction = updateCallStatus('in_progress');
+        const updateCallParams = {
+          user_id: 1,
+          campaign_id: 1,
+          call_id: 1,
+          status: 'IN_PROGRESS',
+          outcome: undefined,
+          notes: undefined
+        };
+        return store.dispatch(updateCallAttempt(updateCallParams))
+        .then(() => {
+          const dispatchedAction = store.getActions();
+          expect(dispatchedAction[0]).toEqual(expectedAction);
+        })
+        .catch(err => err);
+      });
+    });
+  });
 
   describe('assignToCall Action', () => {
     // TODO: SHOULD THROW ERROR IF ASSIGNMENT NOT CORRECT!!!!
