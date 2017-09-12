@@ -28,7 +28,6 @@ router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
 router.route('/:id/campaigns/:campaign_id/calls').post(startTwilioConnection);
 router.route('/:id/campaigns/:campaign_id/calls').delete(hangUpCall);
-
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwiml);
