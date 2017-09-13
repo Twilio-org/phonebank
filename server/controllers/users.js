@@ -1,8 +1,10 @@
 import usersService from '../db/services/users';
 import campaignsService from '../db/services/campaigns';
+
 import contactsService from '../db/services/contacts';
 import callsService from '../db/services/calls';
-import { sayCallCompleted, sayHelloUser } from '../util/twilio';
+import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
+
 import { sayDialingContact } from '../util/ao_twilio';
 
 function cleanUserObject(user) {
@@ -193,20 +195,34 @@ export function getUserCampaignAssociation(req, res) {
     });
 }
 
-export function updateUserCallSIDField(req, res) {
-  const { id } = req.params;
-  const call_sid = 'CAdksl234591adfide294821kdau3u3933';
-  const params = { id, call_sid };
-  return usersService.updateUserById(params)
-    .then((user) => {
-      if (user) {
-        res.status(200).json(user);
-      } else {
-        res.status(404).json({ message: 'Could not process request to update user Call SID' });
-      }
+export function startTwilioConnection(req, res) {
+  const { id, campaign_id } = req.params;
+  return usersService.getUserById({ id })
+    .then((volunteer) => {
+      const { phone_number } = volunteer.attributes;
+      return callVolunteer(id, campaign_id, phone_number)
+        .then((call) => {
+          const { sid: call_sid } = call;
+          const params = { id, call_sid };
+          return usersService.updateUserById(params)
+            .then((user) => {
+              if (user) {
+                res.status(200).json(user);
+              } else {
+                res.status(404).json({ message: 'Could not process request to update user Call SID' });
+              }
+            })
+            .catch((err) => {
+              res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
+            });
+        })
+        .catch((err) => {
+          res.status(500).json({ message: `Could not process request to create a call: ${err}` });
+          console.log(err);
+        });
     })
     .catch((err) => {
-      res.status(500).json({ message: `Could not process request to update user Call SID: ${err}` });
+      res.status(500).json({ message: `Could not process request to get user by id: ${err}` });
     });
 }
 
