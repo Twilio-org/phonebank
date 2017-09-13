@@ -125,6 +125,7 @@ function isFinalOutcome(outcome) {
 
 export function recordAttempt(req, res) {
   const { outcome, notes, responses, status: newStatus } = req.body;
+  console.log(`the outcome and status in the controller is: outcome: ${outcome} status: ${newStatus}`);
   let parsedResponses;
   // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED') {
