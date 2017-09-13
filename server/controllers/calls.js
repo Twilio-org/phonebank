@@ -63,13 +63,13 @@ function validateStatusForUpdate(currStatus, prevStatus) {
   const validTransitions = {
     ASSIGNED: 'IN_PROGRESS',
     IN_PROGRESS: 'HUNG_UP',
-    HUNG_UP: 'ATTEMPTED'
-    // ATTEMPTED: 1
+    HUNG_UP: 'ATTEMPTED',
+    ATTEMPTED: 1
   };
   if (!validTransitions[currStatus]) {
     return false;
   }
-  if (currStatus === 'IN_PROGRESS' || currStatus === 'HUNG_UP') {
+  if (prevStatus !== 'ATTEMPTED') {
     if (validTransitions[prevStatus] !== currStatus) {
       return false;
     }
@@ -132,7 +132,7 @@ export function recordAttempt(req, res) {
       res.status(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
     }
     try {
-      parsedResponses = JSON.parse(responses);
+      parsedResponses = responses;
     } catch (err) {
       return res.status(400).json({ message: 'Invalid JSON object' });
     }
