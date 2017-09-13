@@ -149,7 +149,6 @@ export function recordAttempt(req, res) {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
           if (call) {
-            console.log('call in lookupCall is: ', call);
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
