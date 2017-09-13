@@ -90,37 +90,6 @@ export function assignToCall(userId, campaignId) {
 }
 
 export function initateTwilioCon(userId, campaignId) {
-  return dispatch => axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
-    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-  })
-  .then((res) => {
-    const { data: userObj } = res;
-    const { call_sid } = userObj;
-    if (call_sid) {
-      return dispatch(setVolunteerActive());
-    }
-    return new Error('error with initiating twilio connection, no call_sid on user object');
-  })
-  .catch(err => err);
-}
-
-export function endTwilioCon(userId, campaignId) {
-  return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
-    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
-  })
-  .then((res) => {
-    const { data: userObj } = res;
-    const { call_sid } = userObj;
-    if (!call_sid) {
-      return dispatch(clearVolunteerActive());
-    }
-    return new Error('error disconnecting from twilio, call_sid still present');
-  })
-  .catch(err => err);
-}
-
-export function checkTwilioCon(params, initiateCall = initateTwilioCon, endCall = endTwilioCon) {
-  const { userId, campaignId, action } = params;
   return dispatch => axios.get(`/users/${userId}`, {
     headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
   })
@@ -128,19 +97,47 @@ export function checkTwilioCon(params, initiateCall = initateTwilioCon, endCall 
     const { data: userObj } = res;
     const { call_sid } = userObj;
     const connected = !!call_sid;
-    if (action === 'connect') {
-      if (!connected) {
-        return dispatch(initiateCall(userId, campaignId));
-      }
-      return new Error('twilio call connection already active.');
+    if (!connected) {
+      axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
+        headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+      })
+      .then((connectionRes) => {
+        const { data: connectionUserObj } = connectionRes;
+        const { call_sid: userCallSid } = connectionUserObj;
+        if (userCallSid) {
+          return dispatch(setVolunteerActive());
+        }
+        return new Error('error with initiating twilio connection, no call_sid on user object');
+      })
+      .catch(err => err);
     }
-    if (action === 'disconnect') {
-      if (connected) {
-        return dispatch(endCall(userId, campaignId));
-      }
-      return new Error('twilio call connection not active, cannot complete request.');
+    return new Error('twilio call connection already active.');
+  })
+  .catch(err => err);
+}
+
+export function endTwilioCon(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    if (call_sid) {
+      axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+        headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+      })
+      .then((disconnectRes) => {
+        const { data: disconnectUserObj } = disconnectRes;
+        const { userCallSid } = disconnectUserObj;
+        if (!userCallSid) {
+          return dispatch(clearVolunteerActive());
+        }
+        return new Error('error disconnecting from twilio, call_sid still present');
+      })
+      .catch(err => err);
     }
-    return new Error('invalid action for reqest to connect to Twilio');
+    return new Error('twilio connection not active');
   })
   .catch(err => err);
 }

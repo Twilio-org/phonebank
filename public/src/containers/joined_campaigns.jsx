@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import JoinedCampaigns from '../components/campaign/joined_campaigns';
-import { checkTwilioCon } from '../actions/calls';
+import { initateTwilioCon } from '../actions/calls';
 import { clearCampaigns, fetchCampaignsByUser, setCurrentCampaign } from '../actions/campaign';
 
 function mapStateToProps(state) {
@@ -18,6 +18,6 @@ const JoinedCampaignsContainer = withRouter(
     { fetchCampaignsByUser,
       setCurrentCampaign,
       clearCampaigns,
-      checkTwilioCon })(JoinedCampaigns)
+      initateTwilioCon })(JoinedCampaigns)
 );
 export default JoinedCampaignsContainer;
