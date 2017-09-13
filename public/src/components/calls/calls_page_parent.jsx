@@ -48,9 +48,8 @@ export default class CallPage extends Component {
               call_current_active,
               updateCallAttempt,
               releaseCall,
-              clearVolunteerActive,
+              endTwilioCon,
               submitCallResponses,
-              submit,
               change,
               ...otherProps } = this.props;
       return (
@@ -76,9 +75,9 @@ export default class CallPage extends Component {
               call_current_active={call_current_active}
               updateAttempt={updateCallAttempt}
               releaseCall={releaseCall}
-              clearVolunteerActive={clearVolunteerActive}
               change={change}
               submitCallResponses={submitCallResponses}
+              endVolunterTwilioCon={endTwilioCon}
               {...otherProps}
             />
           </Col>

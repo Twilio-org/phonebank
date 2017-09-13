@@ -1,5 +1,7 @@
 import http from 'http';
 import express from 'express';
+import Twilio from 'twilio';
+import { initializeTwilioClient } from './util/twilio';
 // import routes from './config/routes';
 import middleware from './config/middleware';
 import normalizePort from './config/port';
@@ -8,6 +10,7 @@ import errorHandle from './config/errorHandle';
 const app = express();
 const port = normalizePort(process.env.PORT || '3000');
 
+initializeTwilioClient(new Twilio());
 app.set('port', port);
 
 // Create HTTP server.

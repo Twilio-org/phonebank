@@ -2,25 +2,30 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CurrentCampaign = (props) => {
-  const { campaign, id, defaultMsg, history, setVolunteerActive } = props;
-  if (!campaign) {
+  const { currentCampaign,
+          defaultMsg,
+          history,
+          userId,
+          initiateTwilioCall } = props;
+  const { id: campaignId } = currentCampaign;
+  if (!currentCampaign) {
     return (
-      <div id={id}>
+      <div id={campaignId}>
         <p className="lead">{defaultMsg}</p>
       </div>
     );
   }
   const handleClick = () => {
-    const { id: campaignId } = id;
-    setVolunteerActive();
+    initiateTwilioCall(userId, campaignId);
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
+  const { description, status, title } = currentCampaign;
   return (
-    <div id={id}>
-      <h3>{campaign.title}</h3>
+    <div id={campaignId}>
+      <h3>{title}</h3>
       <hr />
-      <p className="lead">{campaign.description}</p>
-      <Button onClick={handleClick} bsStyle="primary" className={campaign.status !== 'active' ? 'disabled' : ''}>
+      <p className="lead">{description}</p>
+      <Button onClick={handleClick} bsStyle="primary" className={status !== 'active' ? 'disabled' : ''}>
         <i className="material-icons small">phone_in_talk</i> Start Calling
       </Button>
     </div>

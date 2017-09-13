@@ -33,6 +33,7 @@ export secretOrKey="a secret key should be entered here"
 export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWILIO_AUTH_TOKEN="your_auth_token"
 export TWILIO_CALLER_ID=""+1XXXYYYZZZZ"
+export DEV_PATH="http://**********.ngrok.io"
 ```
 
 Set up the database.
@@ -57,12 +58,19 @@ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 
 Setup a Twilio account
 
-- If you haven't already, sign up for an account at [twilio.com](https://www.twilio.com)
-- If you don't have one, you can [purchase a Twilio phone number](https://www.twilio.com/console/phone-numbers/search)
-- If you wish to set your TWILIO_CALLER_ID to a phone number other than a Twilio phone number, you can [add a verified caller id to your account](https://www.twilio.com/console/phone-numbers/verified)
-- Export TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_CALLER_ID in your `.bash_profile` (example below) with the appropriate values from your [account dashboard](https://www.twilio.com/user/account):
+1. If you haven't already, sign up for an account at [twilio.com](https://www.twilio.com)
+2. If you don't have one, you can [purchase a Twilio phone number](https://www.twilio.com/console/phone-numbers/search)
+3. If you wish to set your TWILIO_CALLER_ID to a phone number other than a Twilio phone number, you can [add a verified caller id to your account](https://www.twilio.com/console/phone-numbers/verified)
+4. If you don't have it already, [download ngrok](https://ngrok.com/)
+5. Run ngrok:
+`ngrok http 3000`
+6. When ngrok starts up, it will assign a unique URL to your tunnel that looks something like `http://0c59c4fd.ngrok.io`.
+
+- Export TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_CALLER_ID, and DEV_PATH in your `.bash_profile` (example below) with the appropriate values from your [account dashboard](https://www.twilio.com/user/account):
+  * NOTE: You will need to update the DEV_PATH URL in your `.bash_profile` every time you restart ngrok.
 ```
 export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWILIO_AUTH_TOKEN="your_auth_token"
 export TWILIO_CALLER_ID=""+1XXXYYYZZZZ"
+export DEV_PATH="http://**********.ngrok.io"
 ```
