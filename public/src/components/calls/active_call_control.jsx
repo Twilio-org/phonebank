@@ -13,11 +13,11 @@ export default class ActiveCallControl extends Component {
     });
   }
   componentDidMount() {
-    const { change, form, campaign_id, call_id, user_id } = this.props;
-    console.log('ACTIVE CALL CONTROL PROPS', this.props);
+    const { change, form, campaign_id, call_id, user_id, script_questions } = this.props;
     change(form, 'campaign_id', campaign_id);
     change(form, 'call_id', call_id);
     change(form, 'user_id', user_id);
+    change(form, 'question_total', script_questions.length);
   }
   handleHangUp() {
     const { call_id, user_id, campaign_id, updateAttempt } = this.props;
@@ -27,8 +27,8 @@ export default class ActiveCallControl extends Component {
 
   handleSubmitResponses(values) {
     const { submitCallResponses } = this.props;
-    console.log('I AM SUBMITTING, these are props + values!!!!!', this.props, values);
-    submitCallResponses({ ...values, status: 'ATTEMPTED' });
+    const { question_total, ...data } = values;
+    submitCallResponses({ ...data, status: 'ATTEMPTED' });
   }
 
   handleOutcomeClick(text) {
@@ -48,8 +48,7 @@ export default class ActiveCallControl extends Component {
             handleSubmit,
             outcome,
             status,
-            valid,
-            submitting } = this.props;
+            form_errors } = this.props;
     const outcomes = [
       {
         value: 'Answered',
@@ -111,8 +110,7 @@ export default class ActiveCallControl extends Component {
               text="Submit and Next Call"
               htmlID="submit-call-form-btn"
               styled="success"
-              valid={valid}
-              submitting={submitting}
+              invalid={typeof form_errors !== 'undefined'}
             />
           </div>
         </div>
