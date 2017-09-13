@@ -40,13 +40,7 @@ export function fetchUser(id) {
     const userData = res.data;
     return dispatch(setAccountInfo(userData));
   })
-  .catch((err) => {
-    const customError = {
-      message: `error fetching user info in account_info action fetchUser: ${err}`,
-      name: 'user info post request from account_info component'
-    };
-    throw customError;
-  });
+  .catch(err => err);
 }
 
 export function updateUser(userId, userInfo, history) {

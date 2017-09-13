@@ -33,6 +33,7 @@ export secretOrKey="a secret key should be entered here"
 export TWILIO_ACCOUNT_SID="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TWILIO_AUTH_TOKEN="your_auth_token"
 export TWILIO_CALLER_ID=""+1XXXYYYZZZZ"
+export DEV_PATH="http://**********.ngrok.io"
 ```
 
 Set up the database.
