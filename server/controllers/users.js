@@ -304,7 +304,6 @@ export function connectVolunteerToContact(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const campaign_id = parseInt(req.params.campaign_id, 10);
   const call_id = parseInt(req.params.call_id, 10);
-  console.log('REQ PARAMS', req.params);
   const { contact_id: contactId } = req.body;
 
   return getContactIdIfNotExist(call_id, contactId)
@@ -316,7 +315,6 @@ export function connectVolunteerToContact(req, res) {
     return contactsService.getContactById({ id: contact_id })
       .then((contactObj) => {
         if (contactObj) {
-          console.log('contact  OBJ:  ', contactObj);
           const { phone_number, first_name, last_name } = contactObj.attributes;
           const name = last_name ? `${first_name} ${last_name}` : first_name;
           const dialIdParams = { campaignId: campaign_id, userId: user_id, callId: call_id };
