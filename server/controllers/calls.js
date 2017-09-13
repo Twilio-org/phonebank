@@ -160,7 +160,8 @@ export function recordAttempt(req, res) {
                 .catch(err => console.log('error updating status in calls controller: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
-                .then(() => {
+                .then((responseAfterPutCallAttempt) => {
+                  console.log('the responseAfterPutCallAttempt is: ', responseAfterPutCallAttempt);
                   Promise.all(parsedResponses.map((resp) => {
                     const { question_id, response } = resp;
                     const responseParams = { call_id, question_id, response };
