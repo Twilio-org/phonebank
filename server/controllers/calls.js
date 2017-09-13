@@ -2,6 +2,7 @@ import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
+import campaignsService from '../db/services/campaigns';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -106,6 +107,18 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   }
   return res.status(200).json({ message: 'call log successfully updated' });
 }
+
+function allCallsAreAttempted(campaign_id) {
+  const numOfCampaignCalls = callsService.getNumberOfCallsByCampaignId({ campaign_id });
+  const numOfAttemtpedCalls = callsService.getNumberOfCallsAttemptedByCampaignId({ campaign_id });
+  return numOfCampaignCalls === numOfAttemtpedCalls;
+}
+
+function isFinalOutcome(outcome) {
+  const finalOutcomes = ['ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL'];
+  return finalOutcomes.includes(outcome);
+}
+
 /* ======== END HELPERS ========== */
 
 export function recordAttempt(req, res) {
@@ -136,6 +149,7 @@ export function recordAttempt(req, res) {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
           if (call) {
+            console.log('call in lookupCall is: ', call);
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
@@ -152,7 +166,22 @@ export function recordAttempt(req, res) {
                   }))
                     .then(() => {
                       const attempt_num = parseInt(call.attributes.attempt_num, 10);
-                      afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
+                      return afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
+                        .then(() => {
+                          const callOutcomeIsFinal = isFinalOutcome(outcome);
+                          const callMakesAllCallsAttempted = allCallsAreAttempted(campaign_id);
+                          if (callMakesAllCallsAttempted && callOutcomeIsFinal) {
+                            campaignsService.markCampaignAsCompleted({ id: campaign_id })
+                              .then((campaign) => {
+                                res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
+                              })
+                              .catch((err) => {
+                                res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
+                                console.log('Cannot update the campaign as completed: ', err);
+                              });
+                          }
+                        })
+                        .catch(err => console.log({ message: `Could not update call status and/or requeue: ${err}` }));
                     }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
