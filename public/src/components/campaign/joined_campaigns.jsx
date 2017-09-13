@@ -19,7 +19,8 @@ export default class JoinedCampaigns extends Component {
             joined_campaigns,
             current_campaign,
             setCurrentCampaign,
-            setVolunteerActive } = this.props;
+            initateTwilioCon } = this.props;
+    const { id: userId } = this.props.auth;
     const { first_name, last_name } = this.props.account_info;
     const page = 'Campaign';
     const is_admin = false;
@@ -51,12 +52,13 @@ export default class JoinedCampaigns extends Component {
             <Col xs={7} md={8} lg={9}>
               <CurrentCampaign
                 history={history}
-                id={current_campaign}
+                userId={userId}
+                currentCampaign={current_campaign}
                 defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
                               'Select a campaign' :
                               'Join a campaign'}
-                campaign={current_campaign}
-                setVolunteerActive={setVolunteerActive}
+                initiateTwilioCall={initateTwilioCon}
+
               />
             </Col>
           </Row>

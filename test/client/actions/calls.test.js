@@ -11,9 +11,10 @@ import { setCurrentCall,
          setCallContactInfo,
          getCallContactInfo,
          updateCallAttempt,
+         initateTwilioCon,
+         endTwilioCon,
+         checkTwilioCon,
          releaseCall } from '../../../public/src/actions/calls';
-         // setCurrentCallActive,
-         // setCurrentCallInactive,
 import fixtures from '../client_fixtures';
 
 const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
@@ -25,6 +26,36 @@ function hasProp(obj, prop) {
 }
 
 exposeLocalStorageMock();
+
+const userWithCallSid = {
+  first_name: 'Oscar',
+  last_name: 'Grouch',
+  email: 'oscar@g.com',
+  phone_number: '15555555555',
+  password: 'pass',
+  call_sid: 'mock call sid'
+};
+
+const userWithCallSidNotDefined = {
+  first_name: 'Oscar',
+  last_name: 'Grouch',
+  email: 'oscar@g.com',
+  phone_number: '15555555555',
+  password: 'pass',
+  call_sid: null
+};
+
+const connectParams = {
+  userId: 1,
+  campaignId: 1,
+  action: 'connect'
+};
+
+const disconnectParams = {
+  userId: 1,
+  campaignId: 1,
+  action: 'disconnect'
+};
 
 describe('Call Actions', () => {
   let mock;
@@ -322,6 +353,62 @@ describe('Call Actions', () => {
         .catch((err) => {
           console.log(`Error in assignToCall action dispatch setCurrentCall is: ${err}`);
         });
+    });
+  });
+
+  describe('initateTwilioCon Action: ', () => {
+    beforeEach(() => {
+      mock.onPost('/users/1/campaigns/1/calls').reply(200, userWithCallSid);
+      mock.onGet('/users/1').reply(200, userWithCallSidNotDefined);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    const { userId: connectUserId, campaignId: connectCampaignId } = connectParams;
+    it('should return a user object with a call_sid: ', () => {
+      store.dispatch(initateTwilioCon(connectUserId, connectCampaignId))
+      .then((res) => {
+        const { call_sid } = res;
+        expect(call_sid !== null).toBe(true);
+      })
+      .catch(err => err);
+    });
+    it('should dispatch SET_VOLUNTEER_CALL_ACTIVE: ', () => {
+      const expectedActionSet = setVolunteerActive();
+      store.dispatch(initateTwilioCon(connectUserId, connectCampaignId))
+      .then(() => {
+        const [resultAction] = store.getActions();
+        expect(resultAction).toEqual(expectedActionSet);
+      })
+      .catch(err => err);
+    });
+  });
+
+  describe('endTwilioCon Action: ', () => {
+    beforeEach(() => {
+      mock.onDelete('/users/1/campaigns/1/calls').reply(200, userWithCallSidNotDefined);
+      mock.onGet('/users/1').reply(200, userWithCallSid);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    const { userId: disconnectUserId, campaignId: disconnectCampaignId } = disconnectParams;
+    it('should return a user object without a call_sid: ', () => {
+      store.dispatch(endTwilioCon(disconnectUserId, disconnectCampaignId))
+      .then((res) => {
+        const { call_sid } = res;
+        expect(call_sid).toBe(null);
+      })
+      .catch(err => err);
+    });
+    it('should dispatch CLEAR_VOLUNTEER_CALL_ACTIVE: ', () => {
+      const disconnectExpectedAction = clearVolunteerActive();
+      store.dispatch(endTwilioCon(disconnectUserId, disconnectCampaignId))
+      .then(() => {
+        const [resultActionDisconnect] = store.getState();
+        expect(resultActionDisconnect).toEqual(disconnectExpectedAction);
+      })
+      .catch(err => err);
     });
   });
 });
