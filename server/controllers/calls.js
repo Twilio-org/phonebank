@@ -63,6 +63,7 @@ function validateStatusForUpdate(currStatus, prevStatus) {
     ASSIGNED: 'IN_PROGRESS',
     IN_PROGRESS: 'HUNG_UP',
     HUNG_UP: 'ATTEMPTED'
+    // ATTEMPTED: 1
   };
   if (!validTransitions[currStatus]) {
     return false;
@@ -184,7 +185,7 @@ export function recordAttempt(req, res) {
                     }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
-            return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
+            return res.status(400).json({ message: 'Call transition is invalid' });
           }
           return res.status(404).json({ message: 'Call ID does not exist' });
         }).catch(err => console.log('could not find call for updating: ', err));
