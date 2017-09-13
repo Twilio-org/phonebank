@@ -356,71 +356,10 @@ describe('Call Actions', () => {
     });
   });
 
-  describe('checkTwilioCon Action: ', () => {
-    const initiateCallMock = jest.fn();
-    const endCallMock = jest.fn();
-    mock = new MockAdapter(axios);
-    describe('when callSid is set: ', () => {
-      beforeEach(() => {
-        mock.onGet('/users/1').reply(200, userWithCallSid);
-      });
-      afterEach(() => {
-        mock.reset();
-      });
-      it('should call endCall when verb is "disconnect"" ', () => {
-        store.dispatch(checkTwilioCon(disconnectParams, initiateCallMock, endCallMock))
-          .then((res) => {
-            const { data: userObj } = res;
-            expect(userObj).toEqual(userWithCallSid);
-            const { calls } = endCallMock.mock;
-            const [[firstArg, secondArg]] = calls;
-            expect(calls[0].length).toBe(2);
-            expect(firstArg).toBe(1);
-            expect(secondArg).toBe(1);
-          })
-          .catch(err => err);
-      });
-      it('should throw error when verb is "connect"" ', () => {
-        store.dispatch(checkTwilioCon(connectParams, initiateCallMock, endCallMock))
-          .then((res) => {
-            expect(res.constructor).toBe(Error);
-          })
-          .catch(err => console.log(err));
-      });
-    });
-    describe('when callSid is null: ', () => {
-      beforeEach(() => {
-        mock.onGet('/users/1').reply(200, userWithCallSidNotDefined);
-      });
-      afterEach(() => {
-        mock.reset();
-      });
-      it('should call endCall when verb is "connect" ', () => {
-        store.dispatch(checkTwilioCon(connectParams, initiateCallMock, endCallMock))
-          .then((res) => {
-            const { data: userObj } = res;
-            expect(userObj).toEqual(userWithCallSid);
-            const { calls } = initiateCallMock.mock;
-            const [[firstArg, secondArg]] = calls;
-            expect(calls[0].length).toBe(2);
-            expect(firstArg).toBe(1);
-            expect(secondArg).toBe(1);
-          })
-          .catch(err => err);
-      });
-      it('should throw error when verb is "disconnect" ', () => {
-        store.dispatch(checkTwilioCon(disconnectParams, initiateCallMock, endCallMock))
-          .then((res) => {
-            expect(res.constructor).toBe(Error);
-          })
-          .catch(err => err);
-      });
-    });
-  });
-
   describe('initateTwilioCon Action: ', () => {
     beforeEach(() => {
       mock.onPost('/users/1/campaigns/1/calls').reply(200, userWithCallSid);
+      mock.onGet('/users/1').reply(200, userWithCallSidNotDefined);
     });
     afterEach(() => {
       mock.reset();
@@ -447,7 +386,8 @@ describe('Call Actions', () => {
 
   describe('endTwilioCon Action: ', () => {
     beforeEach(() => {
-      mock.onDelete('/users/1/campaigns/1/calls').reply(200, userWithCallSid);
+      mock.onDelete('/users/1/campaigns/1/calls').reply(200, userWithCallSidNotDefined);
+      mock.onGet('/users/1').reply(200, userWithCallSid);
     });
     afterEach(() => {
       mock.reset();
