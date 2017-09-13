@@ -8,8 +8,7 @@ import { SET_CALL_CURRENT,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
          SET_VOLUNTEER_CALL_ACTIVE,
-         CLEAR_VOLUNTEER_CALL_ACTIVE,
-         SEND_CALL_RESPONSES } from '../reducers/calls';
+         CLEAR_VOLUNTEER_CALL_ACTIVE } from '../reducers/calls';
 
 export function setVolunteerActive() {
   return {
