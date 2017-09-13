@@ -34,13 +34,42 @@ export function callStatusUpdate() {
 }
 
 export function createCall() {
-  // Allie's create call callback Object goes here
+  return {
+    accountSid: `${TWILIO_ACCOUNT_SID}`,
+    annotation: null,
+    answeredBy: null,
+    apiVersion: '2010-04-01',
+    callerName: null,
+    dateCreated: null,
+    dateUpdated: null,
+    direction: 'outbound-api',
+    duration: null,
+    endTime: null,
+    forwardedFrom: null,
+    from: '+14157614347',
+    fromFormatted: '(415) 761-4347',
+    groupSid: null,
+    parentCallSid: null,
+    phoneNumberSid: 'PNfaf641002a732825de95dc80e1e69e72',
+    price: null,
+    priceUnit: 'USD',
+    sid: 'CAba4b59ede2ca5f2a5034f85a9880ccef',
+    startTime: null,
+    status: 'queued',
+    subresourceUris:
+    { notifications: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef/Notifications.json`,
+      recordings: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef/Recordings.json` },
+    to: '+16032750521',
+    toFormatted: '(603) 275-0521',
+    uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef.json`
+  };
 }
 
 export const testTwilioClient = {
-  calls(callSid) {
-    return {
-      update: () => callStatusUpdate()
-    };
-  }
+  calls: () => (
+    { update: () => callStatusUpdate() }
+  )
 };
+
+testTwilioClient.calls.create = () => createCall();
+
