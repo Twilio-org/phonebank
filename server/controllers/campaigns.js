@@ -19,12 +19,22 @@ export function saveNewCampaign(req, res) {
           const id = campaign.attributes.id;
           contactListsService.getContactsInContactListById({ id: contact_lists_id })
             .then((contacts) => {
-              contacts.map(contact => contact.id)
-                .forEach((contactId) => {
-                  callsService.populateCall({ campaign_id: id, contact_id: contactId })
-                    .catch((err) => {
-                      res.status(500).json({ message: 'Unable to add call entry for this campaign ID or contact ID', error: err });
-                    });
+              contacts.map(contact => ({
+                contact_id: contact.id,
+                do_not_call: JSON.parse(contact.attributes.do_not_call),
+                is_invalid_number: JSON.parse(contact.attributes.is_invalid_number)
+              }))
+                .forEach((mappedContact) => {
+                  const { do_not_call, is_invalid_number } = mappedContact;
+                  if (!do_not_call && !is_invalid_number) {
+                    callsService.populateCall({
+                      campaign_id: id,
+                      contact_id: mappedContact.contact_id
+                    })
+                      .catch((err) => {
+                        res.status(500).json({ message: 'Unable to add call entry for this campaign ID or contact ID', error: err });
+                      });
+                  }
                 });
               res.status(201).json({ message: 'Active Campaign successfully created' });
             })
