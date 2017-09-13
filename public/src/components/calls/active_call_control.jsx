@@ -14,6 +14,7 @@ export default class ActiveCallControl extends Component {
   }
   componentDidMount() {
     const { change, form, campaign_id, call_id, user_id } = this.props;
+    console.log('ACTIVE CALL CONTROL PROPS', this.props);
     change(form, 'campaign_id', campaign_id);
     change(form, 'call_id', call_id);
     change(form, 'user_id', user_id);
@@ -26,6 +27,7 @@ export default class ActiveCallControl extends Component {
 
   handleSubmitResponses(values) {
     const { submitCallResponses } = this.props;
+    console.log('I AM SUBMITTING, these are props + values!!!!!', this.props, values);
     submitCallResponses({ ...values, status: 'ATTEMPTED' });
   }
 
@@ -42,7 +44,12 @@ export default class ActiveCallControl extends Component {
     change(form, 'outcome', e.currentTarget.value);
   }
   render() {
-    const { current_call_contact_name, handleSubmit, outcome, status } = this.props;
+    const { current_call_contact_name,
+            handleSubmit,
+            outcome,
+            status,
+            valid,
+            submitting } = this.props;
     const outcomes = [
       {
         value: 'Answered',
@@ -104,6 +111,8 @@ export default class ActiveCallControl extends Component {
               text="Submit and Next Call"
               htmlID="submit-call-form-btn"
               styled="success"
+              valid={valid}
+              submitting={submitting}
             />
           </div>
         </div>

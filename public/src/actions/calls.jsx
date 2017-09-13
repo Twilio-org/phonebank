@@ -135,8 +135,10 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
 
 export function submitCallResponses(data) {
   const { user_id, campaign_id, call_id, outcome, responses, notes, status } = data;
-  const serializedResponses = helper.ResponsesSerializer(responses);
-  const responseData = { outcome, notes, responses: serializedResponses, status };
+  const serializedResponses = outcome === 'ANSWERED' ? helper.ResponsesSerializer(responses) : null;
+  const responseData = serializedResponses ?
+    { outcome, notes, responses: serializedResponses, status } : { outcome, notes, status };
+
   const path = `/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`;
   const auth = { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } };
 

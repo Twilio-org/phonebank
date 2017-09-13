@@ -57,6 +57,7 @@ const CallQuestion = (props) => {
                       type="checkbox"
                       name={`${questionRespFieldName}[${option}]`}
                       onChange={setQuestionId}
+                      normalize={v => !!v}
                     />
                     {`  ${option}`}
                   </label>

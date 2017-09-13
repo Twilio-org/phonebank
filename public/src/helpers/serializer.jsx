@@ -4,14 +4,17 @@ export default {
     // question_id, type, response
     const newData = data.map((question) => {
       const { question_id, type, response } = question;
-      if (type === 'multiselect') {
-        return {
+      let result;
+      if (question && type !== 'multiselect') {
+        result = question;
+      } else if (type === 'multiselect') {
+        result = {
           question_id,
           type,
           response: Object.keys(response).join(',')
         };
       }
-      return question;
+      return result;
     });
     return newData;
   }

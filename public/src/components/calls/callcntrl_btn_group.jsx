@@ -2,9 +2,10 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 const CallControl = (props) => {
-  const { handler, text, outcome, status, htmlID } = props;
+  const { handler, text, outcome, status, htmlID, valid, submitting } = props;
+  console.log('CALL CONTROL PROPS', props);
   const style = text === 'Hang Up' ? 'danger' : 'success';
-  const disableStatus = text === 'Hang Up' ? (outcome === 'PENDING' || status !== 'IN_PROGRESS') : ((outcome === 'PENDING' && status !== 'HUNG_UP') || (outcome === 'ANSWERED' && status !== 'HUNG_UP'));
+  const disableStatus = (text === 'Hang Up') ? (outcome === 'PENDING' || status !== 'IN_PROGRESS') : ((outcome === 'PENDING' && status !== 'HUNG_UP') || (outcome === 'ANSWERED' && status !== 'HUNG_UP') || valid || submitting);
 
   return (
     <div id={htmlID}>
