@@ -149,7 +149,7 @@ export function recordAttempt(req, res) {
                     if (user) {
                       const { call_sid } = user.attributes;
                       if (!call_sid) {
-                        res.status(404).json({ message: 'user is not currently connected to a call session' })
+                        return res.status(404).json({ message: 'user is not currently connected to a call session' });
                       }
                       const idCollection = {
                         user: user_id,
