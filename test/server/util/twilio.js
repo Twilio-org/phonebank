@@ -2,13 +2,13 @@ import { expect } from 'chai';
 import { callStatusUpdate } from './twilio_mocks';
 import { sayCallCompleted, sayHelloUser, hangUp, sayDialingContact } from '../../../server/util/twilio';
 
-describe('Twilio client methods', function () {
+describe('Twilio client methods', function() {
   it('should be able to hang up calls', (done) => {
     expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(callStatusUpdate());
     done();
   });
 });
-describe('XML Generation', function () {
+describe('XML Generation', function() {
   const userFirstName = 'User';
   const campaignName = 'Pacific Northwest LGBTQ+ Survey';
 
@@ -23,6 +23,16 @@ describe('XML Generation', function () {
     );
   });
   it('should return TwiML that matches the the call connect template: ', () => {
-    expect()
+    const contactNumber = '15555555555';
+    const contactName = 'Harry Potter';
+    const connectionString = process.env.DEV_PATH;
+    const params = {
+      callId: 1,
+      campaignId: 1,
+      userId: 1
+    };
+    const { userId, campaignId, callId } = params;
+    const expectedTwimlString = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Now dialing ${contactName}</Say><Dial action="${connectionString}/user/${userId}/campaign/${campaignId}/calls/${callId}/callback" method="POST">${contactNumber}</Dial><Redirect method="POST">${connectionString}/user/${userId}/campaign/${campaignId}/calls/bridge</Redirect></Response>`;
+    expect(sayDialingContact(contactName, contactNumber, params)).to.equal(expectedTwimlString);
   });
 });
