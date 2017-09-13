@@ -10,7 +10,8 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          startTwilioConnection,
-         volunteerCallback } from '../../controllers/users';
+         volunteerCallback,
+         contactEndCallback } from '../../controllers/users';
 import { assignCall, recordAttempt, releaseCall, hangUpCall } from '../../controllers/calls';
 // import { passport } from '../auth/local';
 const router = express.Router();
@@ -32,6 +33,7 @@ router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwiml);
 router.route('/:id/campaigns/:campaign_id/calls/start').post(getCallStartTwiml);
+router.route('/:id/campaigns/:campaign_id/calls/callback').post(contactEndCallback);
 router.route('/:id/manage').put(manageUserById);
 
 export default router;

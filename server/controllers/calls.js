@@ -2,7 +2,7 @@ import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
-import { hangUp } from '../util/twilio';
+import { hangUpVolunteerCall, hangUpContactCall } from '../util/twilio';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -140,6 +140,11 @@ export function recordAttempt(req, res) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
+                if (newStatus === 'HUNG_UP') {
+                  // call_sid, userID
+                  hangUpContactCall()
+                  .then()
+                }
                 return callsService.updateCallStatus({ id: call_id, status: newStatus })
                 .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
                 .catch(err => console.log('error updating status in calls controller: ', err));
@@ -198,7 +203,7 @@ export function hangUpCall(req, res) {
     .then((user) => {
       if (user) {
         const { call_sid } = user.attributes;
-        return hangUp(call_sid, id)
+        return hangUpVolunteerCall(call_sid, id)
           .then((call) => {
             console.log('Current call session status successfully updated', call);
             return usersService.clearUserCallSID({ id })

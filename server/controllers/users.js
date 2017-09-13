@@ -276,6 +276,12 @@ export function volunteerCallback(req, res) {
     });
 }
 
+export function contactEndCallback(req, res) {
+  const { id: user_id, campaign_id, call_id } = req.params;
+  console.log(req.body, 'in contact end callback');
+  // handle updating the call_sid
+}
+
 export function getCallCompleteTwiml(req, res) {
   const callCompletedTwiml = sayCallCompleted();
   return res.status(200)
