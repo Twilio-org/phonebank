@@ -10,7 +10,8 @@ import { addCampaignToUser,
          manageUserById,
          updateUserById,
          startTwilioConnection,
-         volunteerCallback } from '../../controllers/users';
+         volunteerCallback,
+         connectVolunteerToContact } from '../../controllers/users';
 import { assignCall, recordAttempt, releaseCall, hangUpCall } from '../../controllers/calls';
 // import { passport } from '../auth/local';
 const router = express.Router();

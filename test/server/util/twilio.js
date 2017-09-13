@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { callStatusUpdate } from './twilio_mocks';
-import { sayCallCompleted, sayHelloUser, hangUp } from '../../../server/util/twilio';
+import { sayCallCompleted, sayHelloUser, hangUp, sayDialingContact } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function () {
   it('should be able to hang up calls', (done) => {
@@ -21,5 +21,8 @@ describe('XML Generation', function () {
     expect(sayCallCompleted()).to.equal(
       '<?xml version="1.0" encoding="UTF-8"?><Response><Say>Call completed. Please submit the form to continue.</Say><Play loop="0">http://com.twilio.music.classical.s3.amazonaws.com/ith_chopin-15-2.mp3</Play></Response>'
     );
+  });
+  it('should return TwiML that matches the the call connect template: ', () => {
+    expect()
   });
 });

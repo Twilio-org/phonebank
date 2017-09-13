@@ -3,9 +3,7 @@ import campaignsService from '../db/services/campaigns';
 
 import contactsService from '../db/services/contacts';
 import callsService from '../db/services/calls';
-import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
-
-import { sayDialingContact } from '../util/ao_twilio';
+import { callVolunteer, sayCallCompleted, sayHelloUser, sayDialingContact } from '../util/twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
