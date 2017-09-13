@@ -66,7 +66,7 @@ export function getCallContactInfo(contactId) {
     const name = last_name ? `${first_name} ${last_name}` : first_name;
     dispatch(setCallContactInfo({ name }));
   })
-  .catch(err => console.log(err));
+  .catch(err => err);
 }
 
 export function assignToCall(userId, campaignId) {
@@ -86,7 +86,60 @@ export function assignToCall(userId, campaignId) {
       }
       return dispatch(setCurrentCall(callObj));
     })
-    .catch(err => console.log(err));
+    .catch(err => err);
+}
+
+export function initateTwilioCon(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    const connected = !!call_sid;
+    if (!connected) {
+      axios.post(`/users/${userId}/campaigns/${campaignId}/calls`, null, {
+        headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+      })
+      .then((connectionRes) => {
+        const { data: connectionUserObj } = connectionRes;
+        const { call_sid: userCallSid } = connectionUserObj;
+        if (userCallSid) {
+          return dispatch(setVolunteerActive());
+        }
+        return new Error('error with initiating twilio connection, no call_sid on user object');
+      })
+      .catch(err => err);
+    }
+    return new Error('twilio call connection already active.');
+  })
+  .catch(err => err);
+}
+
+export function endTwilioCon(userId, campaignId) {
+  return dispatch => axios.get(`/users/${userId}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+  .then((res) => {
+    const { data: userObj } = res;
+    const { call_sid } = userObj;
+    if (call_sid) {
+      axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+        headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+      })
+      .then((disconnectRes) => {
+        const { data: disconnectUserObj } = disconnectRes;
+        const { userCallSid } = disconnectUserObj;
+        if (!userCallSid) {
+          return dispatch(clearVolunteerActive());
+        }
+        return new Error('error disconnecting from twilio, call_sid still present');
+      })
+      .catch(err => err);
+    }
+    return new Error('twilio connection not active');
+  })
+  .catch(err => err);
 }
 
 export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
@@ -102,6 +155,7 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus, next 
     if (next) {
       return dispatch(assignToCall(userId, campaignId));
     }
+    dispatch(endTwilioCon(userId, campaignId));
     return dispatch(clearCurrentCall());
   })
   .catch(err => err);
@@ -129,5 +183,5 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
     }
     return dispatch(updateCallStatus(currentCallStatus));
   })
-  .catch();
+  .catch(err => err);
 }

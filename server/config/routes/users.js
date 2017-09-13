@@ -1,6 +1,5 @@
 import express from 'express';
 import { addCampaignToUser,
-         clearUserCallSIDField,
          deactivateUserById,
          getAllUsers,
          getCallCompleteTwiml,
@@ -12,10 +11,8 @@ import { addCampaignToUser,
          updateUserById,
          startTwilioConnection,
          volunteerCallback } from '../../controllers/users';
-
-import { assignCall, recordAttempt, releaseCall } from '../../controllers/calls';
+import { assignCall, recordAttempt, releaseCall, hangUpCall } from '../../controllers/calls';
 // import { passport } from '../auth/local';
-
 const router = express.Router();
 
 // router.use(passport.authenticate('jwt', { session: false }));
@@ -30,7 +27,7 @@ router.route('/:id/campaigns').get(getUserCampaigns);
 router.route('/:id/campaigns/:campaign_id').get(getUserCampaignAssociation);
 router.route('/:id/campaigns/:campaign_id/calls').get(assignCall);
 router.route('/:id/campaigns/:campaign_id/calls').post(startTwilioConnection);
-router.route('/:id/campaigns/:campaign_id/calls').delete(clearUserCallSIDField);
+router.route('/:id/campaigns/:campaign_id/calls').delete(hangUpCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').delete(releaseCall);
 router.route('/:id/campaigns/:campaign_id/calls/:call_id').put(recordAttempt);
 router.route('/:id/campaigns/:campaign_id/calls/bridge').post(getCallCompleteTwiml);
