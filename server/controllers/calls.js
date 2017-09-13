@@ -161,7 +161,7 @@ export function recordAttempt(req, res) {
                         ).catch(err => console.log('error mutating call in recordAttempt function of calls controller when setting modifying call with Twilio client: ', err));
                     }
                     return res.status(400).json({ message: `could not find user with id ${user_id}` });
-                  }).catch(err => conso le.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
+                  }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
