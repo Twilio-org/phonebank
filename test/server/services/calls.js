@@ -247,4 +247,25 @@ describe('Calls Service tests', function() {
           });
     });
   });
+  describe('getNumberOfCallsByCampaignId', () => {
+    it('should get the number of calls by campaign_id', (done) => {
+      const { campaign_id } = this.callSaveParams;
+      callsService.getNumberOfCallsByCampaignId({ campaign_id })
+        .then((numCalls) => {
+          expect(numCalls).to.equal('4');
+          done();
+        })
+        .catch(err => console.log('Error in getNumberOfCallsByCampaignId test: ', err));
+    });
+  });
+  describe('getNumberOfCallsAttemptedByCampaignId', () => {
+    it('should get the number of calls attempted by campaign_id', (done) => {
+      const { campaign_id } = this.callSaveParams;
+      callsService.getNumberOfCallsAttemptedByCampaignId({ campaign_id })
+        .then((numCallsAttempted) => {
+          expect(numCallsAttempted).to.equal('1');
+          done();
+        });
+    });
+  });
 });
