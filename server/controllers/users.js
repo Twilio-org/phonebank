@@ -309,5 +309,7 @@ export function connectVolunteerToContact(req, res) {
         res.status(500).json({ message: `Could not process request to connect volunteer to contact id: ${contact_id}:  ${err}` });
       });
   })
-  .catch(err => err);
+  .catch((err) => {
+    res.status(500).json({ message: `Could not process request to get call by id in connectVolunteerToContact: ${err}` });
+  });
 }
