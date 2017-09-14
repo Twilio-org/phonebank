@@ -14,11 +14,20 @@ const user = {
   password: 'pass'
 };
 
-const updatedUser = {
+const updatedAdminUser = {
   first_name: 'Mickey',
   last_name: 'Mouse',
   phone_number: '15555555555',
-  email: 'oscar@g.com'
+  email: 'mickey@mouse.com',
+  is_admin: true
+};
+
+const updatedVolunteerUser = {
+  first_name: 'Minney',
+  last_name: 'Mouse',
+  phone_number: '15555555556',
+  email: 'minney@mouse.com',
+  is_admin: false
 };
 
 let mocker;
@@ -94,25 +103,46 @@ describe('User Actions', () => {
         })
     );
   });
-  describe('editAccountActions', () => {
+  describe('editAccountActions for admin user', () => {
     mocker = new MockAdapter(axios);
     store = mockStore(defaultUserAccountInfo);
     beforeEach(() => {
-      mocker.onPut('/users/1').reply(200, updatedUser);
+      mocker.onPut('/users/1').reply(200, updatedAdminUser);
     });
     afterEach(() => {
       mocker.reset();
     });
-    describe('updateUser', () => {
-      it('should redirect to "/volunteers/1"', () =>
-        store.dispatch(updateUser(1, updatedUser, history))
+    describe('updateUser Admin', () => {
+      it('should redirect updated admin account to "/admin/account/1"', () => {
+        const { is_admin } = updatedAdminUser;
+        store.dispatch(updateUser(1, updatedAdminUser, is_admin, history))
           .then(() => {
             expect(history.push).toBeCalled();
-            expect(history.push.mock.calls[1]).toEqual(['/volunteers/1']);
-          })
-      );
+            expect(history.push.mock.calls[1]).toEqual(['/admin/account/1']);
+          });
+      });
       it('should have a method called updateUser', () => {
         expect(typeof updateUser).toBe('function');
+      });
+    });
+  });
+  describe('editAccountActions for volunteer user', () => {
+    mocker = new MockAdapter(axios);
+    store = mockStore(defaultUserAccountInfo);
+    beforeEach(() => {
+      mocker.onPut('/users/2').reply(200, updatedVolunteerUser);
+    });
+    afterEach(() => {
+      mocker.reset();
+    });
+    describe('updateUser Volunteer', () => {
+      it('should redirect updated volunteer account to "/volunteers/account/2"', () => {
+        const { is_admin } = updatedVolunteerUser;
+        store.dispatch(updateUser(2, updatedVolunteerUser, is_admin, history))
+          .then(() => {
+            expect(history.push).toBeCalled();
+            expect(history.push.mock.calls[2]).toEqual(['/volunteers/account/2']);
+          });
       });
     });
   });
@@ -136,7 +166,7 @@ describe('User Actions', () => {
           expect(res.config.url).toEqual('/users/1/campaigns');
           expect(data.campaign_id).toEqual(mockCampaignId);
           expect(history.push).toBeCalled();
-          expect(history.push.mock.calls[2]).toEqual(['/volunteers/campaigns']);
+          expect(history.push.mock.calls[3]).toEqual(['/volunteers/campaigns']);
         })
         .catch((err) => {
           console.log(`Error in addCampaignToUser action test is: ${err}`);
