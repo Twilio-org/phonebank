@@ -1,10 +1,21 @@
 import { expect } from 'chai';
-import { callStatusUpdate } from './twilio_mocks';
-import { sayCallCompleted, sayHelloUser, hangUp, sayDialingContact } from '../../../server/util/twilio';
+
+import { CALL_COMPLETE, CONNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
+import { hangUp, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact } from '../../../server/util/twilio';
+
 
 describe('Twilio client methods', function() {
   it('should be able to hang up calls', (done) => {
-    expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(callStatusUpdate());
+    expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CALL_COMPLETE));
+    done();
+  });
+  it('should be able to mutate calls when connecting volunteers to contacts', (done) => {
+    const idCollection = {
+      call: 1,
+      campaign: 1,
+      user: 1
+    };
+    expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CONNECT_CONTACT_URL));
     done();
   });
 });
