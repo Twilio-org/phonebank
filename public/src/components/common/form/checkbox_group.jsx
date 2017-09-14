@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { FormGroup, ControlLabel, Popover, Row, Col, Badge } from 'react-bootstrap';
 
-const RadioGroup = (props) => {
+const CheckboxGroup = (props) => {
   const { options,
           num,
           label,
@@ -10,7 +10,7 @@ const RadioGroup = (props) => {
           meta,
           onChangeCustom } = props;
   // TO-DO: explore best way to show errors
-  const errorText = meta && meta.invalid ? meta.error : '';
+  const errorText = meta && meta.invalid ? meta.error : false;
   return (
     <Row>
       <Col sm={1}>
@@ -20,16 +20,16 @@ const RadioGroup = (props) => {
         <FormGroup>
           <ControlLabel>{label}</ControlLabel>
           {
-            options.map(option => (
+            options.map((option, i) => (
               <div key={option}>
-                <label htmlFor={option} className="text-capitalize font-weight-normal">
+                <label htmlFor={`option${i}`} className="text-capitalize font-weight-normal">
                   <Field
-                    id={option}
-                    type="radio"
+                    id={`option${i}`}
                     component="input"
-                    value={option}
-                    name={`${fields.name}[response]`}
+                    type="checkbox"
+                    name={`${fields.name}[response][${option}]`}
                     onChange={onChangeCustom}
+                    normalize={v => !!v}
                   />
                   {`  ${option}`}
                 </label>
@@ -37,6 +37,7 @@ const RadioGroup = (props) => {
             ))
           }
         </FormGroup>
+        <hr />
       </Col>
       <Col xs={5}>
         {errorText && <Popover
@@ -52,4 +53,4 @@ const RadioGroup = (props) => {
   );
 };
 
-export default RadioGroup;
+export default CheckboxGroup;

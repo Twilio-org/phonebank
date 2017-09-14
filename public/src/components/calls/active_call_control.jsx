@@ -51,32 +51,38 @@ export default class ActiveCallControl extends Component {
             form_errors } = this.props;
     const outcomes = [
       {
-        value: 'Answered',
+        value: 'ANSWERED',
+        label: 'Answered',
         styled: 'success',
         icon: 'done'
       },
       {
-        value: 'Bad Number',
+        value: 'BAD_NUMBER',
+        label: 'Bad Number',
         styled: 'danger',
         icon: 'block'
       },
       {
-        value: 'Do Not Call',
+        value: 'DO_NOT_CALL',
+        label: 'Do Not Call',
         styled: 'danger',
         icon: 'cancel'
       },
       {
-        value: 'No Answer',
+        value: 'NO_ANSWER',
+        label: 'No Answer',
         styled: 'warning',
         icon: 'call_missed'
       },
       {
-        value: 'Left Message',
+        value: 'LEFT_MESSAGE',
+        label: 'Left Message',
         styled: 'warning',
         icon: 'mic'
       },
       {
-        value: 'Incomplete',
+        value: 'INCOMPLETE',
+        label: 'Incomplete',
         styled: 'warning',
         icon: 'indeterminate_check_box'
       }

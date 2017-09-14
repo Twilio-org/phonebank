@@ -19,7 +19,7 @@ const Toolbar = (props) => {
           onChange={handleOutcome}
         >
           {outcomes.map((outcome, index) => {
-            const { value, styled, icon } = outcome;
+            const { value, styled, icon, label } = outcome;
             return (
               <ToggleButton
                 bsStyle={styled}
@@ -28,7 +28,7 @@ const Toolbar = (props) => {
                 name={value}
                 onChange={onChange}
               >
-                <i className="material-icons md-16">{icon}</i> {value}
+                <i className="material-icons md-16">{icon}</i> {label}
               </ToggleButton>
             );
           })

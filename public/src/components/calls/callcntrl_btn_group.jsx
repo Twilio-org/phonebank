@@ -1,18 +1,18 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, HelpBlock } from 'react-bootstrap';
 
 const CallControl = (props) => {
   const { handler, text, outcome, status, htmlID, invalid } = props;
-  console.log('CALL CONTROL PROPS', props);
   const style = text === 'Hang Up' ? 'danger' : 'success';
   const disableStatus = (text === 'Hang Up') ? (outcome === 'PENDING' || status !== 'IN_PROGRESS') : ((outcome === 'PENDING' && status !== 'HUNG_UP') || (outcome === 'ANSWERED' && status !== 'HUNG_UP') || invalid);
 
   return (
     <div id={htmlID}>
+      { invalid && <HelpBlock>Complete survey responses before submit</HelpBlock> }
+      { text !== 'Hang Up' && outcome === 'ANSWERED' && !invalid && status !== 'HUNG_UP' && <HelpBlock> Hang up call before submit</HelpBlock> }
       <Button
         disabled={disableStatus}
         onClick={handler}
-        bsSize="small"
         bsStyle={style}
       >
         {text === 'Hang Up' ? (<i className="material-icons md-16">call end</i>) : (<i className="material-icons md-18">skip_next</i>) }{text}
