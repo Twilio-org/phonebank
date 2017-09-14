@@ -14,7 +14,8 @@ import { assignToCall,
          updateCallAttempt,
          releaseCall,
          clearVolunteerActive,
-         endTwilioCon } from '../actions/calls';
+         endTwilioCon,
+         clearCurrentCall } from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
@@ -50,7 +51,8 @@ export default withRouter(
           releaseCall,
           clearVolunteerActive,
           endTwilioCon,
-          change
+          change,
+          clearCurrentCall
         }
       )(CallPage)
     )
