@@ -2,7 +2,7 @@ import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
-import { hangUp } from '../util/twilio';
+import { hangUp, mutateCallConnectContact } from '../util/twilio';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -138,10 +138,32 @@ export function recordAttempt(req, res) {
           if (call) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
-              if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
+              if (newStatus === 'HUNG_UP') {
                 return callsService.updateCallStatus({ id: call_id, status: newStatus })
-                .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
-                .catch(err => console.log('error updating status in calls controller: ', err));
+                  .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
+                  .catch(err => console.log('error updating status in calls controller: ', err));
+              } else if (newStatus === 'IN_PROGRESS') {
+                return usersService.getUserById({ id: user_id })
+                  .then((user) => {
+                    if (user) {
+                      const { call_sid } = user.attributes;
+                      if (!call_sid) {
+                        return res.status(404).json({ message: 'user is not currently connected to a call session' });
+                      }
+                      const idCollection = {
+                        user: user_id,
+                        campaign: campaign_id,
+                        call: call_id
+                      };
+                      return mutateCallConnectContact(call_sid, idCollection)
+                        .then(() =>
+                          callsService.updateCallStatus({ id: call_id, status: newStatus })
+                            .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
+                            .catch(err => console.log('error updating status in calls controller: ', err))
+                        ).catch(err => console.log('error mutating call in recordAttempt function of calls controller when setting modifying call with Twilio client: ', err));
+                    }
+                    return res.status(400).json({ message: `could not find user with id ${user_id}` });
+                  }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
@@ -162,8 +184,7 @@ export function recordAttempt(req, res) {
         }).catch(err => console.log('could not find call for updating: ', err));
       }
       return res.status(401).json({ message: 'User has not joined that campaign' });
-    })
-    .catch(err => console.log('could not check if user has joined campaign: ', err));
+    }).catch(err => console.log('could not check if user has joined campaign: ', err));
 }
 
 export function releaseCall(req, res) {
