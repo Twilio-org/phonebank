@@ -36,14 +36,23 @@ describe('Campaign service tests', () => {
         status: 'active'
       };
 
+      this.campaignParams3 = {
+        name: 'testCampaign3',
+        title: 'Test3',
+        description: 'election',
+        status: 'draft'
+      };
+
       scriptsService.saveNewScript(this.scriptParams)
         .then((script) => {
           this.campaignParams1.script_id = script.attributes.id;
           this.campaignParams2.script_id = script.attributes.id;
+          this.campaignParams3.script_id = script.attributes.id;
           contactListsService.saveNewContactList(this.contactListParams)
             .then((contactList) => {
               this.campaignParams1.contact_lists_id = contactList.attributes.id;
               this.campaignParams2.contact_lists_id = contactList.attributes.id;
+              this.campaignParams3.contact_lists_id = contactList.attributes.id;
               done();
             });
         });
@@ -139,23 +148,42 @@ describe('Campaign service tests', () => {
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
           done();
-        })
+        });
     });
 
     it('should update a campaign with status: ', (done) => {
-      const id = this.campaign1id;
-      const updateParams1 = {
-        id,
-        status: 'active',
-        name: 'new campaign name',
-        title: 'new campaign title',
-        description: 'new campaign description',
-        contact_lists_id: 2,
-        script_id: 2
-      };
-      campaignsService.updateCampaignById(updateParams1)
-      .then()
-      .catch();
+      campaignsService.saveNewCampaign(this.campaignParams3)
+        .then((campaign) => {
+          const { id } = campaign.attributes;
+          const updateParams1 = {
+            id,
+            status: 'active',
+            name: 'new campaign name',
+            title: 'new campaign title',
+            description: 'new campaign description',
+            contact_lists_id: 2,
+            script_id: 2
+          };
+          return campaignsService.updateCampaignById(updateParams1)
+            .then((updatedCampaign) => {
+              const { status,
+                      name,
+                      title,
+                      description,
+                      contact_lists_id,
+                      script_id,
+                      id: campaign_id } = updatedCampaign.attributes;
+              expect(campaign_id).to.equal(this.campaignParams3.id);
+              expect(status).to.equal(updateParams1.status);
+              expect(name).to.equal(updateParams1.name);
+              expect(title).to.equal(updateParams1.title);
+              expect(description).to.equal(updateParams1.description);
+              expect(contact_lists_id).to.equal(updateParams1.contact_lists_id);
+              expect(script_id).to.equal(updateParams1.script_id);
+              done();
+            }, done);
+        }, done)
+        .catch(err => err);
     });
   });
 });
