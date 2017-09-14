@@ -15,7 +15,8 @@ import { assignToCall,
          releaseCall,
          clearVolunteerActive,
          endTwilioCon,
-         clearCurrentCall } from '../actions/calls';
+         clearCurrentCall,
+         setNoCallsAvailable } from '../actions/calls';
 
 function mapStateToProps(state) {
   return {
@@ -29,7 +30,8 @@ function mapStateToProps(state) {
     status: state.calls.status,
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
-    current_call_contact_name: state.calls.current_call_contact_name
+    current_call_contact_name: state.calls.current_call_contact_name,
+    no_calls_available: state.calls.no_calls_available
   };
 }
 
@@ -52,7 +54,8 @@ export default withRouter(
           clearVolunteerActive,
           endTwilioCon,
           change,
-          clearCurrentCall
+          clearCurrentCall,
+          setNoCallsAvailable
         }
       )(CallPage)
     )

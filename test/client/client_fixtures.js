@@ -383,7 +383,8 @@ export default {
       call_started: null,
       notes: null,
       current_call_contact_name: undefined,
-      call_volunteer_active: false
+      call_volunteer_active: false,
+      no_calls_available: false
     },
     contactFixture: {
       id: 1,
