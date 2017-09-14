@@ -45,7 +45,6 @@ export function sayCallCompleted() {
 }
 
 export function hangUpContactCall(callSid, user_id) {
-  console.log('INSIDE HANG UP CONTACT CALL:', callSid, user_id);
   return twilioClient.calls(callSid)
     .update({
       status: 'completed',
@@ -57,7 +56,7 @@ export function sayDialingContact(contactName, contactNumber, idParams) {
   const { userId, campaignId, callId } = idParams;
   const helloContact = new VoiceResponse();
   helloContact.say(`Now dialing ${contactName}`);
-  helloContact.dial({ action: `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
+  helloContact.dial({ action: `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
   helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/bridge`);
   return helloContact.toString();
 }

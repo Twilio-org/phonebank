@@ -69,3 +69,35 @@ export const testTwilioClient = {
     };
   }
 };
+
+
+/*
+{ Called: '+12096075616',
+  ToState: 'CA',
+  DialCallStatus: 'no-answer',
+  CallerCountry: 'US',
+  Direction: 'outbound-api',
+  CallerState: 'CA',
+  ToZip: '95207',
+  DialCallSid: 'CAb33a8e7c60273911ceb163f80691849b',
+  CallSid: 'CAd3eee17c7a60e8fc78d338f2bcc44e14',
+  To: '+12096075616',
+  CallerZip: '',
+  ToCountry: 'US',
+  ApiVersion: '2010-04-01',
+  CalledZip: '95207',
+  CalledCity: 'MANTECA',
+  CallStatus: 'completed',
+  From: '+14155499993',
+  AccountSid: 'ACc4afb71c2c6d627f20816571f6e7bfef',
+  CalledCountry: 'US',
+  CallerCity: '',
+  Caller: '+14155499993',
+  FromCountry: 'US',
+  ToCity: 'MANTECA',
+  FromCity: '',
+  CalledState: 'CA',
+  FromZip: '',
+  FromState: 'CA' }
+
+*/
