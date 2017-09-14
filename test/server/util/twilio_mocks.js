@@ -4,6 +4,7 @@ const { TWILIO_ACCOUNT_SID } = process.env;
 
 export const CALL_COMPLETE = 'CALL_COMPLETE';
 export const CONNECT_CONTACT_URL = 'CONNECT_CONTACT_URL';
+export const DISCNNECT_CONTACT_URL = 'DISCNNECT_CONTACT_URL';
 
 export function returnUpdate(callSid, updateType) {
   const clientUpdateObject = {
@@ -45,6 +46,11 @@ export function returnUpdate(callSid, updateType) {
     case CONNECT_CONTACT_URL:
       clientUpdateObject.status = 'in-progress';
       return clientUpdateObject;
+    case DISCNNECT_CONTACT_URL:
+      clientUpdateObject.status = 'completed';
+      clientUpdateObject.duration = '14';
+      clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z';
+      return clientUpdateObject;
     default:
       return clientUpdateObject;
   }
@@ -54,12 +60,20 @@ export function createCall() {
   // Allie's create call callback Object goes here
 }
 
+function sliceEndpoint(url) {
+  return url.slice(url.length - 1 - 6);
+}
+
 export const testTwilioClient = {
   calls(callSid) {
     return {
       update: (options) => {
         const optionsCalled = Object.getOwnPropertyNames(options).sort();
         if (lodash.isEqual(optionsCalled, ['status', 'statusCallback'])) {
+          const endpoint = sliceEndpoint(options.statusCallback);
+          if (options.statusCallback === endpoint) {
+            return returnUpdate(optionsCalled, DISCNNECT_CONTACT_URL);
+          }
           return returnUpdate(callSid, CALL_COMPLETE);
         } else if (lodash.isEqual(optionsCalled, ['url'])) {
           return returnUpdate(callSid, CONNECT_CONTACT_URL);
@@ -69,35 +83,3 @@ export const testTwilioClient = {
     };
   }
 };
-
-
-/*
-{ Called: '+12096075616',
-  ToState: 'CA',
-  DialCallStatus: 'no-answer',
-  CallerCountry: 'US',
-  Direction: 'outbound-api',
-  CallerState: 'CA',
-  ToZip: '95207',
-  DialCallSid: 'CAb33a8e7c60273911ceb163f80691849b',
-  CallSid: 'CAd3eee17c7a60e8fc78d338f2bcc44e14',
-  To: '+12096075616',
-  CallerZip: '',
-  ToCountry: 'US',
-  ApiVersion: '2010-04-01',
-  CalledZip: '95207',
-  CalledCity: 'MANTECA',
-  CallStatus: 'completed',
-  From: '+14155499993',
-  AccountSid: '${TWILIO_ACCOUNT_SID}',
-  CalledCountry: 'US',
-  CallerCity: '',
-  Caller: '+14155499993',
-  FromCountry: 'US',
-  ToCity: 'MANTECA',
-  FromCity: '',
-  CalledState: 'CA',
-  FromZip: '',
-  FromState: 'CA' }
-
-*/

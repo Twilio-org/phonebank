@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { CALL_COMPLETE, CONNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
+import { CALL_COMPLETE, CONNECT_CONTACT_URL, DISCNNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
 
-import { hangUp, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact } from '../../../server/util/twilio';
+import { hangUpVolunteerCall, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact, hangUpContactCall } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function() {
   it('should be able to hang up calls', (done) => {
-    expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CALL_COMPLETE));
+    expect(hangUpVolunteerCall('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CALL_COMPLETE));
     done();
   });
   it('should be able to mutate calls when connecting volunteers to contacts', (done) => {
@@ -16,6 +16,13 @@ describe('Twilio client methods', function() {
       user: 1
     };
     expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CONNECT_CONTACT_URL));
+    done();
+  });
+  it('should be able to mutate calls when disconnecting volunteers from contacts', (done) => {
+    const userId = 1;
+    const volunteerCallSid = 'CAcbbf06f666c72c51c59200de56ae54ff';
+    expect(hangUpContactCall(volunteerCallSid, userId))
+      .to.deep.equal(returnUpdate(volunteerCallSid, DISCNNECT_CONTACT_URL));
     done();
   });
   // test for hang up
@@ -44,7 +51,7 @@ describe('XML Generation', function() {
       userId: 1
     };
     const { userId, campaignId, callId } = params;
-    const expectedTwimlString = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Now dialing ${contactName}</Say><Dial action="${connectionString}/user/${userId}/campaign/${campaignId}/calls/${callId}/callback" method="POST">${contactNumber}</Dial><Redirect method="POST">${connectionString}/user/${userId}/campaign/${campaignId}/calls/bridge</Redirect></Response>`;
+    const expectedTwimlString = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Now dialing ${contactName}</Say><Dial action="${connectionString}/users/${userId}/campaigns/${campaignId}/calls/${callId}/callback" method="POST">${contactNumber}</Dial><Redirect method="POST">${connectionString}/users/${userId}/campaigns/${campaignId}/calls/bridge</Redirect></Response>`;
     expect(sayDialingContact(contactName, contactNumber, params)).to.equal(expectedTwimlString);
   });
 });

@@ -57,7 +57,7 @@ export function sayDialingContact(contactName, contactNumber, idParams) {
   const helloContact = new VoiceResponse();
   helloContact.say(`Now dialing ${contactName}`);
   helloContact.dial({ action: `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
-  helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/bridge`);
+  helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/bridge`);
   return helloContact.toString();
 }
 
