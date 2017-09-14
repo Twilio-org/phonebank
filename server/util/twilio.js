@@ -52,3 +52,11 @@ export function hangUpContactCall(callSid, user_id) {
       statusCallback: `${DEV_PATH}/users/${user_id}/bridge`
     });
 }
+
+export function mutateCallConnectContact(callSid, idCollection) {
+  const { user: user_id, campaign: campaign_id, call: call_id } = idCollection;
+  return twilioClient.calls(callSid)
+    .update({
+      url: `${DEV_PATH}/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}/connect`
+    });
+}

@@ -1,5 +1,6 @@
 import usersService from '../db/services/users';
 import campaignsService from '../db/services/campaigns';
+import callsService from '../db/services/calls';
 import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
 
 
@@ -276,11 +277,20 @@ export function volunteerCallback(req, res) {
     });
 }
 
-export function contactEndCallback(req, res) {
-  const { id: user_id, campaign_id, call_id } = req.params;
-  const { sid: contactCallSid } = req.body;
-  console.log(user_id, campaign_id, call_id, contactCallSid, res, 'these console.log statements 4 linting');
-  // handle updating the call_sid
+export function contactCallback(req, res) {
+  const { call_id: id } = req.params;
+  const { call_sid } = req.body;
+  return callsService.updateContactCallSid({ id, call_sid })
+    .then((call) => {
+      if (call) {
+        res.status(201).json(call);
+      } else {
+        res.status(404).json({ message: 'Could not find call with given call id' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Could not save Call SID for this contact for this call: ${err}` });
+    });
 }
 
 export function getCallCompleteTwiml(req, res) {
