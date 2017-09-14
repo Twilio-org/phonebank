@@ -44,3 +44,11 @@ export function sayCallCompleted() {
   CallCompleted.play({ loop: 0 }, 'http://com.twilio.music.classical.s3.amazonaws.com/ith_chopin-15-2.mp3');
   return CallCompleted.toString();
 }
+
+export function mutateCallConnectContact(callSid, idCollection) {
+  const { user: user_id, campaign: campaign_id, call: call_id } = idCollection;
+  return twilioClient.calls(callSid)
+    .update({
+      url: `${DEV_PATH}/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}/connect`
+    });
+}
