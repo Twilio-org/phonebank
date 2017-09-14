@@ -128,7 +128,7 @@ export function recordAttempt(req, res) {
   console.log(`the outcome and status in the controller is: outcome: ${outcome} status: ${newStatus}`);
   let parsedResponses;
   // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
-  if (newStatus === 'ATTEMPTED') {
+  if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
       res.status(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
     }
@@ -152,6 +152,7 @@ export function recordAttempt(req, res) {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
           if (call) {
+            console.log('call in userHasJoined is: ', call.attributes);
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'IN_PROGRESS' || newStatus === 'HUNG_UP') {
@@ -160,8 +161,8 @@ export function recordAttempt(req, res) {
                 .catch(err => console.log('error updating status in calls controller: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
-                .then((responseAfterPutCallAttempt) => {
-                  console.log('the responseAfterPutCallAttempt is: ', responseAfterPutCallAttempt);
+                .then(() => {
+
                   Promise.all(parsedResponses.map((resp) => {
                     const { question_id, response } = resp;
                     const responseParams = { call_id, question_id, response };
