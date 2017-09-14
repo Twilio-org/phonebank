@@ -41,7 +41,8 @@ export default class CallPage extends Component {
               call_current_active,
               updateCallAttempt,
               releaseCall,
-              endTwilioCon } = this.props;
+              endTwilioCon,
+              clearCurrentCall } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -66,6 +67,7 @@ export default class CallPage extends Component {
               updateAttempt={updateCallAttempt}
               releaseCall={releaseCall}
               endVolunterTwilioCon={endTwilioCon}
+              clearCurrentCall={clearCurrentCall}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>
