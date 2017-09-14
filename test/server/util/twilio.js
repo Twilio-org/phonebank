@@ -9,6 +9,7 @@ describe('Twilio client methods', function () {
   });
   it('should create a new call', (done) => {
     expect(callVolunteer(1, 1, '+15555555555')).to.deep.equal(createCall());
+    expect(typeof callVolunteer(1, 1, '+15555555555')).to.equal('object');
     done();
   });
 });
