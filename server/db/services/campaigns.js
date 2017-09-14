@@ -24,5 +24,13 @@ export default {
 
     return new Campaign({ id })
       .fetch();
+  },
+
+  updateCampaignStatus(params) {
+    const { id, status } = params;
+    return new Campaign({ id })
+      .save({ status }, { patch: true })
+      .then(campaign => campaign)
+      .catch(err => err);
   }
 };

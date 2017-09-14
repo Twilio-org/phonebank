@@ -70,3 +70,19 @@ export function getAllCampaigns(req, res) {
     });
 }
 
+export function updateCampaignStatus(req, res) {
+  const { id } = req.params;
+  const { status } = req.body;
+  return campaignsService.updateCampaignStatus({ id, status })
+    .then((campaign) => {
+      if (campaign) {
+        res.status(200).json(campaign);
+      } else {
+        res.status(404).json({ message: 'Could not find campaign with that id' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Campaign status update unsuccessful: ${err}` });
+    });
+}
+
