@@ -6,7 +6,6 @@ import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
 function cleanUserObject(user) {
   const cleanUser = user;
   delete cleanUser.attributes.password_hash;
-  delete cleanUser._previousAttributes.password_hash;
   return cleanUser;
 }
 
@@ -280,6 +279,7 @@ export function volunteerCallback(req, res) {
 export function contactEndCallback(req, res) {
   const { id: user_id, campaign_id, call_id } = req.params;
   const { sid: contactCallSid } = req.body;
+  console.log(user_id, campaign_id, call_id, contactCallSid, res, 'these console.log statements 4 linting');
   // handle updating the call_sid
 }
 
