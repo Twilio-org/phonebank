@@ -113,6 +113,8 @@ function handleHangUpFlow(res, user_id, call_id, newStatus) {
   return usersService.getUserById({ id: user_id })
   .then((userObj) => {
     const { call_sid: userCallSid } = userObj.attributes;
+    console.log(userObj.attributes);
+    console.log(userCallSid, 'inside hang up handler');
     hangUpContactCall(userCallSid, user_id)
     .then(() => {
       callsService.updateCallStatus({ id: call_id, status: newStatus })
