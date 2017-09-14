@@ -5,7 +5,7 @@ import { hangUp, mutateCallConnectContact, sayCallCompleted, sayHelloUser  } fro
 
 describe('Twilio client methods', function () {
   it('should be able to hang up calls', (done) => {
-    expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(returnUpdate(CALL_COMPLETE));
+    expect(hangUp('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CALL_COMPLETE));
     done();
   });
   it('should be able to mutate calls when connecting volunteers to contacts', (done) => {
@@ -14,7 +14,7 @@ describe('Twilio client methods', function () {
       campaign: 1,
       user: 1
     };
-    expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate(CONNECT_CONTACT_URL));
+    expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff',   CONNECT_CONTACT_URL));
     done();
   });
 });

@@ -1,9 +1,11 @@
+import lodash from 'lodash';
+
 const { TWILIO_ACCOUNT_SID } = process.env;
 
 export const CALL_COMPLETE = 'CALL_COMPLETE';
 export const CONNECT_CONTACT_URL = 'CONNECT_CONTACT_URL';
 
-export function returnUpdate(updateType) {
+export function returnUpdate(callSid, updateType) {
   const clientUpdateObject = {
     accountSid: `${TWILIO_ACCOUNT_SID}`,
     annotation: null,
@@ -23,16 +25,16 @@ export function returnUpdate(updateType) {
     phoneNumberSid: 'PNea33e72ef31e2b72ef8315b16c0c63e2',
     price: null,
     priceUnit: 'USD',
-    sid: 'CAcbbf06f666c72c51c59200de56ae54ff',
+    sid: callSid,
     startTime: '2017-09-11T18:20:30.000Z',
     status: null,
     subresourceUris: {
-      notifications: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAcbbf06f666c72c51c59200de56ae54ff/Notifications.json`,
-      recordings: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAcbbf06f666c72c51c59200de56ae54ff/Recordings.json`
+      notifications: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/${callSid}/Notifications.json`,
+      recordings: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/${callSid}/Recordings.json`
     },
     to: '+14086428264',
     toFormatted: '(408) 642-8264',
-    uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAcbbf06f666c72c51c59200de56ae54ff.json`
+    uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/${callSid}.json`
   }
   switch (updateType) {
     case CALL_COMPLETE:
@@ -40,11 +42,14 @@ export function returnUpdate(updateType) {
       clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z'
       clientUpdateObject.status = 'completed'
       return clientUpdateObject;
+      break;
     case CONNECT_CONTACT_URL:
       clientUpdateObject.status = 'in-progress'
       return clientUpdateObject;
+      break;
     default:
       return clientUpdateObject;
+      break;
   }
 }
 
@@ -52,39 +57,15 @@ export function createCall() {
   // Allie's create call callback Object goes here
 }
 
-//stole this array comparison extension from stackoverflow
-Array.prototype.equals = function (array) {
-    // if the other array is a falsy value, return
-    if (!array)
-        return false;
-    // compare lengths - can save a lot of time
-    if (this.length != array.length)
-        return false;
-
-    for (var i = 0, l=this.length; i < l; i++) {
-        // Check if we have nested arrays
-        if (this[i] instanceof Array && array[i] instanceof Array) {
-            // recurse into the nested arrays
-            if (!this[i].equals(array[i]))
-                return false;
-        }
-        else if (this[i] != array[i]) {
-            // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;
-        }
-    }
-    return true;
-}
-
 export const testTwilioClient = {
   calls(callSid) {
     return {
       update: (options) => {
         const optionsCalled = Object.getOwnPropertyNames(options).sort();
-        if (optionsCalled.equals([ 'status', 'statusCallback' ])) {
-          return returnUpdate(CALL_COMPLETE);
-        } else if (optionsCalled.equals([ 'url' ])) {
-          return returnUpdate(CONNECT_CONTACT_URL);
+        if (lodash.isEqual(optionsCalled, [ 'status', 'statusCallback' ])) {
+          return returnUpdate(callSid, CALL_COMPLETE);
+        } else if (lodash.isEqual(optionsCalled, [ 'url' ])) {
+          return returnUpdate(callSid, CONNECT_CONTACT_URL);
         } else {
           return returnUpdate();
         }
