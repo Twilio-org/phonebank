@@ -64,7 +64,7 @@ export const testTwilioClient = {
         } else if (lodash.isEqual(optionsCalled, [ 'url' ])) {
           return returnUpdate(callSid, CONNECT_CONTACT_URL);
         } else {
-          return returnUpdate();
+          return returnUpdate(callSid);
         }
       }
     };
