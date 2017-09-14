@@ -53,6 +53,15 @@ export function hangUpContactCall(callSid, user_id) {
     });
 }
 
+export function sayDialingContact(contactName, contactNumber, idParams) {
+  const { userId, campaignId, callId } = idParams;
+  const helloContact = new VoiceResponse();
+  helloContact.say(`Now dialing ${contactName}`);
+  helloContact.dial({ action: `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
+  helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/bridge`);
+  return helloContact.toString();
+}
+
 export function mutateCallConnectContact(callSid, idCollection) {
   const { user: user_id, campaign: campaign_id, call: call_id } = idCollection;
   return twilioClient.calls(callSid)
