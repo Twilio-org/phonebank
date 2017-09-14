@@ -6,6 +6,7 @@ import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
 function cleanUserObject(user) {
   const cleanUser = user;
   delete cleanUser.attributes.password_hash;
+  delete cleanUser._previousAttributes.password_hash;
   return cleanUser;
 }
 

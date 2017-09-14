@@ -45,6 +45,7 @@ export function sayCallCompleted() {
 }
 
 export function hangUpContactCall(callSid, user_id) {
+  console.log('INSIDE HANG UP CONTACT CALL:', callSid, user_id);
   return twilioClient.calls(callSid)
     .update({
       status: 'completed',

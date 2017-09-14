@@ -9,7 +9,8 @@ module.exports = {
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/valid-expect": "error",
-    "no-confusing-arrow": ["error", {"allowParens": true}]
+    "no-confusing-arrow": ["error", {"allowParens": true}],
+    "arrow-body-style": ["errror", "as-needed"]
   },
   "plugins": [
     "jest",

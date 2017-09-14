@@ -3,7 +3,7 @@ import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
 // import { hangUpVolunteerCall, hangUpContactCall } from '../util/twilio';
-import { hangUpVolunteerCall } from '../util/twilio';
+import { hangUpVolunteerCall, mutateCallConnectContact } from '../util/twilio';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -219,17 +219,18 @@ export function hangUpCall(req, res) {
     });
 }
 
-// // NEED TO INTEGRATE INTO CODE ONCE JADZIA'S GOES IN
-//                 if (newStatus === 'HUNG_UP') {
-//                   callsService.updateCallStatus({ id: call_id, status: newStatus })
-//                   .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
-//                   .catch(err => console.log('error updating status in calls controller: ', err));
-//                   return usersService.getUserById({ id: user_id })
-//                   .then((userObj) => {
-//                     const { call_sid: userCallSid } = userObj.attributes;
-//                     hangUpContactCall(userCallSid, user_id)
-//                     .then(hungupCall => res.status(200).json({ message: `call id: ${call_id} successfully hung up: ${hungupCall}` }))
-//                     .catch(err => err);
-//                   });
-//                 }
-//                 // end of integration section
+/*
+                  return usersService.getUserById({ id: user_id })
+                  .then((userObj) => {
+                    const { call_sid: userCallSid } = userObj.attributes;
+                    hangUpContactCall(userCallSid, user_id)
+                    .then(() => {
+                      return callsService.updateCallStatus({ id: call_id, status: newStatus })
+                      .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
+                      .catch(err => console.log('error updating status in calls controller: ', err));
+                      res.status(200).json({ message: `call id: ${call_id} successfully hung up: ${hungupCall}` })
+                    })
+                    .catch(err => err);
+                  })
+                  .catch(err => err);
+*/
