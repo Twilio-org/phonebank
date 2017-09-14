@@ -115,6 +115,16 @@ function createCall(params) {
   .then().catch(err => console.log(err));
 }
 
+function updateContactDoNotCall(params) {
+  return contactsService.updateContactDoNotCallById(params)
+  .then().catch(err => console.log(err));
+}
+
+function updateContactInvalidNumber(params) {
+  return contactsService.updateContactInvalidNumberById(params)
+  .then().catch(err => console.log(err));
+}
+
 function generatePromiseActions(paramsArray, createFunction) {
   const callArray = [];
 
@@ -153,6 +163,11 @@ Promise.all(generatePromiseActions(userParams, createUser))
                         const contactListContactParams = [];
 
                         contactIds.forEach((contactId) => {
+                          if (contactId > 30 && contactId < 40) {
+                            updateContactDoNotCall({ id: contactId });
+                          } else if (contactId > 40 && contactId < 50) {
+                            updateContactInvalidNumber({ id: contactId });
+                          }
                           contactListContactParams.push({
                             id: contactList.attributes.id,
                             contact_id: contactId
