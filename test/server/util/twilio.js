@@ -1,17 +1,13 @@
 import { expect } from 'chai';
-import { callStatusUpdates } from './twilio_mocks';
-import { sayCallCompleted, sayHelloUser, hangUpVolunteerCall, hangUpContactCall } from '../../../server/util/twilio';
-
-const { twilioClientVolunteer, twilioClientContact } = callStatusUpdates();
+import { callStatusUpdate } from './twilio_mocks';
+import { sayCallCompleted, sayHelloUser, hangUpVolunteerCall } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function () {
   it('should be able to hang up calls between twilio client and volunteer: ', (done) => {
-    expect(hangUpVolunteerCall('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(twilioClientVolunteer());
-    done(hangUpContactCall('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(twilioClientContact() );
+    expect(hangUpVolunteerCall('CAcbbf06f666c72c51c59200de56ae54ff')).to.deep.equal(callStatusUpdate());
+    done();
   });
-  it('should be able to hang up calls between twilio client and contact during campaigning calls: ', () => {
-
-  });
+  // test for hang up
 });
 describe('XML Generation', function () {
   const userFirstName = 'User';
