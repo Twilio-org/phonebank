@@ -42,14 +42,11 @@ export function returnUpdate(callSid, updateType) {
       clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z'
       clientUpdateObject.status = 'completed'
       return clientUpdateObject;
-      break;
     case CONNECT_CONTACT_URL:
       clientUpdateObject.status = 'in-progress'
       return clientUpdateObject;
-      break;
     default:
       return clientUpdateObject;
-      break;
   }
 }
 
