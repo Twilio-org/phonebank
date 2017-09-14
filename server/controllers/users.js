@@ -285,33 +285,13 @@ export function getCallCompleteTwiml(req, res) {
     .send(callCompletedTwiml);
 }
 
-function getContactIdIfNotExist(callId, contactId) {
-  return new Promise((resolve, reject) => {
-    if (!contactId) {
-      callsService.getCallById({ id: callId })
-      .then((call) => {
-        const { contact_id } = call;
-        resolve({ contact_id });
-      })
-      .catch(err => reject(err));
-    } else {
-      resolve({ contact_id: contactId });
-    }
-  });
-}
-
 export function connectVolunteerToContact(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const campaign_id = parseInt(req.params.campaign_id, 10);
   const call_id = parseInt(req.params.call_id, 10);
-  const { contact_id: contactId } = req.body;
-
-  return getContactIdIfNotExist(call_id, contactId)
-  .then((contact) => {
-    let { contact_id } = contact;
-    if (typeof contact_id !== 'number') {
-      contact_id = parseInt(contact_id, 10);
-    }
+  return callsService.getCallById({ id: call_id })
+  .then((call) => {
+    const { contact_id } = call;
     return contactsService.getContactById({ id: contact_id })
       .then((contactObj) => {
         if (contactObj) {
@@ -328,5 +308,6 @@ export function connectVolunteerToContact(req, res) {
       .catch((err) => {
         res.status(500).json({ message: `Could not process request to connect volunteer to contact id: ${contact_id}:  ${err}` });
       });
-  });
+  })
+  .catch(err => err);
 }
