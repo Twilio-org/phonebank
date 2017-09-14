@@ -11,9 +11,9 @@ const checkObjectProps = (expectedProps, obj) => {
 };
 
 const paths = {
-  extraHeaders: 'extra_headers_contact_list.csv',
-  missingHeaders: 'missing_header_contact_list.csv',
-  completeHeaders: 'contact_list.csv'
+  extraHeaders: 'csv_files/extra_headers_contact_list.csv',
+  missingHeaders: 'csv_files/missing_header_contact_list.csv',
+  completeHeaders: 'csv_files/contact_list.csv'
 };
 
 const { extraHeaders: extra, missingHeaders: missing, completeHeaders: complete } = paths;
