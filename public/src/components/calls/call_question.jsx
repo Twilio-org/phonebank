@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Field } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import { Row, Col, Badge, ControlLabel, FormGroup } from 'react-bootstrap';
 import FieldGroup from '../../components/common/form/field_group';
+import RadioGroup from '../../components/common/form/radio_group';
 
 const CallQuestion = (props) => {
   const { question, num, change, form } = props;
@@ -72,35 +73,44 @@ const CallQuestion = (props) => {
   }
 
   return (
-    <Row>
-      <Col sm={1}>
-        <Badge>{num + 1}</Badge>
-      </Col>
-      <Col sm={11}>
-        <FormGroup>
-          <ControlLabel>{questionText}</ControlLabel>
-          {
-            options.map(option => (
-              <div key={option}>
-                <label htmlFor={option} className="text-capitalize font-weight-normal">
-                  <Field
-                    id={option}
-                    component="input"
-                    type="radio"
-                    name={questionRespFieldName}
-                    value={option}
-                    onChange={setQuestionId}
-                  />
-                  {`  ${option}`}
-                </label>
-              </div>
-            ))
-          }
-        </FormGroup>
-        <hr />
-      </Col>
-    </Row>
+    <FieldArray
+      component={RadioGroup}
+      options={options}
+      num={num}
+      label={questionText}
+      name={responsesFieldName}
+      onChangeCustom={setQuestionId}
+    />
   );
 };
 
 export default CallQuestion;
+
+// {/* <Row>
+//   <Col sm={1}>
+//     <Badge>{num + 1}</Badge>
+//   </Col>
+//   <Col sm={11}>
+//     <FormGroup>
+//       <ControlLabel>{questionText}</ControlLabel>
+//       {
+//         options.map(option => (
+//           <div key={option}>
+//             <label htmlFor={option} className="text-capitalize font-weight-normal">
+//               <Field
+//                 id={option}
+//                 component="input"
+//                 type="radio"
+//                 name={questionRespFieldName}
+//                 value={option}
+//                 onChange={setQuestionId}
+//               />
+//               {`  ${option}`}
+//             </label>
+//           </div>
+//         ))
+//       }
+//     </FormGroup>
+//     <hr />
+//   </Col>
+// </Row> */}

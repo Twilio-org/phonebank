@@ -112,16 +112,14 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
 
 export function recordAttempt(req, res) {
   const { outcome, notes, responses, status: newStatus } = req.body;
-  let parsedResponses;
+
   // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
       res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object and outcome string' });
     }
-    try {
-      parsedResponses = responses;
-    } catch (err) {
-      return res.status(400).json({ message: 'Invalid JSON object' });
+    if (!Array.isArray(responses)) {
+      return res.status(400).json({ message: 'Responses should be an array of objects' });
     }
   }
   const call_id = parseInt(req.params.call_id, 10);
@@ -147,7 +145,7 @@ export function recordAttempt(req, res) {
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-                  Promise.all(parsedResponses.map((resp) => {
+                  Promise.all(responses.map((resp) => {
                     const { question_id, response } = resp;
                     const responseParams = { call_id, question_id, response };
                     return responsesService.saveNewResponse(responseParams);

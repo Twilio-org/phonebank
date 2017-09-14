@@ -8,13 +8,13 @@ export default function validateCall(values) {
       const question = responses[i];
       if (typeof question === 'undefined' || typeof question.response === 'undefined') {
         errors.responses = [];
-        errors.responses[i] = { response: 'Response can\'t be blank' };
+        errors.responses[i] = { response: { _error: 'Response can\'t be blank' } };
       } else if (question.type === 'multiselect') {
         const checkboxValues = Object.values(question.response);
         const isFilledOut = checkboxValues.reduce((value, result) => (result || value), false);
         if (!isFilledOut) {
           errors.responses = [];
-          errors.responses[i] = { response: 'Select at least one option' };
+          errors.responses[i] = { _error: 'Select at least one option' };
         }
       }
     }
