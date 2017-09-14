@@ -291,7 +291,7 @@ export function connectVolunteerToContact(req, res) {
   const call_id = parseInt(req.params.call_id, 10);
   return callsService.getCallById({ id: call_id })
   .then((call) => {
-    const { contact_id } = call;
+    const { contact_id } = call.attributes;
     return contactsService.getContactById({ id: contact_id })
       .then((contactObj) => {
         if (contactObj) {
