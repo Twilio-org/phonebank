@@ -141,5 +141,21 @@ describe('Campaign service tests', () => {
           done();
         })
     });
+
+    it('should update a campaign with status: ', (done) => {
+      const id = this.campaign1id;
+      const updateParams1 = {
+        id,
+        status: 'active',
+        name: 'new campaign name',
+        title: 'new campaign title',
+        description: 'new campaign description',
+        contact_lists_id: 2,
+        script_id: 2
+      };
+      campaignsService.updateCampaignById(updateParams1)
+      .then()
+      .catch();
+    });
   });
 });
