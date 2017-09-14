@@ -89,7 +89,7 @@ export const testTwilioClient = {
   CalledCity: 'MANTECA',
   CallStatus: 'completed',
   From: '+14155499993',
-  AccountSid: 'ACc4afb71c2c6d627f20816571f6e7bfef',
+  AccountSid: '${TWILIO_ACCOUNT_SID}',
   CalledCountry: 'US',
   CallerCity: '',
   Caller: '+14155499993',
