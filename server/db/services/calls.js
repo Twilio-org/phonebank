@@ -61,5 +61,13 @@ export default {
       .save({ status: 'AVAILABLE', user_id: null }, { patch: true })
       .then(call => call)
       .catch(err => console.log('error in calls service when releasing call: ', err));
+  },
+
+  updateContactCallSid: (params) => {
+    const { id, call_sid } = params;
+    return new Call({ id })
+      .save({ call_sid }, { patch: true })
+      .then(call => call)
+      .catch(err => err);
   }
 };
