@@ -1,11 +1,9 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, change } from 'redux-form';
-
+import { reduxForm, change, getFormSyncErrors } from 'redux-form';
 import CallPage from '../components/calls/calls_page_parent';
-
 import { setCampaignCurrent } from '../actions/campaign';
-
+import validateCall from '../helpers/call_response_validation';
 import { setScriptCurrent, setScriptQuestions, fetchScript, fetchScriptQuestions } from '../actions/admin_scripts';
 import { assignToCall,
          updateCallOutcome,
@@ -14,8 +12,11 @@ import { assignToCall,
          updateCallAttempt,
          releaseCall,
          clearVolunteerActive,
-         endTwilioCon } from '../actions/calls';
+         endTwilioCon,
+         clearCurrentCall,
+         submitCallResponses } from '../actions/calls';
 
+const FORM = 'CallResponse';
 function mapStateToProps(state) {
   return {
     user_id: state.auth.id,
@@ -28,13 +29,15 @@ function mapStateToProps(state) {
     status: state.calls.status,
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
-    current_call_contact_name: state.calls.current_call_contact_name
+    current_call_contact_name: state.calls.current_call_contact_name,
+    form_errors: getFormSyncErrors(FORM)(state)
   };
 }
 
 export default withRouter(
   reduxForm({
-    form: 'CallResponse'
+    form: FORM,
+    validate: validateCall
   })(
       connect(mapStateToProps,
         { setScriptCurrent,
@@ -50,7 +53,9 @@ export default withRouter(
           releaseCall,
           clearVolunteerActive,
           endTwilioCon,
-          change
+          change,
+          submitCallResponses,
+          clearCurrentCall
         }
       )(CallPage)
     )
