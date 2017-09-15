@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 
-import { CALL_COMPLETE, CONNECT_CONTACT_URL, DISCONNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
-
-import { hangUpVolunteerCall, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact, hangUpContactCall } from '../../../server/util/twilio';
+import { CALL_COMPLETE, CONNECT_CONTACT_URL, returnUpdate, createCall } from './twilio_mocks';
+import { hangUpVolunteerCall, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact, callVolunteer } from '../../../server/util/twilio';
 
 describe('Twilio client methods', function() {
   it('should be able to hang up calls', (done) => {
@@ -19,6 +18,16 @@ describe('Twilio client methods', function() {
     done();
   });
   // test for hang up ?
+  it('should create a new call', (done) => {
+    expect(callVolunteer(1, 1, '+15555555555')).to.deep.equal(createCall());
+    done();
+  });
+  it('should return a call object', (done) => {
+    expect(typeof callVolunteer(1, 1, '+15555555555')).to.equal('object');
+    expect(callVolunteer(1, 1, '+15555555555')).to.include.keys('accountSid', 'status', 'sid', 'phoneNumberSid', 'to', 'from');
+    expect(callVolunteer(1, 1, '+15555555555').to).to.equal('+15555555555');
+    done();
+  });
 });
 describe('XML Generation', function() {
   const userFirstName = 'User';
