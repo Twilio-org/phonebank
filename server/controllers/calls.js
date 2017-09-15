@@ -184,7 +184,6 @@ export function recordAttempt(req, res) {
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-
                   Promise.all(parsedResponses.map((resp) => {
                     const { question_id, response } = resp;
                     const responseParams = { call_id, question_id, response };
