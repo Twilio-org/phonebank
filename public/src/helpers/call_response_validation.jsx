@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default function validateCall(values) {
   let errors = {};
   const { responses, question_total, outcome } = values;
@@ -21,6 +23,8 @@ export default function validateCall(values) {
         if (!isFilledOut) {
           errors.responses[i] = { _error: 'Select at least one option' };
         }
+      } else if (question.type === 'paragraph' && _.trim(question.response).length === 0) {
+        errors.responses[i] = { response: { _error: 'Response can\'t be blank spaces' } };
       }
     }
     if (errors.responses.length > 0) {
