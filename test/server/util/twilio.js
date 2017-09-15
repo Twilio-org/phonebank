@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-
-import { CALL_COMPLETE, CONNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
-import { hangUp, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact } from '../../../server/util/twilio';
+import { CALL_COMPLETE, CONNECT_CONTACT_URL, returnUpdate, createCall } from './twilio_mocks';
+import { hangUp, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact, callVolunteer } from '../../../server/util/twilio';
 
 
 describe('Twilio client methods', function() {
@@ -16,6 +15,16 @@ describe('Twilio client methods', function() {
       user: 1
     };
     expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CONNECT_CONTACT_URL));
+    done();
+  });
+  it('should create a new call', (done) => {
+    expect(callVolunteer(1, 1, '+15555555555')).to.deep.equal(createCall());
+    done();
+  });
+  it('should return a call object', (done) => {
+    expect(typeof callVolunteer(1, 1, '+15555555555')).to.equal('object');
+    expect(callVolunteer(1, 1, '+15555555555')).to.include.keys('accountSid', 'status', 'sid', 'phoneNumberSid', 'to', 'from');
+    expect(callVolunteer(1, 1, '+15555555555').to).to.equal('+15555555555');
     done();
   });
 });
