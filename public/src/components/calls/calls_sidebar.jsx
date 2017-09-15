@@ -54,25 +54,29 @@ export default class CallsSideBar extends Component {
     }
     if (!!status && (status === 'IN_PROGRESS' || status === 'HUNG_UP')) {
       const { current_call_contact_name,
-              handleSubmit,
               outcome,
               updateCallOutcome,
               updateAttempt,
               campaign_id,
               user_id,
-              call_id } = this.props;
+              call_id,
+              change,
+              submitCallResponses,
+              ...otherProps } = this.props;
 
       return (
         <ActiveCallControl
           current_call_contact_name={current_call_contact_name}
-          handleSubmit={handleSubmit}
           outcome={outcome}
           status={status}
-          updateCallOutcome={updateCallOutcome}
-          updateAttempt={updateAttempt}
           campaign_id={campaign_id}
           user_id={user_id}
           call_id={call_id}
+          updateCallOutcome={updateCallOutcome}
+          updateAttempt={updateAttempt}
+          change={change}
+          submitCallResponses={submitCallResponses}
+          {...otherProps}
         />
       );
     }

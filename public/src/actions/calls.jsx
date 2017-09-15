@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { destroy } from 'redux-form';
+import helper from '../helpers/serializer';
 
 import { SET_CALL_CURRENT,
          CLEAR_CALL_CURRENT,
@@ -28,9 +30,7 @@ export function setCurrentCall(callObj) {
 }
 
 export function clearCurrentCall() {
-  return {
-    type: CLEAR_CALL_CURRENT
-  };
+  return { type: CLEAR_CALL_CURRENT };
 }
 
 export function updateCallOutcome(outcome) {
@@ -181,4 +181,29 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
     return dispatch(updateCallStatus(currentCallStatus));
   })
   .catch(err => err);
+}
+
+export function submitCallResponses(data) {
+  const { user_id, campaign_id, call_id, outcome, responses, notes, status } = data;
+  const serializedResponses = outcome === 'ANSWERED' ? helper.ResponsesSerializer(responses) : null;
+  const responseData = serializedResponses ?
+    { outcome, notes, responses: serializedResponses, status } : { outcome, notes, status };
+
+  const path = `/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}`;
+  const auth = { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } };
+
+  return (dispatch) => {
+    axios.put(path, responseData, auth)
+    .then(() => {
+      dispatch(destroy('CallResponse'));
+      dispatch(clearCurrentCall());
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error in submitting call responses: ${err}`,
+        name: 'submitCallResponses function error in actions/calls.jsx'
+      };
+      return customError;
+    });
+  };
 }
