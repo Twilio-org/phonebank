@@ -1,6 +1,7 @@
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
+import { validCampaignStatusUpdate, allowDraftCampaignUpdates, listUpdatedParamsMessage } from '../util/controller_helpers';
 
 export function saveNewCampaign(req, res) {
   const { name, title, description, status, script_id, contact_lists_id } = req.body;
@@ -70,57 +71,37 @@ export function getAllCampaigns(req, res) {
     });
 }
 
-
-function validCampaignStatusUpdate(prevStatus, currStatus) {
-  const validCampaignStatusTransitions = {
-    draft: 'active',
-    active: ['pause', 'completed'],
-    pause: ['active', 'completed'],
-    completed: 1
-  };
-  const validStatusOptions = Object.keys(validCampaignStatusTransitions);
-  let validTransitionForStatus;
-  if (prevStatus === 'completed') {
-    throw new Error('Campaigns with status set to "completed" may not be changed.');
-  }
-  if (!validCampaignStatusTransitions[currStatus]) {
-    throw new Error(`Status update to: ${currStatus} is invalid, valid status options: ${validStatusOptions.join(', ')}.`);
-  }
-  if (prevStatus === 'active' || prevStatus === 'pause') {
-    validTransitionForStatus = validCampaignStatusTransitions[prevStatus].join(', ');
-    if (!validCampaignStatusTransitions[prevStatus].includes(currStatus)) {
-      throw new Error(`Invalid campaign status transition. Status ${prevStatus} can only transition to ${validTransitionForStatus} `);
-    }
-  } else if (validCampaignStatusTransitions[prevStatus] !== currStatus) {
-    validTransitionForStatus = validCampaignStatusTransitions[prevStatus];
-    throw new Error(`Invalid campaign status transition. Status ${prevStatus} can only transition to ${validTransitionForStatus} `);
-  }
-  return true;
-}
-
 export function updateCampaignById(req, res) {
   const campaign_id = parseInt(req.params.id, 10);
-  const { status: newStatus, name, title, description, contact_lists_id, script_id } = req.body;
+  const { status: newStatus } = req.body;
   return campaignsService.getCampaignById({ id: campaign_id })
     .then((campaignObj) => {
+      let updateBodyParams = null;
       const { status: previousStatus, id } = campaignObj.attributes;
-      try {
-        validCampaignStatusUpdate(previousStatus, newStatus);
-      } catch (error) {
-        return res.status(400).json({ message: `Invalid status transition, campaign status not updated: ${error}` });
+      if (newStatus) {
+        try {
+          validCampaignStatusUpdate(previousStatus, newStatus);
+        } catch (e) {
+          return res.status(400).json({ message: `Invalid status transition, campaign status not updated: ${e}` });
+        }
       }
-      return campaignsService.updateCampaignById(
-        { id, status: newStatus, name, title, description, contact_lists_id, script_id }
-        )
+      try {
+        updateBodyParams = allowDraftCampaignUpdates(previousStatus, req.body);
+      } catch (e) {
+        return res.status(400).json({ message: `Campaign not updated: ${e}` });
+      }
+      const updateParams = { status: newStatus, ...updateBodyParams };
+      const { keys: updateParamsNames,
+              values: updateParamValues } = listUpdatedParamsMessage(updateParams);
+      return campaignsService.updateCampaignById({ id, status: newStatus, ...updateParams })
         .then((updatedCampaignObj) => {
           if (updatedCampaignObj) {
-            const { status: updatedStatus } = updatedCampaignObj.attributes;
-            res.status(200).json({ message: `Campaign status updated successfully to: ${updatedStatus}` });
+            res.status(200).json({ message: `Campaign: ${updateParamsNames} updated successfully to: ${updateParamValues}` });
           }
         })
         .catch((err) => {
           res.status(500).json({ message: `Campaign status not updated successfully, problem with updateCampaignById service: ${err}` });
         });
     })
-    .catch(err => res.status(500).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
+    .catch(err => res.status(404).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
 }
