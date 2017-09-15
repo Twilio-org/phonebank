@@ -14,6 +14,12 @@ const multiSelect = {
   responses: singleSelect.responses,
   type: 'multiselect'
 };
+const paragraph = {
+  question_id: singleSelect.question_id,
+  description: singleSelect.description,
+  responses: '',
+  type: 'paragraph'
+};
 const props1 = {
   question: singleSelect,
   change: jest.fn(),
@@ -24,39 +30,28 @@ const props2 = {
   change: jest.fn(),
   form: 'Forms'
 }
+const props3 = {
+  question: paragraph,
+  change: jest.fn(),
+  form: 'Forms'
+};
 describe('<CallQuestion />', () => {
   const wrapper1 = shallow(<CallQuestion {...props1} />);
   const wrapper2 = shallow(<CallQuestion {...props2} />);
-  describe('rendering general', () => {
-    it('should render a description in <ControlLabel>', () => {
-      expect(wrapper1.find('ControlLabel').first().html()).toContain(props1.question.description);
-    });
-    it('should render a <Badge>', () => {
-      expect(wrapper1.find('Badge').length).toBe(1);
-    });
-  });
   describe('rendering a single select', () => {
-    it('should render 3 <Field>', () => {
-      expect(wrapper1.find('Field').length).toBe(3);
-    });
-    it('should render 3 <label>s', () => {
-      expect(wrapper1.find('label').length).toBe(3);
-    });
-    it('should render radio buttons', () => {
-      const field = wrapper1.find('Field').last();
-      expect(field.props().type).toBe('radio');
+    it('should render a <FieldArray>', () => {
+      expect(wrapper1.find('FieldArray').length).toBe(1);
     });
   });
   describe('rendering a multi-select', () => {
-    it('should render 3 <Field>', () => {
-      expect(wrapper2.find('Field').length).toBe(3);
+    it('should render a <FieldArray>', () => {
+      expect(wrapper2.find('FieldArray').length).toBe(1);
     });
-    it('should render 3 <label>s', () => {
-      expect(wrapper2.find('label').length).toBe(3);
-    });
-    it('should render checkboxes', () => {
-      const field = wrapper2.find('Field').last();
-      expect(field.props().type).toBe('checkbox');
+  });
+  describe('rendering a paragraph', () => {
+    it('should render a <Field>', () => {
+      wrapper2.setProps(props3);
+      expect(wrapper2.find('Field').length).toBe(1);
     });
   });
 });
