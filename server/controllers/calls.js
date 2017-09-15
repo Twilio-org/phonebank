@@ -143,7 +143,6 @@ function handleHangUpFlow(res, user_id, call_id, campaign_id) {
 export function recordAttempt(req, res) {
   const { outcome, notes, responses, status: newStatus } = req.body;
 
-  // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
       res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object and outcome string' });
@@ -156,7 +155,6 @@ export function recordAttempt(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
-  // not necessary if just updating the status
   if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
