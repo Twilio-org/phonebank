@@ -34,7 +34,8 @@ export default class CallsSideBar extends Component {
               updateAttempt,
               releaseCall,
               nextCall,
-              endVolunterTwilioCon } = this.props;
+              endVolunterTwilioCon,
+              clearCurrentCall } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -47,6 +48,7 @@ export default class CallsSideBar extends Component {
           releaseCall={releaseCall}
           nextCall={nextCall}
           endVolunterTwilioCon={endVolunterTwilioCon}
+          clearCurrentCall={clearCurrentCall}
         />
       );
     }

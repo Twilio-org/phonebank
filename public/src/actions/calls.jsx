@@ -142,22 +142,16 @@ export function endTwilioCon(userId, campaignId) {
   .catch(err => err);
 }
 
-export function releaseCall(userId, campaignId, callId, currentCallStatus, next = false) {
+export function releaseCall(userId, campaignId, callId, currentCallStatus) {
   if (currentCallStatus !== 'ASSIGNED') {
     return new Error('Error with releaseCall: cannot releave a call that is active.');
   }
-  return dispatch => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
+  return () => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then(() => {
-    if (next) {
-      return dispatch(assignToCall(userId, campaignId));
-    }
-    dispatch(endTwilioCon(userId, campaignId));
-    return dispatch(clearCurrentCall());
-  })
+  .then()
   .catch(err => err);
 }
 

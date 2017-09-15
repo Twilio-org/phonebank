@@ -13,6 +13,7 @@ import { assignToCall,
          releaseCall,
          clearVolunteerActive,
          endTwilioCon,
+         clearCurrentCall,
          submitCallResponses } from '../actions/calls';
 
 const FORM = 'CallResponse';
@@ -53,7 +54,8 @@ export default withRouter(
           clearVolunteerActive,
           endTwilioCon,
           change,
-          submitCallResponses
+          submitCallResponses,
+          clearCurrentCall
         }
       )(CallPage)
     )
