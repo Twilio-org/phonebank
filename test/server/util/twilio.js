@@ -24,6 +24,7 @@ describe('Twilio client methods', function() {
   it('should return a call object', (done) => {
     expect(typeof callVolunteer(1, 1, '+15555555555')).to.equal('object');
     expect(callVolunteer(1, 1, '+15555555555')).to.include.keys('accountSid', 'status', 'sid', 'phoneNumberSid', 'to', 'from');
+    expect(callVolunteer(1, 1, '+15555555555').to).to.equal('+15555555555');
     done();
   });
 });
