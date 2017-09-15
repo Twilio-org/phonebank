@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { CALL_COMPLETE, CONNECT_CONTACT_URL, DISCNNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
+import { CALL_COMPLETE, CONNECT_CONTACT_URL, DISCONNECT_CONTACT_URL, returnUpdate } from './twilio_mocks';
 
 import { hangUpVolunteerCall, mutateCallConnectContact, sayCallCompleted, sayHelloUser, sayDialingContact, hangUpContactCall } from '../../../server/util/twilio';
 
@@ -18,14 +18,7 @@ describe('Twilio client methods', function() {
     expect(mutateCallConnectContact('CAcbbf06f666c72c51c59200de56ae54ff', idCollection)).to.deep.equal(returnUpdate('CAcbbf06f666c72c51c59200de56ae54ff', CONNECT_CONTACT_URL));
     done();
   });
-  it('should be able to mutate calls when disconnecting volunteers from contacts', (done) => {
-    const userId = 1;
-    const volunteerCallSid = 'CAcbbf06f666c72c51c59200de56ae54ff';
-    expect(hangUpContactCall(volunteerCallSid, userId))
-      .to.deep.equal(returnUpdate(volunteerCallSid, DISCNNECT_CONTACT_URL));
-    done();
-  });
-  // test for hang up
+  // test for hang up ?
 });
 describe('XML Generation', function() {
   const userFirstName = 'User';

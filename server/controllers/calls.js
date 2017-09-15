@@ -109,22 +109,24 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   return res.status(200).json({ message: 'call log successfully updated' });
 }
 
-function handleHangUpFlow(res, user_id, call_id, newStatus) {
+function handleHangUpFlow(res, user_id, call_id, campaign_id) {
   return usersService.getUserById({ id: user_id })
   .then((userObj) => {
     const { call_sid: userCallSid } = userObj.attributes;
-    console.log(userObj.attributes);
-    console.log(userCallSid, 'inside hang up handler');
-    hangUpContactCall(userCallSid, user_id)
+    hangUpContactCall(userCallSid, user_id, campaign_id)
     .then(() => {
-      callsService.updateCallStatus({ id: call_id, status: newStatus })
-      .then((updatedCall) => {
-        const updateCallSuccess = `call status updated to ${newStatus}`;
-        return res.status(200)
-          .json({ message: updateCallSuccess, call: updatedCall });
+      callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
+      .then((updateResponse) => {
+        const { attributes: updatedCall } = updateResponse;
+        if (updatedCall) {
+          const updateCallSuccess = 'call status updated to HUNG_UP';
+          return res.status(200)
+            .json({ message: updateCallSuccess });
+        }
+        return res.status(500).json({ messge: 'problem with updating call status to HUNG_UP' });
       })
       .catch((err) => {
-        const updateCallError = `Could not update call status to ${newStatus}: ${err}`;
+        const updateCallError = `Could not update call status to 'HUNG_UP': ${err}`;
         return res.status(500).json({ message: updateCallError });
       });
     })
@@ -133,7 +135,7 @@ function handleHangUpFlow(res, user_id, call_id, newStatus) {
       return res.status(500).json({ message: hangUpCallError });
     });
   })
-  .catch(err => err);
+  .catch(err => res.status(404).json({ message: `Could not find user by ID, could not hang up user: ${err}` }));
 }
 /* ======== END HELPERS ========== */
 
@@ -168,7 +170,7 @@ export function recordAttempt(req, res) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'HUNG_UP') {
-                return handleHangUpFlow(res, user_id, call_id, newStatus);
+                return handleHangUpFlow(res, user_id, call_id, campaign_id);
               } else if (newStatus === 'IN_PROGRESS') {
                 return usersService.getUserById({ id: user_id })
                   .then((user) => {
@@ -264,22 +266,3 @@ export function hangUpCall(req, res) {
       res.status(500).json({ message: 'could not get user\'s by ID ' });
     });
 }
-
-/*
-return usersService.getUserById({ id: user_id })
-.then((userObj) => {
-  const { call_sid: userCallSid } = userObj.attributes;
-  hangUpContactCall(userCallSid, user_id)
-  .then(() => {
-    return callsService.updateCallStatus({ id: call_id, status: newStatus })
-    .then((updatedCall) => {
-      return res.status(200)
-        .json({ message: `call status updated to ${newStatus}`, call: updatedCall })
-    })
-    .catch(err => console.log('error updating status in calls controller: ', err));
-    res.status(200).json({ message: `call id: ${call_id} successfully hung up: ${hungupCall}` })
-  })
-  .catch(err => err);
-})
-.catch(err => err);
-*/

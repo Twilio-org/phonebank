@@ -44,13 +44,6 @@ export function sayCallCompleted() {
   return CallCompleted.toString();
 }
 
-export function hangUpContactCall(callSid, user_id) {
-  return twilioClient.calls(callSid)
-    .update({
-      status: 'completed',
-      statusCallback: `${DEV_PATH}/users/${user_id}/bridge`
-    });
-}
 
 export function sayDialingContact(contactName, contactNumber, idParams) {
   const { userId, campaignId, callId } = idParams;
@@ -66,5 +59,12 @@ export function mutateCallConnectContact(callSid, idCollection) {
   return twilioClient.calls(callSid)
     .update({
       url: `${DEV_PATH}/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}/connect`
+    });
+}
+
+export function hangUpContactCall(callSid, userId, campaignId) {
+  return twilioClient.calls(callSid)
+    .update({
+      url: `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/bridge`
     });
 }

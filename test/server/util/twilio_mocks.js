@@ -4,7 +4,7 @@ const { TWILIO_ACCOUNT_SID } = process.env;
 
 export const CALL_COMPLETE = 'CALL_COMPLETE';
 export const CONNECT_CONTACT_URL = 'CONNECT_CONTACT_URL';
-export const DISCNNECT_CONTACT_URL = 'DISCNNECT_CONTACT_URL';
+export const DISCONNECT_CONTACT_URL = 'DISCONNECT_CONTACT_URL';
 
 export function returnUpdate(callSid, updateType) {
   const clientUpdateObject = {
@@ -46,7 +46,7 @@ export function returnUpdate(callSid, updateType) {
     case CONNECT_CONTACT_URL:
       clientUpdateObject.status = 'in-progress';
       return clientUpdateObject;
-    case DISCNNECT_CONTACT_URL:
+    case DISCONNECT_CONTACT_URL:
       clientUpdateObject.status = 'completed';
       clientUpdateObject.duration = '14';
       clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z';
@@ -60,20 +60,12 @@ export function createCall() {
   // Allie's create call callback Object goes here
 }
 
-function sliceEndpoint(url) {
-  return url.slice(url.length - 1 - 6);
-}
-
 export const testTwilioClient = {
   calls(callSid) {
     return {
       update: (options) => {
         const optionsCalled = Object.getOwnPropertyNames(options).sort();
         if (lodash.isEqual(optionsCalled, ['status', 'statusCallback'])) {
-          const endpoint = sliceEndpoint(options.statusCallback);
-          if (options.statusCallback === endpoint) {
-            return returnUpdate(optionsCalled, DISCNNECT_CONTACT_URL);
-          }
           return returnUpdate(callSid, CALL_COMPLETE);
         } else if (lodash.isEqual(optionsCalled, ['url'])) {
           return returnUpdate(callSid, CONNECT_CONTACT_URL);
