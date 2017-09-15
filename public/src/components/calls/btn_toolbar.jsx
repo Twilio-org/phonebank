@@ -6,7 +6,7 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import ToggleButton from 'react-bootstrap/lib/ToggleButton';
 
 const Toolbar = (props) => {
-  const { outcomes, handleOutcome } = props;
+  const { outcomes, handleOutcome, onChange } = props;
 
   // Note: need to fix btn group
   return (
@@ -19,15 +19,16 @@ const Toolbar = (props) => {
           onChange={handleOutcome}
         >
           {outcomes.map((outcome, index) => {
-            const { value, styled, icon } = outcome;
+            const { value, styled, icon, label } = outcome;
             return (
               <ToggleButton
                 bsStyle={styled}
                 value={value.toUpperCase()}
                 key={value.concat(index)}
                 name={value}
+                onChange={onChange}
               >
-                <i className="material-icons md-16">{icon}</i> {value}
+                <i className="material-icons md-16">{icon}</i> {label}
               </ToggleButton>
             );
           })

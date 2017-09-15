@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-
 import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
   render() {
-    const { questions, change, form, status, outcome } = this.props;
-    // ASSIGNED is only status we recieve that disables form
+    const { questions, change, form, status, outcome, handleSubmit } = this.props;
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <h3>Questions</h3>
         <hr />
         <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED'}>
