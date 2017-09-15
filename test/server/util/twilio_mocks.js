@@ -35,15 +35,15 @@ export function returnUpdate(callSid, updateType) {
     to: '+14086428264',
     toFormatted: '(408) 642-8264',
     uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/${callSid}.json`
-  }
+  };
   switch (updateType) {
     case CALL_COMPLETE:
       clientUpdateObject.duration = '14';
-      clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z'
-      clientUpdateObject.status = 'completed'
+      clientUpdateObject.endTime = '2017-09-11T18:20:44.000Z';
+      clientUpdateObject.status = 'completed';
       return clientUpdateObject;
     case CONNECT_CONTACT_URL:
-      clientUpdateObject.status = 'in-progress'
+      clientUpdateObject.status = 'in-progress';
       return clientUpdateObject;
     default:
       return clientUpdateObject;
@@ -51,7 +51,35 @@ export function returnUpdate(callSid, updateType) {
 }
 
 export function createCall() {
-  // Allie's create call callback Object goes here
+  return {
+    accountSid: `${TWILIO_ACCOUNT_SID}`,
+    annotation: null,
+    answeredBy: null,
+    apiVersion: '2010-04-01',
+    callerName: null,
+    dateCreated: null,
+    dateUpdated: null,
+    direction: 'outbound-api',
+    duration: null,
+    endTime: null,
+    forwardedFrom: null,
+    from: '+14157614347',
+    fromFormatted: '(415) 761-4347',
+    groupSid: null,
+    parentCallSid: null,
+    phoneNumberSid: 'PNfaf641002a732825de95dc80e1e69e72',
+    price: null,
+    priceUnit: 'USD',
+    sid: 'CAba4b59ede2ca5f2a5034f85a9880ccef',
+    startTime: null,
+    status: 'queued',
+    subresourceUris:
+    { notifications: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef/Notifications.json`,
+      recordings: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef/Recordings.json` },
+    to: '+15555555555',
+    toFormatted: '(555) 555-5555',
+    uri: `/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Calls/CAba4b59ede2ca5f2a5034f85a9880ccef.json`
+  };
 }
 
 export const testTwilioClient = {
@@ -59,14 +87,15 @@ export const testTwilioClient = {
     return {
       update: (options) => {
         const optionsCalled = Object.getOwnPropertyNames(options).sort();
-        if (lodash.isEqual(optionsCalled, [ 'status', 'statusCallback' ])) {
+        if (lodash.isEqual(optionsCalled, ['status', 'statusCallback'])) {
           return returnUpdate(callSid, CALL_COMPLETE);
-        } else if (lodash.isEqual(optionsCalled, [ 'url' ])) {
+        } else if (lodash.isEqual(optionsCalled, ['url'])) {
           return returnUpdate(callSid, CONNECT_CONTACT_URL);
-        } else {
-          return returnUpdate(callSid);
         }
+        return returnUpdate(callSid);
       }
     };
   }
-}
+};
+
+testTwilioClient.calls.create = () => createCall();
