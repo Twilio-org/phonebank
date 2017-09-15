@@ -59,18 +59,18 @@ function outcomeIsValid(outcome) {
   return validOutcomes.includes(outcome.toUpperCase());
 }
 
-function validateStatusForUpdate(currStatus, prevStatus) {
+function validateStatusForUpdate(newStatus, prevStatus) {
   const validTransitions = {
-    ASSIGNED: 'IN_PROGRESS',
-    IN_PROGRESS: 'HUNG_UP',
-    HUNG_UP: 'ATTEMPTED',
+    ASSIGNED: ['IN_PROGRESS', 'ATTEMPTED'],
+    IN_PROGRESS: ['HUNG_UP'],
+    HUNG_UP: ['ATTEMPTED'],
     ATTEMPTED: 1
   };
-  if (!validTransitions[currStatus]) {
+  if (!validTransitions[newStatus]) {
     return false;
   }
   if (prevStatus !== 'ATTEMPTED') {
-    if (validTransitions[prevStatus] !== currStatus) {
+    if (!validTransitions[prevStatus].includes(newStatus)) {
       return false;
     }
   }
@@ -95,7 +95,7 @@ function saveNewAttempt(contact_id, campaign_id, attempt_num) {
   return callsService.createNewAttempt(newCallParams);
 }
 
-function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id) {
+function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
   if (outcome === 'DO_NOT_CALL' || outcome === 'BAD_NUMBER') {
     return updateNoCallContact(outcome, contact_id)
       .then(() => res.status(200).json({ message: 'contact and call log updated successfully.' }))
@@ -145,7 +145,7 @@ export function recordAttempt(req, res) {
 
   if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
-      res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object and outcome string' });
+      res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object.' });
     }
     if (!Array.isArray(responses)) {
       return res.status(400).json({ message: 'Responses should be an array of objects' });
@@ -174,7 +174,7 @@ export function recordAttempt(req, res) {
                     if (user) {
                       const { call_sid } = user.attributes;
                       if (!call_sid) {
-                        return res.status(404).json({ message: 'user is not currently connected to a call session' });
+                        return res.status(400).json({ message: 'user is not currently connected to a call session' });
                       }
                       const idCollection = {
                         user: user_id,
@@ -188,20 +188,23 @@ export function recordAttempt(req, res) {
                             .catch(err => console.log('error updating status in calls controller: ', err))
                         ).catch(err => console.log('error mutating call in recordAttempt function of calls controller when setting modifying call with Twilio client: ', err));
                     }
-                    return res.status(400).json({ message: `could not find user with id ${user_id}` });
+                    return res.status(404).json({ message: `could not find user with id ${user_id}` });
                   }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-                  Promise.all(responses.map((resp) => {
-                    const { question_id, response } = resp;
-                    const responseParams = { call_id, question_id, response };
-                    return responsesService.saveNewResponse(responseParams);
-                  }))
-                    .then(() => {
-                      const attempt_num = parseInt(call.attributes.attempt_num, 10);
-                      afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
-                    }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
+                  const attempt_num = parseInt(call.attributes.attempt_num, 10);
+                  if (responses) {
+                    Promise.all(responses.map((resp) => {
+                      const { question_id, response } = resp;
+                      const responseParams = { call_id, question_id, response };
+                      return responsesService.saveNewResponse(responseParams);
+                    }))
+                    .then(() => afterPut(res, outcome, contact_id, attempt_num, campaign_id))
+                    .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
+                  }
+                  return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
+                    .then().catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt functino of calls controller: ', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
             return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
