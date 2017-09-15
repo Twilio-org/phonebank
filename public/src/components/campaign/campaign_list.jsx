@@ -15,20 +15,14 @@ export default class CampaignList extends Component {
   render() {
     const {
       account_info,
-      addCampaignToUser,
       all_campaigns,
       auth,
       history,
-      setCurrentCampaign
+      updateCampaignStatus
     } = this.props;
     const thisPage = 'Campaign';
     const { admin_campaigns, volunteer_campaigns } = buttons_obj;
     const { redirect_path } = campaignHeaders;
-
-    function handleClick(id, historyObj, campaign) {
-      setCurrentCampaign(campaign);
-      addCampaignToUser(id, campaign.id, historyObj);
-    }
 
     return (
       <div>
@@ -42,7 +36,7 @@ export default class CampaignList extends Component {
               button_collection={account_info.is_admin ?
                                    admin_campaigns :
                                    volunteer_campaigns}
-              componentClickHandler={handleClick}
+              componentClickHandler={updateCampaignStatus}
               thisPage={thisPage}
               tableHeaders={campaignHeaders}
               newPath={redirect_path}

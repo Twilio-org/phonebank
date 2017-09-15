@@ -1,3 +1,19 @@
+function statusToggleActivePause(status) {
+  if (status === 'draft' || status === 'pause') {
+    return ['Activate', 'active', 'success', false];
+  } else if (status === 'active') {
+    return ['Pause', 'pause', 'warning', false];
+  }
+  return ['Activate', null, 'success', true];
+}
+
+function statusToggleComplete(status) {
+  if (status === 'active' || status === 'pause') {
+    return ['End', 'completed', 'danger', false];
+  }
+  return ['End', 'completed', 'danger', true];
+}
+
 export default {
   view_edit(props) {
     const { page, item, history } = props;
@@ -25,7 +41,8 @@ export default {
       }
     ];
   },
-  admin_campaigns() { // deleted props and item as arguments because they were causing an error
+  admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
+    const { handleClick, item: { id, status } } = props;
     return [
       {
         key: 1,
@@ -45,19 +62,36 @@ export default {
         key: 3,
         text: () => 'Release Calls',
         size: 'xsmall',
-        style: 'warning',
+        style: 'default',
         hanlder: () => {}
       },
       {
         key: 4,
         text: () => 'Edit',
         size: 'xsmall',
-        style: 'danger',
+        style: 'info',
         handler: () => {
           // const { id } = item;
           // props.handleClick(item);
           // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
         }
+      },
+      {
+        key: 5,
+        text: () => statusToggleActivePause(status)[0],
+        size: 'xsmall',
+        style: statusToggleActivePause(status)[2],
+        handler: () => { handleClick(id, statusToggleActivePause(status)[1]); },
+        disabled: statusToggleActivePause(status)[3]
+      },
+      {
+        key: 6,
+        text: () => statusToggleComplete(status)[0],
+        size: 'xsmall',
+        style: statusToggleComplete(status)[2],
+        handler: () => { handleClick(id, statusToggleComplete(status)[1]); },
+        disabled: statusToggleComplete(status)[3]
+
       }
     ];
   },

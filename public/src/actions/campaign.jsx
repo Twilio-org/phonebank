@@ -105,3 +105,16 @@ export function fetchCampaignsByUser(userId, current_campaign) {
     throw customError;
   });
 }
+
+export function updateCampaignStatus(campaignId, status, fetchAll = fetchCampaigns) {
+  const params = { id: campaignId, status };
+  return dispatch => axios.put(`/campaigns/${campaignId}`, params,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then(() => {
+    dispatch(fetchAll());
+  })
+  .catch(err => console.log('error with campaign status update action: ', err));
+}
