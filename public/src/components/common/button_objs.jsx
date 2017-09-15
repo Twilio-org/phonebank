@@ -43,6 +43,8 @@ export default {
   },
   admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
     const { handleClick, item: { id, status } } = props;
+    const statusToggleActivePauseResult = statusToggleActivePause(status);
+    const statusToggleCompleteResult = statusToggleComplete(status);
     return [
       {
         key: 1,
@@ -78,19 +80,19 @@ export default {
       },
       {
         key: 5,
-        text: () => statusToggleActivePause(status)[0],
+        text: () => statusToggleActivePauseResult[0],
         size: 'xsmall',
-        style: statusToggleActivePause(status)[2],
-        handler: () => { handleClick(id, statusToggleActivePause(status)[1]); },
-        disabled: statusToggleActivePause(status)[3]
+        style: statusToggleActivePauseResult[2],
+        handler: () => { handleClick(id, statusToggleActivePauseResult[1]); },
+        disabled: statusToggleActivePauseResult[3]
       },
       {
         key: 6,
-        text: () => statusToggleComplete(status)[0],
+        text: () => statusToggleCompleteResult[0],
         size: 'xsmall',
-        style: statusToggleComplete(status)[2],
-        handler: () => { handleClick(id, statusToggleComplete(status)[1]); },
-        disabled: statusToggleComplete(status)[3]
+        style: statusToggleCompleteResult[2],
+        handler: () => { handleClick(id, statusToggleCompleteResult[1]); },
+        disabled: statusToggleCompleteResult[3]
 
       }
     ];
