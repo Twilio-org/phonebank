@@ -7,20 +7,28 @@ import SideBarForm from './side_bar_form';
 export default class ActiveCallControl extends Component {
   constructor(props) {
     super(props);
-    const clickHandlers = ['handleHangUp', 'handleSubmitResponses', 'handleOutcomeClick'];
+    const clickHandlers = ['handleHangUp', 'handleSubmitResponses', 'handleOutcomeClick', 'syncOutcomeInForm'];
     clickHandlers.forEach((func) => {
       this[func] = this[func].bind(this);
     });
   }
-
+  componentDidMount() {
+    const { change, form, campaign_id, call_id, user_id, script_questions } = this.props;
+    change(form, 'campaign_id', campaign_id);
+    change(form, 'call_id', call_id);
+    change(form, 'user_id', user_id);
+    change(form, 'question_total', script_questions.length);
+  }
   handleHangUp() {
     const { call_id, user_id, campaign_id, updateAttempt } = this.props;
     const params = { user_id, campaign_id, call_id, status: 'HUNG_UP' };
     updateAttempt(params);
   }
 
-  handleSubmitResponses() {
-    console.log('THIS DOES NOTHING... NOTHING AT ALL!', this.props);
+  handleSubmitResponses(values) {
+    const { submitCallResponses } = this.props;
+    const { question_total, ...data } = values;
+    submitCallResponses({ ...data, status: 'ATTEMPTED' });
   }
 
   handleOutcomeClick(text) {
@@ -31,37 +39,50 @@ export default class ActiveCallControl extends Component {
     }
     updateCallOutcome(text.toUpperCase());
   }
-
+  syncOutcomeInForm(e) {
+    const { change, form } = this.props;
+    change(form, 'outcome', e.currentTarget.value);
+  }
   render() {
-    const { current_call_contact_name, handleSubmit, outcome, status } = this.props;
+    const { current_call_contact_name,
+            handleSubmit,
+            outcome,
+            status,
+            form_errors } = this.props;
     const outcomes = [
       {
-        value: 'Answered',
+        value: 'ANSWERED',
+        label: 'Answered',
         styled: 'success',
         icon: 'done'
       },
       {
-        value: 'Bad Number',
+        value: 'BAD_NUMBER',
+        label: 'Bad Number',
         styled: 'danger',
         icon: 'block'
       },
       {
-        value: 'Do Not Call',
+        value: 'DO_NOT_CALL',
+        label: 'Do Not Call',
         styled: 'danger',
         icon: 'cancel'
       },
       {
-        value: 'No Answer',
+        value: 'NO_ANSWER',
+        label: 'No Answer',
         styled: 'warning',
         icon: 'call_missed'
       },
       {
-        value: 'Left Message',
+        value: 'LEFT_MESSAGE',
+        label: 'Left Message',
         styled: 'warning',
         icon: 'mic'
       },
       {
-        value: 'Incomplete',
+        value: 'INCOMPLETE',
+        label: 'Incomplete',
         styled: 'warning',
         icon: 'indeterminate_check_box'
       }
@@ -83,17 +104,19 @@ export default class ActiveCallControl extends Component {
         <Toolbar
           outcomes={outcomes}
           handleOutcome={this.handleOutcomeClick}
+          onChange={this.syncOutcomeInForm}
         />
         <div>
           <SideBarForm handleSubmit={handleSubmit} />
           <div>
             <CallControl
-              handler={this.handleSubmitResponses}
+              handler={handleSubmit(this.handleSubmitResponses)}
               outcome={outcome}
               status={status}
               text="Submit and Next Call"
               htmlID="submit-call-form-btn"
               styled="success"
+              invalid={typeof form_errors !== 'undefined'}
             />
           </div>
         </div>

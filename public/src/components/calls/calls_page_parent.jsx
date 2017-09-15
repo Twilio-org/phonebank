@@ -16,6 +16,13 @@ export default class CallPage extends Component {
     fetchScript(script_id);
     fetchScriptQuestions(script_id);
   }
+  componentDidUpdate() {
+    const { id: campaign_id } = this.props.match.params;
+    const { current_call, assignToCall, user_id } = this.props;
+    if (!current_call) {
+      assignToCall(user_id, campaign_id);
+    }
+  }
 
   render() {
     const { current_campaign,
@@ -41,7 +48,11 @@ export default class CallPage extends Component {
               call_current_active,
               updateCallAttempt,
               releaseCall,
-              endTwilioCon } = this.props;
+              endTwilioCon,
+              clearCurrentCall,
+              submitCallResponses,
+              change,
+              ...otherProps } = this.props;
       return (
         <Row className="show-grid">
           <Col xs={5} md={4} lg={3}>
@@ -65,7 +76,11 @@ export default class CallPage extends Component {
               call_current_active={call_current_active}
               updateAttempt={updateCallAttempt}
               releaseCall={releaseCall}
+              change={change}
+              submitCallResponses={submitCallResponses}
               endVolunterTwilioCon={endTwilioCon}
+              clearCurrentCall={clearCurrentCall}
+              {...otherProps}
             />
           </Col>
           <Col xs={7} md={8} lg={9}>

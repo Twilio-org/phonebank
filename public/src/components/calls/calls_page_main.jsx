@@ -11,7 +11,10 @@ export default class CallsPageMain extends Component {
         <p className="lead">{current_campaign.description}</p>
         <HelpBlock>{current_script.description}</HelpBlock>
         <Panel header={<h3>Script</h3>}>{current_script.body}</Panel>
-        <CallsForm questions={script_questions} {...storeProps} />
+        <CallsForm
+          questions={script_questions}
+          {...storeProps}
+        />
       </div>
     );
   }
