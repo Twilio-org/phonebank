@@ -110,10 +110,15 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   return res.status(200).json({ message: 'call log successfully updated' });
 }
 
+// function allCallsAreAttempted(campaign_id) {
+//   const numOfCampaignCalls = callsService.getNumberOfCallsByCampaignId({ campaign_id });
+//   const numOfAttemtpedCalls = callsService.getNumberOfCallsAttemptedByCampaignId({ campaign_id });
+//   return numOfCampaignCalls === numOfAttemtpedCalls;
+// }
+
 function allCallsAreAttempted(campaign_id) {
-  const numOfCampaignCalls = callsService.getNumberOfCallsByCampaignId({ campaign_id });
-  const numOfAttemtpedCalls = callsService.getNumberOfCallsAttemptedByCampaignId({ campaign_id });
-  return numOfCampaignCalls === numOfAttemtpedCalls;
+  const callsLeftToAttempt = callsService.getCallsNotAttemptedByCampaignId({ campaign_id });
+  return callsLeftToAttempt.length === 0;
 }
 
 function isFinalOutcome(outcome) {
