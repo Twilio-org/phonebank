@@ -39,9 +39,9 @@ describe('adminContactListsReducer tests: ', () => {
       expect(contact_lists.length).toBe(expectedContactListProps.length);
     });
     it('contact_lists name should correspond to mock data', () => {
-      expect(first.name).toBe('ContactList1');
-      expect(second.name).toBe('ContactList2');
-      expect(third.name).toBe('ContactList3');
+      expect(first.name).toBe(contactListFixtures[0].name);
+      expect(second.name).toBe(contactListFixtures[1].name);
+      expect(third.name).toBe(contactListFixtures[2].name);
     });
   });
 
