@@ -1,7 +1,9 @@
 import usersService from '../db/services/users';
 import campaignsService from '../db/services/campaigns';
-import { callVolunteer, sayCallCompleted, sayHelloUser } from '../util/twilio';
+import callsService from '../db/services/calls';
+import contactsService from '../db/services/contacts';
 
+import { callVolunteer, sayCallCompleted, sayHelloUser, sayDialingContact } from '../util/twilio';
 
 function cleanUserObject(user) {
   const cleanUser = user;
@@ -276,9 +278,54 @@ export function volunteerCallback(req, res) {
     });
 }
 
+export function contactCallback(req, res) {
+  const { call_id: id } = req.params;
+  const { call_sid } = req.body;
+  return callsService.updateContactCallSid({ id, call_sid })
+    .then((call) => {
+      if (call) {
+        res.status(201).json(call);
+      } else {
+        res.status(404).json({ message: 'Could not find call with given call id' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: `Could not save Call SID for this contact for this call: ${err}` });
+    });
+}
+
 export function getCallCompleteTwiml(req, res) {
   const callCompletedTwiml = sayCallCompleted();
   return res.status(200)
     .set({ 'Content-Type': 'text/xml' })
     .send(callCompletedTwiml);
+}
+
+export function connectVolunteerToContact(req, res) {
+  const user_id = parseInt(req.params.id, 10);
+  const campaign_id = parseInt(req.params.campaign_id, 10);
+  const call_id = parseInt(req.params.call_id, 10);
+  return callsService.getCallById({ id: call_id })
+  .then((call) => {
+    const { contact_id } = call.attributes;
+    return contactsService.getContactById({ id: contact_id })
+      .then((contactObj) => {
+        if (contactObj) {
+          const { phone_number, first_name, last_name } = contactObj.attributes;
+          const name = last_name ? `${first_name} ${last_name}` : first_name;
+          const dialIdParams = { campaignId: campaign_id, userId: user_id, callId: call_id };
+          const nowCallingTwiml = sayDialingContact(name, phone_number, dialIdParams);
+          return res.status(200)
+            .set({ 'Content-Type': 'text/xml' })
+            .send(nowCallingTwiml);
+        }
+        return res.status(404).json({ message: `Could not find contact id: ${contact_id}` });
+      })
+      .catch((err) => {
+        res.status(500).json({ message: `Could not process request to connect volunteer to contact id: ${contact_id}:  ${err}` });
+      });
+  })
+  .catch((err) => {
+    res.status(500).json({ message: `Could not process request to get call by id in connectVolunteerToContact: ${err}` });
+  });
 }

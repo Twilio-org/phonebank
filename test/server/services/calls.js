@@ -48,6 +48,8 @@ describe('Calls Service tests', function() {
 
     this.callSaveParams = {};
 
+    this.callUpdateParams = { call_sid: 'CA1a2b3c4aftd152e566f77g8hi48r9403' };
+
     scriptsService.saveNewScript(this.scriptParams)
       .then((script) => {
         this.campaignParams.script_id = script.attributes.id;
@@ -75,8 +77,20 @@ describe('Calls Service tests', function() {
     it('should correctly populate a call', (done) => {
       callsService.populateCall(this.callSaveParams)
         .then((call) => {
+          this.callUpdateParams.id = call.attributes.id;
           expect(call.attributes.campaign_id).to.equal(this.callSaveParams.campaign_id);
           expect(call.attributes.contact_id).to.equal(this.callSaveParams.contact_id);
+          done();
+        }, done);
+    });
+  });
+
+  describe('Call update', () => {
+    it('should correctly update call Sid', (done) => {
+      callsService.updateContactCallSid(this.callUpdateParams)
+        .then((call) => {
+          expect(call.attributes.id).to.equal(this.callUpdateParams.id);
+          expect(call.attributes.call_sid).to.equal(this.callUpdateParams.call_sid);
           done();
         }, done);
     });
