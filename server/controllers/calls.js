@@ -2,7 +2,8 @@ import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
-import { hangUp, mutateCallConnectContact } from '../util/twilio';
+
+import { hangUpVolunteerCall, hangUpContactCall, mutateCallConnectContact } from '../util/twilio';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -108,12 +109,40 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   }
   return res.status(200).json({ message: 'call log successfully updated' });
 }
+
+function handleHangUpFlow(res, user_id, call_id, campaign_id) {
+  return usersService.getUserById({ id: user_id })
+  .then((userObj) => {
+    const { call_sid: userCallSid } = userObj.attributes;
+    hangUpContactCall(userCallSid, user_id, campaign_id)
+    .then(() => {
+      callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
+      .then((updateResponse) => {
+        const { attributes: updatedCall } = updateResponse;
+        if (updatedCall) {
+          const updateCallSuccess = 'call status updated to HUNG_UP';
+          return res.status(200)
+            .json({ message: updateCallSuccess });
+        }
+        return res.status(500).json({ messge: 'problem with updating call status to HUNG_UP' });
+      })
+      .catch((err) => {
+        const updateCallError = `Could not update call status to 'HUNG_UP': ${err}`;
+        return res.status(500).json({ message: updateCallError });
+      });
+    })
+    .catch((err) => {
+      const hangUpCallError = `Could not hang up call from twilio client to contact: ${err}`;
+      return res.status(500).json({ message: hangUpCallError });
+    });
+  })
+  .catch(err => res.status(404).json({ message: `Could not find user by ID, could not hang up user: ${err}` }));
+}
 /* ======== END HELPERS ========== */
 
 export function recordAttempt(req, res) {
   const { outcome, notes, responses, status: newStatus } = req.body;
 
-  // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
   if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
       res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object and outcome string' });
@@ -126,7 +155,6 @@ export function recordAttempt(req, res) {
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
-  // not necessary if just updating the status
   if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
@@ -139,9 +167,7 @@ export function recordAttempt(req, res) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'HUNG_UP') {
-                return callsService.updateCallStatus({ id: call_id, status: newStatus })
-                  .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
-                  .catch(err => console.log('error updating status in calls controller: ', err));
+                return handleHangUpFlow(res, user_id, call_id, campaign_id);
               } else if (newStatus === 'IN_PROGRESS') {
                 return usersService.getUserById({ id: user_id })
                   .then((user) => {
@@ -217,7 +243,7 @@ export function hangUpCall(req, res) {
     .then((user) => {
       if (user) {
         const { call_sid } = user.attributes;
-        return hangUp(call_sid, id)
+        return hangUpVolunteerCall(call_sid, id)
           .then((call) => {
             console.log('Current call session status successfully updated', call);
             return usersService.clearUserCallSID({ id })
