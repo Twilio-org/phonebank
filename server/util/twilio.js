@@ -11,7 +11,7 @@ export function initializeTwilioClient(client) {
   twilioClient = client;
 }
 
-export function hangUp(callSid, user_id) {
+export function hangUpVolunteerCall(callSid, user_id) {
   return twilioClient.calls(callSid)
     .update({
       status: 'completed',
@@ -44,12 +44,13 @@ export function sayCallCompleted() {
   return CallCompleted.toString();
 }
 
+
 export function sayDialingContact(contactName, contactNumber, idParams) {
   const { userId, campaignId, callId } = idParams;
   const helloContact = new VoiceResponse();
   helloContact.say(`Now dialing ${contactName}`);
-  helloContact.dial({ action: `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
-  helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/user/${userId}/campaign/${campaignId}/calls/bridge`);
+  helloContact.dial({ action: `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/${callId}/callback`, method: 'POST' }, contactNumber);
+  helloContact.redirect({ method: 'POST' }, `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/bridge`);
   return helloContact.toString();
 }
 
@@ -58,5 +59,12 @@ export function mutateCallConnectContact(callSid, idCollection) {
   return twilioClient.calls(callSid)
     .update({
       url: `${DEV_PATH}/users/${user_id}/campaigns/${campaign_id}/calls/${call_id}/connect`
+    });
+}
+
+export function hangUpContactCall(callSid, userId, campaignId) {
+  return twilioClient.calls(callSid)
+    .update({
+      url: `${DEV_PATH}/users/${userId}/campaigns/${campaignId}/calls/bridge`
     });
 }
