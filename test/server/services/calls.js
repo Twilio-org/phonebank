@@ -48,7 +48,7 @@ describe('Calls Service tests', function() {
 
     this.callSaveParams = {};
 
-    this.callUpdateParams = { call_sid: 'CA1a2b3c4aftd152e566f77g8hi48r9403' };
+    this.callUpdateParams = { call_sid: 'CA1a2b3c4aftd152e566f77g8hi48r9403', duration: '14' };
 
     scriptsService.saveNewScript(this.scriptParams)
       .then((script) => {
@@ -86,11 +86,12 @@ describe('Calls Service tests', function() {
   });
 
   describe('Call update', () => {
-    it('should correctly update call Sid', (done) => {
-      callsService.updateContactCallSid(this.callUpdateParams)
+    it('should correctly update call information', (done) => {
+      callsService.updateContactCall(this.callUpdateParams)
         .then((call) => {
           expect(call.attributes.id).to.equal(this.callUpdateParams.id);
           expect(call.attributes.call_sid).to.equal(this.callUpdateParams.call_sid);
+          expect(call.attributes.duration).to.equal(parseInt(this.callUpdateParams.duration, 10));
           done();
         }, done);
     });
@@ -145,8 +146,7 @@ describe('Calls Service tests', function() {
           expect(propList.includes('outcome')).to.equal(true);
           expect(propList.includes('notes')).to.equal(true);
           expect(propList.includes('call_sid')).to.equal(true);
-          expect(propList.includes('call_started')).to.equal(true);
-          expect(propList.includes('call_ended')).to.equal(true);
+          expect(propList.includes('duration')).to.equal(true);
           done();
         }, done);
     });

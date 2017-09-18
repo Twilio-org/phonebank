@@ -64,7 +64,8 @@ export default {
   },
 
   updateContactCall: (params) => {
-    const { id, call_sid, duration } = params;
+    const { id, call_sid } = params;
+    const duration = parseInt(params.duration, 10);
     return new Call({ id })
       .save({ call_sid, duration }, { patch: true })
       .then(call => call)
