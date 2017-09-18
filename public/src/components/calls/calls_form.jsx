@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
@@ -9,10 +8,11 @@ export default class CallsForm extends Component {
             form,
             status,
             outcome,
+            handleSubmit,
             no_calls_available } = this.props;
     // ASSIGNED is only status we recieve that disables form
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <h3>Questions</h3>
         <hr />
         <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED' || no_calls_available === true}>
