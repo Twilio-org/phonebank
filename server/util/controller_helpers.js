@@ -9,18 +9,15 @@ export function validCampaignStatusUpdate(prevStatus, currStatus) {
     completed: 1
   };
   const validStatusOptions = Object.keys(validCampaignStatusTransitions);
-  let validTransitionForStatus;
+  const validTransitionForStatus = validCampaignStatusTransitions[prevStatus].join(', ');
   if (prevStatus === 'completed') {
     throw new Error('Campaigns with status set to "completed" may not be changed.');
   }
   if (!validCampaignStatusTransitions[currStatus]) {
     throw new Error(`Status update to: ${currStatus} is invalid, valid status options: ${validStatusOptions.join(', ')}.`);
   }
-  if (prevStatus === 'active' || prevStatus === 'pause') {
-    validTransitionForStatus = validCampaignStatusTransitions[prevStatus].join(', ');
-    if (!validCampaignStatusTransitions[prevStatus].includes(currStatus)) {
-      throw new Error(`Invalid campaign status transition. Status ${prevStatus} can only transition to ${validTransitionForStatus} `);
-    }
+  if (!validCampaignStatusTransitions[prevStatus].includes(currStatus)) {
+    throw new Error(`Invalid campaign status transition. Status ${prevStatus} can only transition to ${validTransitionForStatus} `);
   }
   return true;
 }
