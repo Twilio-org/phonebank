@@ -99,10 +99,7 @@ function saveNewAttempt(contact_id, campaign_id, attempt_num) {
 function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
   if (outcome === 'DO_NOT_CALL' || outcome === 'BAD_NUMBER') {
     return updateNoCallContact(outcome, contact_id)
-      .then(() => {
-        console.log('in afterPut, call outcome is: ', outcome);
-        return res.status(200).json({ message: 'contact and call log updated successfully.' });
-      })
+      .then(() => res.status(200).json({ message: 'contact and call log updated successfully.' }))
       .catch(err => console.log('could not update contact do-not-call status: ', err));
   } else if (outcome === 'LEFT_MSG' || outcome === 'NO_ANSWER' || outcome === 'INCOMPLETE') {
     if (attempt_num < 3) {
@@ -148,7 +145,6 @@ function getCallsNotAttempted(campaign_id) {
 }
 
 function isFinalOutcome(outcome) {
-  console.log('in isFinalOutcome');
   const finalOutcomes = ['ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL'];
   return finalOutcomes.includes(outcome.toUpperCase());
 }
@@ -156,17 +152,11 @@ function isFinalOutcome(outcome) {
 function markCampaignCompleteIfLastCall(res, campaign_id, outcome) {
   return getCallsNotAttempted(campaign_id)
     .then((callsNotAttempted) => {
-      console.log('in markCampaignAsCompleted');
       const isCallOutcomeFinal = isFinalOutcome(outcome);
-      console.log('isCallOutcomeFinal is: ', isCallOutcomeFinal);
       const numCallsNotAttempted = callsNotAttempted.length;
-      console.log('numCallsNotAttempted is: ', numCallsNotAttempted);
       if (isCallOutcomeFinal && numCallsNotAttempted === 0) {
         return campaignsService.markCampaignAsCompleted({ id: campaign_id })
-          .then((campaign) => {
-            console.log('campaign in markCampaignCompleteIfLastCall then statement is: ', campaign);
-            return res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
-          })
+          .then(campaign => res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign }))
           .catch((err) => {
             console.log('Cannot update the campaign as completed: ', err);
             return res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
@@ -232,7 +222,6 @@ export function recordAttempt(req, res) {
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-                  console.log('in putCallAttempt before log responses');
                   const attempt_num = parseInt(call.attributes.attempt_num, 10);
                   if (responses) {
                     Promise.all(responses.map((resp) => {
@@ -240,22 +229,11 @@ export function recordAttempt(req, res) {
                       const responseParams = { call_id, question_id, response };
                       return responsesService.saveNewResponse(responseParams);
                     }))
-                    .then(() => {
-                      // console.log('before afterPut after log responses');
-                      // return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                      //   .then(() => {
-                      console.log('before markCampaignCompleteIfLastCall in afterPut');
-                      return markCampaignCompleteIfLastCall(res, campaign_id, outcome);
-                        // })
-                        // .catch(err => console.log('error marking campaign as final if last call marked as attempted', err));
-                    })
+                    .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
                     .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
                   }
                   return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                    .then(() => {
-                      console.log('in afterPut for bad number!!!!');
-                      return markCampaignCompleteIfLastCall(res, campaign_id, outcome);
-                    })
+                    .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
                     .catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt function of calls controller and/or marking campaign as final if last call marked as attempted', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
