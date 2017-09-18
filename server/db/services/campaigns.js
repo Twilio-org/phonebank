@@ -35,5 +35,15 @@ export default {
       }, {
         method: 'update'
       });
+  },
+
+  updateCampaignById: (params) => {
+    const { id, status, name, title, description, contact_lists_id, script_id } = params;
+    return new Campaign()
+    .where({ id })
+    .save(
+      { status, name, title, description, contact_lists_id, script_id },
+      { method: 'update' }
+    );
   }
 };
