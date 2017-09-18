@@ -24,5 +24,11 @@ export default {
 
     return new Campaign({ id })
       .fetch();
+  },
+
+  getCallsByCampaignId: (params) => {
+    const { id } = params;
+    return new Campaign({ id })
+      .fetch({ withRelated: 'calls' });
   }
 };
