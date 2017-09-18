@@ -139,7 +139,29 @@ describe('Campaign service tests', () => {
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
           done();
-        })
+        });
+    });
+    it('should update campaign status to completed', (done) => {
+      const id = this.campaign1id;
+      campaignsService.markCampaignAsCompleted({ id })
+        .then((campaign) => {
+          expect(campaign.attributes.status).to.equal('completed');
+          done();
+        });
+    });
+    it('should not update the rest of the campaign attributes when the status is updated', (done) => {
+      const id = this.campaign1id;
+      campaignsService.getCampaignById({ id })
+        .then((campaign) => {
+          expect(campaign.id).to.equal(id);
+          expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
+          expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
+          expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
+          expect(campaign.attributes.status).to.equal('completed');
+          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
+          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          done();
+        });
     });
   });
 });

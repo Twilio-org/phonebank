@@ -20,6 +20,35 @@ export default {
       .catch(err => console.log('Error in call service when finding call to assign:', err));
   },
 
+  getNumberOfCallsByCampaignId: (params) => {
+    const { campaign_id } = params;
+    return Call.forge()
+      .where({ campaign_id })
+      .count()
+      .then(count => count)
+      .catch(err => console.log('Error in call service when getting number of calls by campaign id', err));
+  },
+
+  getNumberOfCallsAttemptedByCampaignId: (params) => {
+    const { campaign_id } = params;
+
+    return Call.forge()
+      .where({ campaign_id, status: 'ATTEMPTED' })
+      .count()
+      .then(count => count)
+      .catch(err => console.log('Error in call service when getting number of attempted calls by campaign id', err));
+  },
+
+  getCallsNotAttemptedByCampaignId: (params) => {
+    const { campaign_id } = params;
+
+    return new Call({ campaign_id })
+      .where('status', '<>', 'ATTEMPTED')
+      .fetchAll()
+      .then(calls => calls)
+      .catch(err => console.log(`Error in fetching calls not attempted by campaign id: ${err}`));
+  },
+
   createNewAttempt: (params) => {
     const { attempt_num, campaign_id, contact_id } = params;
     return new Call({ attempt_num, campaign_id, contact_id }).save();
