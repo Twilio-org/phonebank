@@ -262,11 +262,23 @@ describe('Calls Service tests', function() {
     });
   });
   describe('getCallsNotAttemptedByCampaignId', () => {
+    it('should get all calls by campaign_id', (done) => {
+      const { campaign_id } = this.callSaveParams;
+      callsService.getCallsByCampaignId({ campaign_id })
+        .then((callsByCampaignId) => {
+          console.log('callsByCampaignId length', callsByCampaignId.length);
+          callsByCampaignId.forEach(call => console.log('call by Campaign is status: ', call.attributes.status));
+          console.log('callsByCampaignId is: ', callsByCampaignId);
+          done();
+        })
+        .catch(err => console.log(`Error in getCallsNotAttemptedByCampaignId test: ${err}`));
+    });
     it('should get the number of calls not marked as "ATTEMPTED" by campaign_id', (done) => {
       const { campaign_id } = this.callSaveParams;
       callsService.getCallsNotAttemptedByCampaignId({ campaign_id })
         .then((callsNotAttempted) => {
           expect(callsNotAttempted.length).to.equal(3);
+          callsNotAttempted.forEach(call => expect(call.attributes.status).to.not.equal('ATTEMPTED'));
           done();
         })
         .catch(err => console.log(`Error in getCallsNotAttemptedByCampaignId test: ${err}`));
