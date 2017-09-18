@@ -23,11 +23,16 @@ export function validCampaignStatusUpdate(prevStatus, currStatus) {
 }
 
 export function allowDraftCampaignUpdates(currentStatus, requestBody) {
+  const { name, title, description, contact_lists_id, script_id } = requestBody;
+  const params = { name, title, description, contact_lists_id, script_id };
   if (currentStatus === 'draft') {
-    const { name, title, description, contact_lists_id, script_id } = requestBody;
     return { name, title, description, contact_lists_id, script_id };
   }
-  throw new Error('Cannot edit campaign that is not in draft.');
+  const isValid = _.every(Object.keys(params), param => !!params[param] === false);
+  if (!isValid) {
+    throw new Error('Cannot edit campaign that is not in draft.');
+  }
+  return true;
 }
 
 export function listUpdatedParamsMessage(paramsObj) {

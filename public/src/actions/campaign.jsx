@@ -107,7 +107,7 @@ export function fetchCampaignsByUser(userId, current_campaign) {
 }
 
 export function updateCampaignStatus(campaignId, status, fetchAll = fetchCampaigns) {
-  const params = { id: campaignId, status };
+  const params = { status };
   return dispatch => axios.put(`/campaigns/${campaignId}`, params,
     {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
