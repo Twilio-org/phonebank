@@ -24,5 +24,16 @@ export default {
 
     return new Campaign({ id })
       .fetch();
+  },
+
+  markCampaignAsCompleted: (params) => {
+    const { id } = params;
+    return new Campaign()
+      .where({ id })
+      .save({
+        status: 'completed'
+      }, {
+        method: 'update'
+      });
   }
 };
