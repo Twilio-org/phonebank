@@ -70,10 +70,11 @@ export default {
       .catch(err => console.log('error in calls service when releasing call: ', err));
   },
 
-  updateContactCallSid: (params) => {
+  updateContactCall: (params) => {
     const { id, call_sid } = params;
+    const duration = parseInt(params.duration, 10);
     return new Call({ id })
-      .save({ call_sid }, { patch: true })
+      .save({ call_sid, duration }, { patch: true })
       .then(call => call)
       .catch(err => err);
   }

@@ -363,8 +363,6 @@ export default {
       user_id: 1,
       outcome: 'PENDING',
       status: 'ASSIGNED',
-      call_started: null,
-      call_ended: null,
       attempt_num: 1,
       notes: null,
       call_sid: null,
@@ -379,8 +377,6 @@ export default {
       contact_id: null,
       status: undefined,
       outcome: undefined,
-      call_ended: null,
-      call_started: null,
       notes: null,
       current_call_contact_name: undefined,
       call_volunteer_active: false
