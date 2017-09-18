@@ -1,6 +1,7 @@
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
+import { validCampaignStatusUpdate, allowDraftCampaignUpdates, listUpdatedParamsMessage } from '../util/controller_helpers';
 
 export function saveNewCampaign(req, res) {
   const { name, title, description, status, script_id, contact_lists_id } = req.body;
@@ -70,3 +71,37 @@ export function getAllCampaigns(req, res) {
     });
 }
 
+export function updateCampaignById(req, res) {
+  const campaign_id = parseInt(req.params.id, 10);
+  const { status: newStatus } = req.body;
+  return campaignsService.getCampaignById({ id: campaign_id })
+    .then((campaignObj) => {
+      let updateBodyParams = null;
+      const { status: previousStatus, id } = campaignObj.attributes;
+      if (newStatus) {
+        try {
+          validCampaignStatusUpdate(previousStatus, newStatus);
+        } catch (e) {
+          return res.status(400).json({ message: `Invalid status transition, campaign status not updated: ${e}` });
+        }
+      }
+      try {
+        updateBodyParams = allowDraftCampaignUpdates(previousStatus, req.body);
+      } catch (e) {
+        return res.status(400).json({ message: `Campaign not updated: ${e}` });
+      }
+      const updateParams = { status: newStatus, ...updateBodyParams };
+      const { keys: updateParamsNames,
+              values: updateParamValues } = listUpdatedParamsMessage(updateParams);
+      return campaignsService.updateCampaignById({ id, status: newStatus, ...updateParams })
+        .then((updatedCampaignObj) => {
+          if (updatedCampaignObj) {
+            res.status(200).json({ message: `Campaign: ${updateParamsNames} updated successfully to: ${updateParamValues}` });
+          }
+        })
+        .catch((err) => {
+          res.status(500).json({ message: `Campaign status not updated successfully, problem with updateCampaignById service: ${err}` });
+        });
+    })
+    .catch(err => res.status(404).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
+}
