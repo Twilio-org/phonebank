@@ -102,10 +102,22 @@ describe('Calls Service tests', function() {
 
       callsService.assignCall({ user_id, campaign_id })
         .then((call) => {
+          this.firstAssignedCall = call.attributes;
+
           expect(call.attributes.user_id).to.equal(this.callSaveParams.user_id);
           expect(call.attributes.status).to.equal('ASSIGNED');
           done();
         }, done);
+    });
+
+    it('should return a previously assigned call if one exists', (done) => {
+      const { user_id, campaign_id } = this.callSaveParams;
+
+      callsService.assignCall({ user_id, campaign_id })
+        .then((call) => {
+          expect(call.attributes).to.deep.equal(this.firstAssignedCall);
+          done();
+        }, done)
     });
   });
 
