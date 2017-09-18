@@ -2,7 +2,8 @@ import callsService from '../db/services/calls';
 import contactsService from '../db/services/contacts';
 import usersService from '../db/services/users';
 import responsesService from '../db/services/responses';
-import { hangUp, mutateCallConnectContact } from '../util/twilio';
+
+import { hangUpVolunteerCall, hangUpContactCall, mutateCallConnectContact } from '../util/twilio';
 
 function userHasJoinedCampaign(userId, campaignId) {
   return usersService.getUserCampaigns({ id: userId })
@@ -58,17 +59,18 @@ function outcomeIsValid(outcome) {
   return validOutcomes.includes(outcome.toUpperCase());
 }
 
-function validateStatusForUpdate(currStatus, prevStatus) {
+function validateStatusForUpdate(newStatus, prevStatus) {
   const validTransitions = {
-    ASSIGNED: 'IN_PROGRESS',
-    IN_PROGRESS: 'HUNG_UP',
-    HUNG_UP: 'ATTEMPTED'
+    ASSIGNED: ['IN_PROGRESS', 'ATTEMPTED'],
+    IN_PROGRESS: ['HUNG_UP'],
+    HUNG_UP: ['ATTEMPTED'],
+    ATTEMPTED: 1
   };
-  if (!validTransitions[currStatus]) {
+  if (!validTransitions[newStatus]) {
     return false;
   }
-  if (currStatus === 'IN_PROGRESS' || currStatus === 'HUNG_UP') {
-    if (validTransitions[prevStatus] !== currStatus) {
+  if (prevStatus !== 'ATTEMPTED') {
+    if (!validTransitions[prevStatus].includes(newStatus)) {
       return false;
     }
   }
@@ -93,7 +95,7 @@ function saveNewAttempt(contact_id, campaign_id, attempt_num) {
   return callsService.createNewAttempt(newCallParams);
 }
 
-function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id) {
+function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
   if (outcome === 'DO_NOT_CALL' || outcome === 'BAD_NUMBER') {
     return updateNoCallContact(outcome, contact_id)
       .then(() => res.status(200).json({ message: 'contact and call log updated successfully.' }))
@@ -107,27 +109,52 @@ function afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id)
   }
   return res.status(200).json({ message: 'call log successfully updated' });
 }
+
+function handleHangUpFlow(res, user_id, call_id, campaign_id) {
+  return usersService.getUserById({ id: user_id })
+  .then((userObj) => {
+    const { call_sid: userCallSid } = userObj.attributes;
+    hangUpContactCall(userCallSid, user_id, campaign_id)
+    .then(() => {
+      callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
+      .then((updateResponse) => {
+        const { attributes: updatedCall } = updateResponse;
+        if (updatedCall) {
+          const updateCallSuccess = 'call status updated to HUNG_UP';
+          return res.status(200)
+            .json({ message: updateCallSuccess });
+        }
+        return res.status(500).json({ messge: 'problem with updating call status to HUNG_UP' });
+      })
+      .catch((err) => {
+        const updateCallError = `Could not update call status to 'HUNG_UP': ${err}`;
+        return res.status(500).json({ message: updateCallError });
+      });
+    })
+    .catch((err) => {
+      const hangUpCallError = `Could not hang up call from twilio client to contact: ${err}`;
+      return res.status(500).json({ message: hangUpCallError });
+    });
+  })
+  .catch(err => res.status(404).json({ message: `Could not find user by ID, could not hang up user: ${err}` }));
+}
 /* ======== END HELPERS ========== */
 
 export function recordAttempt(req, res) {
   const { outcome, notes, responses, status: newStatus } = req.body;
-  let parsedResponses;
-  // responses will not exist in a status update for HUNG_UP and IN_PROGRESS
-  if (newStatus === 'ATTEMPTED') {
+
+  if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
-      res.status(400).json({ message: 'update request with a status of ATTEMPTED must have response object and outcome string' });
+      res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object.' });
     }
-    try {
-      parsedResponses = JSON.parse(responses);
-    } catch (err) {
-      return res.status(400).json({ message: 'Invalid JSON object' });
+    if (!Array.isArray(responses)) {
+      return res.status(400).json({ message: 'Responses should be an array of objects' });
     }
   }
   const call_id = parseInt(req.params.call_id, 10);
   const user_id = parseInt(req.params.id, 10);
   const user_campaign_id = parseInt(req.params.campaign_id, 10);
 
-  // not necessary if just updating the status
   if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
@@ -140,16 +167,14 @@ export function recordAttempt(req, res) {
             const { contact_id, campaign_id, status } = call.attributes;
             if (validateStatusForUpdate(newStatus, status)) {
               if (newStatus === 'HUNG_UP') {
-                return callsService.updateCallStatus({ id: call_id, status: newStatus })
-                  .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
-                  .catch(err => console.log('error updating status in calls controller: ', err));
+                return handleHangUpFlow(res, user_id, call_id, campaign_id);
               } else if (newStatus === 'IN_PROGRESS') {
                 return usersService.getUserById({ id: user_id })
                   .then((user) => {
                     if (user) {
                       const { call_sid } = user.attributes;
                       if (!call_sid) {
-                        return res.status(404).json({ message: 'user is not currently connected to a call session' });
+                        return res.status(400).json({ message: 'user is not currently connected to a call session' });
                       }
                       const idCollection = {
                         user: user_id,
@@ -163,20 +188,23 @@ export function recordAttempt(req, res) {
                             .catch(err => console.log('error updating status in calls controller: ', err))
                         ).catch(err => console.log('error mutating call in recordAttempt function of calls controller when setting modifying call with Twilio client: ', err));
                     }
-                    return res.status(400).json({ message: `could not find user with id ${user_id}` });
+                    return res.status(404).json({ message: `could not find user with id ${user_id}` });
                   }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
               return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
-                  Promise.all(parsedResponses.map((resp) => {
-                    const { question_id, response } = resp;
-                    const responseParams = { call_id, question_id, response };
-                    return responsesService.saveNewResponse(responseParams);
-                  }))
-                    .then(() => {
-                      const attempt_num = parseInt(call.attributes.attempt_num, 10);
-                      afterPutCallAttempt(res, outcome, contact_id, attempt_num, campaign_id);
-                    }).catch(() => res.status(500).json({ message: 'Unable to save at least one of the given responses' }));
+                  const attempt_num = parseInt(call.attributes.attempt_num, 10);
+                  if (responses) {
+                    Promise.all(responses.map((resp) => {
+                      const { question_id, response } = resp;
+                      const responseParams = { call_id, question_id, response };
+                      return responsesService.saveNewResponse(responseParams);
+                    }))
+                    .then(() => afterPut(res, outcome, contact_id, attempt_num, campaign_id))
+                    .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
+                  }
+                  return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
+                    .then().catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt functino of calls controller: ', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
             return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
@@ -198,7 +226,6 @@ export function releaseCall(req, res) {
       if (userHasJoined) {
         return lookUpCall(call_id).then((call) => {
           const { status } = call.attributes;
-
           if (checkCallIsAssigned(status)) {
             return callsService.releaseCall({ id: call_id })
               .then(() => res.status(200).json({ message: 'call successfully released' }))
@@ -219,7 +246,7 @@ export function hangUpCall(req, res) {
     .then((user) => {
       if (user) {
         const { call_sid } = user.attributes;
-        return hangUp(call_sid, id)
+        return hangUpVolunteerCall(call_sid, id)
           .then((call) => {
             console.log('Current call session status successfully updated', call);
             return usersService.clearUserCallSID({ id })
