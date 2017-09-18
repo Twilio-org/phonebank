@@ -280,8 +280,8 @@ export function volunteerCallback(req, res) {
 
 export function contactCallback(req, res) {
   const { call_id: id } = req.params;
-  const { DialCallSid: call_sid } = req.body;
-  return callsService.updateContactCallSid({ id, call_sid })
+  const { DialCallSid: call_sid, DialCallDuration: duration } = req.body;
+  return callsService.updateContactCall({ id, call_sid, duration })
     .then((call) => {
       if (call) {
         res.status(201).json(call);
