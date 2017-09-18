@@ -101,7 +101,7 @@ function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
     return updateNoCallContact(outcome, contact_id)
       .then(() => {
         console.log('in afterPut, call outcome is: ', outcome);
-        res.status(200).json({ message: 'contact and call log updated successfully.' });
+        return res.status(200).json({ message: 'contact and call log updated successfully.' });
       })
       .catch(err => console.log('could not update contact do-not-call status: ', err));
   } else if (outcome === 'LEFT_MSG' || outcome === 'NO_ANSWER' || outcome === 'INCOMPLETE') {
@@ -164,11 +164,12 @@ function markCampaignCompleteIfLastCall(res, campaign_id, outcome) {
       if (isCallOutcomeFinal && numCallsNotAttempted === 0) {
         return campaignsService.markCampaignAsCompleted({ id: campaign_id })
           .then((campaign) => {
-            res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
+            console.log('campaign in markCampaignCompleteIfLastCall then statement is: ', campaign);
+            return res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
           })
           .catch((err) => {
-            res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
             console.log('Cannot update the campaign as completed: ', err);
+            return res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
           });
       }
       return null;
@@ -183,7 +184,7 @@ export function recordAttempt(req, res) {
 
   if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
     if (!responses || !outcome) {
-      res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object.' });
+      return res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object.' });
     }
     if (!Array.isArray(responses)) {
       return res.status(400).json({ message: 'Responses should be an array of objects' });
@@ -253,7 +254,7 @@ export function recordAttempt(req, res) {
                   return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
                     .then(() => {
                       console.log('in afterPut for bad number!!!!');
-                      markCampaignCompleteIfLastCall(res, campaign_id, outcome);
+                      return markCampaignCompleteIfLastCall(res, campaign_id, outcome);
                     })
                     .catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt function of calls controller and/or marking campaign as final if last call marked as attempted', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
