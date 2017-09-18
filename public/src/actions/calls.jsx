@@ -171,16 +171,13 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then((currentCall) => {
-    const { call: currentCallObj } = currentCall.data;
-    console.log('call object in action is: ', currentCallObj);
-    const { status: currentCallStatus } = currentCallObj;
-    if (currentCallStatus === 'ATTEMPTED') {
+  .then(() => {
+    if (status === 'ATTEMPTED') {
       return dispatch(assignCall(userId, campaignId));
     }
-    return dispatch(updateCallStatus(currentCallStatus));
+    return dispatch(updateCallStatus(status));
   })
-  .catch(err => err);
+  .catch(err => console.log(err));
 }
 
 export function submitCallResponses(data) {
