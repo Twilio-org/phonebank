@@ -4,6 +4,7 @@ const { TWILIO_ACCOUNT_SID } = process.env;
 
 export const CALL_COMPLETE = 'CALL_COMPLETE';
 export const CONNECT_CONTACT_URL = 'CONNECT_CONTACT_URL';
+export const DISCONNECT_CONTACT_URL = 'DISCONNECT_CONTACT_URL';
 
 export function returnUpdate(callSid, updateType) {
   const clientUpdateObject = {
