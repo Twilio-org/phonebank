@@ -261,4 +261,15 @@ describe('Calls Service tests', function() {
           });
     });
   });
+  describe('getCallsNotAttemptedByCampaignId', () => {
+    it('should get the number of calls not marked as "ATTEMPTED" by campaign_id', (done) => {
+      const { campaign_id } = this.callSaveParams;
+      callsService.getCallsNotAttemptedByCampaignId({ campaign_id })
+        .then((callsNotAttempted) => {
+          expect(callsNotAttempted.length).to.equal(3);
+          done();
+        })
+        .catch(err => console.log(`Error in getCallsNotAttemptedByCampaignId test: ${err}`));
+    });
+  });
 });
