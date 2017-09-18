@@ -73,13 +73,24 @@ export default {
 
   getCallsNotAttemptedByCampaignId: (params) => {
     const { campaign_id } = params;
-    return new Call({ campaign_id })
-      .where('status', '<>ATTEMPTED')
+    console.log('campaign_id is: ', campaign_id);
+    return new Call()
+      .where({ campaign_id })
+      .query('where', 'status', '<>', 'ATTEMPTED')
       .fetchAll()
       .then((calls) => {
-        console.log('calls not attempted are: ', calls);
+        calls.forEach(call => console.log('not attempted status **** is: ', call.attributes.status, call.attributes.campaign_id, call.attributes.id));
         return calls;
       })
       .catch(err => console.log(`Error in fetching calls not attempted by campaing_id: ${err}`));
+  },
+
+  getCallsByCampaignId: (params) => {
+    const { campaign_id } = params;
+    return Call.forge()
+      .where({ campaign_id })
+      .fetchAll()
+      .then(calls => calls)
+      .catch(err => `Error in fetching all calls by campaign_id: ${err}`);
   }
 };
