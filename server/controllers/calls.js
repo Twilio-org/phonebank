@@ -117,14 +117,25 @@ function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
 //   return numOfCampaignCalls === numOfAttemtpedCalls;
 // }
 
-function allCallsAreAttempted(campaign_id) {
-  const callsLeftToAttempt = callsService.getCallsNotAttemptedByCampaignId({ campaign_id });
-  return callsLeftToAttempt.length === 0;
+function getCallsNotAttempted(campaign_id) {
+  return callsService.getCallsNotAttemptedByCampaignId({ campaign_id });
 }
 
 function isFinalOutcome(outcome) {
   const finalOutcomes = ['ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL'];
   return finalOutcomes.includes(outcome);
+}
+
+function isLastCallAttempted(campaign_id, outcome) {
+  const callOutcomeIsFinal = isFinalOutcome(outcome);
+  const callMakesAllCallsAttempted = allCallsAreAttempted(campaign_id);
+  return (callOutcomeIsFinal && callMakesAllCallsAttempted);
+}
+
+function markCampaignCompleted(campaign_id, outcome) {
+  const callIsLastCallAttempted = isLastCallAttempted(campaign_id, outcome)
+  if (callIsLastCallAttempted) {
+
 }
 
 function handleHangUpFlow(res, user_id, call_id, campaign_id) {
@@ -222,41 +233,10 @@ export function recordAttempt(req, res) {
                       return responsesService.saveNewResponse(responseParams);
                     }))
                     .then(() => afterPut(res, outcome, contact_id, attempt_num, campaign_id))
-                      .then(() => {
-                        const callOutcomeIsFinal = isFinalOutcome(outcome);
-                        const callMakesAllCallsAttempted = allCallsAreAttempted(campaign_id);
-                        if (callMakesAllCallsAttempted && callOutcomeIsFinal) {
-                          campaignsService.markCampaignAsCompleted({ id: campaign_id })
-                            .then((campaign) => {
-                              res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
-                            })
-                            .catch((err) => {
-                              res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
-                              console.log('Cannot update the campaign as completed: ', err);
-                            });
-                        }
-                      })
-                      .catch(err => console.log({ message: `Could not update call status and/or requeue: ${err}` }));
                     .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
                   }
                   return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                    .then(() => {
-                        const callOutcomeIsFinal = isFinalOutcome(outcome);
-                        const callMakesAllCallsAttempted = allCallsAreAttempted(campaign_id);
-                        if (callMakesAllCallsAttempted && callOutcomeIsFinal) {
-                          campaignsService.markCampaignAsCompleted({ id: campaign_id })
-                            .then((campaign) => {
-                              res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign });
-                            })
-                            .catch((err) => {
-                              res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
-                              console.log('Cannot update the campaign as completed: ', err);
-                            });
-                        }
-                      })
-                      .catch(err => console.log({ message: `Could not update call status and/or requeue: ${err}` }));
-                    })
-                    .catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt functino of calls controller: ', err));
+                    .then().catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt function of calls controller: ', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
             return res.status(400).json({ message: 'Call transition is invalid' });

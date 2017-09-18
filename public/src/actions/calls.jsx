@@ -162,8 +162,6 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
           status,
           outcome,
           notes } = callUpdateParams;
-  console.log(`the outcome and status in the action is: outcome: ${outcome} status: ${status}`);
-  console.log('call update params are: ', callUpdateParams);
   const params = { status, outcome, notes };
   return dispatch => axios.put(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
     params,
