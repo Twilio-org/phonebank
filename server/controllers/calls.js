@@ -152,17 +152,17 @@ function isFinalOutcome(outcome) {
 function markCampaignCompleteIfLastCall(res, campaign_id, outcome) {
   return getCallsNotAttempted(campaign_id)
     .then((callsNotAttempted) => {
-      const isCallOutcomeFinal = isFinalOutcome(outcome);
+      const callOutComeIsFinal = isFinalOutcome(outcome);
       const numCallsNotAttempted = callsNotAttempted.length;
-      if (isCallOutcomeFinal && numCallsNotAttempted === 0) {
+      if (callOutComeIsFinal && numCallsNotAttempted === 0) {
         return campaignsService.markCampaignAsCompleted({ id: campaign_id })
-          .then(campaign => res.status(201).json({ message: 'Campaign successfully marked as completed.', campaign }))
+          .then(() => res.status(201).json({ message: 'Campaign successfully marked as completed.' }))
           .catch((err) => {
             console.log('Cannot update the campaign as completed: ', err);
             return res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
           });
       }
-      return null;
+      return res.status(304).json({ message: 'Campaign status not modified. Not yet end of campaign calls.' });
     })
     .catch(err => res.status(500).json({ message: `Cannot get calls not attempted by campaign_id: ${err}` }));
 }
@@ -187,7 +187,6 @@ export function recordAttempt(req, res) {
   if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
-
   return userHasJoinedCampaign(user_id, user_campaign_id)
     .then((userHasJoined) => {
       if (userHasJoined) {
