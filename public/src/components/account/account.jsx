@@ -41,7 +41,7 @@ export class AccountPage extends Component {
         <h6>Phone:</h6>
         <h3>{account_info ? phone_number : ''}</h3>
         <div className="text-xs-right">
-          <Link className="btn btn-primary" to={is_admin ? `/admin/account/${id}/edit` : `/volunteers/account/${id}/edit`} replace>
+          <Link className="btn btn-primary" to={is_admin ? `/admin/account/${id}/edit` : `/volunteers/account/${id}/edit`}>
             Edit Account
           </Link>
         </div>
