@@ -24,7 +24,8 @@ function parsePayload(payloadObj) {
 const { defaultUsers: initialState,
         listFixture: usersListFixture,
         mapFixture: userFixture,
-        updatedListFixture: usersUpdatedList } = fixtures.usersFixture;
+        updatedListFixture: usersUpdatedList,
+        sortedListFixture: usersSortedListFixture } = fixtures.usersFixture;
 
 describe('admin users list actions tests: ', () => {
   let mock;
@@ -105,7 +106,7 @@ describe('admin users list actions tests: ', () => {
         // test has problem bc of the json stringify method
         const currentUserId = 1;
         const filteredUsersList = usersListFixture.filter(userObj => userObj.id !== currentUserId);
-        const expectedAction = setUserList(filteredUsersList);
+        const expectedAction = setUserList(filteredUsersList.sort((a, b) => (a.id - b.id)));
         return store.dispatch(fetchAllUsersOriginal(currentUserId))
           .then(() => {
             const [dispatchedActions] = store.getActions();

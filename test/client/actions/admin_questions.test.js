@@ -9,7 +9,8 @@ exposeLocalStorageMock();
 
 const { defaultScripts: initialState,
         listFixture: questionListFixtures,
-        mapFixture: questionFixture } = fixtures.questionFixtures;
+        mapFixture: questionFixture,
+        sortedListFixture: questionSortedListFixture } = fixtures.questionFixtures;
 
 describe('question actions', () => {
   let mock;
@@ -89,15 +90,14 @@ describe('question actions', () => {
     });
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
-        const expectedAction = setQuestionList(questionListFixtures);
+        const { type, payload } = setQuestionList(questionSortedListFixture);
         return store.dispatch(fetchAllQuestions())
           .then(() => {
             const dispatchedActions = store.getActions();
-            const { type, payload } = dispatchedActions[0];
-            expect(dispatchedActions[0]).toEqual(expectedAction);
-            expect(type).toBe('SET_QUESTIONS');
-            expect(payload).toEqual(questionListFixtures);
-          });
+            expect(dispatchedActions[0].payload).toEqual(payload);
+            expect(dispatchedActions[0].type).toEqual(type);
+          })
+          .catch(err => console.log('Error in fetchAllQuestions test is: ', err));
       });
     });
   });
