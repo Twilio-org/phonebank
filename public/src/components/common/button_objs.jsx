@@ -25,7 +25,9 @@ export default {
       }
     ];
   },
-  admin_campaigns() { // deleted props and item as arguments because they were causing an error
+  admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
+    const { item, history } = props;
+    const { id } = item;
     return [
       {
         key: 1,
@@ -50,13 +52,13 @@ export default {
       },
       {
         key: 4,
-        text: () => 'Edit',
+        text: () => 'View',
         size: 'xsmall',
-        style: 'danger',
+        style: 'primary',
         handler: () => {
           // const { id } = item;
           // props.handleClick(item);
-          // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
+          history.push(`/admin/campaigns/${id}/view`);
         }
       }
     ];

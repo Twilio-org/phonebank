@@ -105,3 +105,20 @@ export function fetchCampaignsByUser(userId, current_campaign) {
     throw customError;
   });
 }
+
+export function fetchCampaign(id) {
+  return dispatch => axios.get(`/campaigns/${id}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+    .then((res) => {
+      const { data: campaignData } = res;
+      return dispatch(setCurrentCampaign(campaignData));
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error fetching campaign action fetchCampaign: ${err}`,
+        name: 'campaign info get request from view campaign component'
+      };
+      throw customError;
+    });
+}

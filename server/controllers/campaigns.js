@@ -105,3 +105,18 @@ export function updateCampaignById(req, res) {
     })
     .catch(err => res.status(404).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
 }
+
+export function getCampaignById(req, res) {
+  const campaign_id = parseInt(req.params.id, 10);
+  return campaignsService.getCampaignById({ id: campaign_id })
+    .then((campaign) => {
+      if (campaign) {
+        res.status(200).send(campaign);
+      } else {
+        res.status(404).send({ message: 'Could not retrieve campaign with the given ID' });
+      }
+    })
+    .catch((err) => {
+      res.send(500).json({ message: `Could not successfully retrieve campaign: ${err}` });
+    });
+}

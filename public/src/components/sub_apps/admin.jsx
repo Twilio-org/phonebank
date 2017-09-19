@@ -15,6 +15,7 @@ import { ConnectedAccountPage } from '../../components/account/account';
 import ScriptPage from '../../containers/view_script';
 import AdminUsersContainer from '../../containers/list_users';
 import CreateContactListContainer from '../../containers/create_contact_list';
+import ViewCampaignContainer from '../../containers/view_campaign';
 
 export default class Admin extends Component {
   componentDidMount() {
@@ -49,6 +50,10 @@ export default class Admin extends Component {
         <Route
           path={`${parent}/account`}
           component={ConnectedAccountPage}
+        />
+        <Route
+          path={`${parent}/campaigns/:id/view`}
+          component={ViewCampaignContainer}
         />
         <Route
           exact
