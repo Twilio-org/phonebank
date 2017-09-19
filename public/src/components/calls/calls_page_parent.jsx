@@ -13,7 +13,6 @@ export default class CallPage extends Component {
             assignToCall } = this.props;
     const { script_id } = current_campaign;
     assignToCall(user_id, campaign_id);
-    console.log('IN COMPONENT DID MOUNT!!!');
     fetchScript(script_id);
     fetchScriptQuestions(script_id);
   }
