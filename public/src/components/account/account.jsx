@@ -30,7 +30,7 @@ export class AccountPage extends Component {
   render() {
     const { account_info } = this.props;
     const { id } = this.props.auth;
-    const { first_name, last_name, email, phone_number } = account_info;
+    const { first_name, last_name, email, phone_number, is_admin } = account_info;
 
     return (
       <div>
@@ -41,7 +41,7 @@ export class AccountPage extends Component {
         <h6>Phone:</h6>
         <h3>{account_info ? phone_number : ''}</h3>
         <div className="text-xs-right">
-          <Link className="btn btn-primary" to={`/account/${id}/edit`}>
+          <Link className="btn btn-primary" to={is_admin ? `/admin/account/${id}/edit` : `/volunteers/account/${id}/edit`}>
             Edit Account
           </Link>
         </div>

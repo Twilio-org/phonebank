@@ -10,6 +10,7 @@ exposeLocalStorageMock();
 
 const { defaultScripts: initialState,
         listFixture: campaignListFixtures,
+        sortedListFixture: campaignSortedListFixtures,
         mapFixture: campaignFixture } = fixtures.campaignFixtures;
 
 describe('campaign actions', () => {
@@ -89,14 +90,12 @@ describe('campaign actions', () => {
     });
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
-        const expectedAction = setCampaignsList(campaignListFixtures);
+        const { type, payload } = setCampaignsList(campaignSortedListFixtures);
         return store.dispatch(fetchCampaigns())
           .then(() => {
-            const [dispatchedActions] = store.getActions();
-            const { type, payload } = dispatchedActions;
-            expect(dispatchedActions).toEqual(expectedAction);
-            expect(type).toBe('SET_CAMPAIGNS');
-            expect(payload).toEqual(campaignListFixtures);
+            const dispatchedActions = store.getActions();
+            expect(dispatchedActions[0].payload).toEqual(payload);
+            expect(dispatchedActions[0].type).toEqual(type);
           });
       });
     });
@@ -114,14 +113,12 @@ describe('campaign actions', () => {
     });
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
-        const expectedAction = setCampaignsList(campaignListFixtures);
+        const { type, payload } = setCampaignsList(campaignSortedListFixtures);
         return store.dispatch(fetchCampaignsByUser(1))
           .then(() => {
-            const [dispatchedActions] = store.getActions();
-            const { type, payload } = dispatchedActions;
-            expect(dispatchedActions).toEqual(expectedAction);
-            expect(type).toBe('SET_CAMPAIGNS');
-            expect(payload).toEqual(campaignListFixtures);
+            const dispatchedActions = store.getActions();
+            expect(dispatchedActions[0].type).toEqual(type);
+            expect(dispatchedActions[0].payload).toEqual(payload);
           });
       });
     });
