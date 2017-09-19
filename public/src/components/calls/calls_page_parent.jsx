@@ -13,16 +13,18 @@ export default class CallPage extends Component {
             assignToCall } = this.props;
     const { script_id } = current_campaign;
     assignToCall(user_id, campaign_id);
+    console.log('IN COMPONENT DID MOUNT!!!');
     fetchScript(script_id);
     fetchScriptQuestions(script_id);
   }
-  componentDidUpdate() {
-    const { id: campaign_id } = this.props.match.params;
-    const { current_call, assignToCall, user_id } = this.props;
-    if (!current_call) {
-      assignToCall(user_id, campaign_id);
-    }
-  }
+  // componentDidUpdate() {
+  //   const { id: campaign_id } = this.props.match.params;
+  //   const { current_call, assignToCall, user_id } = this.props;
+  //   if (!current_call) {
+  //     console.log('IN COMPONENT DID UPDATE');
+  //     assignToCall(user_id, campaign_id);
+  //   }
+  // }
 
   render() {
     const { current_campaign,
