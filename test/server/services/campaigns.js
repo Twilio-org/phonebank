@@ -185,5 +185,9 @@ describe('Campaign service tests', () => {
         }, done)
         .catch(err => err);
     });
+
+    it('should get campaign by id and related calls: ', (done) => {
+      // getCallsByCampaignId
+    });
   });
 });
