@@ -5,19 +5,26 @@ export default {
     const { user_id, campaign_id } = params;
 
     return new Call()
-      .where({ campaign_id, status: 'AVAILABLE' })
-      .orderBy('id', 'ASC')
+      .where({ campaign_id, user_id, status: 'ASSIGNED' })
       .fetch()
-      .then((call) => {
-        if (call) {
-          return call.save({ user_id, status: 'ASSIGNED' }, { patch: true })
-            .then(savedCall => savedCall)
-            .catch(err => console.log('Error in call service when assigning to user: ', err));
+      .then((previousCall) => {
+        if (!previousCall) {
+          return new Call()
+            .where({ campaign_id, status: 'AVAILABLE' })
+            .orderBy('id', 'ASC')
+            .fetch()
+            .then((call) => {
+              if (call) {
+                return call.save({ user_id, status: 'ASSIGNED' }, { patch: true })
+                  .then(savedCall => savedCall)
+                  .catch(err => console.log('Error in call service when assigning to user: ', err));
+              }
+              return null;
+            })
+            .catch(err => console.log('Error in call service when finding call to assign:', err));
         }
-
-        return null;
-      })
-      .catch(err => console.log('Error in call service when finding call to assign:', err));
+        return previousCall;
+      });
   },
 
   createNewAttempt: (params) => {
@@ -63,10 +70,11 @@ export default {
       .catch(err => console.log('error in calls service when releasing call: ', err));
   },
 
-  updateContactCallSid: (params) => {
+  updateContactCall: (params) => {
     const { id, call_sid } = params;
+    const duration = parseInt(params.duration, 10);
     return new Call({ id })
-      .save({ call_sid }, { patch: true })
+      .save({ call_sid, duration }, { patch: true })
       .then(call => call)
       .catch(err => err);
   },
