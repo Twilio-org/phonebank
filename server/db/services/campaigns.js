@@ -39,7 +39,6 @@ export default {
   getExportDataById: (params) => {
     const { id } = params;
 
-
     return new Campaign({ id })
       .fetch({ withRelated: ['calls.responses'] })
       .then(campaign => campaign);
