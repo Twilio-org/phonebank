@@ -83,7 +83,7 @@ export default function getCampaignMetrics(req, res) {
   };
   const campaignId = parseInt(req.params.id, 10);
   try {
-    checkCampaignNotDraft(campaignId);
+    checkCampaignNotDraft(campaignId, res);
   } catch (e) {
     return res.status(400).json({ message: e });
   }
