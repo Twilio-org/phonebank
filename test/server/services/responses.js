@@ -107,23 +107,24 @@ describe('Responses Service tests', () => {
 
     it('should fetch responses with a specific question id: ', (done) => {
       // fetchResponsesByQuestionId
-      return responsesService.saveNewResponse(this.responseParams)
-        .then((newResponse) => {
-          if (newResponse) {
-            const { question_id } = this.responseParams;
-            return responsesService.fetchResponsesByQuestionId({ question_id })
-            .then((responseModels) => {
-              // should be only one response
-              const { question_id: questionId, call_id, response } = responseModels[0].attributes;
-              expect(response.attributes.id).to.equal(1);
-              expect(response.attributes.question_id).to.equal(questionId);
-              expect(response.attributes.call_id).to.equal(call_id);
-              expect(response.attributes.response).to.equal(response);
-            })
-            .catch(err => console.log(`error with fetchResponsesByQuestionId test: ${err}`));
-          }
-        })
-        .catch(err => console.log(`error saving new response in response tests: ${err}`));
+      // return responsesService.saveNewResponse(this.responseParams)
+      //   .then((newResponse) => {
+      //     if (newResponse) {
+      const { question_id } = this.responseParams;
+      return responsesService.fetchResponsesByQuestionId({ question_id })
+      .then((responseModels) => {
+        // should be only one response
+        const { question_id: questionId, call_id, response } = responseModels[0].attributes;
+        expect(response.attributes.id).to.equal(1);
+        expect(response.attributes.question_id).to.equal(questionId);
+        expect(response.attributes.call_id).to.equal(call_id);
+        expect(response.attributes.response).to.equal(response);
+        done();
+      }, done)
+      .catch(err => console.log(`error with fetchResponsesByQuestionId test: ${err}`));
+        //   }
+        // }, done)
+        // .catch(err => console.log(`error saving new response in response tests: ${err}`));
     });
   });
 });

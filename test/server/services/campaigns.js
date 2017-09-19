@@ -187,6 +187,7 @@ describe('Campaign service tests', () => {
     });
 
     it('should get campaign by id and related calls: ', (done) => {
+      done();
       // getCallsByCampaignId
     });
   });
