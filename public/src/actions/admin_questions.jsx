@@ -22,7 +22,7 @@ export function fetchAllQuestions() {
   })
   .then((questions) => {
     const { data: questionsList } = questions;
-    return dispatch(setQuestionList(questionsList));
+    return dispatch(setQuestionList(questionsList.sort((a, b) => (a.id - b.id))));
   })
   .catch((err) => {
     const customError = {

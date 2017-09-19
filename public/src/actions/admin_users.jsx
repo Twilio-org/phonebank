@@ -36,7 +36,7 @@ export function fetchAllUsers(currentUserId) {
       const { id } = object;
       return id !== currentUserId;
     });
-    return dispatch(setUserList(filteredUsersList));
+    return dispatch(setUserList(filteredUsersList.sort((a, b) => (a.id - b.id))));
   })
   .catch(err => console.log('problem fetching all users from db in action "fetchAllUsers"', err));
 }
