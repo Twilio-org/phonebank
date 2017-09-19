@@ -43,7 +43,7 @@ export function fetchUser(id) {
   .catch(err => err);
 }
 
-export function updateUser(userId, userInfo, history) {
+export function updateUser(userId, userInfo, is_admin, history) {
   const { first_name, last_name, email, phone_number } = userInfo;
 
   return () => axios.put(`/users/${userId}`,
@@ -56,7 +56,11 @@ export function updateUser(userId, userInfo, history) {
     { headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` } }
   )
   .then(() => {
-    history.push(`/volunteers/${userId}`);
+    if (is_admin) {
+      history.push(`/admin/account/${userId}`);
+    } else {
+      history.push(`/volunteers/account/${userId}`);
+    }
   })
   .catch((err) => {
     const customError = {

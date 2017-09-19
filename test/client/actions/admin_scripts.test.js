@@ -13,7 +13,8 @@ exposeLocalStorageMock();
 
 const { defaultScripts: initialState,
         listFixture: scriptListFixtures,
-        mapFixture: scriptFixture } = fixtures.scriptFixtures;
+        mapFixture: scriptFixture,
+        sortedListFixture: scriptSortedListFixture } = fixtures.scriptFixtures;
 
 const { listFixture: questionListFixtures,
         mapFixture: questionFixture } = fixtures.questionFixtures;
@@ -108,16 +109,13 @@ describe('script actions', () => {
 
     describe('axios GET request: ', () => {
       it('should add the appropriate action to the store: ', () => {
-        const expectedAction = setScriptsList(scriptListFixtures);
+        const { type, payload } = setScriptsList(scriptSortedListFixture);
 
         return store.dispatch(fetchAllScripts())
           .then(() => {
             const dispatchedActions = store.getActions();
-            const { type, payload } = dispatchedActions[0];
-
-            expect(dispatchedActions[0]).toEqual(expectedAction);
-            expect(type).toBe('SET_SCRIPTS');
-            expect(payload).toEqual(scriptListFixtures);
+            expect(dispatchedActions[0].type).toEqual(type);
+            expect(dispatchedActions[0].payload).toEqual(payload);
           });
       });
     });
