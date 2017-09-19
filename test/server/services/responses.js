@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import responsesService from '../../../server/db/services/responses';
 import callsService from '../../../server/db/services/calls';
 import campaignsService from '../../../server/db/services/campaigns';
-import cleanUp from '../bootstrap';
 import contactListsService from '../../../server/db/services/contact_lists';
 import contactsService from '../../../server/db/services/contacts';
 import scriptsService from '../../../server/db/services/scripts';
 import usersService from '../../../server/db/services/users';
 import questionsService from '../../../server/db/services/questions';
+import cleanUp from '../bootstrap';
 
 describe('Responses Service tests', () => {
   after((done) => {
@@ -144,7 +144,6 @@ describe('Responses Service tests', () => {
 
     it('should fetch responses with a specific question id: ', (done) => {
       const [first, second, third] = this.responseParams;
-      // return createTwoNewResponses(second, third, done)
       responsesService.saveNewResponse(second)
         .then((secondResponseModel) => {
           this.responseParams[1].id = secondResponseModel.attributes.id;
