@@ -25,6 +25,7 @@ export default {
     return new Campaign({ id })
       .fetch();
   },
+
   updateCampaignById: (params) => {
     const { id, status, name, title, description, contact_lists_id, script_id } = params;
     return new Campaign()
@@ -33,5 +34,14 @@ export default {
       { status, name, title, description, contact_lists_id, script_id },
       { method: 'update' }
     );
+  },
+
+  getExportDataById: (params) => {
+    const { id } = params;
+
+
+    return new Campaign({ id })
+      .fetch({ withRelated: ['calls.responses'] })
+      .then(campaign => campaign);
   }
 };
