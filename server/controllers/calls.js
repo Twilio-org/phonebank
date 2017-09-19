@@ -86,14 +86,25 @@ function lookUpCall(id) {
   return callsService.getCallById({ id });
 }
 
-function putCallAttempt(id, outcome, notes) {
-  return callsService.recordAttempt({ id, outcome, notes });
+function putCallAttempt(res, id, outcome, notes) {
+  return callsService.recordAttempt({ id, outcome, notes })
+    .then(() => res.status(200).json({ message: 'Call status updated to "ATTEMPTED"' }))
+    .catch((err) => {
+      console.log(`Could not update call status to "ATTEMPTED": ${err}`);
+      return res.status(500).json({ message: `Could not update status to ATTEMPTED: ${err}` });
+    });
 }
 
 function saveNewAttempt(contact_id, campaign_id, attempt_num) {
   const newCallParams = { contact_id, campaign_id, attempt_num };
 
   return callsService.createNewAttempt(newCallParams);
+}
+
+function saveResponse(res, responseParams) {
+  return responsesService.saveNewResponse(responseParams)
+    .then(res => res.status(201).json({ message: 'Response successfully created.' }))
+    .catch(err => res.status(500).json({ message: `Could not save response: ${err}` }));
 }
 
 function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
@@ -108,14 +119,14 @@ function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
         .catch(err => console.log('could not create new blank call attempt: ', err));
     }
   }
-  return res.status(200).json({ message: 'call log successfully updated' });
+  return res.status(304).json({ message: 'Call log not updated because outcome is ANSWERED.' });
 }
 
 function handleHangUpFlow(res, user_id, call_id, campaign_id) {
   return usersService.getUserById({ id: user_id })
   .then((userObj) => {
     const { call_sid: userCallSid } = userObj.attributes;
-    hangUpContactCall(userCallSid, user_id, campaign_id)
+    return hangUpContactCall(userCallSid, user_id, campaign_id)
     .then(() => {
       callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
       .then((updateResponse) => {
@@ -219,21 +230,21 @@ export function recordAttempt(req, res) {
                     return res.status(404).json({ message: `could not find user with id ${user_id}` });
                   }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
-              return putCallAttempt(call_id, outcome, notes)
+              return putCallAttempt(res, call_id, outcome, notes)
                 .then(() => {
                   const attempt_num = parseInt(call.attributes.attempt_num, 10);
                   if (responses) {
                     Promise.all(responses.map((resp) => {
                       const { question_id, response } = resp;
                       const responseParams = { call_id, question_id, response };
-                      return responsesService.saveNewResponse(responseParams);
-                    }))
-                    .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
-                    .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
+                      return saveResponse(res, responseParams);
+                    }));
+                    // .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
+                    // .catch(err => console.log('error saving responses in recordAttempt function of calls controller when saving a call attempt :', err));
                   }
-                  return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                    .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
-                    .catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt function of calls controller and/or marking campaign as final if last call marked as attempted', err));
+                  return afterPut(res, outcome, contact_id, attempt_num, campaign_id);
+                    // .then(() => markCampaignCompleteIfLastCall(res, campaign_id, outcome))
+                    // .catch(err => console.log('error creating new call in log for required subsequent contact after recording attempt in recordAttempt function of calls controller', err));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
             return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
