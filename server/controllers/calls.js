@@ -86,7 +86,7 @@ function lookUpCall(id) {
   return callsService.getCallById({ id });
 }
 
-function putCallAttempt(res, id, outcome, notes) {
+function putCallAttempt(id, outcome, notes) {
   return callsService.recordAttempt({ id, outcome, notes });
 }
 
@@ -233,7 +233,7 @@ export function recordAttempt(req, res) {
                     return res.status(404).json({ message: `could not find user with id ${user_id}` });
                   }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
               }
-              return putCallAttempt(res, call_id, outcome, notes)
+              return putCallAttempt(call_id, outcome, notes)
                 .then(() => {
                   const attempt_num = parseInt(call.attributes.attempt_num, 10);
                   if (responses) {
