@@ -113,8 +113,9 @@ export function updateCampaignStatus(campaignId, status, fetchAll = fetchCampaig
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then(() => {
+  .then((campaign) => {
     dispatch(fetchAll());
+    return campaign;
   })
   .catch(err => console.log('error with campaign status update action: ', err));
 }
