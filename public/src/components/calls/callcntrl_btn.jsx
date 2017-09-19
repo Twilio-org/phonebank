@@ -11,7 +11,7 @@ const CallControlButton = (props) => {
       bsStyle={bsStyle}
     >
       <i className="material-icons md-16">{materialIcon}</i>
-      {text}
+      {` ${text}`}
     </Button>
   );
 };
