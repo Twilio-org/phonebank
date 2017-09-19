@@ -11,8 +11,10 @@ export default class ViewCampaign extends Component {
   }
 
   render() {
-    const { current_campaign, history } = this.props;
-    const { name, title, status, description } = current_campaign;
+    console.log('PROPS', this.props);
+    const { current_campaign, current_script, history } = this.props;
+    const { name, title, status, description, script_id } = current_campaign;
+    const { name: scriptName } = current_script;
     return (
       <div>
         <h1>{current_campaign ? name : null } Campaign Details</h1>
@@ -22,6 +24,14 @@ export default class ViewCampaign extends Component {
         {current_campaign ? (<p>{status}</p>) : null}
         <h4>Description:</h4>
         {current_campaign ? (<p>{description}</p>) : null}
+        <h4>Script Name:</h4>
+        {current_script ? (<p>{scriptName}</p>) : null}
+        <Button
+          bsStyle="primary"
+          onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
+        >
+          View Script
+        </Button>
         <Button
           bsStyle="primary"
           onClick={history.goBack}

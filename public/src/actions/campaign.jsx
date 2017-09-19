@@ -4,6 +4,7 @@ import { CLEAR_CAMPAIGNS,
          SET_CAMPAIGNS,
          SET_CAMPAIGN_CURRENT,
          SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
+import { fetchScript } from './admin_scripts';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -112,6 +113,7 @@ export function fetchCampaign(id) {
   })
     .then((res) => {
       const { data: campaignData } = res;
+      dispatch(fetchScript(campaignData.script_id));
       return dispatch(setCurrentCampaign(campaignData));
     })
     .catch((err) => {
