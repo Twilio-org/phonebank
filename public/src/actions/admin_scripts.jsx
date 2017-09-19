@@ -29,7 +29,7 @@ export function fetchAllScripts() {
   })
   .then((scripts) => {
     const { data: scriptList } = scripts;
-    return dispatch(setScriptsList(scriptList));
+    return dispatch(setScriptsList(scriptList.sort((a, b) => (a.id - b.id))));
   })
   .catch((err) => {
     console.log('error fetching all scripts: ', err);

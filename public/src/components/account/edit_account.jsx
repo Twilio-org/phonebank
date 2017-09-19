@@ -15,8 +15,9 @@ class EditAccountInfo extends Component {
   }
   onSubmit(values) {
     const { history } = this.props;
+    const { is_admin } = this.props.account_info;
     const { id } = this.props.auth;
-    this.props.updateUser(id, values, history);
+    this.props.updateUser(id, values, is_admin, history);
   }
 
   renderField(field) {
@@ -46,6 +47,7 @@ class EditAccountInfo extends Component {
   render() {
     const { handleSubmit } = this.props;
     const { id } = this.props.auth;
+    const { is_admin } = this.props.account_info;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div className="row">
@@ -76,7 +78,7 @@ class EditAccountInfo extends Component {
         />
         <ButtonToolbar>
           <Button bsStyle="primary" type="submit">Update</Button>
-          <Link className="btn btn-default" to={`/account/${id}`}>
+          <Link className="btn btn-default" to={is_admin ? `/admin/account/${id}` : `/volunteers/account/${id}`}>
             Cancel
           </Link>
         </ButtonToolbar>
