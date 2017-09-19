@@ -25,7 +25,7 @@ exports[`<AccountPage /> renders correctly 1`] = `
   >
     <a
       className="btn btn-primary"
-      href="/account/31/edit"
+      href="/volunteers/account/31/edit"
       onClick={[Function]}
     >
       Edit Account
