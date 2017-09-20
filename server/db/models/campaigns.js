@@ -68,11 +68,12 @@ export default db.Model.extend({
         // if there were no responses the processed call is all we return.
         record = callClone;
       }
+      const keys = Object.getOwnPropertyNames(record);
       // merge record keys into our headers array
-      headers = Object.assign(headers, Object.getOwnPropertyNames(record));
+      headers = Object.assign(headers, keys);
       // join the record values into a string, comma seperated. This creates our csv
       // record line. This is the return of the calls.map function.
-      return Object.values(record).join(',');
+      return keys.map(key => record[key]).join(',');
     });
     // join the headers array into a string, comma-delimited and unshift it
     // onto the front of the array of line-strings as the first line in a csv
