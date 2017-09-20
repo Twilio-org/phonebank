@@ -242,11 +242,13 @@ export function recordAttempt(req, res) {
                           .catch(err => console.log('Could not update contact status or call log: ', err));
                       }
                       if (responses) {
-                        saveResponses(responses, call_id);
-                      } else {
-                        afterPut(res, outcome, contact_id, attempt_num, campaign_id);
+                        return saveResponses(responses, call_id)
+                          .then(() => markCampaignComplete(res, campaign_id))
+                          .catch(err => console.log(`Error in saving responses: ${err}`));
                       }
-                      return markCampaignComplete(res, campaign_id);
+                      return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
+                        .then(() => markCampaignComplete(res, campaign_id))
+                        .catch(err => console.log(`Error in updating call outcome or creating new call: ${err}`));
                     }).catch(err => console.log(`Could not complete query to determine if this was the last call: ${err}`));
                 }).catch(err => console.log('could not set call status to attempted: ', err));
             }
