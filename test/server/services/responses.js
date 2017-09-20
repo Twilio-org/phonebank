@@ -97,7 +97,7 @@ describe('Responses Service tests', () => {
     it('should save a new response to with question_id 1 and call_id 4', (done) => {
       responsesService.saveNewResponse(this.responseParams)
         .then((response) => {
-          expect(response.attributes.id).to.equal(1);
+          expect(response.attributes.id).to.exist;
           expect(response.attributes.question_id).to.equal(this.responseParams.question_id);
           expect(response.attributes.call_id).to.equal(this.responseParams.call_id);
           expect(response.attributes.response).to.equal(this.responseParams.response);

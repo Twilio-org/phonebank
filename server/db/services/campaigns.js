@@ -36,7 +36,7 @@ export default {
     );
   },
 
-  getExportDataById: (params) => {
+  getExportableCampaignDataById: (params) => {
     const { id } = params;
 
     return new Campaign({ id })

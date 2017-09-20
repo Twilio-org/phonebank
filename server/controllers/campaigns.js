@@ -109,7 +109,7 @@ export function updateCampaignById(req, res) {
 export function getCsv(req, res) {
   const { id: campaign_id } = req.params;
 
-  return campaignsService.getExportDataById({ id: campaign_id })
+  return campaignsService.getExportableCampaignDataById({ id: campaign_id })
     .then((campaign) => {
       res.writeHead(200, {
         'Content-Type': 'application/octet-stream',
