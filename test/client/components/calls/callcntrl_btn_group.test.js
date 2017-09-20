@@ -1,12 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import CallControl from '../../../../public/src/components/calls/callcntrl_btn_group';
+import CallControlButton from '../../../../public/src/components/calls/callcntrl_btn';
 
 import { checkObjectProps } from '../../client_test_helpers';
 
 describe('Component testing for <CallControl />: ', () => {
-  describe('<CallControl /> component testing: ', () => {
+  describe('<CallControlButton /> component testing: ', () => {
     const props = {
       outcome: 'PENDING',
       call_active: false,
@@ -16,12 +16,7 @@ describe('Component testing for <CallControl />: ', () => {
     const expectedProps = Object.keys(props);
 
     describe('Component rendering: ', () => {
-      const wrapper = shallow(<CallControl {...props} />);
-
-      it('should have 1 div element: ', () => {
-        const numberOfDivElements = wrapper.find('div').length;
-        expect(numberOfDivElements).toBe(1);
-      });
+      const wrapper = shallow(<CallControlButton {...props} />);
       it('should have 1 Button components: ', () => {
         const numberOfButtons = wrapper.find('Button').length;
         expect(numberOfButtons).toBe(1);
@@ -29,7 +24,7 @@ describe('Component testing for <CallControl />: ', () => {
     });
 
     describe('Expected props: ', () => {
-      const wrapper = shallow(<CallControl {...props} />).instance();
+      const wrapper = shallow(<CallControlButton {...props} />).instance();
 
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
         const actualProps = wrapper.props;
