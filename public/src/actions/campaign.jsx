@@ -69,7 +69,7 @@ export function fetchCampaigns(status = '') {
   })
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
-    return dispatch(setCampaignsList(campaignsList));
+    return dispatch(setCampaignsList(campaignsList.sort((a, b) => (a.id - b.id))));
   })
   .catch((err) => {
     console.log('error fetching all campaigns from the db: ', err);
@@ -92,10 +92,10 @@ export function fetchCampaignsByUser(userId, current_campaign) {
   .then((campaigns) => {
     const { data: campaignsList } = campaigns;
     if (!current_campaign || Object.getOwnPropertyNames(current_campaign).length === 0) {
-      dispatch(setCampaignsList(campaignsList));
+      dispatch(setCampaignsList(campaignsList.sort((a, b) => (a.id - b.id))));
       return dispatch(setCurrentCampaign(campaignsList[0]));
     }
-    return dispatch(setCampaignsList(campaignsList));
+    return dispatch(setCampaignsList(campaignsList.sort((a, b) => (a.id - b.id))));
   })
   .catch((err) => {
     const customError = {
