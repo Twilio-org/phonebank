@@ -23,9 +23,9 @@ export default class CallsSideBar extends Component {
   }
 
   render() {
-    const { status, no_calls_available } = this.props;
+    const { status, disable_call_control } = this.props;
 
-    if (status === 'ASSIGNED' || no_calls_available === true) {
+    if (status === 'ASSIGNED' || disable_call_control === true) {
       const { current_call_contact_name,
               history,
               call_id,
@@ -36,7 +36,7 @@ export default class CallsSideBar extends Component {
               nextCall,
               endVolunterTwilioCon,
               clearCurrentCall,
-              setNoCallsAvailable } = this.props;
+              disableCallControl } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -50,8 +50,8 @@ export default class CallsSideBar extends Component {
           nextCall={nextCall}
           endVolunterTwilioCon={endVolunterTwilioCon}
           clearCurrentCall={clearCurrentCall}
-          no_calls_available={no_calls_available}
-          setNoCallsAvailable={setNoCallsAvailable}
+          disable_call_control={disable_call_control}
+          disableCallControl={disableCallControl}
         />
       );
     }

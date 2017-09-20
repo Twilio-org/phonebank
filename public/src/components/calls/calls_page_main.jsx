@@ -7,7 +7,7 @@ export default class CallsPageMain extends Component {
     const { current_campaign,
             current_script,
             script_questions,
-            no_calls_available,
+            disable_call_control,
             ...storeProps } = this.props;
     return (
       <div>
@@ -17,7 +17,7 @@ export default class CallsPageMain extends Component {
         <Panel header={<h3>Script</h3>}>{current_script.body}</Panel>
         <CallsForm
           questions={script_questions}
-          no_calls_available={no_calls_available}
+          disable_call_control={disable_call_control}
           {...storeProps}
         />
       </div>

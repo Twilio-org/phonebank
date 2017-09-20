@@ -9,7 +9,8 @@ import { SET_CALL_CURRENT,
          SET_CALL_CONTACT_INFO,
          SET_VOLUNTEER_CALL_ACTIVE,
          CLEAR_VOLUNTEER_CALL_ACTIVE,
-         SET_NO_CALLS_AVAILABLE } from '../reducers/calls';
+         DISABLE_CALL_CONTROL,
+         ENABLE_CALL_CONTROL } from '../reducers/calls';
 
 export function setVolunteerActive() {
   return {
@@ -55,10 +56,15 @@ export function setCallContactInfo(contactInfo) {
   };
 }
 
-export function setNoCallsAvailable(boolean) {
+export function disableCallControl() {
   return {
-    type: SET_NO_CALLS_AVAILABLE,
-    payload: boolean
+    type: DISABLE_CALL_CONTROL
+  };
+}
+
+export function enableCallControl() {
+  return {
+    type: ENABLE_CALL_CONTROL
   };
 }
 
@@ -96,7 +102,7 @@ export function assignToCall(userId, campaignId) {
     })
     .catch((err) => {
       if (err.response && err.response.status === 404) {
-        return dispatch(setNoCallsAvailable(true));
+        return dispatch(disableCallControl());
       }
       return err;
     });

@@ -9,13 +9,13 @@ export default class CallsForm extends Component {
             status,
             outcome,
             handleSubmit,
-            no_calls_available } = this.props;
+            disable_call_control } = this.props;
     // ASSIGNED is only status we recieve that disables form
     return (
       <form onSubmit={handleSubmit}>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED' || no_calls_available === true}>
+        <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED' || disable_call_control === true}>
           {
             questions && questions.map((question, i) => (
               <CallQuestion

@@ -50,7 +50,7 @@ describe('Component testing for <PreCallButtonGroup />: ', () => {
           push: jest.fn()
         },
         nextCall: jest.fn(),
-        no_calls_available: true,
+        disable_call_control: true,
         releaseCall: jest.fn(),
         updateAttempt: jest.fn(),
         updateCallStatus: jest.fn(),

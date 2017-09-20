@@ -384,7 +384,7 @@ export default {
       notes: null,
       current_call_contact_name: undefined,
       call_volunteer_active: false,
-      no_calls_available: false
+      disable_call_control: false
     },
     contactFixture: {
       id: 1,

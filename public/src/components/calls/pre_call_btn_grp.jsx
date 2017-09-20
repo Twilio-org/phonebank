@@ -47,20 +47,20 @@ export default class PreCallButtonGroup extends Component {
             status,
             endVolunterTwilioCon,
             clearCurrentCall,
-            setNoCallsAvailable } = this.props;
+            enableCallControl } = this.props;
     clearCurrentCall();
     releaseCall(user_id, campaign_id, call_id, status);
     endVolunterTwilioCon(user_id, campaign_id);
-    setNoCallsAvailable(false);
+    enableCallControl();
     history.push('/volunteers/campaigns');
   }
 
   render() {
-    const { current_call_contact_name, no_calls_available } = this.props;
+    const { current_call_contact_name, disable_call_control } = this.props;
     return (
       <div>
         {
-          no_calls_available ?
+          disable_call_control ?
             (<h5>No Calls Available</h5>) :
             (<div>
               <h5>Now Calling:</h5>
@@ -70,7 +70,7 @@ export default class PreCallButtonGroup extends Component {
         <Button
           onClick={this.handleStartCallingClick}
           bsStyle="success"
-          disabled={no_calls_available}
+          disabled={disable_call_control}
         >
           <i className="material-icons small">phone_in_talk</i> Start Call
         </Button>
@@ -80,7 +80,7 @@ export default class PreCallButtonGroup extends Component {
             <Button
               onClick={this.handleSkipClick}
               bsStyle="warning"
-              disabled={no_calls_available}
+              disabled={disable_call_control}
             >
               <i className="material-icons md-16">skip_next</i>
               Skip this person
@@ -88,7 +88,7 @@ export default class PreCallButtonGroup extends Component {
             <Button
               onClick={this.handleBadNameClick}
               bsStyle="danger"
-              disabled={no_calls_available}
+              disabled={disable_call_control}
             >
               <i className="material-icons md-16">block</i>
               Bad Name
