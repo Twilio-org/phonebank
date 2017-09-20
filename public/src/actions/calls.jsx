@@ -174,7 +174,7 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus) {
   .catch(err => err);
 }
 
-export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
+export function updateCallAttempt(callUpdateParams) {
   const { user_id: userId,
           campaign_id: campaignId,
           call_id: callId,
@@ -188,12 +188,7 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then(() => {
-    if (status === 'ATTEMPTED') {
-      return dispatch(assignCall(userId, campaignId));
-    }
-    return dispatch(updateCallStatus(status));
-  })
+  .then(() => dispatch(updateCallStatus(status)))
   .catch(err => console.log(err));
 }
 

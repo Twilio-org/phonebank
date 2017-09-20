@@ -6,8 +6,6 @@ const defaultCalls = {
   contact_id: null,
   status: undefined,
   outcome: undefined,
-  call_ended: null,
-  call_started: null,
   notes: null,
   current_call_contact_name: undefined,
   call_volunteer_active: false,
@@ -20,8 +18,6 @@ const clearCallDefault = {
   contact_id: null,
   status: undefined,
   outcome: undefined,
-  call_ended: null,
-  call_started: null,
   notes: null,
   current_call_contact_name: undefined,
   call_volunteer_active: false
@@ -50,8 +46,6 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
         contact_id: payload.contact_id,
         status: payload.status,
         outcome: payload.outcome,
-        call_ended: payload.call_ended,
-        call_started: payload.call_started,
         notes: payload.notes
       };
     case CLEAR_CALL_CURRENT:

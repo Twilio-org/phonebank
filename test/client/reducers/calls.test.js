@@ -52,8 +52,6 @@ describe('volunteerCallsReducer tests: ', () => {
             contact_id,
             status,
             outcome,
-            call_ended,
-            call_started,
             notes,
             current_call_contact_name } = defaultState;
     it('should return the default state if the action type does not match any cases: ', () => {
@@ -73,12 +71,6 @@ describe('volunteerCallsReducer tests: ', () => {
     });
     it('should have a property named contact_id which is null: ', () => {
       expect(typeof contact_id === 'object' && contact_id === null).toBe(true);
-    });
-    it('should have a property named call_ended which is null: ', () => {
-      expect(typeof call_ended === 'object' && call_ended === null).toBe(true);
-    });
-    it('should have a property named call_started which is null: ', () => {
-      expect(typeof call_started === 'object' && call_started === null).toBe(true);
     });
     it('should have a property named notes which is null: ', () => {
       expect(typeof notes === 'object' && notes === null).toBe(true);
@@ -137,8 +129,6 @@ describe('volunteerCallsReducer tests: ', () => {
         contact_id: null,
         status: undefined,
         outcome: undefined,
-        call_ended: null,
-        call_started: null,
         notes: null
       };
       it('should return default state to the correct props: ', () => {
