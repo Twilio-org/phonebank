@@ -28,7 +28,6 @@ export default {
 
   markCampaignAsCompleted: (params) => {
     const { id } = params;
-    console.log('in markCampaignAsCompleted service!!!');
     return new Campaign()
       .where({ id })
       .save({
