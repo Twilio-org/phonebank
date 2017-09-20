@@ -3,6 +3,10 @@ import campaignsService from '../db/services/campaigns';
 import scriptsService from '../db/services/scripts';
 import responsesService from '../db/services/responses';
 
+function splitResponses(responseString) {
+  return responseString.split(',');
+}
+
 function checkCampaignNotDraft(campaignId, res) {
   return campaignsService.getCampaignById({ id: campaignId })
     .then((campaign) => {
@@ -21,45 +25,65 @@ function checkCampaignNotDraft(campaignId, res) {
     });
 }
 
-function statusAndOutcomeFrequencyMap(callsArray, metricsObj) {
-  callsArray.forEach((call) => {
-    const { status, outcome } = call.attributes;
-    const statusStats = metricsObj.status_distribution;
-    const outcomeStats = metricsObj.outcome_distribution;
-    if (statusStats[status]) {
-      statusStats[status] += 1;
+function createStatusMap(metricsObj) {
+  const statusOptions = ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'HUNG_UP', 'ATTEMPTED'];
+  const statusMetrics = metricsObj.status_distribution;
+  statusOptions.forEach((statusOption) => {
+    statusMetrics[statusOption] = 0;
+  });
+  return metricsObj;
+}
+
+function createOutcomeMap(metricsObj) {
+  const outcomeOptions = ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE'];
+  const outcomeMetrics = metricsObj.outcome_distribution;
+  outcomeOptions.forEach((outcomeOption) => {
+    outcomeMetrics[outcomeOption] = 0;
+  });
+}
+
+function createResponsesMap(responseArray, questionId, metricsObj) {
+  const responseStats = metricsObj.response_stats;
+  responseStats[questionId] = {};
+  const responsesForQuestion = responseStats[questionId];
+  responseArray.forEach((responseOption) => {
+    if (responseOption !== '') {
+      responsesForQuestion[responseOption] = 0;
     } else {
-      statusStats[status] = 1;
-    }
-    if (outcomeStats[outcome]) {
-      outcomeStats[outcome] += 1;
-    } else {
-      outcomeStats[outcome] = 1;
+      delete responseStats[questionId];
     }
   });
   return metricsObj;
 }
 
-function parseResponses(responseString) {
-  return responseString.split(',');
+function countStatusAndOutcomeFrequency(callsArray, metricsObj) {
+  createStatusMap(metricsObj);
+  createOutcomeMap(metricsObj);
+  callsArray.forEach((call) => {
+    const { status, outcome } = call.attributes;
+    const statusStats = metricsObj.status_distribution;
+    const outcomeStats = metricsObj.outcome_distribution;
+    if (Object.prototype.hasOwnProperty.call(statusStats, status)) {
+      statusStats[status] += 1;
+    }
+    if (Object.prototype.hasOwnProperty.call(outcomeStats, outcome)) {
+      outcomeStats[outcome] += 1;
+    }
+  });
+  return metricsObj;
 }
 
-function responseFrequencyMap(responsesArray, metricsObj, questionId) {
+function countResponseFrequency(responsesArray, metricsObj, questionId) {
   const responses = responsesArray
-    .map(responseObj => parseResponses(responseObj.attributes.response));
+    .map(responseObj => splitResponses(responseObj.attributes.response));
   const flattenedResponses = _.flatten(responses);
-
   flattenedResponses.forEach((response) => {
     const responseStats = metricsObj.response_stats;
-    if (responseStats[questionId]) {
-      if (responseStats[questionId][response]) {
+    if (Object.prototype.hasOwnProperty.call(responseStats, questionId)) {
+      const currentQuestion = responseStats[questionId];
+      if (Object.prototype.hasOwnProperty.call(currentQuestion, response)) {
         responseStats[questionId][response] += 1;
-      } else {
-        responseStats[questionId][response] = 1;
       }
-    } else {
-      responseStats[questionId] = {};
-      responseStats[questionId][response] = 1;
     }
   });
   return metricsObj;
@@ -67,12 +91,14 @@ function responseFrequencyMap(responsesArray, metricsObj, questionId) {
 
 function handleQuestionResponses(questionsArray, metricsObj, res) {
   Promise.all(questionsArray.map((question) => {
-    const { question_id } = question.attributes;
+    const { question_id, responses: responseOptionString } = question.attributes;
+    const responseOptions = splitResponses(responseOptionString);
+    createResponsesMap(responseOptions, question_id, metricsObj);
+
     return responsesService.fetchResponsesByQuestionId({ question_id })
     .then((responsesRes) => {
       const { models: responseCollection } = responsesRes;
-      // return responseFrequencyMap(responseCollection, metricsObj);
-      return responseFrequencyMap(responseCollection, metricsObj, question_id);
+      return countResponseFrequency(responseCollection, metricsObj, question_id);
     })
     .catch((err) => {
       res.status(404).json({ message: `couldn't find responses by question id: ${err}` });
@@ -100,7 +126,7 @@ export default function getCampaignMetrics(req, res) {
     .then((result) => {
       const { script_id } = result.attributes;
       const { models: campaignCalls } = result.relations.calls;
-      statusAndOutcomeFrequencyMap(campaignCalls, metrics);
+      countStatusAndOutcomeFrequency(campaignCalls, metrics);
       return scriptsService.getQuestionsByScriptId({ id: script_id })
       .then((questions) => {
         const { models: questionsArray } = questions;
