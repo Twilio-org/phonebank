@@ -3,7 +3,7 @@ import _ from 'lodash';
 import responsesService from '../../db/services/responses';
 import campaignsService from '../../db/services/campaigns';
 
-export function splitResponses(responseString) {
+function splitResponses(responseString) {
   return responseString.split(',');
 }
 
@@ -29,7 +29,7 @@ export function checkCampaignNotDraft(campaignId, res) {
     });
 }
 
-export function createStatusMap(metricsObj) {
+function createStatusMap(metricsObj) {
   const statusOptions = ['AVAILABLE', 'ASSIGNED', 'IN_PROGRESS', 'HUNG_UP', 'ATTEMPTED'];
   const statusMetrics = metricsObj.status_distribution;
   statusOptions.forEach((statusOption) => {
@@ -38,7 +38,7 @@ export function createStatusMap(metricsObj) {
   return metricsObj;
 }
 
-export function createOutcomeMap(metricsObj) {
+function createOutcomeMap(metricsObj) {
   const outcomeOptions = ['PENDING', 'ANSWERED', 'BAD_NUMBER', 'DO_NOT_CALL', 'LEFT_MSG', 'NO_ANSWER', 'INCOMPLETE'];
   const outcomeMetrics = metricsObj.outcome_distribution;
   outcomeOptions.forEach((outcomeOption) => {
@@ -46,7 +46,7 @@ export function createOutcomeMap(metricsObj) {
   });
 }
 
-export function createResponsesMap(responseArray, questionId, metricsObj) {
+function createResponsesMap(responseArray, questionId, metricsObj) {
   const responseStats = metricsObj.response_stats;
   responseStats[questionId] = {};
   const responsesForQuestion = responseStats[questionId];
@@ -77,7 +77,7 @@ export function countStatusAndOutcomeFrequency(callsArray, metricsObj) {
   return metricsObj;
 }
 
-export function countResponseFrequency(responsesArray, metricsObj, questionId) {
+function countResponseFrequency(responsesArray, metricsObj, questionId) {
   const responses = responsesArray
     .map(responseObj => splitResponses(responseObj.attributes.response));
   const flattenedResponses = _.flatten(responses);
