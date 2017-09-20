@@ -100,7 +100,9 @@ function saveResponses(responses, call_id) {
   return Promise.all(responses.map((resp) => {
     const { question_id, response } = resp;
     const responseParams = { call_id, question_id, response };
-    return responsesService.saveNewResponse(responseParams).then().catch(err => console.log(err));
+    return responsesService.saveNewResponse(responseParams)
+      .then()
+      .catch(err => console.log(`Error in saving new responses: ${err}`));
   }));
 }
 
@@ -112,14 +114,14 @@ function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
       return saveNewAttempt(contact_id, campaign_id, attempt_num + 1);
     }
   }
-  return res.status(304).json({ message: 'Call log not updated because outcome is ANSWERED.' });
+  return res.status(304).json({ message: 'Call log not modified.' });
 }
 
 function handleHangUpFlow(res, user_id, call_id, campaign_id) {
   return usersService.getUserById({ id: user_id })
   .then((userObj) => {
     const { call_sid: userCallSid } = userObj.attributes;
-    return hangUpContactCall(userCallSid, user_id, campaign_id)
+    hangUpContactCall(userCallSid, user_id, campaign_id)
     .then(() => {
       callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
       .then((updateResponse) => {
@@ -159,7 +161,7 @@ function isLastAttemptedCall(campaign_id, outcome) {
       const callOutComeIsFinal = isFinalOutcome(outcome);
       const numCallsNotAttempted = callsNotAttempted.length;
       return (callOutComeIsFinal && numCallsNotAttempted === 0);
-    }).catch(err => console.log(err));
+    }).catch(err => console.log(`Error in getting calls not attempted: ${err}`));
 }
 
 function markCampaignComplete(res, campaign_id) {
@@ -191,6 +193,7 @@ export function recordAttempt(req, res) {
   if (outcome && !outcomeIsValid(outcome)) {
     return res.status(400).json({ message: 'Outcome is not valid' });
   }
+
   return userHasJoinedCampaign(user_id, user_campaign_id)
     .then((userHasJoined) => {
       if (userHasJoined) {
@@ -235,8 +238,8 @@ export function recordAttempt(req, res) {
                             .catch(err => res.status(500).json({ message: `Could not save new responses: ${err}` }));
                         }
                         return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                          .then(() => res.status(200).json({ message: 'contact and call log updated successfully.' }))
-                          .catch(err => console.log('could not update contact do-not-call status: ', err));
+                          .then(() => res.status(200).json({ message: 'Contact and call log updated successfully.' }))
+                          .catch(err => console.log('Could not update contact status or call log: ', err));
                       }
                       if (responses) {
                         saveResponses(responses, call_id);
