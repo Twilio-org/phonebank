@@ -309,7 +309,6 @@ describe('Call Actions', () => {
     afterEach(() => {
       mock.reset();
     });
-    // TODO: when form submission is finished, finish case for when call status is marked ATTEMPTED
     describe('aixios put request when call status is not ATTEMPTED: ', () => {
       it('should dispatch UPDATE_CALL_STATUS: ', () => {
         const expectedAction = updateCallStatus('in_progress');
