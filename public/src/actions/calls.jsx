@@ -192,6 +192,7 @@ export function submitCallResponses(data) {
     .then(() => {
       dispatch(destroy('CallResponse'));
       dispatch(clearCurrentCall());
+      dispatch(assignToCall(user_id, campaign_id));
     })
     .catch((err) => {
       const customError = {
