@@ -6,22 +6,26 @@ export default {
 
     return new Call()
       .where({ campaign_id, user_id, status: 'ASSIGNED' })
-      .fetch()
-      .then(() => (
-        new Call()
-          .where({ campaign_id, status: 'AVAILABLE' })
-          .orderBy('updated_at', 'ASC')
-          .fetch()
-          .then((call) => {
-            if (call) {
-              return call.save({ user_id, status: 'ASSIGNED', updated_at: new Date() }, { patch: true })
-                .then(savedCall => savedCall)
-                .catch(err => console.log('Error in call service when assigning to user: ', err));
-            }
-            return null;
-          })
-          .catch(err => console.log('Error in call service when finding call to assign:', err))
-      ));
+      .orderBy('updated_at', 'DESC')
+      .fetchAll()
+      .then((calls) => {
+        if (calls.length <= 1) {
+          return new Call()
+            .where({ campaign_id, status: 'AVAILABLE' })
+            .orderBy('updated_at', 'ASC')
+            .fetch()
+            .then((call) => {
+              if (call) {
+                return call.save({ user_id, status: 'ASSIGNED', updated_at: new Date() }, { patch: true })
+                  .then(savedCall => savedCall)
+                  .catch(err => console.log('Error in call service when assigning to user: ', err));
+              }
+              return null;
+            })
+            .catch(err => console.log('Error in call service when finding call to assign:', err));
+        }
+        return calls.pop();
+      });
   },
 
   createNewAttempt: (params) => {

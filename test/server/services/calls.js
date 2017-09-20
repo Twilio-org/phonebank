@@ -111,14 +111,13 @@ describe('Calls Service tests', function() {
         }, done);
     });
 
-    it('should return a previously assigned call if one exists', (done) => {
+    it('should return null if no calls are AVAILABLE and you try to assign', (done) => {
       const { user_id, campaign_id } = this.callSaveParams;
-
       callsService.assignCall({ user_id, campaign_id })
         .then((call) => {
-          expect(call.attributes).to.deep.equal(this.firstAssignedCall);
+          expect(call).to.equal(null);
           done();
-        }, done)
+        }, done);
     });
   });
 
