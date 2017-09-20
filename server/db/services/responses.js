@@ -11,5 +11,16 @@ export default {
       .where({ question_id })
       .orderBy('id', 'ASC')
       .fetchAll();
+  },
+  fetchResponesByQuestionCallId: (params) => {
+    const { calls_array, question_id } = params;
+    return new Response().query((q) => {
+      q.from('responses')
+        .select('response', 'question_id', 'call_id')
+        .leftJoin('calls', 'responses.call_id', 'calls.id')
+        .where({ question_id })
+        .whereIn('call_id', calls_array);
+    })
+    .fetchAll();
   }
 };

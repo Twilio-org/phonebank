@@ -1,7 +1,7 @@
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
-import { validCampaignStatusUpdate, allowDraftCampaignUpdates, listUpdatedParamsMessage } from '../util/controller_helpers';
+import { validCampaignStatusUpdate, allowDraftCampaignUpdates, listUpdatedParamsMessage } from './controller_helpers/campaigns';
 
 export function saveNewCampaign(req, res) {
   const { name, title, description, status, script_id, contact_lists_id } = req.body;
