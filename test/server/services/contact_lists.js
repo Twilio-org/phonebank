@@ -50,7 +50,6 @@ describe('Contact List Service tests', () => {
               console.log('error with updating contact list \n\n');
               done(err);
             });
-          done();
         })
         .catch((err) => {
           console.log('error with saving contact list before updating \n\n');
