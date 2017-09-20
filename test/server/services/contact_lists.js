@@ -44,6 +44,7 @@ describe('Contact List Service tests', () => {
             .then((updatedContactList) => {
               expect(updatedContactList.attributes.name).to.equal(newParams.name);
               this.params2.name = newParams.name;
+              done();
             })
             .catch((err) => {
               console.log('error with updating contact list \n\n');
