@@ -54,6 +54,7 @@ export default class CallPage extends Component {
               clearCurrentCall,
               submitCallResponses,
               change,
+              enableCallControl,
               ...otherProps } = this.props;
       return (
         <Row className="show-grid">
@@ -84,6 +85,7 @@ export default class CallPage extends Component {
               disable_call_control={disable_call_control}
               disableCallControl={disableCallControl}
               clearCurrentCall={clearCurrentCall}
+              enableCallControl={enableCallControl}
               {...otherProps}
             />
           </Col>

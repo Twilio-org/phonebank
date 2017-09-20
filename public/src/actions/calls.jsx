@@ -143,7 +143,7 @@ export function endTwilioCon(userId, campaignId) {
     const { data: userObj } = res;
     const { call_sid } = userObj;
     if (call_sid) {
-      axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+      return axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
         headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
       })
       .then((disconnectRes) => {

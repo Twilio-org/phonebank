@@ -48,8 +48,12 @@ export default class PreCallButtonGroup extends Component {
             endVolunterTwilioCon,
             clearCurrentCall,
             enableCallControl } = this.props;
-    clearCurrentCall();
-    releaseCall(user_id, campaign_id, call_id, status);
+    if (status === 'ACTIVE') {
+      clearCurrentCall();
+      releaseCall(user_id, campaign_id, call_id, status);
+    } else {
+      clearCurrentCall();
+    }
     endVolunterTwilioCon(user_id, campaign_id);
     enableCallControl();
     history.push('/volunteers/campaigns');
