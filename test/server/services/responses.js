@@ -111,6 +111,7 @@ describe('Responses Service tests', () => {
                         Promise.all(this.callSaveParams.map((call, index) => {
                           return callsService.populateCall(call)
                             .then((populatedCall) => {
+                              this.callSaveParams[index].id = populatedCall.attributes.id;
                               this.responseParams[index].call_id = populatedCall.attributes.id;
                             });
                         }))
@@ -142,7 +143,11 @@ describe('Responses Service tests', () => {
         }, done);
     });
 
-    it('should fetch responses with a specific question id: ', (done) => {
+    function checkQuestionId(...questionIds) {
+      return questionIds.reduce((accum, curr) => curr === 1, true);
+    }
+
+    it('should fetch responses with a specific question id and array of call_ids: ', (done) => {
       const [first, second, third] = this.responseParams;
       responsesService.saveNewResponse(second)
         .then((secondResponseModel) => {
@@ -151,37 +156,29 @@ describe('Responses Service tests', () => {
             .then((thirdResponseModel) => {
               this.responseParams[2].id = thirdResponseModel.attributes.id;
               const { question_id } = this.responseParams[0];
-              responsesService.fetchResponsesByQuestionId({ question_id })
+              const callIdsArray = this.callSaveParams.map(call => call.id);
+              responsesService.fetchResponesByQuestionCallId({ question_id, calls_array: callIdsArray })
               .then((responses) => {
                 const { length, models: responseModels } = responses;
-                const [firstResponse, secondResponse, thirdResponse] = responseModels;
-                const { id: idOne,
-                        question_id: questionIdOne,
+                const [firstRes, secondRes, thirdRes] = responseModels;
+                const { question_id: questionIdOne,
                         call_id: callIdOne,
-                        response: responseOne } = firstResponse.attributes;
-                const { id: idTwo,
-                        question_id: questionIdTwo,
+                        response: responseOne } = firstRes.attributes;
+                const { question_id: questionIdTwo,
                         call_id: callIdTwo,
-                        response: responseTwo } = secondResponse.attributes;
-                const { id: idThree,
-                        question_id: questionIdThree,
+                        response: responseTwo } = secondRes.attributes;
+                const { question_id: questionIdThree,
                         call_id: callIdThree,
-                        response: responseThree } = thirdResponse.attributes;
-                expect(length).to.equal(this.responseParams.length);
-                expect(idOne).to.equal(this.responseParams[0].id);
-                expect(questionIdOne).to.equal(first.question_id);
-                expect(callIdOne).to.equal(first.call_id);
+                        response: responseThree } = thirdRes.attributes;
+                const allHaveSameQuestionId = checkQuestionId(questionIdOne, questionIdTwo, questionIdThree);
+                expect(length).to.equal(this.callSaveParams.length);
+                expect(allHaveSameQuestionId).to.equal(true);
                 expect(responseOne).to.equal(first.response);
-                expect(idTwo).to.equal(second.id);
-                expect(questionIdTwo).to.equal(question_id);
-                expect(callIdTwo).to.equal(second.call_id);
                 expect(responseTwo).to.equal(second.response);
-                expect(idThree).to.equal(third.id);
-                expect(questionIdThree).to.equal(question_id);
-                expect(callIdThree).to.equal(third.call_id);
                 expect(responseThree).to.equal(third.response);
-                expect(questionIdOne).to.equal(questionIdThree);
-                expect(questionIdTwo).to.equal(questionIdThree);
+                expect(callIdOne).to.equal(callIdsArray[0]);
+                expect(callIdTwo).to.equal(callIdsArray[1]);
+                expect(callIdThree).to.equal(callIdsArray[2]);
                 done();
               }, done);
             }, done);

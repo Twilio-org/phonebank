@@ -17,7 +17,7 @@
     "test": "npm run lint && npm run test:server && npm run test:client",
     "test:client": "jest",
     "test:client:refresh": "jest --updateSnapshot",
-    "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register"
+    "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server/services/responses' --recursive --compilers js:babel-core/register"
   },
   "jest": {
     "verbose": true
