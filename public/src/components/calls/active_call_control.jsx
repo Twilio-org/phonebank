@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import CallControl from './callcntrl_btn_group';
+import { HelpBlock } from 'react-bootstrap';
+import CallControlButton from './callcntrl_btn';
 import Toolbar from './btn_toolbar';
 import SideBarForm from './side_bar_form';
 
@@ -49,6 +49,7 @@ export default class ActiveCallControl extends Component {
             outcome,
             status,
             form_errors } = this.props;
+    const formInvalid = typeof form_errors !== 'undefined';
     const outcomes = [
       {
         value: 'ANSWERED',
@@ -75,7 +76,7 @@ export default class ActiveCallControl extends Component {
         icon: 'call_missed'
       },
       {
-        value: 'LEFT_MESSAGE',
+        value: 'LEFT_MSG',
         label: 'Left Message',
         styled: 'warning',
         icon: 'mic'
@@ -92,13 +93,13 @@ export default class ActiveCallControl extends Component {
         <h5>Now Calling:</h5>
         <h3>{current_call_contact_name}</h3>
         <div>
-          <CallControl
+          <CallControlButton
+            disabled={status !== 'IN_PROGRESS'}
             handler={this.handleHangUp}
-            outcome={outcome}
-            status={status}
-            text="Hang Up"
-            htmlID="hang-up-btn"
-            styled="danger"
+            materialIcon={'call_end'}
+            text={status === 'HUNG_UP' ? 'Call Ended' : 'Hang Up'}
+            id="hang-up-btn"
+            bsStyle="danger"
           />
         </div>
         <Toolbar
@@ -107,16 +108,17 @@ export default class ActiveCallControl extends Component {
           onChange={this.syncOutcomeInForm}
         />
         <div>
-          <SideBarForm handleSubmit={handleSubmit} />
+          <SideBarForm />
           <div>
-            <CallControl
+            {formInvalid && <HelpBlock>Complete survey responses before submit</HelpBlock>}
+            {!formInvalid && status !== 'HUNG_UP' && <HelpBlock> Hang up call before submit</HelpBlock>}
+            <CallControlButton
+              disabled={outcome === 'PENDING' || (outcome === 'ANSWERED' && status !== 'HUNG_UP') || formInvalid}
               handler={handleSubmit(this.handleSubmitResponses)}
-              outcome={outcome}
-              status={status}
+              materialIcon={'skip_next'}
               text="Submit and Next Call"
-              htmlID="submit-call-form-btn"
-              styled="success"
-              invalid={typeof form_errors !== 'undefined'}
+              id="submit-call-form-btn"
+              bsStyle="success"
             />
           </div>
         </div>
