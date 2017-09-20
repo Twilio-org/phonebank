@@ -143,10 +143,6 @@ describe('Responses Service tests', () => {
         }, done);
     });
 
-    function checkQuestionId(...questionIds) {
-      return questionIds.reduce((accum, curr) => curr === 1, true);
-    }
-
     it('should fetch responses with a specific question id and array of call_ids: ', (done) => {
       const [first, second, third] = this.responseParams;
       responsesService.saveNewResponse(second)
@@ -170,7 +166,8 @@ describe('Responses Service tests', () => {
                 const { question_id: questionIdThree,
                         call_id: callIdThree,
                         response: responseThree } = thirdRes.attributes;
-                const allHaveSameQuestionId = checkQuestionId(questionIdOne, questionIdTwo, questionIdThree);
+                const allHaveSameQuestionId = [questionIdOne, questionIdTwo, questionIdThree]
+                  .reduce((accum, curr) => curr === question_id, true);
                 expect(length).to.equal(this.callSaveParams.length);
                 expect(allHaveSameQuestionId).to.equal(true);
                 expect(responseOne).to.equal(first.response);
