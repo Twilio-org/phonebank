@@ -75,7 +75,7 @@ export default class ActiveCallControl extends Component {
         icon: 'call_missed'
       },
       {
-        value: 'LEFT_MESSAGE',
+        value: 'LEFT_MSG',
         label: 'Left Message',
         styled: 'warning',
         icon: 'mic'
