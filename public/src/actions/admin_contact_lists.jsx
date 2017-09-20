@@ -24,7 +24,7 @@ export function fetchAllContactLists() {
   return dispatch => axios.get('/contactLists')
     .then((res) => {
       const contactLists = res.data;
-      dispatch(setContactListOptions(contactLists));
+      dispatch(setContactListOptions(contactLists.sort((a, b) => (a.id - b.id))));
       return contactLists;
     })
     .catch((err) => {
