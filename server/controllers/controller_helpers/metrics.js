@@ -99,7 +99,7 @@ export function handleQuestionResponses(questionsArray, metricsObj, calls_array,
     const responseOptions = splitResponses(responseOptionString);
     createResponsesMap(responseOptions, question_id, metricsObj);
 
-    return responsesService.fetchResponesByQuestionCallId({ calls_array, question_id })
+    return responsesService.fetchResponsesByQuestionCallId({ calls_array, question_id })
     .then((responsesRes) => {
       const { models: responseCollection } = responsesRes;
       return countResponseFrequency(responseCollection, metricsObj, question_id);

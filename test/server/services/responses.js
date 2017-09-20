@@ -57,16 +57,6 @@ describe('Responses Service tests', () => {
         }
       ];
 
-      this.userSaveParams = {
-        firstName: 'John',
-        lastName: 'Doe',
-        password: 'hatch',
-        phoneNumber: '+14441114444',
-        email: 'John@gmail.com'
-      };
-
-      this.callSaveParams = {};
-
       this.responseParams = [
         {
           response: 'Yes'
@@ -105,24 +95,20 @@ describe('Responses Service tests', () => {
                       });
                   }))
                   .then(() => {
-                    usersService.saveNewUser(this.userSaveParams)
-                      .then((user) => {
-                        this.callSaveParams.user_id = user.attributes.id;
-                        Promise.all(this.callSaveParams.map((call, index) => {
-                          return callsService.populateCall(call)
-                            .then((populatedCall) => {
-                              this.callSaveParams[index].id = populatedCall.attributes.id;
-                              this.responseParams[index].call_id = populatedCall.attributes.id;
+                    Promise.all(this.callSaveParams.map((call, index) => {
+                      return callsService.populateCall(call)
+                        .then((populatedCall) => {
+                          this.callSaveParams[index].id = populatedCall.attributes.id;
+                          this.responseParams[index].call_id = populatedCall.attributes.id;
+                        });
+                    }))
+                      .then(() => {
+                        questionsService.saveNewQuestion(this.questionParams)
+                          .then((question) => {
+                            this.responseParams.forEach((response) => {
+                              response.question_id = question.attributes.id;
                             });
-                        }))
-                          .then(() => {
-                            questionsService.saveNewQuestion(this.questionParams)
-                              .then((question) => {
-                                this.responseParams.forEach((response) => {
-                                  response.question_id = question.attributes.id;
-                                });
-                                done();
-                              });
+                            done();
                           });
                       });
                   });
@@ -153,7 +139,8 @@ describe('Responses Service tests', () => {
               this.responseParams[2].id = thirdResponseModel.attributes.id;
               const { question_id } = this.responseParams[0];
               const callIdsArray = this.callSaveParams.map(call => call.id);
-              responsesService.fetchResponesByQuestionCallId({ question_id, calls_array: callIdsArray })
+              const params = { question_id, calls_array: callIdsArray };
+              responsesService.fetchResponsesByQuestionCallId(params)
               .then((responses) => {
                 const { length, models: responseModels } = responses;
                 const [firstRes, secondRes, thirdRes] = responseModels;

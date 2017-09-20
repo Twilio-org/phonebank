@@ -78,13 +78,4 @@ export default {
       .then(call => call)
       .catch(err => err);
   }
-  // TODO: remove if decided not to use
-  // ,
-  // getMetricsByCampaignId: (params) => {
-  //   const { campaign_id } = params;
-  //   return new Call()
-  //     .where({ campaign_id })
-  //     .orderBy('id', 'ASC')
-  //     .fetchAll();
-  // }
 };
