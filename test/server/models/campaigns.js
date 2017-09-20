@@ -1,4 +1,4 @@
-import { expect, Should } from 'chai';
+import { expect } from 'chai';
 import Campaign from '../../../server/db/models/campaigns';
 
 const campaignRelationFixtureMock = {
