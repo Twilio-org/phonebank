@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import campaignsService from '../db/services/campaigns';
 import scriptsService from '../db/services/scripts';
 import responsesService from '../db/services/responses';
@@ -39,9 +40,16 @@ function statusAndOutcomeFrequencyMap(callsArray, metricsObj) {
   return metricsObj;
 }
 
-function responseFrequencyMap(responsesArray, metricsObj) {
-  responsesArray.forEach((responseObj) => {
-    const { question_id: questionId, response } = responseObj.attributes;
+function parseResponses(responseString) {
+  return responseString.split(',');
+}
+
+function responseFrequencyMap(responsesArray, metricsObj, questionId) {
+  const responses = responsesArray
+    .map(responseObj => parseResponses(responseObj.attributes.response));
+  const flattenedResponses = _.flatten(responses);
+
+  flattenedResponses.forEach((response) => {
     const responseStats = metricsObj.response_stats;
     if (responseStats[questionId]) {
       if (responseStats[questionId][response]) {
@@ -63,7 +71,8 @@ function handleQuestionResponses(questionsArray, metricsObj, res) {
     return responsesService.fetchResponsesByQuestionId({ question_id })
     .then((responsesRes) => {
       const { models: responseCollection } = responsesRes;
-      return responseFrequencyMap(responseCollection, metricsObj);
+      // return responseFrequencyMap(responseCollection, metricsObj);
+      return responseFrequencyMap(responseCollection, metricsObj, question_id);
     })
     .catch((err) => {
       res.status(404).json({ message: `couldn't find responses by question id: ${err}` });
