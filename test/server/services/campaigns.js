@@ -1,10 +1,13 @@
-import { expect, Should } from 'chai';
+import { expect } from 'chai';
 import campaignsService from '../../../server/db/services/campaigns';
 import contactListsService from '../../../server/db/services/contact_lists';
 import scriptsService from '../../../server/db/services/scripts';
+import Call from '../../../server/db/models/calls';
+import Contact from '../../../server/db/models/contacts';
+import User from '../../../server/db/models/users';
+import Response from '../../../server/db/models/responses';
+import Question from '../../../server/db/models/questions';
 import cleanUp from '../bootstrap';
-
-const should = Should();
 
 describe('Campaign service tests', () => {
   after((done) => {
@@ -41,6 +44,45 @@ describe('Campaign service tests', () => {
         title: 'Test3',
         description: 'election',
         status: 'draft'
+      };
+
+      this.contactParams = {
+        external_id: null,
+        first_name: 'Abigayle',
+        last_name: null,
+        email: null,
+        phone_number: '555-555-5051',
+        is_invalid_number: false,
+        do_not_call: false
+      };
+
+      this.callParams = {
+        attempt_num: '1',
+        user_id: null,
+        status: 'ATTEMPTED',
+        outcome: 'ANSWERED',
+        notes: 'This contact was unsavory.',
+        call_sid: 'CAd4d3718eaa93382304759338a37fbb99',
+        duration: 351
+      };
+
+      this.userParams = {
+        first_name: 'test',
+        last_name: 'user',
+        email: 'test@gmail.com',
+        phone_number: '+15555555555',
+        password_hash: 'password'
+      };
+
+      this.questionParams = {
+        title: 'question title 1',
+        description: 'question description 1',
+        type: 'paragraph',
+        responses: ''
+      };
+
+      this.responseParams = {
+        response: 'I don\'t like paragraphs'
       };
 
       scriptsService.saveNewScript(this.scriptParams)
@@ -184,6 +226,63 @@ describe('Campaign service tests', () => {
         }, done)
         .catch(err => err);
     });
+    it('should fetch a campaign with related calls and related responses', (done) => {
+      new Contact(this.contactParams).save()
+        .then((contact) => {
+          this.callParams.contact_id = contact.id;
+          return new User(this.userParams).save()
+            .then((user) => {
+              this.callParams.user_id = user.id;
+              this.callParams.campaign_id = this.campaign1id;
+              return new Question(this.questionParams).save()
+                .then((question) => {
+                  this.responseParams.question_id = question.id;
+                  return new Call(this.callParams).save()
+                    .then((call) => {
+                      this.responseParams.question_id = question.id;
+                      this.responseParams.call_id = call.id;
+                      return new Response(this.responseParams).save()
+                        .then((response) => {
+                          campaignsService.getExportableCampaignDataById({ id: this.campaign1id })
+                            .then((campaign) => {
+                              const relatedCall = campaign.relations.calls.models[0];
+                              const relatedResponse = relatedCall.relations.responses.models[0];
+                              expect(relatedResponse.attributes.id)
+                                .to.equal(response.attributes.id);
+                              expect(relatedResponse.attributes.question_id)
+                                .to.equal(response.attributes.question_id);
+                              expect(relatedResponse.attributes.call_id)
+                                .to.equal(response.attributes.call_id);
+                              expect(relatedResponse.attributes.response)
+                                .to.equal(response.attributes.response);
+                              expect(relatedCall.attributes.id)
+                                .to.equal(call.attributes.id);
+                              expect(relatedCall.attributes.camapaign_id)
+                                .to.equal(call.attributes.camapaign_id);
+                              expect(relatedCall.attributes.contact_id)
+                                .to.equal(call.attributes.contact_id);
+                              expect(relatedCall.attributes.attempt_num)
+                                .to.equal(call.attributes.attempt_num);
+                              expect(relatedCall.attributes.user_id)
+                                .to.equal(call.attributes.user_id);
+                              expect(relatedCall.attributes.status)
+                                .to.equal(call.attributes.status);
+                              expect(relatedCall.attributes.outcome)
+                                .to.equal(call.attributes.outcome);
+                              expect(relatedCall.attributes.notes)
+                                .to.equal(call.attributes.notes);
+                              expect(relatedCall.attributes.call_sid)
+                                .to.equal(call.attributes.call_sid);
+                              expect(relatedCall.attributes.duration)
+                                .to.equal(call.attributes.duration);
+                              done();
+                            }, done);
+                        });
+                    });
+                });
+            });
+          });
+      });
     it('should update campaign status to completed', (done) => {
       const id = this.campaign1id;
       campaignsService.markCampaignAsCompleted({ id })
