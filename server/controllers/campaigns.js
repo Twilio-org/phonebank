@@ -105,3 +105,18 @@ export function updateCampaignById(req, res) {
     })
     .catch(err => res.status(404).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
 }
+
+export function getCsv(req, res) {
+  const { id: campaign_id } = req.params;
+
+  return campaignsService.getExportableCampaignDataById({ id: campaign_id })
+    .then((campaign) => {
+      res.writeHead(200, {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': `attachment; filename='${campaign.attributes.name}_campaign_data.csv'`
+      });
+      // getExport is a method on campaign models that returns the csv in a string.
+      res.write(campaign.getExport());
+      res.end();
+    }).catch(err => console.log('error getting campaign with data: ', err));
+}

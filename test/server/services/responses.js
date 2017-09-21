@@ -5,7 +5,6 @@ import campaignsService from '../../../server/db/services/campaigns';
 import contactListsService from '../../../server/db/services/contact_lists';
 import contactsService from '../../../server/db/services/contacts';
 import scriptsService from '../../../server/db/services/scripts';
-import usersService from '../../../server/db/services/users';
 import questionsService from '../../../server/db/services/questions';
 import cleanUp from '../bootstrap';
 
@@ -121,7 +120,7 @@ describe('Responses Service tests', () => {
       responsesService.saveNewResponse(this.responseParams[0])
         .then((response) => {
           this.responseParams[0].id = response.attributes.id;
-          expect(response.attributes.id).to.equal(1);
+          expect(response.attributes.id).to.equal(this.responseParams[0].id);
           expect(response.attributes.question_id).to.equal(this.responseParams[0].question_id);
           expect(response.attributes.call_id).to.equal(this.responseParams[0].call_id);
           expect(response.attributes.response).to.equal(this.responseParams[0].response);
