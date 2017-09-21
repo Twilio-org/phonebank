@@ -44,38 +44,60 @@ export default class PreCallButtonGroup extends Component {
             releaseCall,
             status,
             endVolunterTwilioCon,
-            clearCurrentCall } = this.props;
-    clearCurrentCall();
-    releaseCall(user_id, campaign_id, call_id, status);
+            clearCurrentCall,
+            enableCallControl,
+            current_call } = this.props;
+    if (current_call) {
+      clearCurrentCall();
+      releaseCall(user_id, campaign_id, call_id, status);
+    }
     endVolunterTwilioCon(user_id, campaign_id);
+    enableCallControl();
     history.push('/volunteers/campaigns');
   }
 
   render() {
-    const { current_call_contact_name } = this.props;
+    const { current_call_contact_name, disable_call_control } = this.props;
     return (
       <div>
-        <h5>Now Calling:</h5>
-        <h3>{current_call_contact_name}</h3>
-
+        {
+          disable_call_control ?
+            (<h5>No Calls Available</h5>) :
+            (<div>
+              <h5>Now Calling:</h5>
+              <h3>{current_call_contact_name}</h3>
+            </div>)
+        }
         <Button
           onClick={this.handleStartCallingClick}
           bsStyle="success"
+          disabled={disable_call_control}
         >
           <i className="material-icons small">phone_in_talk</i> Start Call
         </Button>
 
         <div>
           <ButtonGroup vertical id="pre_call_side">
-            <Button onClick={this.handleSkipClick} bsStyle="warning">
+            <Button
+              onClick={this.handleSkipClick}
+              bsStyle="warning"
+              disabled={disable_call_control}
+            >
               <i className="material-icons md-16">skip_next</i>
               Skip this person
             </Button>
-            <Button onClick={this.handleBadNameClick} bsStyle="danger">
+            <Button
+              onClick={this.handleBadNameClick}
+              bsStyle="danger"
+              disabled={disable_call_control}
+            >
               <i className="material-icons md-16">block</i>
               Bad Name
             </Button>
-            <Button onClick={this.handleStopCallingClick} bsStyle="info">
+            <Button
+              onClick={this.handleStopCallingClick}
+              bsStyle="info"
+            >
               <i className="material-icons md-16">stop</i>
               Stop Calling
             </Button>
