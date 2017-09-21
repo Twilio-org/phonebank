@@ -45,5 +45,13 @@ export default {
       { status, name, title, description, contact_lists_id, script_id },
       { method: 'update' }
     );
+  },
+
+  getExportableCampaignDataById: (params) => {
+    const { id } = params;
+
+    return new Campaign({ id })
+      .fetch({ withRelated: ['calls.responses'] })
+      .then(campaign => campaign);
   }
 };
