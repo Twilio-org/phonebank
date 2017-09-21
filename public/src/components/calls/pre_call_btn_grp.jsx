@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { ButtonGroup, Button, Row, Col } from 'react-bootstrap';
 
 export default class PreCallButtonGroup extends Component {
   constructor(props) {
@@ -64,18 +64,27 @@ export default class PreCallButtonGroup extends Component {
           disable_call_control ?
             (<h5>No Calls Available</h5>) :
             (<div>
-              <h5>Now Calling:</h5>
-              <h3>{current_call_contact_name}</h3>
+              <Row>
+                <Col md="4">
+                  <div className={'contact-card'}>
+                    <div className={'contact-photo calling'}>
+                      <i className="material-icons">person</i>
+                    </div>
+                  </div>
+                </Col>
+                <Col md="8">
+                  <h3>{current_call_contact_name}</h3>
+                  <Button
+                    onClick={this.handleStartCallingClick}
+                    bsStyle="success"
+                    disabled={disable_call_control}
+                  >
+                    <i className="material-icons small">phone_in_talk</i> Start Call
+                  </Button>
+                </Col>
+              </Row>
             </div>)
         }
-        <Button
-          onClick={this.handleStartCallingClick}
-          bsStyle="success"
-          disabled={disable_call_control}
-        >
-          <i className="material-icons small">phone_in_talk</i> Start Call
-        </Button>
-
         <div>
           <ButtonGroup vertical id="pre_call_side">
             <Button
