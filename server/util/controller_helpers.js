@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import customErrors from '../util/custom_error_classes';
+
+const { CustomGeneralError } = customErrors;
 
 /* == CAMPAIGN CONTROLLER HELPERS == */
 export function validCampaignStatusUpdate(prevStatus, currStatus) {
@@ -23,11 +26,21 @@ export function validCampaignStatusUpdate(prevStatus, currStatus) {
 }
 
 export function allowDraftCampaignUpdates(currentStatus, requestBody) {
-  if (currentStatus === 'draft') {
-    const { name, title, description, contact_lists_id, script_id } = requestBody;
-    return { name, title, description, contact_lists_id, script_id };
+  const { name, title, description, contact_lists_id, script_id } = requestBody;
+  const params = { name, title, description, contact_lists_id, script_id };
+  //  If status is not draft,
+  if (currentStatus !== 'draft') {
+    //  iterate over each item in object and verify if value is falsy (undefined)
+    const isValid = _.every(Object.keys(params), param => !!params[param] === false);
+    // if at least one value is not falsy
+    if (!isValid) {
+      //  don't allow mutation
+      throw new CustomGeneralError('Cannot edit campaign that is not in draft.', 400, 'InvalidInput');
+      // throw new Error('Cannot edit campaign that is not in draft.');
+    }
   }
-  throw new Error('Cannot edit campaign that is not in draft.');
+  // [impled else] return params;
+  return params;
 }
 
 export function listUpdatedParamsMessage(paramsObj) {
