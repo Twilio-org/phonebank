@@ -8,7 +8,8 @@ const defaultCalls = {
   outcome: undefined,
   notes: null,
   current_call_contact_name: undefined,
-  call_volunteer_active: false
+  call_volunteer_active: false,
+  disable_call_control: false
 };
 
 const clearCallDefault = {
@@ -29,6 +30,8 @@ export const UPDATE_CALL_OUTCOME = 'UPDATE_CALL_OUTCOME';
 export const SET_CALL_CONTACT_INFO = 'SET_CALL_CONTACT_INFO';
 export const SET_VOLUNTEER_CALL_ACTIVE = 'SET_VOLUNTEER_CALL_ACTIVE';
 export const CLEAR_VOLUNTEER_CALL_ACTIVE = 'CLEAR_VOLUNTEER_CALL_ACTIVE';
+export const DISABLE_CALL_CONTROL = 'DISABLE_CALL_CONTROL';
+export const ENABLE_CALL_CONTROL = 'ENABLE_CALL_CONTROL';
 
 export function volunteerCallsReducer(state = defaultCalls, action) {
   const { type, payload } = action;
@@ -74,6 +77,16 @@ export function volunteerCallsReducer(state = defaultCalls, action) {
       return {
         ...state,
         call_volunteer_active: false
+      };
+    case DISABLE_CALL_CONTROL:
+      return {
+        ...state,
+        disable_call_control: true
+      };
+    case ENABLE_CALL_CONTROL:
+      return {
+        ...state,
+        disable_call_control: false
       };
     default:
       return state;

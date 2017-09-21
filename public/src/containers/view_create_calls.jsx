@@ -14,7 +14,9 @@ import { assignToCall,
          clearVolunteerActive,
          endTwilioCon,
          clearCurrentCall,
-         submitCallResponses } from '../actions/calls';
+         disableCallControl,
+         submitCallResponses,
+         enableCallControl } from '../actions/calls';
 
 const FORM = 'CallResponse';
 function mapStateToProps(state) {
@@ -30,6 +32,7 @@ function mapStateToProps(state) {
     outcome: state.calls.outcome,
     contact_id: state.calls.contact_id,
     current_call_contact_name: state.calls.current_call_contact_name,
+    disable_call_control: state.calls.disable_call_control,
     form_errors: getFormSyncErrors(FORM)(state)
   };
 }
@@ -55,7 +58,9 @@ export default withRouter(
           endTwilioCon,
           change,
           submitCallResponses,
-          clearCurrentCall
+          clearCurrentCall,
+          disableCallControl,
+          enableCallControl
         }
       )(CallPage)
     )
