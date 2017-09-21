@@ -4,23 +4,20 @@ import { Field } from 'redux-form';
 
 import FieldGroup from '../../components/common/form/field_group';
 
-const SideBarForm = (props) => {
-  const { handleSubmit } = props;
+const SideBarForm = () => {
   const inputFieldProps = {
     label: 'Notes',
     name: 'notes'
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <hr />
-        <Row>
-          <Col sm={11}>
-            <Field component={FieldGroup} type="textarea" {...inputFieldProps} />
-          </Col>
-        </Row>
-      </form>
-    </div>
+    <form>
+      <hr />
+      <Row>
+        <Col sm={11}>
+          <Field component={FieldGroup} type="textarea" {...inputFieldProps} />
+        </Col>
+      </Row>
+    </form>
   );
 };
 

@@ -25,6 +25,18 @@ export default {
     return new Campaign({ id })
       .fetch();
   },
+
+  markCampaignAsCompleted: (params) => {
+    const { id } = params;
+    return new Campaign()
+      .where({ id })
+      .save({
+        status: 'completed'
+      }, {
+        method: 'update'
+      });
+  },
+
   updateCampaignById: (params) => {
     const { id, status, name, title, description, contact_lists_id, script_id } = params;
     return new Campaign()
