@@ -10,25 +10,48 @@ const chartTemplate = {
 };
 
 const colorArrayHex = [
-  '#e6194b',
-  '#3cb44b',
-  '#ffe119',
-  '#0082c8',
-  '#f58231',
-  '#911eb4',
-  '#fabebe',
-  '#008080',
-  '#e6beff',
-  '#aa6e28',
-  '#fffac8',
-  '#800000',
-  '#aaffc3',
-  '#808000',
-  '#ffd8b1',
-  '#000080',
-  '#808080',
-  '#000000'
+  '#e6194b', '#3cb44b', '#ffe119',
+  '#0082c8', '#f58231', '#911eb4',
+  '#fabebe', '#008080', '#e6beff',
+  '#aa6e28', '#fffac8', '#800000',
+  '#aaffc3', '#808000', '#ffd8b1',
+  '#000080', '#808080', '#000000'
 ];
+
+export const chartOptions = {
+  outcomeDoughnut: {
+    legend: {
+      position: 'left'
+    },
+    responsive: true,
+    maintainAspectRatio: true
+  },
+  statusBar: {
+    responsive: true,
+    maintainAspectRatio: true,
+    xAxisID: 'status',
+    yAxisID: 'frequency',
+    legend: {
+      display: false
+    }
+  },
+  responseBar: {
+    layout: {
+      padding: {
+        left: 5,
+        right: 5
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: true,
+    xAxisID: 'response',
+    yAxisID: 'resp-frequency',
+    legend: {
+      display: false
+    }
+  }
+};
+
 
 function removeUnderscore(array) {
   return array.map(word => word.split('_').join(' '));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import { Doughnut, Bar } from 'react-chartjs-2';
-import { outcomeDataFormat, statusDataFormat, responsesDataFormat } from '../../helpers/metrics_template';
+import { Button, Row, Col } from 'react-bootstrap';
+import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
+import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions } from '../../helpers/metrics_template';
 
 export default class ViewCampaign extends Component {
 
@@ -69,30 +69,58 @@ export default class ViewCampaign extends Component {
     const { name: scriptName } = current_script;
     return (
       <div>
-        <h1>{current_campaign ? name : null } Campaign Details</h1>
-        <h4>Title:</h4>
-        {current_campaign ? (<p>{title}</p>) : null}
-        <h4>Status:</h4>
-        {current_campaign ? (<p>{status}</p>) : null}
-        <h4>Description:</h4>
-        {current_campaign ? (<p>{description}</p>) : null}
-        <h4>Script Name:</h4>
-        {current_script ? (<p>{scriptName}</p>) : null}
-        <Button
-          bsStyle="primary"
-          onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
-        >
-          View Script
-        </Button>
-        <Button
-          bsStyle="primary"
-          onClick={history.goBack}
-        >
-          Cancel
-        </Button>
-        <Doughnut data={outcomeData} />
-        <Doughnut data={statusData} />
-        {responsesData.map((resp, index) => <Bar data={resp} key={resp.labels[0].concat(index)} />)}
+        <Row>
+          <h1>{current_campaign ? name : null } Campaign Details</h1>
+          <h4>Title:</h4>
+          {current_campaign ? (<p>{title}</p>) : null}
+          <h4>Status:</h4>
+          {current_campaign ? (<p>{status}</p>) : null}
+          <h4>Description:</h4>
+          {current_campaign ? (<p>{description}</p>) : null}
+          <h4>Script Name:</h4>
+          {current_script ? (<p>{scriptName}</p>) : null}
+          <Button
+            bsStyle="primary"
+            onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
+          >
+            View Script
+          </Button>
+          <Button
+            bsStyle="primary"
+            onClick={history.goBack}
+          >
+            Cancel
+          </Button>
+        </Row>
+        <Row>
+          <Col md="6">
+            <h2>Call Outcome Distribution</h2>
+            <Doughnut
+              data={outcomeData}
+              options={chartOptions.outcomeDoughnut}
+            />
+          </Col>
+          <Col md="6">
+            <h2>Call Status Distribution</h2>
+            <HorizontalBar
+              data={statusData}
+              options={chartOptions.statusBar}
+            />
+          </Col>
+        </Row>
+        <Row>
+          {responsesData.map((resp, index) =>
+            (
+              <Col md="4" key={resp.labels[0].concat(index)}>
+                <h3>[INSERT QUESTION]</h3>
+                <Bar
+                  data={resp}
+                  options={chartOptions.responseBar}
+                />
+              </Col>
+            )
+          )}
+        </Row>
       </div>
     );
   }
