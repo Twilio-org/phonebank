@@ -38,7 +38,8 @@ export default class CallsSideBar extends Component {
               clearCurrentCall,
               disableCallControl,
               enableCallControl,
-              current_call } = this.props;
+              current_call,
+              submitCallResponses } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -56,6 +57,7 @@ export default class CallsSideBar extends Component {
           disableCallControl={disableCallControl}
           enableCallControl={enableCallControl}
           current_call={current_call}
+          submitCallResponses={submitCallResponses}
         />
       );
     }

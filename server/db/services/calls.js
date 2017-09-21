@@ -6,16 +6,17 @@ export default {
 
     return new Call()
       .where({ campaign_id, user_id, status: 'ASSIGNED' })
-      .fetch()
-      .then((previousCall) => {
-        if (!previousCall) {
+      .orderBy('updated_at', 'DESC')
+      .fetchAll()
+      .then((calls) => {
+        if (calls.length <= 1) {
           return new Call()
             .where({ campaign_id, status: 'AVAILABLE' })
-            .orderBy('id', 'ASC')
+            .orderBy('updated_at', 'ASC')
             .fetch()
             .then((call) => {
               if (call) {
-                return call.save({ user_id, status: 'ASSIGNED' }, { patch: true })
+                return call.save({ user_id, status: 'ASSIGNED', updated_at: new Date() }, { patch: true })
                   .then(savedCall => savedCall)
                   .catch(err => console.log('Error in call service when assigning to user: ', err));
               }
@@ -23,7 +24,7 @@ export default {
             })
             .catch(err => console.log('Error in call service when finding call to assign:', err));
         }
-        return previousCall;
+        return calls.pop();
       });
   },
 
@@ -49,7 +50,7 @@ export default {
   updateCallStatus: (params) => {
     const { id, status } = params;
     return new Call({ id })
-      .save({ status }, { patch: true })
+      .save({ status, updated_at: new Date() }, { patch: true })
       .then(call => call)
       .catch(err => err);
   },
@@ -57,7 +58,7 @@ export default {
   recordAttempt: (params) => {
     const { id, notes, outcome } = params;
     return new Call({ id })
-      .save({ notes, outcome, status: 'ATTEMPTED' }, { patch: true })
+      .save({ notes, outcome, status: 'ATTEMPTED', updated_at: new Date() }, { patch: true })
       .then(call => call)
       .catch(err => console.log(err));
   },
@@ -65,7 +66,7 @@ export default {
   releaseCall: (params) => {
     const { id } = params;
     return new Call({ id })
-      .save({ status: 'AVAILABLE', user_id: null }, { patch: true })
+      .save({ status: 'AVAILABLE', user_id: null, updated_at: new Date() }, { patch: true })
       .then(call => call)
       .catch(err => console.log('error in calls service when releasing call: ', err));
   },
@@ -74,7 +75,7 @@ export default {
     const { id, call_sid } = params;
     const duration = parseInt(params.duration, 10);
     return new Call({ id })
-      .save({ call_sid, duration }, { patch: true })
+      .save({ call_sid, duration, updated_at: new Date() }, { patch: true })
       .then(call => call)
       .catch(err => err);
   },
