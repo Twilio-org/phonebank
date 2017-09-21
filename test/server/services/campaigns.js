@@ -2,16 +2,15 @@ import { expect } from 'chai';
 import campaignsService from '../../../server/db/services/campaigns';
 import contactListsService from '../../../server/db/services/contact_lists';
 import scriptsService from '../../../server/db/services/scripts';
-// <<<<<<< HEAD
 import callsService from '../../../server/db/services/calls';
 import contactsService from '../../../server/db/services/contacts';
-// =======
+
 import Call from '../../../server/db/models/calls';
 import Contact from '../../../server/db/models/contacts';
 import User from '../../../server/db/models/users';
 import Response from '../../../server/db/models/responses';
 import Question from '../../../server/db/models/questions';
-// >>>>>>> f2c9fb425671905fc957bfeb08cfb1df380622d5
+
 import cleanUp from '../bootstrap';
 
 describe('Campaign service tests', () => {
@@ -51,7 +50,6 @@ describe('Campaign service tests', () => {
         status: 'draft'
       };
 
-// <<<<<<< HEAD
       this.campaignParams4 = {
         name: 'testCampaign4',
         title: 'Test4',
@@ -94,7 +92,7 @@ describe('Campaign service tests', () => {
           external_id: 'test12345'
         }
       ];
-// =======
+
       this.contactParams = {
         external_id: null,
         first_name: 'Abigayle',
@@ -133,7 +131,6 @@ describe('Campaign service tests', () => {
       this.responseParams = {
         response: 'I don\'t like paragraphs'
       };
-// >>>>>>> f2c9fb425671905fc957bfeb08cfb1df380622d5
 
       scriptsService.saveNewScript(this.scriptParams)
         .then((script) => {
