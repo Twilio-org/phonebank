@@ -30,9 +30,10 @@ export default class CallPage extends Component {
             assignToCall,
             user_id,
             history,
+            disable_call_control,
             ...storeProps } = this.props;
     const { id: campaign_id } = current_campaign;
-    if (current_call) {
+    if (current_call || disable_call_control) {
       const { status,
               outcome,
               contact_id,
@@ -42,9 +43,11 @@ export default class CallPage extends Component {
               updateCallAttempt,
               releaseCall,
               endTwilioCon,
+              disableCallControl,
               clearCurrentCall,
               submitCallResponses,
               change,
+              enableCallControl,
               ...otherProps } = this.props;
       return (
         <Row className="show-grid">
@@ -72,7 +75,10 @@ export default class CallPage extends Component {
               change={change}
               submitCallResponses={submitCallResponses}
               endVolunterTwilioCon={endTwilioCon}
+              disable_call_control={disable_call_control}
+              disableCallControl={disableCallControl}
               clearCurrentCall={clearCurrentCall}
+              enableCallControl={enableCallControl}
               {...otherProps}
             />
           </Col>
@@ -82,6 +88,7 @@ export default class CallPage extends Component {
               current_script={current_script}
               script_questions={script_questions}
               status={status}
+              disable_call_control={disable_call_control}
               {...storeProps}
             />
           </Col>

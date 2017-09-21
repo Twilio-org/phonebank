@@ -536,7 +536,8 @@ export default {
       outcome: undefined,
       notes: null,
       current_call_contact_name: undefined,
-      call_volunteer_active: false
+      call_volunteer_active: false,
+      disable_call_control: false
     },
     contactFixture: {
       id: 1,
