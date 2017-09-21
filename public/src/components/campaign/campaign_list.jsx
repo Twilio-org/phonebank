@@ -18,6 +18,7 @@ export default class CampaignList extends Component {
       all_campaigns,
       auth,
       history,
+      // setCurrentCampaign,
       updateCampaignStatus
     } = this.props;
     const thisPage = 'Campaign';
