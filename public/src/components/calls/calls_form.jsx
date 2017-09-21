@@ -10,7 +10,6 @@ export default class CallsForm extends Component {
             outcome,
             handleSubmit,
             disable_call_control } = this.props;
-    // ASSIGNED is only status we recieve that disables form
     return (
       <form onSubmit={handleSubmit}>
         <h3>Questions</h3>
