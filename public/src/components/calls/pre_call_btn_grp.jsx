@@ -31,11 +31,9 @@ export default class PreCallButtonGroup extends Component {
   }
 
   handleBadNameClick() {
-    const { call_id, user_id, campaign_id, updateAttempt, clearCurrentCall, nextCall } = this.props;
+    const { call_id, user_id, campaign_id, submitCallResponses } = this.props;
     const params = { user_id, campaign_id, call_id, status: 'ATTEMPTED', outcome: 'BAD_NUMBER' };
-    updateAttempt(params);
-    clearCurrentCall();
-    nextCall(user_id, campaign_id);
+    submitCallResponses(params);
   }
 
   handleStopCallingClick() {
