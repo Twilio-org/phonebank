@@ -1,3 +1,4 @@
+import lodash from 'lodash';
 import db from '../db';
 import User from './users';
 import Call from './calls';
@@ -23,7 +24,7 @@ export default db.Model.extend({
     // a version of the object that no longer has the duplicate prop name.
     function samePropProcessing(object, objectType, propName, index) {
       // create a copy because linter likes functional
-      const cloneObject = object;
+      const cloneObject = lodash.clone(object);
       if (index) {
         // if we're given an index, it's for naming purposes, use it
         cloneObject[`${objectType}_${index}_${propName}`] = cloneObject[propName];
@@ -70,7 +71,7 @@ export default db.Model.extend({
       }
       const keys = Object.getOwnPropertyNames(record);
       // merge record keys into our headers array
-      headers = Object.assign(headers, keys);
+      headers = lodash.union(headers, keys);
       // join the record values into a string, comma seperated. This creates our csv
       // record line. This is the return of the calls.map function.
       return keys.map(key => record[key]).join(',');
