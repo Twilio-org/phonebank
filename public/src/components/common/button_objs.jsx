@@ -1,17 +1,56 @@
-function statusToggleActivePause(status) {
-  if (status === 'draft' || status === 'pause') {
-    return ['Activate', 'active', 'success', false];
-  } else if (status === 'active') {
-    return ['Pause', 'pause', 'warning', false];
+const statusMap = {
+  activateOrPause: {
+    isDraftOrPause: {
+      label: 'Activate',
+      status: 'active',
+      buttonStyle: 'success',
+      isDisabled: false
+    },
+    isActive: {
+      label: 'Pause',
+      status: 'pause',
+      buttonStyle: 'warning',
+      isDisabled: false
+    },
+    isOther: {
+      label: 'Activate',
+      status: null,
+      buttonStyle: 'success',
+      isDisabled: true
+    }
+  },
+  complete: {
+    isActiveOrPause: {
+      label: 'End',
+      status: 'completed',
+      buttonStyle: 'danger',
+      isDisabled: false
+    },
+    isOther: {
+      label: 'End',
+      status: 'completed',
+      buttonStyle: 'danger',
+      isDisabled: true
+    }
   }
-  return ['Activate', null, 'success', true];
+};
+
+function statusToggleActivePause(status) {
+  const { activateOrPause } = statusMap;
+  if (status === 'draft' || status === 'pause') {
+    return activateOrPause.isDraftOrPause;
+  } else if (status === 'active') {
+    return activateOrPause.isActive;
+  }
+  return activateOrPause.isOther;
 }
 
 function statusToggleComplete(status) {
+  const { complete } = statusMap;
   if (status === 'active' || status === 'pause') {
-    return ['End', 'completed', 'danger', false];
+    return complete.isActiveOrPause;
   }
-  return ['End', 'completed', 'danger', true];
+  return complete.isOther;
 }
 
 export default {
@@ -80,19 +119,19 @@ export default {
       },
       {
         key: 5,
-        text: () => statusToggleActivePauseResult[0],
+        text: () => statusToggleActivePauseResult.label,
         size: 'xsmall',
-        style: statusToggleActivePauseResult[2],
-        handler: () => { handleClick(id, statusToggleActivePauseResult[1]); },
-        disabled: statusToggleActivePauseResult[3]
+        style: statusToggleActivePauseResult.buttonStyle,
+        handler: () => { handleClick(id, statusToggleActivePauseResult.status); },
+        disabled: statusToggleActivePauseResult.isDisabled
       },
       {
         key: 6,
-        text: () => statusToggleCompleteResult[0],
+        text: () => statusToggleCompleteResult.label,
         size: 'xsmall',
-        style: statusToggleCompleteResult[2],
-        handler: () => { handleClick(id, statusToggleCompleteResult[1]); },
-        disabled: statusToggleCompleteResult[3]
+        style: statusToggleCompleteResult.buttonStyle,
+        handler: () => { handleClick(id, statusToggleCompleteResult.status); },
+        disabled: statusToggleCompleteResult.isDisabled
 
       }
     ];
