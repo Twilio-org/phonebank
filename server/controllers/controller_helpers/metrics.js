@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import responsesService from '../../db/services/responses';
-import campaignsService from '../../db/services/campaigns';
 
 function splitResponses(responseString) {
   return responseString.split(',');
@@ -11,22 +10,11 @@ export function mapCallIds(callObjArray) {
   return callObjArray.map(call => call.attributes.id);
 }
 
-export function checkCampaignNotDraft(campaignId, res) {
-  return campaignsService.getCampaignById({ id: campaignId })
-    .then((campaign) => {
-      if (campaign) {
-        const { status } = campaign.attributes;
-        if (status === 'draft') {
-          throw new Error('Campaign metrics not available for campaigns still in draft.');
-        }
-        return true;
-      }
-      return res.status(500).json({ message: 'problem with db query for campaign by id' });
-    })
-    .catch((err) => {
-      const errorMessage = `could not find campaigin by id in campaign status check (metrics): ${err}`;
-      return res.status(404).json({ message: errorMessage });
-    });
+export function checkCampaignNotDraft(status) {
+  if (status === 'draft') {
+    throw new Error('Campaign metrics not available for campaigns still in draft.');
+  }
+  return status;
 }
 
 function createStatusMap(metricsObj) {
@@ -104,12 +92,10 @@ export function handleQuestionResponses(questionsArray, metricsObj, calls_array,
       const { models: responseCollection } = responsesRes;
       return countResponseFrequency(responseCollection, metricsObj, question_id);
     })
-    .catch((err) => {
-      res.status(404).json({ message: `couldn't find responses by question id: ${err}` });
-    });
+    .catch(err => err);
   }))
   .then(() => {
     res.status(200).json({ message: 'metrics generated successfully', metricsObj });
   })
-  .catch(err => res.status(404).json({ message: `Problem fetching responses by question id: ${err}` }));
+  .catch(err => res.status(500).json({ message: `Problem fetching responses by question id: ${err}` }));
 }
