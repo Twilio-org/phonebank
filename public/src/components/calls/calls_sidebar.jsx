@@ -37,7 +37,8 @@ export default class CallsSideBar extends Component {
               endVolunterTwilioCon,
               clearCurrentCall,
               disableCallControl,
-              enableCallControl } = this.props;
+              enableCallControl,
+              current_call } = this.props;
       return (
         <PreCallButtonGroup
           history={history}
@@ -54,6 +55,7 @@ export default class CallsSideBar extends Component {
           disable_call_control={disable_call_control}
           disableCallControl={disableCallControl}
           enableCallControl={enableCallControl}
+          current_call={current_call}
         />
       );
     }
