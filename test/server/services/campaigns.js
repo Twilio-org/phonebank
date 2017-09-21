@@ -109,7 +109,7 @@ describe('Campaign service tests', () => {
           expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
           expect(campaign.attributes.status).to.equal(this.campaignParams1.status);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
-          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          expect(campaign.attributes.contact_lists_id).to.equal(this.campaignParams1.contact_lists_id);
           done();
         });
     });
@@ -122,7 +122,7 @@ describe('Campaign service tests', () => {
           expect(campaign.attributes.description).to.equal(this.campaignParams2.description);
           expect(campaign.attributes.status).to.equal(this.campaignParams2.status);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams2.script_id);
-          expect(campaign.attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
+          expect(campaign.attributes.contact_lists_id).to.equal(this.campaignParams2.contact_lists_id);
           done();
         });
     });
@@ -144,7 +144,7 @@ describe('Campaign service tests', () => {
           expect(models[0].attributes.description).to.equal(this.campaignParams2.description);
           expect(models[0].attributes.status).to.equal(this.campaignParams2.status);
           expect(models[0].attributes.script_id).to.equal(this.campaignParams2.script_id);
-          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
+          expect(models[0].attributes.contact_lists_id).to.equal(this.campaignParams2.contact_lists_id);
           done();
         });
     });
@@ -159,7 +159,7 @@ describe('Campaign service tests', () => {
           expect(models[0].attributes.description).to.equal(this.campaignParams1.description);
           expect(models[0].attributes.status).to.equal(this.campaignParams1.status);
           expect(models[0].attributes.script_id).to.equal(this.campaignParams1.script_id);
-          expect(models[0].attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          expect(models[0].attributes.contact_lists_id).to.equal(this.campaignParams1.contact_lists_id);
           done();
         });
     });
@@ -174,7 +174,7 @@ describe('Campaign service tests', () => {
           expect(models[0].attributes.description).to.equal(this.campaignParams2.description);
           expect(models[0].attributes.status).to.equal(this.campaignParams2.status);
           expect(models[0].attributes.script_id).to.equal(this.campaignParams2.script_id);
-          expect(models[0].attributes.script_id).to.equal(this.campaignParams2.contact_lists_id);
+          expect(models[0].attributes.contact_lists_id).to.equal(this.campaignParams2.contact_lists_id);
           done();
         });
     });
@@ -188,11 +188,10 @@ describe('Campaign service tests', () => {
           expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
           expect(campaign.attributes.status).to.equal(this.campaignParams1.status);
           expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
-          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.contact_lists_id);
+          expect(campaign.attributes.contact_lists_id).to.equal(this.campaignParams1.contact_lists_id);
           done();
         });
     });
-
     it('should update a campaign with status: ', (done) => {
       campaignsService.saveNewCampaign(this.campaignParams3)
         .then((campaign) => {
@@ -227,7 +226,6 @@ describe('Campaign service tests', () => {
         }, done)
         .catch(err => err);
     });
-
     it('should fetch a campaign with related calls and related responses', (done) => {
       new Contact(this.contactParams).save()
         .then((contact) => {
@@ -283,6 +281,28 @@ describe('Campaign service tests', () => {
                     });
                 });
             });
+          });
+      });
+    it('should update campaign status to completed', (done) => {
+      const id = this.campaign1id;
+      campaignsService.markCampaignAsCompleted({ id })
+        .then((campaign) => {
+          expect(campaign.attributes.status).to.equal('completed');
+          done();
+        });
+    });
+    it('should not update the rest of the campaign attributes when the status is updated', (done) => {
+      const id = this.campaign1id;
+      campaignsService.getCampaignById({ id })
+        .then((campaign) => {
+          expect(campaign.id).to.equal(id);
+          expect(campaign.attributes.name).to.equal(this.campaignParams1.name);
+          expect(campaign.attributes.title).to.equal(this.campaignParams1.title);
+          expect(campaign.attributes.description).to.equal(this.campaignParams1.description);
+          expect(campaign.attributes.status).to.equal('completed');
+          expect(campaign.attributes.script_id).to.equal(this.campaignParams1.script_id);
+          expect(campaign.attributes.contact_lists_id).to.equal(this.campaignParams1.contact_lists_id);
+          done();
         });
     });
   });
