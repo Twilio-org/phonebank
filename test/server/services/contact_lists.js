@@ -40,7 +40,7 @@ describe('Contact List Service tests', () => {
         .then((contactList) => {
           const newParams = { id: contactList.id, name: 'New Name' };
           this.params2.id = contactList.id;
-          ContactList.updateContactListById(newParams)
+          return ContactList.updateContactListById(newParams)
             .then((updatedContactList) => {
               expect(updatedContactList.attributes.name).to.equal(newParams.name);
               this.params2.name = newParams.name;

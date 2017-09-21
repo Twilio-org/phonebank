@@ -5,7 +5,9 @@ import { volunteerCallsReducer,
          CLEAR_CALL_CURRENT,
          UPDATE_CALL_STATUS,
          UPDATE_CALL_OUTCOME,
-         SET_CALL_CONTACT_INFO } from '../../../public/src/reducers/calls';
+         SET_CALL_CONTACT_INFO,
+         DISABLE_CALL_CONTROL,
+         ENABLE_CALL_CONTROL } from '../../../public/src/reducers/calls';
 
 const { dbFixture, initialState } = fixtures.callsFixtures;
 
@@ -30,17 +32,27 @@ const mockCallActions = [
     payload: { name: 'meow' }
   },
   {
+    type: DISABLE_CALL_CONTROL
+  },
+  {
+    type: ENABLE_CALL_CONTROL
+  },
+  {
     type: 'SET_CALL_CATS',
     payload: 'many cats'
   }
 ];
 
-const [currentCall,
-      clearCurrent,
-      updateStatus,
-      updateOutcome,
-      setContact,
-      fake] = mockCallActions;
+const [
+  currentCall,
+  clearCurrent,
+  updateStatus,
+  updateOutcome,
+  setContact,
+  disableCallControl,
+  enableCallControl,
+  fake
+] = mockCallActions;
 
 describe('volunteerCallsReducer tests: ', () => {
   describe('default behavior: ', () => {
@@ -151,10 +163,26 @@ describe('volunteerCallsReducer tests: ', () => {
         expect(outcome).toBe('LEFT_MESSAGE');
       });
     });
-    describe('should set contact when SET_CALL_CONTACT_INFO is dispatched: ', () => {
-      testResult = volunteerCallsReducer(initialState, setContact);
-      const { current_call_contact_name } = testResult;
-      expect(current_call_contact_name).toBe('meow');
+    describe('when SET_CALL_CONTACT_INFO is dispatched: ', () => {
+      it('should set contact', () => {
+        testResult = volunteerCallsReducer(initialState, setContact);
+        const { current_call_contact_name } = testResult;
+        expect(current_call_contact_name).toBe('meow');
+      });
+    });
+    describe('when DISABLE_CALL_CONTROL is dispatched: ', () => {
+      it('should set disable_call_control to true', () => {
+        testResult = volunteerCallsReducer(initialState, disableCallControl);
+        const { disable_call_control } = testResult;
+        expect(disable_call_control).toBe(true);
+      });
+    });
+    describe('when ENABLE_CALL_CONTROL is dispatched: ', () => {
+      it('should set disable_call_control to false', () => {
+        testResult = volunteerCallsReducer(initialState, enableCallControl);
+        const { disable_call_control } = testResult;
+        expect(disable_call_control).toBe(false);
+      });
     });
     describe('it should handle non-matching action types: ', () => {
       testResult = volunteerCallsReducer(initialState, fake);
