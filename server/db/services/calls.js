@@ -77,5 +77,15 @@ export default {
       .save({ call_sid, duration }, { patch: true })
       .then(call => call)
       .catch(err => err);
+  },
+
+  getCallsNotAttemptedByCampaignId: (params) => {
+    const { campaign_id } = params;
+    return new Call()
+      .where({ campaign_id })
+      .query('where', 'status', '<>', 'ATTEMPTED')
+      .fetchAll()
+      .then(calls => calls)
+      .catch(err => console.log(`Error in fetching calls not attempted by campaing_id: ${err}`));
   }
 };

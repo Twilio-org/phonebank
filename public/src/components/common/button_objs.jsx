@@ -80,8 +80,8 @@ export default {
       }
     ];
   },
-  admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
-    const { handleClick, item: { id, status } } = props;
+  admin_campaigns(props) {
+    const { handleClick, history, page, item: { id, status } } = props;
     const statusToggleActivePauseResult = statusToggleActivePause(status);
     const statusToggleCompleteResult = statusToggleComplete(status);
     return [
@@ -94,10 +94,12 @@ export default {
       },
       {
         key: 2,
-        text: () => 'Call Report',
+        text: () => 'Campaign Stats',
         size: 'xsmall',
         style: 'success',
-        handler: () => {}
+        handler: () => {
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
+        }
       },
       {
         key: 3,

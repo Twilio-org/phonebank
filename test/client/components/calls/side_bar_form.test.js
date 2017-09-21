@@ -14,11 +14,6 @@ describe('Component testing for <SideBarForm />: ', () => {
 
     describe('Component rendering: ', () => {
       const wrapper = shallow(<SideBarForm {...props} />);
-
-      it('should have 1 div element: ', () => {
-        const numberOfDivElements = wrapper.find('div').length;
-        expect(numberOfDivElements).toBe(1);
-      });
       it('should have 1 form components: ', () => {
         const numberOfForms = wrapper.find('form').length;
         expect(numberOfForms).toBe(1);
