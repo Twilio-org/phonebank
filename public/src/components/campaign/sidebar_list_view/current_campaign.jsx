@@ -28,7 +28,7 @@ const CurrentCampaign = (props) => {
       <h3>{title}</h3>
       <hr />
       <p className="lead">{description}</p>
-      <Button onClick={handleClick} bsStyle="primary" className={status !== 'active' ? 'disabled' : ''}>
+      <Button onClick={handleClick} bsStyle="primary" disabled={status !== 'active'}>
         <i className="material-icons small">phone_in_talk</i> Start Calling
       </Button>
     </div>
