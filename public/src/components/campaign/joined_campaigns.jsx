@@ -4,11 +4,12 @@ import SidebarList from './sidebar_list_view/sidebar_list';
 import CurrentCampaign from './sidebar_list_view/current_campaign';
 import DashboardButtonGroup from '../common/nav_btn_group';
 import Banner from '../common/welcome_banner';
+import _ from 'lodash';
 
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
-    if (id) {
+    if (id !== null) {
       this.props.clearCampaigns();
       this.props.fetchCampaignsByUser(id, this.props.current_campaign);
     }
