@@ -4,8 +4,6 @@ import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
 import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
 
 export default class ViewCampaign extends Component {
-
-
   componentDidMount() {
     if (this.props.admin_campaigns === undefined) {
       const { id } = this.props.match.params;

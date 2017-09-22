@@ -94,13 +94,22 @@ export default {
       },
       {
         key: 2,
+        text: () => 'Campaign Stats',
+        size: 'xsmall',
+        style: 'info',
+        handler: () => {
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
+        }
+      },
+      {
+        key: 3,
         text: () => 'Release Calls',
         size: 'xsmall',
         style: 'warning',
         hanlder: () => {}
       },
       {
-        key: 3,
+        key: 4,
         text: () => 'View',
         size: 'xsmall',
         style: 'primary',
@@ -109,7 +118,7 @@ export default {
         }
       },
       {
-        key: 4,
+        key: 5,
         text: () => statusToggleActivePauseResult.label,
         size: 'xsmall',
         style: statusToggleActivePauseResult.buttonStyle,
@@ -117,7 +126,7 @@ export default {
         disabled: statusToggleActivePauseResult.isDisabled
       },
       {
-        key: 5,
+        key: 6,
         text: () => statusToggleCompleteResult.label,
         size: 'xsmall',
         style: statusToggleCompleteResult.buttonStyle,
