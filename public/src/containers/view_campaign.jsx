@@ -9,10 +9,14 @@ function mapStateToProps(state) {
   return {
     current_campaign: state.admin_campaigns.current_campaign,
     current_script: state.admin_scripts.current_script,
-    current_campaign_metrics: state.admin_campaigns.current_campaign_metrics
+    current_campaign_metrics: state.admin_campaigns.current_campaign_metrics,
+    current_questions: state.admin_scripts.script_questions
   };
 }
 
 export default withRouter(
-  connect(mapStateToProps, { fetchCampaign, fetchScript, fetchCampaignMetrics })(ViewCampaign)
+  connect(mapStateToProps,
+    { fetchCampaign,
+      fetchScript,
+      fetchCampaignMetrics })(ViewCampaign)
 );

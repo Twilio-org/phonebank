@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
-import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions } from '../../helpers/metrics_template';
+import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
 
 export default class ViewCampaign extends Component {
 
@@ -15,58 +15,25 @@ export default class ViewCampaign extends Component {
   }
 
   render() {
-    const metrics = {
-      "message": "metrics generated successfully",
-      "metricsObj": {
-        "status_distribution": {
-          "AVAILABLE": 43,
-          "ASSIGNED": 3,
-          "IN_PROGRESS": 2,
-          "HUNG_UP": 9,
-          "ATTEMPTED": 11
-        },
-        "outcome_distribution": {
-          "PENDING": 43,
-          "ANSWERED": 5,
-          "BAD_NUMBER": 3,
-          "DO_NOT_CALL": 6,
-          "LEFT_MSG": 9,
-          "NO_ANSWER": 3,
-          "INCOMPLETE": 11
-        },
-        "response_stats": {
-          "1": {
-            "resp1": 3,
-            "resp2": 1,
-            "resp3": 0,
-            "resp4": 0,
-            "resp5": 1
-          },
-          "3": {
-            "resp1": 3,
-            "resp2": 4,
-            "resp3": 1,
-            "resp4": 3,
-            "resp5": 2
-          },
-          "0": {
-            "resp1": 4,
-            "resp2": 11,
-            "resp3": 9,
-            "resp4": 4,
-            "resp5": 8,
-            "resp6": 8,
-            "resp7": 8,
-          }
-        }
-      }
-    };
-    const outcomeData = outcomeDataFormat(metrics.metricsObj.outcome_distribution);
-    const statusData = statusDataFormat(metrics.metricsObj.status_distribution);
-    const responsesData = responsesDataFormat(metrics.metricsObj.response_stats);
-    const { current_campaign, current_script, history } = this.props;
+    const { current_campaign,
+            current_campaign_metrics,
+            current_script,
+            current_questions,
+            history } = this.props;
     const { name, title, status, description, script_id } = current_campaign;
     const { name: scriptName } = current_script;
+    let outcomeData;
+    let statusData;
+    let responsesData;
+    let questionNames;
+    if (current_campaign_metrics.metricsObj) {
+      outcomeData = outcomeDataFormat(current_campaign_metrics.metricsObj.outcome_distribution);
+      statusData = statusDataFormat(current_campaign_metrics.metricsObj.status_distribution);
+      responsesData = responsesDataFormat(current_campaign_metrics.metricsObj.response_stats);
+    }
+    if (current_questions && current_questions.length) {
+      questionNames = getQuestionNames(current_questions);
+    }
     return (
       <div>
         <Row>
@@ -111,19 +78,23 @@ export default class ViewCampaign extends Component {
           </Col>
         </Row>
         <h3>Single Choice and Multi-select Responses Distribution</h3>
-        <Row>
-          {responsesData.map((resp, index) =>
-            (
-              <Col md="4" key={resp.labels[0].concat(index)}>
-                <h4>[INSERT QUESTION]</h4>
-                <Bar
-                  data={resp}
-                  options={chartOptions.responseBar}
-                />
-              </Col>
-            )
-          )}
-        </Row>
+        { (responsesData && responsesData.length) ?
+          (
+            <Row>
+              {responsesData.map((resp, index) =>
+                (
+                  <Col md="4" key={resp.formattedResponse.labels[0].concat(index)}>
+                    <h4>{questionNames[resp.id]}</h4>
+                    <Bar
+                      data={resp.formattedResponse}
+                      options={chartOptions.responseBar}
+                    />
+                  </Col>
+                )
+              )}
+            </Row>
+          ) : (<Row />)
+        }
       </div>
     );
   }

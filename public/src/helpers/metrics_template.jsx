@@ -80,18 +80,26 @@ function removeUnderscore(array) {
   return array.map(word => word.split('_').join(' '));
 }
 
-function formatResponse(response) {
+function formatResponse(rawResponse) {
   const answerTemplate = _.cloneDeep(chartTemplate);
-  const responseLabels = Object.keys(response);
-  const responseFreq = responseLabels.map(answer => response[answer]);
+  const responseLabels = Object.keys(rawResponse.response);
+  const responseFreq = responseLabels.map(answer => rawResponse.response[answer]);
   const barColor = colorArrayRGBAOpaque.slice(0, responseLabels.length);
   const borderColor = colorArrayRGBASolid.slice(0, responseLabels.length);
   answerTemplate.labels = responseLabels;
   answerTemplate.datasets[0].data = responseFreq;
-  answerTemplate.datasets[0].label = '[insert question title]';
   answerTemplate.datasets[0].backgroundColor = barColor;
   answerTemplate.datasets[0].borderColor = borderColor;
   return answerTemplate;
+}
+
+
+export function getQuestionNames(questions) {
+  const questionNames = {};
+  questions.forEach((question) => {
+    questionNames[question.id] = question.title;
+  });
+  return questionNames;
 }
 
 export function outcomeDataFormat(outcomeData) {
@@ -105,7 +113,6 @@ export function outcomeDataFormat(outcomeData) {
   const outcomeTemplate = _.cloneDeep(chartTemplate);
   const outcomeKeys = Object.keys(outcomeData);
   outcomeTemplate.labels = removeUnderscore(outcomeKeys);
-  outcomeTemplate.datasets.label = 'Call Outcome Distribution';
   outcomeTemplate.datasets[0].data = [
     PENDING,
     BAD_NUMBER,
@@ -124,7 +131,6 @@ export function statusDataFormat(statusData) {
   const statusTemplate = _.cloneDeep(chartTemplate);
   const statusKeys = Object.keys(statusData);
   statusTemplate.labels = ['AVAILABLE', 'ASSIGNED', 'IN PROGRESS', 'HUNG UP', 'ATTEMPTED'];
-  statusTemplate.datasets[0].label = 'Call Status Distribution';
   statusTemplate.datasets[0].data = [AVAILABLE, ASSIGNED, IN_PROGRESS, HUNG_UP, ATTEMPTED];
   statusTemplate.datasets[0].backgroundColor = colorArrayRGBASolid.slice(0, statusKeys.length);
   return statusTemplate;
@@ -132,7 +138,10 @@ export function statusDataFormat(statusData) {
 
 export function responsesDataFormat(responseData) {
   const questionIDs = Object.keys(responseData);
-  const responses = questionIDs.map(id => _.cloneDeep(responseData[id]));
-  const formatedResponses = responses.map(resp => formatResponse(resp));
+  const responses = questionIDs.map(id => ({ id, response: _.cloneDeep(responseData[id]) }));
+  const formatedResponses = responses.map(resp => ({
+    id: resp.id,
+    formattedResponse: formatResponse({ response: resp.response })
+  }));
   return formatedResponses;
 }
