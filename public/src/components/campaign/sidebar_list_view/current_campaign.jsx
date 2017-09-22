@@ -35,7 +35,10 @@ const CurrentCampaign = (props) => {
   const getStatus = () => {
     const { id } = currentCampaign;
     const active = list.filter(campaign => campaign.id === parseInt(id, 10))[0];
-    return active.status;
+    if (active !== undefined) {
+      return active.status;
+    }
+    return null;
   };
 
 
