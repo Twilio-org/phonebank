@@ -7,9 +7,10 @@ const ListBtnGroup = (props) => {
     <ButtonGroup vertical>
       {
         buttons.map((button) => {
-          const { style, text, handler, size, key } = button;
+          const { style, text, handler, size, key, disabled } = button;
           return (
             <Button
+              disabled={disabled}
               bsSize={size}
               bsStyle={style}
               key={key}
