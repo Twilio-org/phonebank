@@ -26,6 +26,12 @@ export default {
       .fetch();
   },
 
+  getCallsByCampaignId: (params) => {
+    const { id } = params;
+    return new Campaign({ id })
+      .fetch({ withRelated: 'calls' });
+  },
+
   markCampaignAsCompleted: (params) => {
     const { id } = params;
     return new Campaign()
