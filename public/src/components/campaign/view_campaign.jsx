@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
 import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
 
@@ -20,6 +21,7 @@ export default class ViewCampaign extends Component {
             history } = this.props;
     const { name, title, status, description, script_id } = current_campaign;
     const { name: scriptName } = current_script;
+    const campaginId = current_campaign.id;
     let outcomeData;
     let statusData;
     let responsesData;
@@ -57,6 +59,7 @@ export default class ViewCampaign extends Component {
             >
               Cancel
             </Button>
+            <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
           </Col>
         </Row>
         <Row>
