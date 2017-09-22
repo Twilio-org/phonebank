@@ -151,3 +151,17 @@ export function fetchCampaignMetrics(id) {
       throw customError;
     });
 }
+
+export function updateCampaignStatus(campaignId, status, fetchAll = fetchCampaigns) {
+  const params = { status };
+  return dispatch => axios.put(`/campaigns/${campaignId}`, params,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then((campaign) => {
+    dispatch(fetchAll());
+    return campaign;
+  })
+  .catch(err => console.log('error with campaign status update action: ', err));
+}

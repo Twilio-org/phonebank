@@ -1,0 +1,83 @@
+#call-page {
+  position: absolute;
+  height: ~"calc(100% - @{navbar-height})";
+  width: 100%;
+}
+#call-sidebar {
+  height: 100%;
+  background: @call-sidebar-bg-color;
+  border-right: @call-sidebar-border;
+  padding: 0 30px;
+}
+#call-content {
+  padding: 0 3em;
+  overflow: scroll;
+  height: 100%;
+
+  .badge {
+    font-weight: normal;
+  }
+  .question {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+    margin-bottom: 12px;
+  }
+  .font-weight-normal {
+    font-weight: normal;
+    padding: 2px 0;
+  }
+  input[type="checkbox"], input[type="radio"] {
+    margin-right: 9px;
+  }
+}
+
+// Contact Section
+.contact-call-section {
+  margin-top: 28px;
+  margin-bottom: 40px;
+}
+.contact-card {
+  position: relative;
+  width: 60px;
+  margin-top: 23px;
+  margin-left: 10px;
+  .contact-photo {
+    background: @contact-photo-bg;
+    border-radius: 50%;
+    text-align: center;
+    i {
+      font-size: 42px;
+      line-height: 60px;
+      color: #fff;
+    }
+  }
+}
+
+.calling {
+  animation: calling 1.5s ease infinite;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  @keyframes calling {
+    0% {
+      transform: scale(1);
+    }
+    15% {
+      box-shadow: 0 0 0 10px fade(@contact-photo-bg, 20%);
+    }
+    25% {
+      box-shadow: 0 0 0 10px fade(@contact-photo-bg, 20%), 0 0 0 20px fade(@contact-photo-bg, 20%);
+    }
+    30% {
+      transform: scale(1.05);
+    }
+    50% {
+      box-shadow: 0 0 0 10px fade(@contact-photo-bg, 20%), 0 0 0 20px fade(@contact-photo-bg, 15%), 0 0 0 40px fade(@contact-photo-bg, 10%);
+    }
+    80% {
+      transform: scale(1);
+    }
+  }
+}

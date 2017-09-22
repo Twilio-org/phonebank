@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HelpBlock } from 'react-bootstrap';
+import { HelpBlock, Row, Col } from 'react-bootstrap';
 import CallControlButton from './callcntrl_btn';
 import Toolbar from './btn_toolbar';
 import SideBarForm from './side_bar_form';
@@ -50,6 +50,7 @@ export default class ActiveCallControl extends Component {
             status,
             form_errors } = this.props;
     const formInvalid = typeof form_errors !== 'undefined';
+    const calling = status !== 'HUNG_UP' ? 'calling' : '';
     const outcomes = [
       {
         value: 'ANSWERED',
@@ -90,18 +91,28 @@ export default class ActiveCallControl extends Component {
     ];
     return (
       <div>
-        <h5>Now Calling:</h5>
-        <h3>{current_call_contact_name}</h3>
-        <div>
-          <CallControlButton
-            disabled={status !== 'IN_PROGRESS'}
-            handler={this.handleHangUp}
-            materialIcon={'call_end'}
-            text={status === 'HUNG_UP' ? 'Call Ended' : 'Hang Up'}
-            id="hang-up-btn"
-            bsStyle="danger"
-          />
-        </div>
+        <Row className={'contact-call-section'}>
+          <Col md="4">
+            <div className={'contact-card'}>
+              <div className={`contact-photo ${calling}`}>
+                <i className="material-icons">person</i>
+              </div>
+            </div>
+          </Col>
+          <Col md="8">
+            <h3>{current_call_contact_name}</h3>
+            <CallControlButton
+              disabled={status !== 'IN_PROGRESS'}
+              handler={this.handleHangUp}
+              materialIcon={'call_end'}
+              text={status === 'HUNG_UP' ? 'Call Ended' : 'Hang Up'}
+              id="hang-up-btn"
+              bsStyle="danger"
+            />
+          </Col>
+        </Row>
+        <hr />
+        <HelpBlock>What is the outcome of this call?</HelpBlock>
         <Toolbar
           outcomes={outcomes}
           handleOutcome={this.handleOutcomeClick}

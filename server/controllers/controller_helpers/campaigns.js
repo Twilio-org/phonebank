@@ -9,10 +9,10 @@ export function validCampaignStatusUpdate(prevStatus, currStatus) {
     completed: 1
   };
   const validStatusOptions = Object.keys(validCampaignStatusTransitions);
-  const validTransitionForStatus = validCampaignStatusTransitions[prevStatus].join(', ');
   if (prevStatus === 'completed') {
     throw new Error('Campaigns with status set to "completed" may not be changed.');
   }
+  const validTransitionForStatus = validCampaignStatusTransitions[prevStatus].join(', ');
   if (!validCampaignStatusTransitions[currStatus]) {
     throw new Error(`Status update to: ${currStatus} is invalid, valid status options: ${validStatusOptions.join(', ')}.`);
   }
@@ -23,11 +23,20 @@ export function validCampaignStatusUpdate(prevStatus, currStatus) {
 }
 
 export function allowDraftCampaignUpdates(currentStatus, requestBody) {
-  if (currentStatus === 'draft') {
-    const { name, title, description, contact_lists_id, script_id } = requestBody;
-    return { name, title, description, contact_lists_id, script_id };
+  const { name, title, description, contact_lists_id, script_id } = requestBody;
+  const params = { name, title, description, contact_lists_id, script_id };
+  //  If status is not draft,
+  if (currentStatus !== 'draft') {
+    //  iterate over each item in object and verify if value is falsy (undefined)
+    const isValid = _.every(Object.keys(params), param => !!params[param] === false);
+    // if at least one value is not falsy
+    if (!isValid) {
+      //  don't allow mutation
+      throw new Error('Cannot edit campaign that is not in draft.');
+    }
   }
-  throw new Error('Cannot edit campaign that is not in draft.');
+  // [impled else] return params;
+  return params;
 }
 
 export function listUpdatedParamsMessage(paramsObj) {
