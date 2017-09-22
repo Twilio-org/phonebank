@@ -14,7 +14,9 @@ import { setCurrentCall,
          initateTwilioCon,
          endTwilioCon,
          checkTwilioCon,
-         releaseCall } from '../../../public/src/actions/calls';
+         releaseCall,
+         disableCallControl,
+         enableCallControl } from '../../../public/src/actions/calls';
 import fixtures from '../client_fixtures';
 
 const { dbFixture, initialState, contactFixture } = fixtures.callsFixtures;
@@ -133,6 +135,26 @@ describe('Call Actions', () => {
       it(`should have all of the expected props: ${expectedProps.join(', ')}`, () => {
         const payloadProps = Object.keys(payload);
         expect(payloadProps).toEqual(expectedProps);
+      });
+    });
+  });
+
+  describe('disableCallControl: ', () => {
+    const disableCallControlResult = disableCallControl();
+    describe('type: ', () => {
+      const { type } = disableCallControlResult;
+      it('should have the type DISABLE_CALL_CONTROL: ', () => {
+        expect(type).toBe('DISABLE_CALL_CONTROL');
+      });
+    });
+  });
+
+  describe('enableCallControl: ', () => {
+    const enableCallControlResult = enableCallControl();
+    describe('type: ', () => {
+      const { type } = enableCallControlResult;
+      it('should have the type ENABLE_CALL_CONTROL: ', () => {
+        expect(type).toBe('ENABLE_CALL_CONTROL');
       });
     });
   });
@@ -309,7 +331,6 @@ describe('Call Actions', () => {
     afterEach(() => {
       mock.reset();
     });
-    // TODO: when form submission is finished, finish case for when call status is marked ATTEMPTED
     describe('aixios put request when call status is not ATTEMPTED: ', () => {
       it('should dispatch UPDATE_CALL_STATUS: ', () => {
         const expectedAction = updateCallStatus('in_progress');
@@ -352,6 +373,29 @@ describe('Call Actions', () => {
         })
         .catch((err) => {
           console.log(`Error in assignToCall action dispatch setCurrentCall is: ${err}`);
+        });
+    });
+  });
+
+  describe('assignToCall Action on no returnable call', () => {
+    mock = new MockAdapter(axios);
+    beforeEach(() => {
+      mock.onGet('/users/1/campaigns/1/calls').reply(404);
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    it('should dispatch disableCallControl action', () => {
+      const userId = 1;
+      const { campaign_id } = dbFixture;
+      const { type } = disableCallControl();
+      store.dispatch(assignToCall(userId, campaign_id))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).toEqual(type);
+        })
+        .catch((err) => {
+          console.log(`Error in assignToCall action dispatch disableCallControl is: ${err}`);
         });
     });
   });

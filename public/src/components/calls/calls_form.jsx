@@ -3,12 +3,18 @@ import CallQuestion from './call_question';
 
 export default class CallsForm extends Component {
   render() {
-    const { questions, change, form, status, outcome, handleSubmit } = this.props;
+    const { questions,
+            change,
+            form,
+            status,
+            outcome,
+            handleSubmit,
+            disable_call_control } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <h3>Questions</h3>
         <hr />
-        <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED'}>
+        <fieldset disabled={status === 'ASSIGNED' || outcome !== 'ANSWERED' || disable_call_control === true}>
           {
             questions && questions.map((question, i) => (
               <CallQuestion

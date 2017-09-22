@@ -26,7 +26,7 @@ export default {
     ];
   },
   admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
-    const { item, history } = props;
+    const { page, item, history } = props;
     const { id } = item;
     return [
       {
@@ -38,10 +38,12 @@ export default {
       },
       {
         key: 2,
-        text: () => 'Call Report',
+        text: () => 'Campaign Stats',
         size: 'xsmall',
         style: 'success',
-        handler: () => {}
+        handler: () => {
+          history.push(`/admin/${page.toLowerCase()}s/${id}`);
+        }
       },
       {
         key: 3,

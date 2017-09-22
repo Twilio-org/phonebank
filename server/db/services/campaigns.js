@@ -25,6 +25,24 @@ export default {
     return new Campaign({ id })
       .fetch();
   },
+
+  getCallsByCampaignId: (params) => {
+    const { id } = params;
+    return new Campaign({ id })
+      .fetch({ withRelated: 'calls' });
+  },
+
+  markCampaignAsCompleted: (params) => {
+    const { id } = params;
+    return new Campaign()
+      .where({ id })
+      .save({
+        status: 'completed'
+      }, {
+        method: 'update'
+      });
+  },
+
   updateCampaignById: (params) => {
     const { id, status, name, title, description, contact_lists_id, script_id } = params;
     return new Campaign()
@@ -33,5 +51,13 @@ export default {
       { status, name, title, description, contact_lists_id, script_id },
       { method: 'update' }
     );
+  },
+
+  getExportableCampaignDataById: (params) => {
+    const { id } = params;
+
+    return new Campaign({ id })
+      .fetch({ withRelated: ['calls.responses'] })
+      .then(campaign => campaign);
   }
 };

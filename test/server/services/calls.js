@@ -111,14 +111,13 @@ describe('Calls Service tests', function() {
         }, done);
     });
 
-    it('should return a previously assigned call if one exists', (done) => {
+    it('should return null if no calls are AVAILABLE and you try to assign', (done) => {
       const { user_id, campaign_id } = this.callSaveParams;
-
       callsService.assignCall({ user_id, campaign_id })
         .then((call) => {
-          expect(call.attributes).to.deep.equal(this.firstAssignedCall);
+          expect(call).to.equal(null);
           done();
-        }, done)
+        }, done);
     });
   });
 
@@ -271,6 +270,18 @@ describe('Calls Service tests', function() {
             expect(call.attributes.user_id).to.equal(null);
             done();
           });
+    });
+  });
+  describe('getCallsNotAttemptedByCampaignId', () => {
+    it('should get the number of calls not marked as "ATTEMPTED" by campaign_id', (done) => {
+      const { campaign_id } = this.callSaveParams;
+      callsService.getCallsNotAttemptedByCampaignId({ campaign_id })
+        .then((callsNotAttempted) => {
+          expect(callsNotAttempted.length).to.equal(3);
+          callsNotAttempted.forEach(call => expect(call.attributes.status).to.not.equal('ATTEMPTED'));
+          done();
+        })
+        .catch(err => console.log(`Error in getCallsNotAttemptedByCampaignId test: ${err}`));
     });
   });
 });

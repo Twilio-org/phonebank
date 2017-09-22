@@ -8,7 +8,9 @@ import { SET_CALL_CURRENT,
          UPDATE_CALL_OUTCOME,
          SET_CALL_CONTACT_INFO,
          SET_VOLUNTEER_CALL_ACTIVE,
-         CLEAR_VOLUNTEER_CALL_ACTIVE } from '../reducers/calls';
+         CLEAR_VOLUNTEER_CALL_ACTIVE,
+         DISABLE_CALL_CONTROL,
+         ENABLE_CALL_CONTROL } from '../reducers/calls';
 
 export function setVolunteerActive() {
   return {
@@ -54,6 +56,18 @@ export function setCallContactInfo(contactInfo) {
   };
 }
 
+export function disableCallControl() {
+  return {
+    type: DISABLE_CALL_CONTROL
+  };
+}
+
+export function enableCallControl() {
+  return {
+    type: ENABLE_CALL_CONTROL
+  };
+}
+
 export function getCallContactInfo(contactId) {
   return dispatch => axios.get(`/contacts/${contactId}`,
     {
@@ -75,8 +89,8 @@ export function assignToCall(userId, campaignId) {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-    .then((call) => {
-      const { data: callObj } = call;
+    .then((response) => {
+      const { data: callObj } = response;
       const { status, outcome } = callObj;
       if (status !== 'ASSIGNED') {
         return new Error('Invalid call status, problem with call assignment.');
@@ -86,7 +100,12 @@ export function assignToCall(userId, campaignId) {
       }
       return dispatch(setCurrentCall(callObj));
     })
-    .catch(err => err);
+    .catch((err) => {
+      if (err.response && err.response.status === 404) {
+        return dispatch(disableCallControl());
+      }
+      return err;
+    });
 }
 
 export function initateTwilioCon(userId, campaignId) {
@@ -124,7 +143,7 @@ export function endTwilioCon(userId, campaignId) {
     const { data: userObj } = res;
     const { call_sid } = userObj;
     if (call_sid) {
-      axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
+      return axios.delete(`/users/${userId}/campaigns/${campaignId}/calls`, {
         headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
       })
       .then((disconnectRes) => {
@@ -143,7 +162,7 @@ export function endTwilioCon(userId, campaignId) {
 }
 
 export function releaseCall(userId, campaignId, callId, currentCallStatus) {
-  if (currentCallStatus !== 'ASSIGNED') {
+  if (currentCallStatus && currentCallStatus !== 'ASSIGNED') {
     return new Error('Error with releaseCall: cannot releave a call that is active.');
   }
   return () => axios.delete(`/users/${userId}/campaigns/${campaignId}/calls/${callId}`,
@@ -155,7 +174,7 @@ export function releaseCall(userId, campaignId, callId, currentCallStatus) {
   .catch(err => err);
 }
 
-export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
+export function updateCallAttempt(callUpdateParams) {
   const { user_id: userId,
           campaign_id: campaignId,
           call_id: callId,
@@ -169,12 +188,7 @@ export function updateCallAttempt(callUpdateParams, assignCall = assignToCall) {
       headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
     }
   )
-  .then(() => {
-    if (status === 'ATTEMPTED') {
-      return dispatch(assignCall(userId, campaignId));
-    }
-    return dispatch(updateCallStatus(status));
-  })
+  .then(() => dispatch(updateCallStatus(status)))
   .catch(err => console.log(err));
 }
 
@@ -192,6 +206,7 @@ export function submitCallResponses(data) {
     .then(() => {
       dispatch(destroy('CallResponse'));
       dispatch(clearCurrentCall());
+      dispatch(assignToCall(user_id, campaign_id));
     })
     .catch((err) => {
       const customError = {
