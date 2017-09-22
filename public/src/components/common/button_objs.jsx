@@ -1,3 +1,58 @@
+const statusMap = {
+  activateOrPause: {
+    isDraftOrPause: {
+      label: 'Activate',
+      status: 'active',
+      buttonStyle: 'success',
+      isDisabled: false
+    },
+    isActive: {
+      label: 'Pause',
+      status: 'pause',
+      buttonStyle: 'warning',
+      isDisabled: false
+    },
+    isOther: {
+      label: 'Activate',
+      status: null,
+      buttonStyle: 'success',
+      isDisabled: true
+    }
+  },
+  complete: {
+    isActiveOrPause: {
+      label: 'End',
+      status: 'completed',
+      buttonStyle: 'danger',
+      isDisabled: false
+    },
+    isOther: {
+      label: 'End',
+      status: 'completed',
+      buttonStyle: 'danger',
+      isDisabled: true
+    }
+  }
+};
+
+function statusToggleActivePause(status) {
+  const { activateOrPause } = statusMap;
+  if (status === 'draft' || status === 'pause') {
+    return activateOrPause.isDraftOrPause;
+  } else if (status === 'active') {
+    return activateOrPause.isActive;
+  }
+  return activateOrPause.isOther;
+}
+
+function statusToggleComplete(status) {
+  const { complete } = statusMap;
+  if (status === 'active' || status === 'pause') {
+    return complete.isActiveOrPause;
+  }
+  return complete.isOther;
+}
+
 export default {
   view_edit(props) {
     const { page, item, history } = props;
@@ -25,9 +80,10 @@ export default {
       }
     ];
   },
-  admin_campaigns(props) { // deleted props and item as arguments because they were causing an error
-    const { page, item, history } = props;
-    const { id } = item;
+  admin_campaigns(props) {
+    const { handleClick, history, page, item: { id, status } } = props;
+    const statusToggleActivePauseResult = statusToggleActivePause(status);
+    const statusToggleCompleteResult = statusToggleComplete(status);
     return [
       {
         key: 1,
@@ -49,19 +105,36 @@ export default {
         key: 3,
         text: () => 'Release Calls',
         size: 'xsmall',
-        style: 'warning',
+        style: 'default',
         hanlder: () => {}
       },
       {
         key: 4,
         text: () => 'Edit',
         size: 'xsmall',
-        style: 'danger',
+        style: 'info',
         handler: () => {
           // const { id } = item;
           // props.handleClick(item);
           // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
         }
+      },
+      {
+        key: 5,
+        text: () => statusToggleActivePauseResult.label,
+        size: 'xsmall',
+        style: statusToggleActivePauseResult.buttonStyle,
+        handler: () => { handleClick(id, statusToggleActivePauseResult.status); },
+        disabled: statusToggleActivePauseResult.isDisabled
+      },
+      {
+        key: 6,
+        text: () => statusToggleCompleteResult.label,
+        size: 'xsmall',
+        style: statusToggleCompleteResult.buttonStyle,
+        handler: () => { handleClick(id, statusToggleCompleteResult.status); },
+        disabled: statusToggleCompleteResult.isDisabled
+
       }
     ];
   },
