@@ -50,8 +50,8 @@ export default class CallPage extends Component {
               enableCallControl,
               ...otherProps } = this.props;
       return (
-        <Row className="show-grid">
-          <Col xs={5} md={4} lg={3}>
+        <Row id={'call-page'}>
+          <Col xs={5} md={4} lg={3} id={'call-sidebar'}>
             <CallsSideBar
               current_campaign={current_campaign}
               joined_campaign={has_user_joined_campaign}
@@ -82,7 +82,7 @@ export default class CallPage extends Component {
               {...otherProps}
             />
           </Col>
-          <Col xs={7} md={8} lg={9}>
+          <Col xs={7} md={8} lg={9} id={'call-content'}>
             <CallsPageMain
               current_campaign={current_campaign}
               current_script={current_script}

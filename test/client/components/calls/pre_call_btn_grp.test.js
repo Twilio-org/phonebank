@@ -26,9 +26,9 @@ describe('Component testing for <PreCallButtonGroup />: ', () => {
     describe('Component rendering: ', () => {
       const wrapper = shallow(<PreCallButtonGroup {...props} />);
 
-      it('should have 3 div element: ', () => {
+      it('should have 5 div element: ', () => {
         const numberOfDivElements = wrapper.find('div').length;
-        expect(numberOfDivElements).toBe(3);
+        expect(numberOfDivElements).toBe(5);
       });
       it('should have 4 Button components: ', () => {
         const numberOfButtons = wrapper.find('Button').length;
