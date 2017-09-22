@@ -25,7 +25,7 @@ const CurrentCampaign = (props) => {
   const { description, status, title, id: campaignId } = currentCampaign;
 
   const popover = (
-    <Popover id="popover-trigger-hover">
+    <Popover id="popover-trigger-hover-focus">
       Once you click the <strong>Start Calling</strong> button, the phonebank
        will initialize a call to the phone number you registered with.
     </Popover>
@@ -37,7 +37,7 @@ const CurrentCampaign = (props) => {
       <h3>{title}</h3>
       <hr />
       <p className="lead">{description}</p>
-      <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
+      <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover}>
         <Button onClick={handleClick} bsStyle="primary" disabled={status !== 'active'}>
           <i className="material-icons small">phone_in_talk</i> Start Calling
         </Button>
