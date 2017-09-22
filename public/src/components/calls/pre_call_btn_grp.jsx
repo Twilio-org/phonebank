@@ -64,10 +64,10 @@ export default class PreCallButtonGroup extends Component {
           disable_call_control ?
             (<h5>No Calls Available</h5>) :
             (<div>
-              <Row>
+              <Row className={'contact-call-section'}>
                 <Col md="4">
                   <div className={'contact-card'}>
-                    <div className={'contact-photo calling'}>
+                    <div className={'contact-photo'}>
                       <i className="material-icons">person</i>
                     </div>
                   </div>

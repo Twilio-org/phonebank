@@ -7,15 +7,36 @@
   height: 100%;
   background: @call-sidebar-bg-color;
   border-right: @call-sidebar-border;
+  padding: 0 30px;
 }
 #call-content {
   padding: 0 3em;
   overflow: scroll;
   height: 100%;
+
+  .badge {
+    font-weight: normal;
+  }
+  .question {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+    margin-bottom: 12px;
+  }
+  .font-weight-normal {
+    font-weight: normal;
+    padding: 2px 0;
+  }
+  input[type="checkbox"], input[type="radio"] {
+    margin-right: 9px;
+  }
 }
 
 // Contact Section
-@contact-photo-bg: #a7a7a7;
+.contact-call-section {
+  margin-top: 28px;
+  margin-bottom: 40px;
+}
 .contact-card {
   position: relative;
   width: 60px;
