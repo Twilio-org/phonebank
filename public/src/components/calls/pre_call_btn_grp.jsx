@@ -93,7 +93,7 @@ export default class PreCallButtonGroup extends Component {
               disabled={disable_call_control}
             >
               <i className="material-icons md-16">skip_next</i>
-              Skip this person
+              {' Skip this person'}
             </Button>
             <Button
               onClick={this.handleBadNameClick}
@@ -101,14 +101,14 @@ export default class PreCallButtonGroup extends Component {
               disabled={disable_call_control}
             >
               <i className="material-icons md-16">block</i>
-              Bad Name
+              {' Bad Name'}
             </Button>
             <Button
               onClick={this.handleStopCallingClick}
               bsStyle="info"
             >
               <i className="material-icons md-16">stop</i>
-              Stop Calling
+              {' Stop Calling'}
             </Button>
           </ButtonGroup>
         </div>
