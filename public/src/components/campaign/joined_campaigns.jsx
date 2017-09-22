@@ -8,7 +8,7 @@ import Banner from '../common/welcome_banner';
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
     const { id } = this.props.auth;
-    if (id) {
+    if (id !== null) {
       this.props.clearCampaigns();
       this.props.fetchCampaignsByUser(id, this.props.current_campaign);
     }
@@ -53,6 +53,7 @@ export default class JoinedCampaigns extends Component {
               <CurrentCampaign
                 history={history}
                 userId={userId}
+                list={joined_campaigns}
                 currentCampaign={current_campaign}
                 defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
                               'Select a campaign' :

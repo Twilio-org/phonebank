@@ -37,14 +37,15 @@ const TableListView = (props) => {
         />
       </div>
       <Table responsive>
-        <thead>
-          <tr>{ is_admin && headers.length > 0 ? headers.map((header, index) => {
-            const [display] = header;
-            return (<th key={display.concat(index)}>{display}</th>);
-          }) : null
-            }
-            <th /></tr>
-        </thead>
+        {is_admin ? (
+          <thead>
+            <tr>{ is_admin && headers.length > 0 ? headers.map((header, index) => {
+              const [display] = header;
+              return (<th key={display.concat(index)}>{display}</th>);
+            }) : null
+                }
+              <th /></tr>
+          </thead>) : (<th />)}
 
         <tbody>
           {item_collection && item_collection.length ?
