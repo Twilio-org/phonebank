@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 const CurrentCampaign = (props) => {
   const { currentCampaign,
@@ -7,19 +9,20 @@ const CurrentCampaign = (props) => {
           history,
           userId,
           initiateTwilioCall } = props;
-  const { id: campaignId } = currentCampaign;
-  if (!currentCampaign) {
+  const currentCampaignIsEmpty = _.isEmpty(currentCampaign);
+  if (currentCampaignIsEmpty) {
     return (
-      <div id={campaignId}>
-        <p className="lead">{defaultMsg}</p>
+      <div id="join-campaign-message">
+        <Link className="lead" to={'/volunteers/campaigns/all'}>{defaultMsg}</Link>
       </div>
     );
   }
   const handleClick = () => {
+    const { id: campaignId } = currentCampaign;
     initiateTwilioCall(userId, campaignId);
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
-  const { description, status, title } = currentCampaign;
+  const { description, status, title, id: campaignId } = currentCampaign;
   return (
     <div id={campaignId}>
       <h3>{title}</h3>
