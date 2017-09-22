@@ -1,7 +1,6 @@
 import _ from 'lodash';
-import customErrors from '../util/custom_error_classes';
-
-const { CustomGeneralError } = customErrors;
+import CustomError from '../util/custom_error_classes';
+import errorStatusCodes from '../util/error_status_codes';
 
 /* == CAMPAIGN CONTROLLER HELPERS == */
 export function validCampaignStatusUpdate(prevStatus, currStatus) {
@@ -35,7 +34,7 @@ export function allowDraftCampaignUpdates(currentStatus, requestBody) {
     // if at least one value is not falsy
     if (!isValid) {
       //  don't allow mutation
-      throw new CustomGeneralError('Cannot edit campaign that is not in draft.', 400, 'InvalidInput');
+      throw new CustomError('Cannot edit campaign that is not in draft.', errorStatusCodes.error.internalError.code, 'InvalidInput');
       // throw new Error('Cannot edit campaign that is not in draft.');
     }
   }

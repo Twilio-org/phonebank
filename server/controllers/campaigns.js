@@ -88,9 +88,7 @@ export function updateCampaignById(req, res) {
       try {
         updateBodyParams = allowDraftCampaignUpdates(previousStatus, req.body);
       } catch (e) {
-        // const { status, name, message, stack } = e;
         throw e;
-        // return res.status(status).json({ message: `${name}: ${message} at: \n ${stack}` });
       }
       const updateParams = { status: newStatus, ...updateBodyParams };
       const { keys: updateParamsNames,
@@ -105,11 +103,11 @@ export function updateCampaignById(req, res) {
           res.status(500).json({ message: `Campaign status not updated successfully, problem with updateCampaignById service: ${err}` });
         });
     })
-    // .catch(err => res.status(404).json({ message: `Campaign status not updated successfully, campaign could not be found by id: ${err}` }));
     .catch((err) => {
-      const { status, name, message, stack } = err;
-      console.log(err, 'ERROR IN CATCH BLOCK', err.stack);
-      return res.status(status).json({ errorName: name, message, stackTrace: stack });
+      const { status, message, log } = err;
+      // code, message, log
+      // for winston: stack
+      return res.status(404).json({ message, status, log });
     });
 }
 
