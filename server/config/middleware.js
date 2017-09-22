@@ -1,4 +1,4 @@
-import logger from 'morgan';
+import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
 import indexRouter from './routes/index';
@@ -11,6 +11,8 @@ import errorHandle from './errorHandle';
 import contactsRouter from './routes/contacts';
 import contactListsRouter from './routes/contact_lists';
 import { passport, serializeLogin } from './auth/local';
+
+// import logger from './logging';
 
 export default function middleware(app, express) {
   // use body-parser to format request and attach it to req objects.
@@ -34,7 +36,9 @@ export default function middleware(app, express) {
   app.use('*', indexRouter);
 
   // pass the logger
-  app.use(logger('dev'));
+  app.use(morgan('dev'));
+  // logger.debug('Over riding express logger!');
+  // app.use(morgan('default', { stream: logger.stream }));
 
   serializeLogin(passport);
 

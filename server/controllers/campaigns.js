@@ -1,3 +1,5 @@
+import logger from '../config/logging';
+
 import campaignsService from '../db/services/campaigns';
 import callsService from '../db/services/calls';
 import contactListsService from '../db/services/contact_lists';
@@ -104,9 +106,10 @@ export function updateCampaignById(req, res) {
         });
     })
     .catch((err) => {
-      const { status, message, log } = err;
+      const { status, message, log, stack } = err;
       // code, message, log
       // for winston: stack
+      logger.error(`${status}: ${message} ${log} \n ${stack}`);
       return res.status(404).json({ message, status, log });
     });
 }
