@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
+import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
@@ -23,13 +23,11 @@ const CurrentCampaign = (props) => {
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
   const { description, status, title, id: campaignId } = currentCampaign;
-  // const tooltip = (
-  //   <Tooltip id="tooltip">Once you click the <strong>Start Calling</strong> button, the phonebank will initialize a call to the phone number you registered with.</Tooltip>
-  // );
 
   const popover = (
     <Popover id="popover-trigger-hover">
-      Once you click the <strong>Start Calling</strong> button, the phonebank will initialize a call to the phone number you registered with.
+      Once you click the <strong>Start Calling</strong> button, the phonebank
+       will initialize a call to the phone number you registered with.
     </Popover>
   );
 
