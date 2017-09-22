@@ -24,7 +24,13 @@ export const chartOptions = {
       position: 'left'
     },
     responsive: true,
-    maintainAspectRatio: true
+    maintainAspectRatio: true,
+    layout: {
+      padding: {
+        top: 10,
+        bottom: 10
+      }
+    }
   },
   statusBar: {
     responsive: true,
@@ -33,21 +39,27 @@ export const chartOptions = {
     yAxisID: 'frequency',
     legend: {
       display: false
+    },
+    layout: {
+      padding: {
+        top: 10,
+        bottom: 10
+      }
     }
   },
   responseBar: {
-    layout: {
-      padding: {
-        left: 5,
-        right: 5
-      }
-    },
     responsive: true,
     maintainAspectRatio: true,
     xAxisID: 'response',
     yAxisID: 'resp-frequency',
     legend: {
       display: false
+    },
+    layout: {
+      padding: {
+        left: 5,
+        right: 5
+      }
     }
   }
 };

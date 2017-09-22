@@ -70,49 +70,52 @@ export default class ViewCampaign extends Component {
     return (
       <div>
         <Row>
-          <h1>{current_campaign ? name : null } Campaign Details</h1>
-          <h4>Title:</h4>
-          {current_campaign ? (<p>{title}</p>) : null}
-          <h4>Status:</h4>
-          {current_campaign ? (<p>{status}</p>) : null}
-          <h4>Description:</h4>
-          {current_campaign ? (<p>{description}</p>) : null}
-          <h4>Script Name:</h4>
-          {current_script ? (<p>{scriptName}</p>) : null}
-          <Button
-            bsStyle="primary"
-            onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
-          >
-            View Script
-          </Button>
-          <Button
-            bsStyle="primary"
-            onClick={history.goBack}
-          >
-            Cancel
-          </Button>
+          <Col md="12">
+            <h1>{current_campaign ? name : null } Campaign Details</h1>
+            <h4>Title:</h4>
+            {current_campaign ? (<p>{title}</p>) : null}
+            <h4>Status:</h4>
+            {current_campaign ? (<p>{status}</p>) : null}
+            <h4>Description:</h4>
+            {current_campaign ? (<p>{description}</p>) : null}
+            <h4>Script Name:</h4>
+            {current_script ? (<p>{scriptName}</p>) : null}
+            <Button
+              bsStyle="primary"
+              onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
+            >
+              View Script
+            </Button>
+            <Button
+              bsStyle="primary"
+              onClick={history.goBack}
+            >
+              Cancel
+            </Button>
+          </Col>
         </Row>
         <Row>
           <Col md="6">
-            <h2>Call Outcome Distribution</h2>
+            <h3>Call Outcome Distribution</h3>
             <Doughnut
               data={outcomeData}
               options={chartOptions.outcomeDoughnut}
             />
           </Col>
           <Col md="6">
-            <h2>Call Status Distribution</h2>
+            <h3>Call Status Distribution</h3>
             <HorizontalBar
               data={statusData}
               options={chartOptions.statusBar}
             />
           </Col>
         </Row>
+        <h3>Single Choice and Multi-select Responses Distribution</h3>
         <Row>
           {responsesData.map((resp, index) =>
             (
               <Col md="4" key={resp.labels[0].concat(index)}>
-                <h3>[INSERT QUESTION]</h3>
+                <h4>[INSERT QUESTION]</h4>
                 <Bar
                   data={resp}
                   options={chartOptions.responseBar}
