@@ -1,12 +1,14 @@
 export const defaultCampaigns = {
   all_campaigns: [],
   current_campaign: {},
+  current_campaign_metrics: {},
   has_user_joined_campaign: false
 };
 
 export const CLEAR_CAMPAIGNS = 'CLEAR_CAMPAIGNS';
 export const SET_CAMPAIGNS = 'SET_CAMPAIGNS';
 export const SET_CAMPAIGN_CURRENT = 'SET_CAMPAIGN_CURRENT';
+export const SET_CAMPAIGN_CURRENT_METRICS = 'SET_CAMPAIGN_CURRENT_METRICS';
 export const SET_USER_CAMPAIGN_JOIN = 'SET_USER_CAMPAIGN_JOIN';
 
 export function campaignListReducer(state = defaultCampaigns, action) {
@@ -31,6 +33,11 @@ export function campaignListReducer(state = defaultCampaigns, action) {
       return {
         ...state,
         all_campaigns: defaultCampaigns.all_campaigns
+      };
+    case SET_CAMPAIGN_CURRENT_METRICS:
+      return {
+        ...state,
+        current_campaign_metrics: payload
       };
     default:
       return state;

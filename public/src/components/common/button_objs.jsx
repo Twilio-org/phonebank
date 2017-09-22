@@ -89,14 +89,14 @@ export default {
         key: 1,
         text: () => 'Call Page',
         size: 'xsmall',
-        style: 'primary',
+        style: 'success',
         handler: () => {}
       },
       {
         key: 2,
         text: () => 'Campaign Stats',
         size: 'xsmall',
-        style: 'success',
+        style: 'info',
         handler: () => {
           history.push(`/admin/${page.toLowerCase()}s/${id}`);
         }
@@ -105,18 +105,16 @@ export default {
         key: 3,
         text: () => 'Release Calls',
         size: 'xsmall',
-        style: 'default',
+        style: 'warning',
         hanlder: () => {}
       },
       {
         key: 4,
-        text: () => 'Edit',
+        text: () => 'View',
         size: 'xsmall',
-        style: 'info',
+        style: 'primary',
         handler: () => {
-          // const { id } = item;
-          // props.handleClick(item);
-          // history.push(`/admin/${page.toLowerCase()}s/${id}/edit`);
+          history.push(`/admin/${page.toLowerCase()}s/${id}/view`);
         }
       },
       {
