@@ -53,6 +53,7 @@ export default class JoinedCampaigns extends Component {
               <CurrentCampaign
                 history={history}
                 userId={userId}
+                list={joined_campaigns}
                 currentCampaign={current_campaign}
                 defaultMsg={joined_campaigns && joined_campaigns.length > 0 ?
                               'Select a campaign' :
