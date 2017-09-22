@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, OverlayTrigger, Popover } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 const CurrentCampaign = (props) => {
