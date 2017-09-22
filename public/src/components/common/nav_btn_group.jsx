@@ -38,7 +38,7 @@ export default class DashboardButtonGroup extends Component {
   render() {
     const pathname = this.props.history.location ? this.props.history.location.pathname : '';
     return (
-      <div>
+      <div id={'dashboard-button-group'}>
         {this.props.is_admin ? (
           <ButtonGroup>
             <Button type="button" onClick={this.handleCampaignsClick}>All Campaigns</Button>
