@@ -8,6 +8,7 @@ const CurrentCampaign = (props) => {
           defaultMsg,
           history,
           userId,
+          list,
           initiateTwilioCall } = props;
   const currentCampaignIsEmpty = _.isEmpty(currentCampaign);
   if (currentCampaignIsEmpty) {
@@ -22,7 +23,7 @@ const CurrentCampaign = (props) => {
     initiateTwilioCall(userId, campaignId);
     history.push(`/volunteers/campaigns/${campaignId}/calls`);
   };
-  const { description, status, title, id: campaignId } = currentCampaign;
+  const { description, title, id: campaignId } = currentCampaign;
 
   const popover = (
     <Popover id="popover-trigger-hover-focus">
@@ -31,6 +32,12 @@ const CurrentCampaign = (props) => {
     </Popover>
   );
 
+  const getStatus = () => {
+    const { id } = currentCampaign;
+    const active = list.filter(campaign => campaign.id === parseInt(id, 10))[0];
+    return active.status;
+  };
+
 
   return (
     <div id={campaignId}>
@@ -38,7 +45,7 @@ const CurrentCampaign = (props) => {
       <hr />
       <p className="lead">{description}</p>
       <OverlayTrigger trigger={['hover', 'focus']} placement="right" overlay={popover}>
-        <Button onClick={handleClick} bsStyle="primary" disabled={status !== 'active'}>
+        <Button onClick={handleClick} bsStyle="primary" disabled={getStatus() !== 'active'}>
           <i className="material-icons small">phone_in_talk</i> Start Calling
         </Button>
       </OverlayTrigger>
