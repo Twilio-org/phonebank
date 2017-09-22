@@ -41,7 +41,6 @@ describe('<JoinedCampaigns />', () => {
     });
     it('Should call the fetchCampaignsByUser action on mount', () => {
       mount(<JoinedCampaigns {...props} />);
-      console.log('id in joined campaigns test is: ', props.id);
       expect(props.fetchCampaignsByUser).toHaveBeenCalled();
     });
   });
