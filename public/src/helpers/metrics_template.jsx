@@ -5,17 +5,28 @@ const chartTemplate = {
   datasets: [{
     label: '',
     data: [],
-    backgroundColor: []
+    backgroundColor: [],
+    borderColor: [],
+    borderWidth: 1
   }]
 };
 
-const colorArrayHex = [
-  '#e6194b', '#3cb44b', '#ffe119',
-  '#0082c8', '#f58231', '#911eb4',
-  '#fabebe', '#008080', '#e6beff',
-  '#aa6e28', '#fffac8', '#800000',
-  '#aaffc3', '#808000', '#ffd8b1',
-  '#000080', '#808080', '#000000'
+const colorArrayRGBAOpaque = [
+  'rgba(230, 25, 75, 0.25)', 'rgba(60, 180, 75, 0.25)', 'rgba(255, 225, 25, 0.25)',
+  'rgba(0, 130, 200, 0.25)', 'rgba(245, 130, 49, 0.25)', 'rgba(145, 30, 180, 0.25)',
+  'rgba(250, 190, 190, 0.25)', 'rgba(0, 128, 128, 0.25)', 'rgba(230, 190, 255, 0.25)',
+  'rgba(170, 110, 40, 0.25)', 'rgba(255, 250, 200, 0.25)', 'rgba(128, 0, 0, 0.25)',
+  'rgba(170, 255, 195, 0.25)', 'rgba(128, 128, 0, 0.25)', 'rgba(255, 216, 177, 0.25)',
+  'rgba(0, 0, 128, 0.25)', 'rgba(128, 128, 128, 0.25)', 'rgba(0, 0, 0, 0.25)'
+];
+
+const colorArrayRGBASolid = [
+  'rgba(230, 25, 75, 1)', 'rgba(60, 180, 75, 1)', 'rgba(255, 225, 25, 1)',
+  'rgba(0, 130, 200, 1)', 'rgba(245, 130, 49, 1)', 'rgba(145, 30, 180, 1)',
+  'rgba(250, 190, 190, 1)', 'rgba(0, 128, 128, 1)', 'rgba(230, 190, 255, 1)',
+  'rgba(170, 110, 40, 1)', 'rgba(255, 250, 200, 1)', 'rgba(128, 0, 0, 1)',
+  'rgba(170, 255, 195, 1)', 'rgba(128, 128, 0, 1)', 'rgba(255, 216, 177, 1)',
+  'rgba(0, 0, 128, 1)', 'rgba(128, 128, 128, 1)', 'rgba(0, 0, 0, 1)'
 ];
 
 export const chartOptions = {
@@ -73,11 +84,13 @@ function formatResponse(response) {
   const answerTemplate = _.cloneDeep(chartTemplate);
   const responseLabels = Object.keys(response);
   const responseFreq = responseLabels.map(answer => response[answer]);
-  const barColor = colorArrayHex.slice(0, responseLabels.length);
+  const barColor = colorArrayRGBAOpaque.slice(0, responseLabels.length);
+  const borderColor = colorArrayRGBASolid.slice(0, responseLabels.length);
   answerTemplate.labels = responseLabels;
   answerTemplate.datasets[0].data = responseFreq;
   answerTemplate.datasets[0].label = '[insert question title]';
   answerTemplate.datasets[0].backgroundColor = barColor;
+  answerTemplate.datasets[0].borderColor = borderColor;
   return answerTemplate;
 }
 
@@ -102,7 +115,7 @@ export function outcomeDataFormat(outcomeData) {
     LEFT_MSG,
     INCOMPLETE
   ];
-  outcomeTemplate.datasets[0].backgroundColor = colorArrayHex.slice();
+  outcomeTemplate.datasets[0].backgroundColor = colorArrayRGBASolid.slice(0, outcomeKeys.length);
   return outcomeTemplate;
 }
 
@@ -113,7 +126,7 @@ export function statusDataFormat(statusData) {
   statusTemplate.labels = ['AVAILABLE', 'ASSIGNED', 'IN PROGRESS', 'HUNG UP', 'ATTEMPTED'];
   statusTemplate.datasets[0].label = 'Call Status Distribution';
   statusTemplate.datasets[0].data = [AVAILABLE, ASSIGNED, IN_PROGRESS, HUNG_UP, ATTEMPTED];
-  statusTemplate.datasets[0].backgroundColor = colorArrayHex.slice(0, statusKeys.length);
+  statusTemplate.datasets[0].backgroundColor = colorArrayRGBASolid.slice(0, statusKeys.length);
   return statusTemplate;
 }
 
