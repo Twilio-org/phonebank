@@ -62,7 +62,7 @@ function capitalizeFirstLetter(string) {
 }
 
 export function renderDropdown(field) {
-  const className = `row form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
+  const className = `form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''}`;
   return (
     <div className={className}>
       <label htmlFor={`dropdown-basic-${field.id}`}>{field.label}</label>
