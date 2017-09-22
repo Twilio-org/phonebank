@@ -14,7 +14,7 @@ const CurrentCampaign = (props) => {
   if (currentCampaignIsEmpty) {
     return (
       <div id="join-campaign-message">
-        <Link className="lead" to={'/volunteers/campaigns/all'}>{defaultMsg}</Link>
+        <p className="lead" to={'/volunteers/campaigns/all'}>{defaultMsg}</p>
       </div>
     );
   }
