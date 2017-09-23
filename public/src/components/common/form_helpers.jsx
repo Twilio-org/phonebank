@@ -62,7 +62,6 @@ function capitalizeFirstLetter(string) {
 }
 
 export function renderDropdown(field) {
-  console.log('THIS IS THE DROPDOWN', field.meta);
   const className = `form-group ${field.meta.visited && field.meta.error ? 'has-error' : ''}`;
   return (
     <div className={className}>
