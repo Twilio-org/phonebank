@@ -11,7 +11,7 @@ export default class ContactListForm extends Component {
       type: 'text',
       label: 'Name',
       name: 'name',
-      placeholder: 'e.g. South Berkley Call List'
+      placeholder: 'e.g. South Berkeley Call List'
     };
     const uploadFieldProps = {
       id: 'file-upload',
