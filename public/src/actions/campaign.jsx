@@ -3,7 +3,9 @@ import { destroy } from 'redux-form';
 import { CLEAR_CAMPAIGNS,
          SET_CAMPAIGNS,
          SET_CAMPAIGN_CURRENT,
-         SET_USER_CAMPAIGN_JOIN } from '../reducers/campaign';
+         SET_USER_CAMPAIGN_JOIN,
+         SET_CAMPAIGN_CURRENT_METRICS } from '../reducers/campaign';
+import { fetchScript, fetchScriptQuestions } from './admin_scripts';
 
 export function setCampaignsList(campaignsList) {
   return {
@@ -31,6 +33,14 @@ export function setUserCampaignJoin(response) {
     payload: !!response
   };
 }
+
+export function setCurrentCampaignMetrics(campaignMetricsObj) {
+  return {
+    type: SET_CAMPAIGN_CURRENT_METRICS,
+    payload: campaignMetricsObj
+  };
+}
+
 
 export function saveNewCampaign(campaignInfo, history) {
   const [{ name, title, description, script_id, contact_lists_id }, status] = campaignInfo;
@@ -104,4 +114,54 @@ export function fetchCampaignsByUser(userId, current_campaign) {
     };
     throw customError;
   });
+}
+
+export function fetchCampaign(id) {
+  return dispatch => axios.get(`/campaigns/${id}`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+    .then((res) => {
+      const { data: campaignData } = res;
+      dispatch(fetchScript(campaignData.script_id));
+      dispatch(fetchScriptQuestions(campaignData.script_id));
+      return dispatch(setCurrentCampaign(campaignData));
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error fetching campaign action fetchCampaign: ${err}`,
+        name: 'campaign info get request from view campaign component'
+      };
+      throw customError;
+    });
+}
+
+export function fetchCampaignMetrics(id) {
+  return dispatch => axios.get(`/campaigns/${id}/metrics`, {
+    headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+  })
+    .then((res) => {
+      const { data: campaignMetricsData } = res;
+      return dispatch(setCurrentCampaignMetrics(campaignMetricsData));
+    })
+    .catch((err) => {
+      const customError = {
+        message: `error fetching campaign metrics action fetchCampaignMetrics: ${err}`,
+        name: 'campaign metric get request from view campaign component'
+      };
+      throw customError;
+    });
+}
+
+export function updateCampaignStatus(campaignId, status, fetchAll = fetchCampaigns) {
+  const params = { status };
+  return dispatch => axios.put(`/campaigns/${campaignId}`, params,
+    {
+      headers: { Authorization: ` JWT ${localStorage.getItem('auth_token')}` }
+    }
+  )
+  .then((campaign) => {
+    dispatch(fetchAll());
+    return campaign;
+  })
+  .catch(err => console.log('error with campaign status update action: ', err));
 }

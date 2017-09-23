@@ -4,7 +4,7 @@ import { destroy } from 'redux-form';
 
 import { mockStore, exposeLocalStorageMock, checkObjectProps } from '../client_test_helpers';
 import fixtures from '../client_fixtures';
-import { saveNewCampaign, setCampaignsList, setJoinedCampaignsList, setCurrentCampaign, fetchCampaigns, fetchCampaignsByUser } from '../../../public/src/actions/campaign';
+import { saveNewCampaign, setCampaignsList, setJoinedCampaignsList, setCurrentCampaign, fetchCampaigns, fetchCampaignsByUser, updateCampaignStatus } from '../../../public/src/actions/campaign';
 
 exposeLocalStorageMock();
 
@@ -151,6 +151,28 @@ describe('campaign actions', () => {
               ]
             });
             expect(history.goBack).toHaveBeenCalled();
+          });
+      });
+    });
+  });
+  describe('updateCampaignStatus: ', () => {
+    mock = new MockAdapter(axios);
+
+    beforeEach(() => {
+      store = mockStore(initialState);
+      mock.onPut('/campaigns/1', { status: 'pause' }).reply(200, { status: 'pause' });
+    });
+    afterEach(() => {
+      mock.reset();
+    });
+    describe('axios PUT request: ', () => {
+      it('Update campaign status correctly: ', () => {
+        const fetchAll = jest.fn(() => ({ type: 'test' }));
+        return store.dispatch(updateCampaignStatus(1, 'pause', fetchAll))
+          .then((campaign) => {
+            expect(campaign.status).toEqual(200);
+            expect(campaign.data.status).toEqual('pause');
+            expect(fetchAll).toHaveBeenCalled();
           });
       });
     });
