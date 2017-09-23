@@ -18,8 +18,8 @@ describe('<CreateQuestion />', () => {
     it('should render <QuestionForm />', () => {
       expect(wrapper.find('QuestionForm').length).toBe(1);
     });
-    it('should render an <h1>', () => {
-      expect(wrapper.find('h1').length).toBe(1);
+    it('should render an PageHeader', () => {
+      expect(wrapper.find('PageHeader').length).toBe(1);
     });
   });
   describe('props', () => {
