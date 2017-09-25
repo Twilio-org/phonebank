@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { renderField } from './common/form_helpers';
 import { loginUser } from '../actions/login';
@@ -33,7 +33,10 @@ class LogInForm extends Component {
               component={renderField}
             />
           </div>
-          <button className="btn btn-primary" type="submit">Log In</button>
+          <div>
+            <button className="btn btn-primary" type="submit">Log In</button>
+            <Link className="register-link" to="/public/registration">Create an Account</Link>
+          </div>
         </form>
       </div>
     );
