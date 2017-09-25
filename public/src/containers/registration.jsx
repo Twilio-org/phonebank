@@ -19,45 +19,41 @@ class RegistrationForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div className="row">
-          <div className="col-md-6">
-            <Field
-              name="first_name"
-              label="First Name"
-              component={renderField}
-            />
-          </div>
-          <div className="col-md-6">
-            <Field
-              name="last_name"
-              label="Last Name"
-              component={renderField}
-            />
-          </div>
-        </div>
-        <Field
-          name="email"
-          label="Email"
-          component={renderField}
-        />
-        <Field
-          name="phone_number"
-          label="Phone Number"
-          component={renderField}
-        />
-        <Field
-          name="password"
-          label="Password"
-          component={renderField}
-        />
-        <Field
-          name="password_confirm"
-          label="Confirm Password"
-          component={renderField}
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+      <div className="login-reg-form">
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            name="first_name"
+            label="First Name"
+            component={renderField}
+          />
+          <Field
+            name="last_name"
+            label="Last Name"
+            component={renderField}
+          />
+          <Field
+            name="email"
+            label="Email"
+            component={renderField}
+          />
+          <Field
+            name="phone_number"
+            label="Phone Number"
+            component={renderField}
+          />
+          <Field
+            name="password"
+            label="Password"
+            component={renderField}
+          />
+          <Field
+            name="password_confirm"
+            label="Confirm Password"
+            component={renderField}
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     );
   }
 }
