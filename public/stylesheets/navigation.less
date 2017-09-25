@@ -1,10 +1,27 @@
 .navbar {
   margin-bottom: @navbar-margin-bottom;
+  border-radius: 0;
 }
 
 #navigation {
-    padding: 10px 30px;
-    float: right;
+  padding: 10px 30px;
+  float: right;
+  // Main Menu Button
+  #menu{
+    border: @menu-button-border;
+    background: @menu-button-bg;
+    &:before {
+      font-family: "Material Icons";
+      content: @menu-button-icon;
+      padding: 5px;
+      margin-right: 9px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+    .caret {
+      margin-left: 10px;
+    }
+  }
 }
 
 @media(max-width: 768px){

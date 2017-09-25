@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
+import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 
 class Navigation extends Component {
   constructor(props) {
@@ -30,11 +30,11 @@ class Navigation extends Component {
   }
   render() {
     return (
-      <ButtonToolbar>
-        <DropdownButton title={this.props.title ? this.props.title : ''} id="menu">
+      <Nav pullRight>
+        <NavDropdown title={this.props.title ? this.props.title : ''} id="menu">
           {this.renderLinks()}
-        </DropdownButton>
-      </ButtonToolbar>
+        </NavDropdown>
+      </Nav>
     );
   }
 }

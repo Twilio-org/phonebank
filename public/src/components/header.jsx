@@ -41,20 +41,25 @@ export default class Header extends Component {
       parent = '/public';
     }
     return (
-      <Navbar fluid>
+      <Navbar fluid inverse collapseOnSelect>
         <Row>
           <Col md={4}>
-            <Navbar.Brand>
-              <Link to={parent}>Phonebank</Link>
-            </Navbar.Brand>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <Link to={parent}>Phonebank</Link>
+              </Navbar.Brand>
+              <Navbar.Toggle />
+            </Navbar.Header>
           </Col>
           <Col md={4} id="navigation">
-            <Navigation
-              title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name}
-              links={this.getLinks(parent)}
-              logout={this.props.logout}
-              history={this.props.history}
-            />
+            <Navbar.Collapse>
+              <Navigation
+                title={!this.props.userId ? 'Menu' : this.props.userInfo.first_name}
+                links={this.getLinks(parent)}
+                logout={this.props.logout}
+                history={this.props.history}
+              />
+            </Navbar.Collapse>
           </Col>
         </Row>
       </Navbar>
