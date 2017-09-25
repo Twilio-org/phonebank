@@ -61,6 +61,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('style.css'),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/), // add more locales here if needed
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
