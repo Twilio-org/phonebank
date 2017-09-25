@@ -17,7 +17,8 @@ export default class CreateNewButton extends Component {
       <div>
         <Button
           type="button"
-          bsSize="xsmall"
+          bsSize="small"
+          bsStyle="primary"
           onClick={this.handleRedirectClick}
         >
           Create New {page}
