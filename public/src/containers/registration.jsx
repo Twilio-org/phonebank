@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { renderField } from '../components/common/form_helpers';
 import { registerNewUser } from '../actions/users';
@@ -51,7 +51,10 @@ class RegistrationForm extends Component {
             label="Confirm Password"
             component={renderField}
           />
-          <button type="submit">Sign Up</button>
+          <button className="btn btn-primary" type="submit">Sign Up</button>
+          <Link className="btn btn-default cancel" to={'/public/login'}>
+            Cancel
+          </Link>
         </form>
       </div>
     );
