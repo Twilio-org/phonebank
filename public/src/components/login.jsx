@@ -19,21 +19,23 @@ class LogInForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field
-            name="email"
-            label="email"
-            component={renderField}
-          />
-          <Field
-            name="password"
-            label="password"
-            component={renderField}
-          />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+      <div className="login-form">
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div>
+            <Field
+              name="email"
+              label="Email"
+              component={renderField}
+            />
+            <Field
+              name="password"
+              label="Password"
+              component={renderField}
+            />
+          </div>
+          <button className="btn btn-primary" type="submit">Log In</button>
+        </form>
+      </div>
     );
   }
 }
