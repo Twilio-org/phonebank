@@ -19,7 +19,7 @@ class LogInForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div className="login-form">
+      <div className="login-reg-form">
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div>
             <Field
