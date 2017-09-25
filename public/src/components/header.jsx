@@ -43,7 +43,7 @@ export default class Header extends Component {
     return (
       <Navbar fluid inverse collapseOnSelect>
         <Row>
-          <Col md={4}>
+          <Col md={8}>
             <Navbar.Header>
               <Navbar.Brand>
                 <Link to={parent}>Phonebank</Link>

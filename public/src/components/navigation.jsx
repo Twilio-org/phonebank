@@ -5,7 +5,6 @@ import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    // Bind
     this.logoutOnClick = this.logoutOnClick.bind(this);
     this.renderLinks = this.renderLinks.bind(this);
   }
@@ -13,7 +12,6 @@ class Navigation extends Component {
     const { history } = this.props;
     this.props.logout(history);
   }
-  // Render all current links
   renderLinks() {
     return (
       this.props.links.map((link) => {
