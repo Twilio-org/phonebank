@@ -4,13 +4,16 @@
 
 // Theme Colors
 @theme-color-1:             #f3f3f3; // Main Background Color (Light gray)
-@theme-color-2:             #67b7bf; // Accent Color (Blue)
-@theme-color-3:             #374051; // Base Color (Dark Blue)
+@theme-color-2:             #67b7bf; // Accent Color (Teal)
+@theme-color-3:             #48a3f3; // Accent Color (Blue)
+@theme-color-4:             #374051; // Base Color (Dark Gray)
+@theme-color-5:             #a46eab; // Purple
 
 // Theme Fonts
 @theme-font-1:              'Assistant', sans-serif;
+
 // Navigation
-@navbar-margin-bottom:      0;
+@logo-font-size:            15px;
 @menu-button-icon:          "person_outline";
 @menu-button-border:        none;
 @menu-button-bg:            none;
@@ -32,18 +35,19 @@
 // //
 // //## Gray and brand colors for use across Bootstrap.
 //
-// @gray-base:              #000;
-// @gray-darker:            lighten(@gray-base, 13.5%); // #222
-// @gray-dark:              lighten(@gray-base, 20%);   // #333
-// @gray:                   lighten(@gray-base, 33.5%); // #555
-// @gray-light:             lighten(@gray-base, 46.7%); // #777
-// @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
+@gray-base:              #000;
+@gray-darker:            lighten(@gray-base, 13.5%); // #222
+@gray-dark:              lighten(@gray-base, 20%);   // #333
+@gray:                   lighten(@gray-base, 33.5%); // #555
+@gray-light:             lighten(@gray-base, 46.7%); // #777
+@gray-lighter:           lighten(@gray-base, 93.5%); // #eee
+@white:                  #fff;
 
-@brand-primary:         @theme-color-2; // #337ab7
-@brand-success:         #5cb85c;
+@brand-primary:         @theme-color-3; // #337ab7
+@brand-success:         #4ba776;
 @brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+@brand-warning:         #ecb738;
+@brand-danger:          #d7384b;
 
 
 //================================ Scaffolding
@@ -128,7 +132,7 @@
 // //** Global color for active items (e.g., navs or dropdowns).
 // @component-active-color:    #fff;
 // //** Global background color for active items (e.g., navs or dropdowns).
-// @component-active-bg:       @brand-primary;
+@component-active-bg:       lighten(@theme-color-4, 20%);
 //
 // //** Width of the `border` for generating carets that indicate dropdowns.
 // @caret-width-base:          4px;
@@ -374,7 +378,7 @@
 
 // Basics of a navbar
 @navbar-height:                    60px;
-// @navbar-margin-bottom:             @line-height-computed;
+@navbar-margin-bottom:             0;
 // @navbar-border-radius:             @border-radius-base;
 // @navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
 // @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
@@ -407,11 +411,11 @@
 // //=== Inverted navbar
 // Reset inverted navbar basics
 @navbar-inverse-color:                      lighten(@gray-light, 15%);
-@navbar-inverse-bg:                         @theme-color-3;
+@navbar-inverse-bg:                         @theme-color-4;
 @navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
 
 // Inverted navbar links
-@navbar-inverse-link-color:                 lighten(@gray-light, 15%);
+@navbar-inverse-link-color:                 lighten(@gray-light, 35%);
 @navbar-inverse-link-hover-color:           #fff;
 @navbar-inverse-link-hover-bg:              transparent;
 @navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
@@ -420,7 +424,7 @@
 // @navbar-inverse-link-disabled-bg:           transparent;
 
 // Inverted navbar brand label
-@navbar-inverse-brand-color:                @navbar-inverse-link-color;
+@navbar-inverse-brand-color:                @white;
 @navbar-inverse-brand-hover-color:          #fff;
 @navbar-inverse-brand-hover-bg:             transparent;
 //

@@ -27,18 +27,24 @@ export default class JoinedCampaigns extends Component {
 
     return (
       <div>
-        <Banner
-          first_name={first_name}
-          last_name={last_name}
-          is_admin={is_admin}
-          history={history}
-          page={page}
-        />
-        <DashboardButtonGroup
-          is_admin={is_admin}
-          page={page}
-          history={history}
-        />
+        <Row className="banner-header">
+          <Col sm={4}>
+            <Banner
+              first_name={first_name}
+              last_name={last_name}
+              is_admin={is_admin}
+              history={history}
+              page={page}
+            />
+          </Col>
+          <Col sm={8}>
+            <DashboardButtonGroup
+              is_admin={is_admin}
+              page={page}
+              history={history}
+            />
+          </Col>
+        </Row>
         <section id={'joined-campaigns-content'}>
           <Row>
             <Col xs={5} md={4} lg={3}>

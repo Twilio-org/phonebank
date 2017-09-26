@@ -1,6 +1,11 @@
 .navbar {
-  margin-bottom: @navbar-margin-bottom;
   border-radius: 0;
+
+  .navbar-brand {
+    font-size: @logo-font-size;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+  }
 }
 
 #navigation {
@@ -19,11 +24,5 @@
     .caret {
       margin-left: 10px;
     }
-  }
-}
-
-@media(max-width: 768px){
-  #navigation{
-    float: inherit;
   }
 }
