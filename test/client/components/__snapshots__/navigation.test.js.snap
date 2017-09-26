@@ -31,14 +31,14 @@ exports[`<Navigation /> rendering renders correctly 1`] = `
       role="menu"
     >
       <li
-        active={undefined}
-        onKeyDown={[Function]}
-        onSelect={[Function]}
+        className=""
         role="presentation"
+        style={undefined}
       >
         <a
-          href="/registration"
+          href="#"
           onClick={[Function]}
+          onKeyDown={[Function]}
           role="menuitem"
           tabIndex="-1"
         >
@@ -46,14 +46,14 @@ exports[`<Navigation /> rendering renders correctly 1`] = `
         </a>
       </li>
       <li
-        active={undefined}
-        onKeyDown={[Function]}
-        onSelect={[Function]}
+        className=""
         role="presentation"
+        style={undefined}
       >
         <a
-          href="/login"
+          href="#"
           onClick={[Function]}
+          onKeyDown={[Function]}
           role="menuitem"
           tabIndex="-1"
         >

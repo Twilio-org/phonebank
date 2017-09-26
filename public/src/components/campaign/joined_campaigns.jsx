@@ -4,6 +4,7 @@ import SidebarList from './sidebar_list_view/sidebar_list';
 import CurrentCampaign from './sidebar_list_view/current_campaign';
 import DashboardButtonGroup from '../common/nav_btn_group';
 import Banner from '../common/welcome_banner';
+import Footer from '../footer';
 
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
@@ -70,6 +71,7 @@ export default class JoinedCampaigns extends Component {
             </Col>
           </Row>
         </section>
+        <Footer />
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 
 class Navigation extends Component {
@@ -13,15 +12,14 @@ class Navigation extends Component {
     this.props.logout(history);
   }
   renderLinks() {
+    const { history } = this.props;
     return (
       this.props.links.map((link) => {
         if (link.href === '/logout') {
           return <MenuItem key={link.title} onClick={this.logoutOnClick}>{link.title}</MenuItem>;
         }
         return (
-          <li role="presentation" key={link.title}>
-            <Link tabIndex="-1" role="menuitem" to={link.href}>{link.title}</Link>
-          </li>
+          <MenuItem key={link.title} onClick={() => history.push(link.href)}>{link.title}</MenuItem>
         );
       })
     );

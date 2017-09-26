@@ -84,14 +84,14 @@ exports[`<App /> rendering should render correctly 1`] = `
                   role="menu"
                 >
                   <li
-                    active={undefined}
-                    onKeyDown={[Function]}
-                    onSelect={[Function]}
+                    className=""
                     role="presentation"
+                    style={undefined}
                   >
                     <a
-                      href="/public/registration"
+                      href="#"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="menuitem"
                       tabIndex="-1"
                     >
@@ -99,14 +99,14 @@ exports[`<App /> rendering should render correctly 1`] = `
                     </a>
                   </li>
                   <li
-                    active={undefined}
-                    onKeyDown={[Function]}
-                    onSelect={[Function]}
+                    className=""
                     role="presentation"
+                    style={undefined}
                   >
                     <a
-                      href="/public/login"
+                      href="#"
                       onClick={[Function]}
+                      onKeyDown={[Function]}
                       role="menuitem"
                       tabIndex="-1"
                     >

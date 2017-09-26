@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import buttons_obj from '../common/button_objs';
 import TableListView from '../common/list_view';
 import tableHeaders from '../common/list_table_headers';
+import Footer from '../footer';
 
 const { campaigns: campaignHeaders } = tableHeaders;
 
@@ -54,6 +55,7 @@ export default class CampaignList extends Component {
             />
         ) : null
       }
+        {account_info.is_admin ? '' : <Footer /> }
       </div>
     );
   }

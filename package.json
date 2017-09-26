@@ -20,7 +20,10 @@
     "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+    }
   },
   "dependencies": {
     "axios": "^0.16.2",

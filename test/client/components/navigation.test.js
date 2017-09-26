@@ -51,8 +51,8 @@ describe('<Navigation />', () => {
     it('should render <NavDropdown />', () => {
       expect(wrapper.find('NavDropdown').length).toBe(1);
     });
-    it('should render <Link />', () => {
-      expect(wrapper.find('Link').length).toBeGreaterThan(1);
+    it('should render <MenuItem />', () => {
+      expect(wrapper.find('MenuItem').length).toBeGreaterThan(1);
     });
   });
 
