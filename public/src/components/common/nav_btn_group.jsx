@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
+const ADMIN_PATH = '/admin';
+const VOLUNTEERS_PATH = '/volunteers';
+const CAMPAIGNS_PATH = '/campaigns';
+const QUESTIONS_PATH = '/questions';
+const SCRIPTS_PATH = '/scripts';
+const CONTACT_LISTS_PATH = '/contactLists';
+const USERS_PATH = '/users';
+
 export default class DashboardButtonGroup extends Component {
   constructor(props) {
     super(props);
@@ -14,25 +22,25 @@ export default class DashboardButtonGroup extends Component {
   }
 
   handleQuestionsClick() {
-    this.props.history.push('/admin/questions');
+    this.props.history.push(ADMIN_PATH + QUESTIONS_PATH);
   }
   handleCampaignsClick() {
-    this.props.history.push('/admin/campaigns');
+    this.props.history.push(ADMIN_PATH + CAMPAIGNS_PATH);
   }
   handleScriptsClick() {
-    this.props.history.push('/admin/scripts');
+    this.props.history.push(ADMIN_PATH + SCRIPTS_PATH);
   }
   handleContactListsClick() {
-    this.props.history.push('/admin/contactLists');
+    this.props.history.push(ADMIN_PATH + CONTACT_LISTS_PATH);
   }
   handleAvailCampaignsClick() {
-    this.props.history.push('/volunteers/campaigns/all');
+    this.props.history.push(`${VOLUNTEERS_PATH}${CAMPAIGNS_PATH}/all`);
   }
   handleJoinedCampaignsClick() {
-    this.props.history.push('/volunteers/campaigns');
+    this.props.history.push(VOLUNTEERS_PATH + CAMPAIGNS_PATH);
   }
   handleUsersClick() {
-    this.props.history.push('/admin/users');
+    this.props.history.push(ADMIN_PATH + USERS_PATH);
   }
 
   render() {
@@ -41,25 +49,55 @@ export default class DashboardButtonGroup extends Component {
       <div id={'dashboard-button-group'}>
         {this.props.is_admin ? (
           <ButtonGroup>
-            <Button type="button" onClick={this.handleCampaignsClick}>All Campaigns</Button>
-            <Button type="button" onClick={this.handleScriptsClick}>All Scripts</Button>
-            <Button type="button" onClick={this.handleQuestionsClick}>All Questions</Button>
-            <Button type="button" onClick={this.handleContactListsClick}>All Contact Lists</Button>
-            <Button type="button" onClick={this.handleUsersClick}>All Users</Button>
+            <Button
+              type="button"
+              onClick={this.handleCampaignsClick}
+              className={pathname && pathname === `${ADMIN_PATH}${CAMPAIGNS_PATH}` ? 'active' : ''}
+            >
+              All Campaigns
+            </Button>
+            <Button
+              type="button"
+              onClick={this.handleScriptsClick}
+              className={pathname && pathname === `${ADMIN_PATH}${SCRIPTS_PATH}` ? 'active' : ''}
+            >
+              All Scripts
+            </Button>
+            <Button
+              type="button"
+              onClick={this.handleQuestionsClick}
+              className={pathname && pathname === `${ADMIN_PATH}${QUESTIONS_PATH}` ? 'active' : ''}
+            >
+              All Questions
+            </Button>
+            <Button
+              type="button"
+              onClick={this.handleContactListsClick}
+              className={pathname && pathname === `${ADMIN_PATH}${CONTACT_LISTS_PATH}` ? 'active' : ''}
+            >
+              All Contact Lists
+            </Button>
+            <Button
+              type="button"
+              onClick={this.handleUsersClick}
+              className={pathname && pathname === `${ADMIN_PATH}${USERS_PATH}` ? 'active' : ''}
+            >
+              All Users
+            </Button>
           </ButtonGroup>
         ) : (
           <ButtonGroup>
             <Button
               type="button"
               onClick={this.handleJoinedCampaignsClick}
-              className={pathname && pathname === '/volunteers/campaigns' ? 'active' : ''}
+              className={pathname && pathname === `${VOLUNTEERS_PATH}${CAMPAIGNS_PATH}` ? 'active' : ''}
             >
               My Campaigns
             </Button>
             <Button
               type="button"
               onClick={this.handleAvailCampaignsClick}
-              className={pathname && pathname === '/volunteers/campaigns/all' ? 'active' : ''}
+              className={pathname && pathname === `${VOLUNTEERS_PATH}${CAMPAIGNS_PATH}/all` ? 'active' : ''}
             >
               All Campaigns
             </Button>
