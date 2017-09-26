@@ -4,6 +4,11 @@ import { outcomeDataFormat, statusDataFormat, responsesDataFormat, getQuestionNa
 import CampaignDataVis from './outcome_status_dist';
 
 export default class ViewCampaign extends Component {
+  constructor(props) {
+    super(props);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
+    this.handleViewScriptClick = this.handleViewScriptClick.bind(this);
+  }
   componentDidMount() {
     if (this.props.admin_campaigns === undefined) {
       const { id } = this.props.match.params;
@@ -12,13 +17,24 @@ export default class ViewCampaign extends Component {
     }
   }
 
+  handleCancelClick() {
+    const { clearCurrentCampaignMetrics, history } = this.props;
+    history.goBack();
+    clearCurrentCampaignMetrics();
+  }
+
+  handleViewScriptClick() {
+    const { history, current_campaign } = this.props;
+    const { script_id } = current_campaign;
+    history.push({ pathname: `/admin/scripts/${script_id}` });
+  }
+
   render() {
     const { current_campaign,
             current_campaign_metrics,
             current_script,
-            current_questions,
-            history } = this.props;
-    const { name, title, status, description, script_id } = current_campaign;
+            current_questions } = this.props;
+    const { name, title, status, description } = current_campaign;
     const { name: scriptName } = current_script;
     const campaginId = current_campaign.id;
     let outcomeData;
@@ -48,13 +64,13 @@ export default class ViewCampaign extends Component {
             {current_script ? (<p>{scriptName}</p>) : null}
             <Button
               bsStyle="primary"
-              onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
+              onClick={this.handleViewScriptClick}
             >
               View Script
             </Button>
             <Button
               bsStyle="primary"
-              onClick={history.goBack}
+              onClick={this.handleCancelClick}
             >
               Cancel
             </Button>

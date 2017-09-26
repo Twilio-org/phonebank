@@ -4,7 +4,8 @@ import { CLEAR_CAMPAIGNS,
          SET_CAMPAIGNS,
          SET_CAMPAIGN_CURRENT,
          SET_USER_CAMPAIGN_JOIN,
-         SET_CAMPAIGN_CURRENT_METRICS } from '../reducers/campaign';
+         SET_CAMPAIGN_CURRENT_METRICS,
+         CLEAR_CAMPAIGN_METRICS } from '../reducers/campaign';
 import { fetchScript, fetchScriptQuestions } from './admin_scripts';
 
 export function setCampaignsList(campaignsList) {
@@ -38,6 +39,12 @@ export function setCurrentCampaignMetrics(campaignMetricsObj) {
   return {
     type: SET_CAMPAIGN_CURRENT_METRICS,
     payload: campaignMetricsObj
+  };
+}
+
+export function clearCurrentCampaignMetrics() {
+  return {
+    type: CLEAR_CAMPAIGN_METRICS
   };
 }
 
