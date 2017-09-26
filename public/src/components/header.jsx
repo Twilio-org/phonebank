@@ -38,7 +38,7 @@ export default class Header extends Component {
       parent = '/public';
     }
     return (
-      <Navbar fluid inverse collapseOnSelect fixed>
+      <Navbar fluid inverse collapseOnSelect>
         <Row>
           <Col md={8}>
             <Navbar.Header>
