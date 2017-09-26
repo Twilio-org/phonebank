@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
-import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
+import { outcomeDataFormat, statusDataFormat, responsesDataFormat, getQuestionNames } from '../../helpers/metrics_template';
+import CampaignDataVis from './outcome_status_dist';
 
 export default class ViewCampaign extends Component {
   componentDidMount() {
@@ -61,40 +61,14 @@ export default class ViewCampaign extends Component {
             <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
           </Col>
         </Row>
-        <Row>
-          <Col md="6">
-            <h3>Call Outcome Distribution</h3>
-            <Doughnut
-              data={outcomeData}
-              options={chartOptions.outcomeDoughnut}
-            />
-          </Col>
-          <Col md="6">
-            <h3>Call Status Distribution</h3>
-            <HorizontalBar
-              data={statusData}
-              options={chartOptions.statusBar}
-            />
-          </Col>
-        </Row>
-        <h3>Single Choice and Multi-select Responses Distribution</h3>
-        { (responsesData && responsesData.length) ?
-          (
-            <Row>
-              {responsesData.map((resp, index) =>
-                (
-                  <Col md="4" key={resp.formattedResponse.labels[0].concat(index)}>
-                    <h4>{questionNames[resp.id]}</h4>
-                    <Bar
-                      data={resp.formattedResponse}
-                      options={chartOptions.responseBar}
-                    />
-                  </Col>
-                )
-              )}
-            </Row>
-          ) : (<Row />)
-        }
+        {status && status !== 'draft' ? (
+          <CampaignDataVis
+            outcomeData={outcomeData}
+            statusData={statusData}
+            responsesData={responsesData}
+            questionNames={questionNames}
+          />
+          ) : (<div>Campaign still in draft, no stats available.</div>)}
       </div>
     );
   }
