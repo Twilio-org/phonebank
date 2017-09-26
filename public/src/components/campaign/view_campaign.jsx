@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
 import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
 
