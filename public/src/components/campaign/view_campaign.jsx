@@ -20,6 +20,7 @@ export default class ViewCampaign extends Component {
             history } = this.props;
     const { name, title, status, description, script_id } = current_campaign;
     const { name: scriptName } = current_script;
+    const campaginId = current_campaign.id;
     let outcomeData;
     let statusData;
     let responsesData;
@@ -57,6 +58,7 @@ export default class ViewCampaign extends Component {
             >
               Cancel
             </Button>
+            <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
           </Col>
         </Row>
         <Row>
