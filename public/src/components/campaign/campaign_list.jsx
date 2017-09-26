@@ -13,7 +13,8 @@ export default class CampaignList extends Component {
     this.volunteerJoinCampaignClick = this.volunteerJoinCampaignClick.bind(this);
   }
   componentDidMount() {
-    const status = this.props.account_info.is_admin ? '' : 'active';
+    const { is_admin: isAdmin } = this.props.account_info;
+    const status = isAdmin ? '' : 'active';
     this.props.fetchCampaigns(status);
   }
 

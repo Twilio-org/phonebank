@@ -10,6 +10,7 @@ export const SET_CAMPAIGNS = 'SET_CAMPAIGNS';
 export const SET_CAMPAIGN_CURRENT = 'SET_CAMPAIGN_CURRENT';
 export const SET_CAMPAIGN_CURRENT_METRICS = 'SET_CAMPAIGN_CURRENT_METRICS';
 export const SET_USER_CAMPAIGN_JOIN = 'SET_USER_CAMPAIGN_JOIN';
+export const CLEAR_CAMPAIGN_METRICS = 'CLEAR_CAMPAIGN_METRICS';
 
 export function campaignListReducer(state = defaultCampaigns, action) {
   const { type, payload } = action;
@@ -38,6 +39,11 @@ export function campaignListReducer(state = defaultCampaigns, action) {
       return {
         ...state,
         current_campaign_metrics: payload
+      };
+    case CLEAR_CAMPAIGN_METRICS:
+      return {
+        ...state,
+        current_campaign_metrics: defaultCampaigns.current_campaign_metrics
       };
     default:
       return state;
