@@ -79,7 +79,7 @@ export default class ViewCampaign extends Component {
             </ButtonToolbar>
           </Col>
         </Row>
-        {status && status !== 'draft' ? (
+        {(status && status !== 'draft') ? (
           <CampaignDataVis
             outcomeData={outcomeData}
             statusData={statusData}
