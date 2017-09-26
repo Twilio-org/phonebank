@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Row, Col, PageHeader } from 'react-bootstrap';
 import QuestionForm from './question_form';
 
 export default class CreateQuestion extends Component {
@@ -18,10 +19,12 @@ export default class CreateQuestion extends Component {
   render() {
     const storeProps = this.props;
     return (
-      <div>
-        <h1>Create a Question</h1>
-        <QuestionForm onSubmit={this.formSubmit} onCancel={this.formCancel} buttonText={'Create Question'} {...storeProps} />
-      </div>
+      <Row className="admin-form">
+        <Col xs={12} mdOffset={3} md={6}>
+          <PageHeader>Create a Question</PageHeader>
+          <QuestionForm onSubmit={this.formSubmit} onCancel={this.formCancel} buttonText={'Create Question'} {...storeProps} />
+        </Col>
+      </Row>
     );
   }
 }

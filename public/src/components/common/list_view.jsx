@@ -36,6 +36,15 @@ const TableListView = (props) => {
           history={history}
         />
       </div>
+      {is_admin &&
+        <div>
+          <CreateNewButton
+            history={history}
+            page={thisPage}
+            path={newPath}
+          />
+        </div>
+      }
       <Table responsive>
         {is_admin ? (
           <thead>
@@ -69,15 +78,6 @@ const TableListView = (props) => {
           }
         </tbody>
       </Table>
-      {is_admin &&
-        <div>
-          <CreateNewButton
-            history={history}
-            page={thisPage}
-            path={newPath}
-          />
-        </div>
-      }
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { Button, ButtonToolbar, PageHeader, Row, Col } from 'react-bootstrap';
-import { renderField, renderDropdown, renderTextArea } from '../common/form_helpers';
+import { renderDropdown } from '../common/form_helpers';
+import FieldGroup from '../common/form/field_group';
 
 export default class CampaignPage extends Component {
   constructor(props) {
@@ -46,78 +47,94 @@ export default class CampaignPage extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div>
-        <PageHeader>Add Campaign</PageHeader>
-        <form>
-          <Field
-            name="name"
-            label="Name (internal)"
-            component={renderField}
-          />
-          <Field
-            name="title"
-            label="Title (public)"
-            component={renderField}
-          />
-          <Row>
-            <Col xs={5}>
-              <Field
-                name="description"
-                label="Description"
-                component={renderTextArea}
-              />
-              {this.props.scripts ? (<Field
+      <Row className="admin-form">
+        <Col xs={12} mdOffset={3} md={6}>
+          <PageHeader>Add Campaign</PageHeader>
+          <form>
+            <Row>
+              <Col xs={12}>
+                <Field
+                  name="name"
+                  label="Name"
+                  helpText="Internal"
+                  placeholder="Name"
+                  component={FieldGroup}
+                />
+                <Field
+                  name="title"
+                  label="Title"
+                  helpText="Public"
+                  placeholder="Title"
+                  component={FieldGroup}
+                />
+                <Field
+                  name="description"
+                  label="Description"
+                  placeholder="Description"
+                  type="textarea"
+                  component={FieldGroup}
+                />
+              </Col>
+            </Row>
+            <Row>
+              {this.props.scripts ? (<Col md={4}><Field
                 name="script_id"
                 label="Script"
                 keyToUse="name"
                 component={renderDropdown}
                 options={this.props.scripts}
-              />) : null }
-              <Button
+              /></Col>) : null }
+              <Col md={8} className={'form-add-btn'}><Button
                 bsStyle="success"
                 onClick={this.handleCreateScript}
               >
                 Add Script
-              </Button>
-              {this.props.contact_lists ? (<Field
+              </Button></Col>
+            </Row>
+            <Row>
+              {this.props.contact_lists ? (<Col md={4}><Field
                 name="contact_lists_id"
                 label="Contact List"
                 keyToUse="name"
                 component={renderDropdown}
                 options={this.props.contact_lists}
-              />) : null }
-              <Button
+              /></Col>) : null }
+              <Col md={8} className={'form-add-btn'}><Button
                 bsStyle="success"
                 onClick={this.handleCreateContactList}
               >
                 Add Contact List
-              </Button>
-            </Col>
-          </Row>
-          <ButtonToolbar>
-            <Button
-              bsStyle="primary"
-              type="submit"
-              onClick={handleSubmit(this.saveDraft)}
-            >
-              Save as Draft
-            </Button>
-            <Button
-              bsStyle="primary"
-              type="submit"
-              onClick={handleSubmit(this.saveCampaign)}
-            >
-              Start Campaign
-            </Button>
-            <Button
-              bsStyle="primary"
-              onClick={this.cancelForm}
-            >
-              Cancel
-            </Button>
-          </ButtonToolbar>
-        </form>
-      </div>
+              </Button></Col>
+            </Row>
+            <hr />
+            <Row>
+              <Col xs={12}>
+                <ButtonToolbar>
+                  <Button
+                    bsStyle="warning"
+                    type="submit"
+                    onClick={handleSubmit(this.saveDraft)}
+                  >
+                    Save as Draft
+                  </Button>
+                  <Button
+                    bsStyle="primary"
+                    type="submit"
+                    onClick={handleSubmit(this.saveCampaign)}
+                  >
+                    Start Campaign
+                  </Button>
+                  <Button
+                    onClick={this.cancelForm}
+                  >
+                    Cancel
+                  </Button>
+                </ButtonToolbar>
+              </Col>
+            </Row>
+          </form>
+        </Col>
+      </Row>
     );
   }
 }

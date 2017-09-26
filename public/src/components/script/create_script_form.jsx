@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { Button, PageHeader, ButtonToolbar, Row, Col } from 'react-bootstrap';
 
-import { renderField, renderTextArea, renderDropdown } from '../common/form_helpers';
+import { renderDropdown } from '../common/form_helpers';
+import FieldGroup from '../common/form/field_group';
 
 export default class ScriptForm extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class ScriptForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleCreateQuestion = this.handleCreateQuestion.bind(this);
     this.renderDropdowns = this.renderDropdowns.bind(this);
+    this.cancelForm = this.cancelForm.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +38,12 @@ export default class ScriptForm extends Component {
     });
 
     this.props.postScript(script, questions, history);
+  }
+
+  cancelForm() {
+    const { history, destroy } = this.props;
+    destroy('CampaignPage');
+    history.goBack();
   }
 
   handleCreateQuestion() {
@@ -97,68 +105,56 @@ export default class ScriptForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <div>
-        <PageHeader>Create Script</PageHeader>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <Row>
-            <Col xs={6}>
-              <Field
-                name="name"
-                label="Name (internal)"
-                component={renderField}
-              />
-            </Col>
-            <Col xs={6}>
-              <br />
-              <p>This is the name that admin will see when selecting a script</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={6}>
-              <Field
-                name="description"
-                label="Description (public)"
-                component={renderTextArea}
-              />
-            </Col>
-            <Col xs={6}>
-              <br />
-              <p>Provides details on how to use the script.</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={6}>
-              <Field
-                name="body"
-                label="Body"
-                component={renderTextArea}
-              />
-            </Col>
-            <Col xs={6}>
-              <br />
-              <p>Script text that volunteer will read before asking questions.</p>
-            </Col>
-          </Row>
-          <PageHeader>Assign Script Questions</PageHeader>
-          {this.renderDropdowns()}
-          <Row>
-            <Col xs={4}>
-              <Button
-                bsStyle="success"
-                onClick={this.handleCreateQuestion}
-              >
-                Create New Question
-              </Button>
-            </Col>
-            <Col xs={6}>
-              <ButtonToolbar>
-                <Button bsStyle="primary" type="submit">Save Script</Button>
-                <Button>Cancel</Button>
-              </ButtonToolbar>
-            </Col>
-          </Row>
-        </form>
-      </div>
+      <Row className="admin-form">
+        <Col xs={12} mdOffset={3} md={6}>
+          <PageHeader>Create Script</PageHeader>
+          <form onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              name="name"
+              label="Name (Internal)"
+              placeholder="Name"
+              helpText="This is the name that admin will see when selecting a script"
+              component={FieldGroup}
+            />
+            <Field
+              name="description"
+              label="Description (Public)"
+              placeholder="Description"
+              helpText="Provides details on how to use the script."
+              type="textarea"
+              component={FieldGroup}
+            />
+            <Field
+              name="body"
+              label="Body"
+              placeholder="Body"
+              helpText="Script text that volunteer will read before asking questions."
+              type="textarea"
+              component={FieldGroup}
+            />
+            <h2>Assign Script Questions</h2>
+            <hr />
+            {this.renderDropdowns()}
+            <hr />
+            <Row>
+              <Col xs={4}>
+                <Button
+                  bsStyle="success"
+                  onClick={this.handleCreateQuestion}
+                >
+                  Create New Question
+                </Button>
+              </Col>
+              <Col xs={6}>
+                <ButtonToolbar>
+                  <Button bsStyle="primary" type="submit">Save Script</Button>
+                  <Button onClick={this.cancelForm}>Cancel</Button>
+                </ButtonToolbar>
+              </Col>
+            </Row>
+          </form>
+        </Col>
+      </Row>
     );
   }
 }

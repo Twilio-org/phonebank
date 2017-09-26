@@ -1,190 +1,200 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateQuestionContainer /> rendering renders correctly 1`] = `
-<div>
-  <h1>
-    Create a Question
-  </h1>
-  <form
-    onSubmit={[Function]}
+<div
+  className="admin-form row"
+>
+  <div
+    className="col-md-6 col-md-offset-3 col-xs-12"
   >
     <div
-      className="row"
+      className="page-header"
+    >
+      <h1>
+        Create a Question
+      </h1>
+    </div>
+    <form
+      onSubmit={[Function]}
     >
       <div
-        className="col-md-12"
+        className="row"
       >
         <div
-          className="row"
+          className="col-md-12"
         >
           <div
-            className="col-xs-8"
+            className="row"
           >
             <div
-              className="form-group"
+              className="col-xs-8"
             >
-              <label
-                className="control-label"
-                htmlFor={undefined}
+              <div
+                className="form-group"
               >
-                Title
-              </label>
-              <span
-                className="help-block"
-              >
-                For internal use.
-              </span>
-              <input
-                className="form-control"
-                id={undefined}
-                name="title"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onDragStart={[Function]}
-                onDrop={[Function]}
-                onFocus={[Function]}
-                placeholder="Title"
-                type="text"
-                value=""
-              />
+                <label
+                  className="control-label"
+                  htmlFor={undefined}
+                >
+                  Title
+                </label>
+                <span
+                  className="help-block"
+                >
+                  For internal use.
+                </span>
+                <input
+                  className="form-control"
+                  id={undefined}
+                  name="title"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onDragStart={[Function]}
+                  onDrop={[Function]}
+                  onFocus={[Function]}
+                  placeholder="Title"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="col-xs-4"
+            >
+              
             </div>
           </div>
           <div
-            className="col-xs-4"
-          >
-            
-          </div>
-        </div>
-        <div
-          className="row"
-        >
-          <div
-            className="col-xs-8"
+            className="row"
           >
             <div
-              className="form-group"
+              className="col-xs-8"
             >
-              <label
-                className="control-label"
-                htmlFor={undefined}
+              <div
+                className="form-group"
               >
-                Description
-              </label>
-              <span
-                className="help-block"
-              >
-                What the volunteers will see.
-              </span>
-              <textarea
-                className="form-control"
-                id={undefined}
-                name="description"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onDragStart={[Function]}
-                onDrop={[Function]}
-                onFocus={[Function]}
-                placeholder="Description"
-                type=""
-                value=""
-              />
+                <label
+                  className="control-label"
+                  htmlFor={undefined}
+                >
+                  Description
+                </label>
+                <span
+                  className="help-block"
+                >
+                  What the volunteers will see.
+                </span>
+                <textarea
+                  className="form-control"
+                  id={undefined}
+                  name="description"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onDragStart={[Function]}
+                  onDrop={[Function]}
+                  onFocus={[Function]}
+                  placeholder="Description"
+                  type=""
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="col-xs-4"
+            >
+              
             </div>
           </div>
           <div
-            className="col-xs-4"
-          >
-            
-          </div>
-        </div>
-        <div
-          className="row"
-        >
-          <div
-            className="col-xs-8"
+            className="row"
           >
             <div
-              className="form-group"
+              className="col-xs-8"
             >
-              <label
-                className="control-label"
-                htmlFor={undefined}
+              <div
+                className="form-group"
               >
-                Type
-              </label>
-              <select
-                className="form-control"
-                id={undefined}
-                name="type"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onDragStart={[Function]}
-                onDrop={[Function]}
-                onFocus={[Function]}
-                type={undefined}
-                value=""
-              >
-                <option
-                  hidden={true}
-                  value="select"
+                <label
+                  className="control-label"
+                  htmlFor={undefined}
                 >
-                  Select
-                </option>
-                <option
-                  id="paragraph"
-                  value="paragraph"
+                  Type
+                </label>
+                <select
+                  className="form-control"
+                  id={undefined}
+                  name="type"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onDragStart={[Function]}
+                  onDrop={[Function]}
+                  onFocus={[Function]}
+                  type={undefined}
+                  value=""
                 >
-                  Paragraph
-                </option>
-                <option
-                  id="singleselect"
-                  value="singleselect"
-                >
-                  Multiple Choice
-                </option>
-                <option
-                  id="multiselect"
-                  value="multiselect"
-                >
-                  Checkboxes
-                </option>
-              </select>
+                  <option
+                    hidden={true}
+                    value="select"
+                  >
+                    Select
+                  </option>
+                  <option
+                    id="paragraph"
+                    value="paragraph"
+                  >
+                    Paragraph
+                  </option>
+                  <option
+                    id="singleselect"
+                    value="singleselect"
+                  >
+                    Multiple Choice
+                  </option>
+                  <option
+                    id="multiselect"
+                    value="multiselect"
+                  >
+                    Checkboxes
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div
-            className="col-xs-4"
-          >
-            
+            <div
+              className="col-xs-4"
+            >
+              
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="row"
-    >
       <div
-        className="col-md-12"
-      />
-    </div>
-    <div
-      className="btn-toolbar"
-      role="toolbar"
-    >
-      <button
-        className="btn btn-primary"
-        disabled={false}
-        type="submit"
+        className="row"
       >
-        Create Question
-      </button>
-      <button
-        className="btn btn-default"
-        disabled={false}
-        onClick={[Function]}
-        type="button"
+        <div
+          className="col-md-12"
+        />
+      </div>
+      <div
+        className="btn-toolbar"
+        role="toolbar"
       >
-        Cancel
-      </button>
-    </div>
-  </form>
+        <button
+          className="btn btn-primary"
+          disabled={false}
+          type="submit"
+        >
+          Create Question
+        </button>
+        <button
+          className="btn btn-default"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 `;

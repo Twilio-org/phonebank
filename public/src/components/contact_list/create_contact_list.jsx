@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PageHeader } from 'react-bootstrap';
+import { Row, Col, PageHeader } from 'react-bootstrap';
 import ContactListForm from '../contact_list/contact_list_form';
 
 export default class CreateContactList extends Component {
@@ -25,15 +25,17 @@ export default class CreateContactList extends Component {
   render() {
     const storeProps = this.props;
     return (
-      <div>
-        <PageHeader>Upload a Contact List</PageHeader>
-        <ContactListForm
-          onSubmit={this.formSubmit}
-          onCancel={this.formCancel}
-          onClear={this.formClear}
-          {...storeProps}
-        />
-      </div>
+      <Row className="admin-form">
+        <Col xs={12} mdOffset={3} md={6}>
+          <PageHeader>Upload a Contact List</PageHeader>
+          <ContactListForm
+            onSubmit={this.formSubmit}
+            onCancel={this.formCancel}
+            onClear={this.formClear}
+            {...storeProps}
+          />
+        </Col>
+      </Row>
     );
   }
 }

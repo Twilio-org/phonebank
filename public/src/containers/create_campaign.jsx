@@ -7,6 +7,7 @@ import CampaignPage from '../components/campaign/campaign';
 import { saveNewCampaign } from '../actions/campaign';
 import { fetchAllContactLists } from '../actions/admin_contact_lists';
 import { fetchAllScripts } from '../actions/admin_scripts';
+import validate from '../helpers/campaign_validation';
 
 function mapStateToProps(state) {
   return {
@@ -19,6 +20,7 @@ function mapStateToProps(state) {
 export default withRouter(
   reduxForm({
     form: 'CampaignPage',
+    validate,
     destroyOnUnmount: false
   })(
     connect(mapStateToProps,

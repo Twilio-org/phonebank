@@ -46,34 +46,24 @@ describe('<CreateScriptForm />', () => {
       expect(numberOfFormElements).toEqual(1);
     });
 
-    it('should have one div element', () => {
-      const numberOfDivElements = wrapper.find('div').length;
-      expect(numberOfDivElements).toEqual(1);
-    });
-
-    it('should have two <PageHeader /> components', () => {
+    it('should have 1 <PageHeader /> components', () => {
       const numberOfPageHeaderComponents = wrapper.find('PageHeader').length;
-      expect(numberOfPageHeaderComponents).toEqual(2);
+      expect(numberOfPageHeaderComponents).toEqual(1);
     });
 
-    it('should have five <Row /> components', () => {
+    it('should have 3 <Row /> components', () => {
       const numberOfRowComponents = wrapper.find('Row').length;
-      expect(numberOfRowComponents).toEqual(5);
+      expect(numberOfRowComponents).toEqual(3);
     });
 
-    it('should have nine <Col /> components', () => {
+    it('should have 4 <Col /> components', () => {
       const numberOfColComponents = wrapper.find('Col').length;
-      expect(numberOfColComponents).toEqual(9);
+      expect(numberOfColComponents).toEqual(4);
     });
 
     it('should have eight <Field /> components', () => {
       const numberOfFieldComponents = wrapper.find('Field').length;
       expect(numberOfFieldComponents).toEqual(8);
-    });
-
-    it('should have three p elements', () => {
-      const numberOfPElements = wrapper.find('p').length;
-      expect(numberOfPElements).toEqual(3);
     });
 
     it('should have three button components', () => {
