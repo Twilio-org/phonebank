@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col, ButtonToolbar } from 'react-bootstrap';
 import { outcomeDataFormat, statusDataFormat, responsesDataFormat, getQuestionNames } from '../../helpers/metrics_template';
 import CampaignDataVis from './outcome_status_dist';
 
@@ -52,7 +52,7 @@ export default class ViewCampaign extends Component {
     return (
       <div>
         <Row>
-          <Col md="12">
+          <Col md={12}>
             <h1>{current_campaign ? name : null } Campaign Details</h1>
             <h4>Title:</h4>
             {current_campaign ? (<p>{title}</p>) : null}
@@ -62,19 +62,21 @@ export default class ViewCampaign extends Component {
             {current_campaign ? (<p>{description}</p>) : null}
             <h4>Script Name:</h4>
             {current_script ? (<p>{scriptName}</p>) : null}
-            <Button
-              bsStyle="primary"
-              onClick={this.handleViewScriptClick}
-            >
-              View Script
-            </Button>
-            <Button
-              bsStyle="primary"
-              onClick={this.handleCancelClick}
-            >
-              Cancel
-            </Button>
-            <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
+            <ButtonToolbar>
+              <Button
+                bsStyle="primary"
+                onClick={this.handleViewScriptClick}
+              >
+                View Script
+              </Button>
+              <Button
+                bsStyle="primary"
+                onClick={this.handleCancelClick}
+              >
+                Cancel
+              </Button>
+              <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
+            </ButtonToolbar>
           </Col>
         </Row>
         {status && status !== 'draft' ? (
@@ -84,7 +86,18 @@ export default class ViewCampaign extends Component {
             responsesData={responsesData}
             questionNames={questionNames}
           />
-          ) : (<div>Campaign still in draft, no stats available.</div>)}
+          ) : (
+            <Row>
+              <Col md={12}>
+                <div
+                  className="alert alert-warning"
+                  role="alert"
+                >
+                  Campaign still in draft, no stats available.
+                </div>
+              </Col>
+            </Row>
+          )}
       </div>
     );
   }

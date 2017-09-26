@@ -138,7 +138,7 @@ export function fetchCampaign(id) {
         message: `error fetching campaign action fetchCampaign: ${err}`,
         name: 'campaign info get request from view campaign component'
       };
-      throw customError;
+      console.log(customError);
     });
 }
 
@@ -155,7 +155,7 @@ export function fetchCampaignMetrics(id) {
         message: `error fetching campaign metrics action fetchCampaignMetrics: ${err}`,
         name: 'campaign metric get request from view campaign component'
       };
-      throw customError;
+      console.log(customError);
     });
 }
 
