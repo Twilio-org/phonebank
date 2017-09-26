@@ -4,7 +4,8 @@ import { CLEAR_CAMPAIGNS,
          SET_CAMPAIGNS,
          SET_CAMPAIGN_CURRENT,
          SET_USER_CAMPAIGN_JOIN,
-         SET_CAMPAIGN_CURRENT_METRICS } from '../reducers/campaign';
+         SET_CAMPAIGN_CURRENT_METRICS,
+         CLEAR_CAMPAIGN_METRICS } from '../reducers/campaign';
 import { fetchScript, fetchScriptQuestions } from './admin_scripts';
 
 export function setCampaignsList(campaignsList) {
@@ -38,6 +39,12 @@ export function setCurrentCampaignMetrics(campaignMetricsObj) {
   return {
     type: SET_CAMPAIGN_CURRENT_METRICS,
     payload: campaignMetricsObj
+  };
+}
+
+export function clearCurrentCampaignMetrics() {
+  return {
+    type: CLEAR_CAMPAIGN_METRICS
   };
 }
 
@@ -131,7 +138,7 @@ export function fetchCampaign(id) {
         message: `error fetching campaign action fetchCampaign: ${err}`,
         name: 'campaign info get request from view campaign component'
       };
-      throw customError;
+      console.log(customError);
     });
 }
 
@@ -148,7 +155,7 @@ export function fetchCampaignMetrics(id) {
         message: `error fetching campaign metrics action fetchCampaignMetrics: ${err}`,
         name: 'campaign metric get request from view campaign component'
       };
-      throw customError;
+      console.log(customError);
     });
 }
 

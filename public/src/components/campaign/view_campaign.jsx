@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Button, Row, Col } from 'react-bootstrap';
-import { Doughnut, Bar, HorizontalBar } from 'react-chartjs-2';
-import { outcomeDataFormat, statusDataFormat, responsesDataFormat, chartOptions, getQuestionNames } from '../../helpers/metrics_template';
+import { Button, Row, Col, ButtonToolbar } from 'react-bootstrap';
+import { outcomeDataFormat, statusDataFormat, responsesDataFormat, getQuestionNames } from '../../helpers/metrics_template';
+import CampaignDataVis from './outcome_status_dist';
 
 export default class ViewCampaign extends Component {
+  constructor(props) {
+    super(props);
+    this.handleCancelClick = this.handleCancelClick.bind(this);
+    this.handleViewScriptClick = this.handleViewScriptClick.bind(this);
+  }
   componentDidMount() {
     if (this.props.admin_campaigns === undefined) {
       const { id } = this.props.match.params;
@@ -12,13 +17,24 @@ export default class ViewCampaign extends Component {
     }
   }
 
+  handleCancelClick() {
+    const { clearCurrentCampaignMetrics, history } = this.props;
+    history.goBack();
+    clearCurrentCampaignMetrics();
+  }
+
+  handleViewScriptClick() {
+    const { history, current_campaign } = this.props;
+    const { script_id } = current_campaign;
+    history.push({ pathname: `/admin/scripts/${script_id}` });
+  }
+
   render() {
     const { current_campaign,
             current_campaign_metrics,
             current_script,
-            current_questions,
-            history } = this.props;
-    const { name, title, status, description, script_id } = current_campaign;
+            current_questions } = this.props;
+    const { name, title, status, description } = current_campaign;
     const { name: scriptName } = current_script;
     const campaginId = current_campaign.id;
     let outcomeData;
@@ -36,7 +52,7 @@ export default class ViewCampaign extends Component {
     return (
       <div>
         <Row>
-          <Col md="12">
+          <Col md={12}>
             <h1>{current_campaign ? name : null } Campaign Details</h1>
             <h4>Title:</h4>
             {current_campaign ? (<p>{title}</p>) : null}
@@ -46,55 +62,42 @@ export default class ViewCampaign extends Component {
             {current_campaign ? (<p>{description}</p>) : null}
             <h4>Script Name:</h4>
             {current_script ? (<p>{scriptName}</p>) : null}
-            <Button
-              bsStyle="primary"
-              onClick={() => { history.push({ pathname: `/admin/scripts/${script_id}` }); }}
-            >
-              View Script
-            </Button>
-            <Button
-              bsStyle="primary"
-              onClick={history.goBack}
-            >
-              Cancel
-            </Button>
-            <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
+            <ButtonToolbar>
+              <Button
+                bsStyle="primary"
+                onClick={this.handleViewScriptClick}
+              >
+                View Script
+              </Button>
+              <Button
+                bsStyle="primary"
+                onClick={this.handleCancelClick}
+              >
+                Cancel
+              </Button>
+              <a className="btn btn-primary" target="_blank" href={`/campaigns/${campaginId}/csv`}>Download CSV</a>
+            </ButtonToolbar>
           </Col>
         </Row>
-        <Row>
-          <Col md="6">
-            <h3>Call Outcome Distribution</h3>
-            <Doughnut
-              data={outcomeData}
-              options={chartOptions.outcomeDoughnut}
-            />
-          </Col>
-          <Col md="6">
-            <h3>Call Status Distribution</h3>
-            <HorizontalBar
-              data={statusData}
-              options={chartOptions.statusBar}
-            />
-          </Col>
-        </Row>
-        <h3>Single Choice and Multi-select Responses Distribution</h3>
-        { (responsesData && responsesData.length) ?
-          (
+        {(status && status !== 'draft') ? (
+          <CampaignDataVis
+            outcomeData={outcomeData}
+            statusData={statusData}
+            responsesData={responsesData}
+            questionNames={questionNames}
+          />
+          ) : (
             <Row>
-              {responsesData.map((resp, index) =>
-                (
-                  <Col md="4" key={resp.formattedResponse.labels[0].concat(index)}>
-                    <h4>{questionNames[resp.id]}</h4>
-                    <Bar
-                      data={resp.formattedResponse}
-                      options={chartOptions.responseBar}
-                    />
-                  </Col>
-                )
-              )}
+              <Col md={12}>
+                <div
+                  className="alert alert-warning"
+                  role="alert"
+                >
+                  Campaign still in draft, no stats available.
+                </div>
+              </Col>
             </Row>
-          ) : (<Row />)
-        }
+          )}
       </div>
     );
   }
