@@ -97,8 +97,10 @@ function formatResponse(rawResponse) {
 export function getQuestionNames(questions) {
   const questionNames = {};
   questions.forEach((question) => {
+    console.log('question: ', question)
     questionNames[question.id] = question.title;
   });
+  console.log('questionNAMES: ', questionNames);
   return questionNames;
 }
 

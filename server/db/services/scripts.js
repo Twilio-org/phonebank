@@ -62,5 +62,21 @@ export default {
         .orderByRaw('sequence_number asc');
     })
     .fetchAll({});
+  },
+
+  getScriptQuestions: (params) => {
+    const { id } = params;
+    return new Script({ id })
+      .fetch({ withRelated: ['questions'] })
+      .then((questions) => {
+        return questions;
+      })
+      .catch(err => console.log(err));
+    /*
+    return new Campaign({ id })
+      .fetch({ withRelated: ['calls.responses'] })
+      .then(campaign => campaign);
+  }
+    */
   }
 };

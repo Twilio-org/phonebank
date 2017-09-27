@@ -84,6 +84,7 @@ export function fetchScriptQuestions(id) {
   return dispatch => axios.get(`/scripts/${id}/scriptQuestions/`)
     .then((res) => {
       const { data: scriptQuestions } = res;
+      console.log('script questions:', scriptQuestions);
       return dispatch(setScriptQuestions(scriptQuestions));
     })
     .catch((err) => {

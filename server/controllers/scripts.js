@@ -113,13 +113,10 @@ export function addQuestionToScript(req, res, next) {
 export function getQuestionsByScriptId(req, res, next) {
   const { id } = req.params;
   const params = { id };
-
-  return scriptsService.getQuestionsByScriptId(params)
-    .then((questions) => {
-      if (questions) {
-        const { models } = questions;
-        // parsing
-        res.status(200).json(models);
+  return scriptsService.getScriptQuestions(params)
+    .then((model) => {
+      if (model) {
+        res.status(200).json(model.relations.questions);
       } else {
         next();
       }
