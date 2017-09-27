@@ -1,43 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Navigation /> rendering renders correctly 1`] = `
-<div
-  className="btn-toolbar"
-  role="toolbar"
+<ul
+  className="nav pull-right"
+  role={null}
 >
-  <div
-    className="dropdown btn-group"
+  <li
+    className="dropdown"
+    style={undefined}
   >
-    <button
+    <a
       aria-expanded={false}
       aria-haspopup={true}
-      className="dropdown-toggle btn btn-default"
-      disabled={false}
+      className="dropdown-toggle"
+      href="#"
       id="menu"
       onClick={[Function]}
       onKeyDown={[Function]}
       role="button"
-      type="button"
     >
       Menu
        
       <span
         className="caret"
       />
-    </button>
+    </a>
     <ul
       aria-labelledby="menu"
       className="dropdown-menu"
       role="menu"
     >
       <li
-        onKeyDown={[Function]}
-        onSelect={[Function]}
+        className=""
         role="presentation"
+        style={undefined}
       >
         <a
-          href="/registration"
+          href="#"
           onClick={[Function]}
+          onKeyDown={[Function]}
           role="menuitem"
           tabIndex="-1"
         >
@@ -45,13 +46,14 @@ exports[`<Navigation /> rendering renders correctly 1`] = `
         </a>
       </li>
       <li
-        onKeyDown={[Function]}
-        onSelect={[Function]}
+        className=""
         role="presentation"
+        style={undefined}
       >
         <a
-          href="/login"
+          href="#"
           onClick={[Function]}
+          onKeyDown={[Function]}
           role="menuitem"
           tabIndex="-1"
         >
@@ -59,6 +61,6 @@ exports[`<Navigation /> rendering renders correctly 1`] = `
         </a>
       </li>
     </ul>
-  </div>
-</div>
+  </li>
+</ul>
 `;

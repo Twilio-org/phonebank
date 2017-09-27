@@ -6,8 +6,8 @@ const DIST_DIR = path.resolve(__dirname, 'public/dist');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
-  filename: '[name].[contenthash].css'
-    // disable: process.env.NODE_ENV === "development"
+  filename: '[name].[contenthash].css',
+  disable: process.env.NODE_ENV === "development"
 });
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
   output: {
     path: `${DIST_DIR}/src/`,
     filename: 'bundle.js',
-    publicPath: '/public/'
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.js', '.jsx']

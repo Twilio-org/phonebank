@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Banner = (props) => {
-  const { first_name, last_name, is_admin, page } = props;
+  const { page, is_admin, first_name } = props;
   return (
-    <div>
-      <h2>Welcome, {first_name} {last_name} to the {is_admin ? 'Admin' : 'Volunteer'} {page}s Dashboard!</h2>
+    <div className={'welcome-banner'}>
+      <h2>{is_admin ? `${page}s` : `Welcome, ${first_name}!`}</h2>
     </div>
   );
 };

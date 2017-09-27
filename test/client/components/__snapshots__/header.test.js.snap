@@ -2,7 +2,7 @@
 
 exports[`<Header /> rendering renders correctly 1`] = `
 <nav
-  className="navbar navbar-default"
+  className="navbar navbar-inverse"
 >
   <div
     className="container-fluid"
@@ -11,79 +11,110 @@ exports[`<Header /> rendering renders correctly 1`] = `
       className="row"
     >
       <div
-        className="col-md-4"
+        className="col-md-8"
       >
-        <a
-          className="navbar-brand"
-          href="/public"
-          onClick={[Function]}
+        <div
+          className="navbar-header"
         >
-          Phonebank
-        </a>
+          <a
+            className="navbar-brand"
+            href="/public"
+            onClick={[Function]}
+          >
+            Phonebank
+          </a>
+          <button
+            className="navbar-toggle collapsed"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="sr-only"
+            >
+              Toggle navigation
+            </span>
+            <span
+              className="icon-bar"
+            />
+            <span
+              className="icon-bar"
+            />
+            <span
+              className="icon-bar"
+            />
+          </button>
+        </div>
       </div>
       <div
         className="col-md-4"
         id="navigation"
       >
         <div
-          className="btn-toolbar"
-          role="toolbar"
+          aria-expanded={null}
+          className="navbar-collapse collapse"
         >
-          <div
-            className="dropdown btn-group"
+          <ul
+            className="nav navbar-nav navbar-right"
+            role={null}
           >
-            <button
-              aria-expanded={false}
-              aria-haspopup={true}
-              className="dropdown-toggle btn btn-default"
-              disabled={false}
-              id="menu"
-              onClick={[Function]}
-              onKeyDown={[Function]}
-              role="button"
-              type="button"
+            <li
+              className="dropdown"
+              style={undefined}
             >
-              Menu
-               
-              <span
-                className="caret"
-              />
-            </button>
-            <ul
-              aria-labelledby="menu"
-              className="dropdown-menu"
-              role="menu"
-            >
-              <li
+              <a
+                aria-expanded={false}
+                aria-haspopup={true}
+                className="dropdown-toggle"
+                href="#"
+                id="menu"
+                onClick={[Function]}
                 onKeyDown={[Function]}
-                onSelect={[Function]}
-                role="presentation"
+                role="button"
               >
-                <a
-                  href="/public/registration"
-                  onClick={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  Register
-                </a>
-              </li>
-              <li
-                onKeyDown={[Function]}
-                onSelect={[Function]}
-                role="presentation"
+                Menu
+                 
+                <span
+                  className="caret"
+                />
+              </a>
+              <ul
+                aria-labelledby="menu"
+                className="dropdown-menu"
+                role="menu"
               >
-                <a
-                  href="/public/login"
-                  onClick={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
+                <li
+                  className=""
+                  role="presentation"
+                  style={undefined}
                 >
-                  Login
-                </a>
-              </li>
-            </ul>
-          </div>
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="menuitem"
+                    tabIndex="-1"
+                  >
+                    Register
+                  </a>
+                </li>
+                <li
+                  className=""
+                  role="presentation"
+                  style={undefined}
+                >
+                  <a
+                    href="#"
+                    onClick={[Function]}
+                    onKeyDown={[Function]}
+                    role="menuitem"
+                    tabIndex="-1"
+                  >
+                    Login
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

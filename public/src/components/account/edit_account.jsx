@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar, PageHeader } from 'react-bootstrap';
 
 import { updateUser } from '../../actions/users';
 
@@ -49,66 +49,40 @@ class EditAccountInfo extends Component {
     const { id } = this.props.auth;
     const { is_admin } = this.props.account_info;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div className="row">
-          <div className="col-md-6">
-            <Field
-              name="first_name"
-              label="First Name"
-              component={this.renderField}
-            />
-          </div>
-          <div className="col-md-6">
-            <Field
-              name="last_name"
-              label="Last Name"
-              component={this.renderField}
-            />
-          </div>
-        </div>
-        <Field
-          name="email"
-          label="Email"
-          component={this.renderField}
-        />
-        <Field
-          name="phone_number"
-          label="Phone Number"
-          component={this.renderField}
-        />
-        <ButtonToolbar>
-          <Button bsStyle="primary" type="submit">Update</Button>
-          <Link className="btn btn-default" to={is_admin ? `/admin/account/${id}` : `/volunteers/account/${id}`}>
-            Cancel
-          </Link>
-        </ButtonToolbar>
-      </form>
+      <div className="admin-form">
+        <PageHeader>Edit your Account</PageHeader>
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            name="first_name"
+            label="First Name"
+            component={this.renderField}
+          />
+          <Field
+            name="last_name"
+            label="Last Name"
+            component={this.renderField}
+          />
+          <Field
+            name="email"
+            label="Email"
+            component={this.renderField}
+          />
+          <Field
+            name="phone_number"
+            label="Phone Number"
+            component={this.renderField}
+          />
+          <ButtonToolbar>
+            <Button bsStyle="primary" type="submit">Update</Button>
+            <Link className="btn btn-default" to={is_admin ? `/admin/account/${id}` : `/volunteers/account/${id}`}>
+              Cancel
+            </Link>
+          </ButtonToolbar>
+        </form>
+      </div>
     );
   }
 }
-
-// EditAccountInfo.propTypes = {
-//   updateUser: PropTypes.func,
-//   handleSubmit: PropTypes.func,
-//   auth: PropTypes.obj,
-//   id: PropTypes.number,
-//   account_info: PropTypes.obj,
-//   history: PropTypes.obj
-// };
-
-// EditAccountInfo.defaultProps = {
-//   updateUser: () => 'meow',
-//   handleSubmit: () => 'meow',
-//   auth: { id: 1 },
-//   id: 1,
-//   account_info: {
-//     first_name: 'meow',
-//     last_name: 'meows',
-//     email: 'meow@meow.com',
-//     phone_number: '12342345'
-//   },
-//   history: { meow: 'meow' }
-// };
 
 function validate(values) {
   const errors = {};

@@ -1,14 +1,28 @@
 .navbar {
-  margin-bottom: @navbar-margin-bottom;
+  border-radius: 0;
+
+  .navbar-brand {
+    font-size: @logo-font-size;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+  }
 }
 
 #navigation {
-    padding: 10px 30px;
-    float: right;
-}
-
-@media(max-width: 768px){
-  #navigation{
-    float: inherit;
+  // Main Menu Button
+  #menu{
+    border: @menu-button-border;
+    background: @menu-button-bg;
+    &:before {
+      font-family: "Material Icons";
+      content: @menu-button-icon;
+      padding: 5px;
+      margin-right: 9px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+    .caret {
+      margin-left: 10px;
+    }
   }
 }

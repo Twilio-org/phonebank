@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import ListBtnGroup from './list_btngrp';
 
 const TableRow = (props) => {
@@ -17,7 +18,7 @@ const TableRow = (props) => {
         const [display, mapKey] = header;
         return (
           <td key={mapKey.concat(display[0], item.id)}>
-            {item[mapKey]}
+            { header[1] === 'created_at' || header[1] === 'updated_at' ? moment(item[mapKey]).format('MMM Do YYYY, h:mm a') : item[mapKey]}
           </td>
         );
       }) : ''}

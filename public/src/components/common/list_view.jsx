@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Row, Col } from 'react-bootstrap';
 
 import TableRow from './table_row';
 import DashboardButtonGroup from './nav_btn_group';
@@ -22,29 +22,31 @@ const TableListView = (props) => {
 
   return (
     <div>
-      <Banner
-        first_name={first_name}
-        last_name={last_name}
-        is_admin={is_admin}
-        history={history}
-        page={thisPage}
-      />
-      <div>
-        <DashboardButtonGroup
-          is_admin={is_admin}
-          page={thisPage.toLowerCase()}
-          history={history}
-        />
-      </div>
-      {is_admin &&
-        <div>
-          <CreateNewButton
+      <Row className="banner-header">
+        <Col sm={4}>
+          <Banner
+            first_name={first_name}
+            last_name={last_name}
+            is_admin={is_admin}
             history={history}
             page={thisPage}
-            path={newPath}
           />
-        </div>
-      }
+          {is_admin &&
+            <CreateNewButton
+              history={history}
+              page={thisPage}
+              path={newPath}
+            />
+          }
+        </Col>
+        <Col sm={8}>
+          <DashboardButtonGroup
+            is_admin={is_admin}
+            page={thisPage.toLowerCase()}
+            history={history}
+          />
+        </Col>
+      </Row>
       <Table responsive>
         {is_admin ? (
           <thead>

@@ -14,16 +14,15 @@ export default class CreateNewButton extends Component {
   render() {
     const { page } = this.props;
     return (
-      <div>
-        <Button
-          type="button"
-          bsSize="small"
-          bsStyle="primary"
-          onClick={this.handleRedirectClick}
-        >
-          Create New {page}
-        </Button>
-      </div>
+      <Button
+        type="button"
+        bsSize="small"
+        bsStyle="primary"
+        onClick={this.handleRedirectClick}
+        className="create-btn"
+      >
+        Create {page}
+      </Button>
     );
   }
 }
