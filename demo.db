@@ -1,0 +1,1091 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.4
+-- Dumped by pg_dump version 9.6.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: calls; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE calls (
+    id integer NOT NULL,
+    campaign_id integer NOT NULL,
+    contact_id integer NOT NULL,
+    attempt_num text DEFAULT '1'::text NOT NULL,
+    user_id integer,
+    status text DEFAULT 'AVAILABLE'::text NOT NULL,
+    outcome text DEFAULT 'PENDING'::text NOT NULL,
+    notes character varying(255),
+    call_sid character varying(34),
+    duration integer,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now(),
+    CONSTRAINT calls_attempt_num_check CHECK ((attempt_num = ANY (ARRAY['1'::text, '2'::text, '3'::text]))),
+    CONSTRAINT calls_outcome_check CHECK ((outcome = ANY (ARRAY['PENDING'::text, 'ANSWERED'::text, 'BAD_NUMBER'::text, 'DO_NOT_CALL'::text, 'LEFT_MSG'::text, 'NO_ANSWER'::text, 'INCOMPLETE'::text]))),
+    CONSTRAINT calls_status_check CHECK ((status = ANY (ARRAY['AVAILABLE'::text, 'ASSIGNED'::text, 'IN_PROGRESS'::text, 'HUNG_UP'::text, 'ATTEMPTED'::text])))
+);
+
+
+ALTER TABLE calls OWNER TO phonebank;
+
+--
+-- Name: calls_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE calls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE calls_id_seq OWNER TO phonebank;
+
+--
+-- Name: calls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE calls_id_seq OWNED BY calls.id;
+
+
+--
+-- Name: campaigns; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE campaigns (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    title character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    status text NOT NULL,
+    contact_lists_id integer NOT NULL,
+    script_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now(),
+    CONSTRAINT campaigns_status_check CHECK ((status = ANY (ARRAY['draft'::text, 'active'::text, 'pause'::text, 'completed'::text])))
+);
+
+
+ALTER TABLE campaigns OWNER TO phonebank;
+
+--
+-- Name: campaigns_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE campaigns_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE campaigns_id_seq OWNER TO phonebank;
+
+--
+-- Name: campaigns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
+
+
+--
+-- Name: campaigns_users; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE campaigns_users (
+    id integer NOT NULL,
+    campaign_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE campaigns_users OWNER TO phonebank;
+
+--
+-- Name: campaigns_users_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE campaigns_users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE campaigns_users_id_seq OWNER TO phonebank;
+
+--
+-- Name: campaigns_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE campaigns_users_id_seq OWNED BY campaigns_users.id;
+
+
+--
+-- Name: contact_lists; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE contact_lists (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE contact_lists OWNER TO phonebank;
+
+--
+-- Name: contact_lists_contacts; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE contact_lists_contacts (
+    id integer NOT NULL,
+    contact_id integer NOT NULL,
+    contact_list_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE contact_lists_contacts OWNER TO phonebank;
+
+--
+-- Name: contact_lists_contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE contact_lists_contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contact_lists_contacts_id_seq OWNER TO phonebank;
+
+--
+-- Name: contact_lists_contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE contact_lists_contacts_id_seq OWNED BY contact_lists_contacts.id;
+
+
+--
+-- Name: contact_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE contact_lists_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contact_lists_id_seq OWNER TO phonebank;
+
+--
+-- Name: contact_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE contact_lists_id_seq OWNED BY contact_lists.id;
+
+
+--
+-- Name: contacts; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE contacts (
+    id integer NOT NULL,
+    external_id character varying(255),
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255),
+    email character varying(255),
+    phone_number character varying(255) NOT NULL,
+    is_invalid_number boolean DEFAULT false,
+    do_not_call boolean DEFAULT false,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE contacts OWNER TO phonebank;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE contacts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE contacts_id_seq OWNER TO phonebank;
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE contacts_id_seq OWNED BY contacts.id;
+
+
+--
+-- Name: questions; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE questions (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    description text NOT NULL,
+    type text NOT NULL,
+    responses text NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now(),
+    CONSTRAINT questions_type_check CHECK ((type = ANY (ARRAY['multiselect'::text, 'singleselect'::text, 'paragraph'::text])))
+);
+
+
+ALTER TABLE questions OWNER TO phonebank;
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE questions_id_seq OWNER TO phonebank;
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE questions_id_seq OWNED BY questions.id;
+
+
+--
+-- Name: questions_scripts; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE questions_scripts (
+    id integer NOT NULL,
+    script_id integer NOT NULL,
+    question_id integer NOT NULL,
+    sequence_number integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE questions_scripts OWNER TO phonebank;
+
+--
+-- Name: questions_scripts_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE questions_scripts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE questions_scripts_id_seq OWNER TO phonebank;
+
+--
+-- Name: questions_scripts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE questions_scripts_id_seq OWNED BY questions_scripts.id;
+
+
+--
+-- Name: responses; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE responses (
+    id integer NOT NULL,
+    question_id integer NOT NULL,
+    call_id integer NOT NULL,
+    response character varying(255) NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE responses OWNER TO phonebank;
+
+--
+-- Name: responses_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE responses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE responses_id_seq OWNER TO phonebank;
+
+--
+-- Name: responses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE responses_id_seq OWNED BY responses.id;
+
+
+--
+-- Name: scripts; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE scripts (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    body text NOT NULL,
+    description text NOT NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE scripts OWNER TO phonebank;
+
+--
+-- Name: scripts_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE scripts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE scripts_id_seq OWNER TO phonebank;
+
+--
+-- Name: scripts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE scripts_id_seq OWNED BY scripts.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: phonebank
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    phone_number character varying(255) NOT NULL,
+    password_hash character varying(255) NOT NULL,
+    is_admin boolean DEFAULT false,
+    is_banned boolean DEFAULT false,
+    is_active boolean DEFAULT true,
+    call_sid character varying(34),
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE users OWNER TO phonebank;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: phonebank
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_id_seq OWNER TO phonebank;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phonebank
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- Name: calls id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls ALTER COLUMN id SET DEFAULT nextval('calls_id_seq'::regclass);
+
+
+--
+-- Name: campaigns id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
+
+
+--
+-- Name: campaigns_users id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns_users ALTER COLUMN id SET DEFAULT nextval('campaigns_users_id_seq'::regclass);
+
+
+--
+-- Name: contact_lists id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists ALTER COLUMN id SET DEFAULT nextval('contact_lists_id_seq'::regclass);
+
+
+--
+-- Name: contact_lists_contacts id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists_contacts ALTER COLUMN id SET DEFAULT nextval('contact_lists_contacts_id_seq'::regclass);
+
+
+--
+-- Name: contacts id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contacts ALTER COLUMN id SET DEFAULT nextval('contacts_id_seq'::regclass);
+
+
+--
+-- Name: questions id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions ALTER COLUMN id SET DEFAULT nextval('questions_id_seq'::regclass);
+
+
+--
+-- Name: questions_scripts id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions_scripts ALTER COLUMN id SET DEFAULT nextval('questions_scripts_id_seq'::regclass);
+
+
+--
+-- Name: responses id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY responses ALTER COLUMN id SET DEFAULT nextval('responses_id_seq'::regclass);
+
+
+--
+-- Name: scripts id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY scripts ALTER COLUMN id SET DEFAULT nextval('scripts_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- Data for Name: calls; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY calls (id, campaign_id, contact_id, attempt_num, user_id, status, outcome, notes, call_sid, duration, created_at, updated_at) FROM stdin;
+2	1	2	1	1	ATTEMPTED	ANSWERED	\N	CA8a29ce7f47b0a740b0801da6d5a35a71	20	2017-09-27 14:40:12.635347-07	2017-09-27 14:45:57.873-07
+4	1	5	1	1	ATTEMPTED	DO_NOT_CALL	\N	CAd8c4c3c3e79aa058ad4d6720bd9c9baf	9	2017-09-27 14:40:12.636637-07	2017-09-27 14:46:29.867-07
+5	1	3	1	1	ATTEMPTED	BAD_NUMBER	\N	\N	\N	2017-09-27 14:40:12.637223-07	2017-09-27 14:46:32.781-07
+6	1	6	1	1	ATTEMPTED	ANSWERED	\N	CA5b31a2f8970c8d6e9b74402e5319d152	36	2017-09-27 14:40:12.63767-07	2017-09-27 14:47:30.632-07
+7	1	7	1	1	ATTEMPTED	ANSWERED	\N	CA1f1809681873f55c2a4de5cfc41ff810	20	2017-09-27 14:40:12.63799-07	2017-09-27 14:48:11.578-07
+8	1	4	1	1	ATTEMPTED	DO_NOT_CALL	\N	CA0cafa78417b84ddc4df93b65ea28f6a7	5	2017-09-27 14:40:12.63831-07	2017-09-27 14:48:30.257-07
+9	1	9	1	1	ATTEMPTED	ANSWERED	\N	CA07c6174f8ce23f69a7755abfb7d520bd	18	2017-09-27 14:40:12.638737-07	2017-09-27 14:49:00.1-07
+10	1	10	1	1	ATTEMPTED	ANSWERED	\N	CA311f963f1e1ef70fad09fdc46c07d041	15	2017-09-27 14:40:12.639096-07	2017-09-27 14:49:27.783-07
+1	1	1	1	1	ATTEMPTED	NO_ANSWER	\N	\N	\N	2017-09-27 14:40:12.633918-07	2017-09-27 14:49:42.193-07
+11	1	1	2	1	ATTEMPTED	LEFT_MSG	\N	\N	\N	2017-09-27 14:49:42.199198-07	2017-09-27 14:49:58.136-07
+12	1	1	3	\N	AVAILABLE	PENDING	\N	\N	\N	2017-09-27 14:49:58.142347-07	2017-09-27 14:49:58.142347-07
+3	1	8	1	\N	AVAILABLE	PENDING	\N	\N	\N	2017-09-27 14:40:12.63605-07	2017-09-27 14:50:02.282-07
+\.
+
+
+--
+-- Name: calls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('calls_id_seq', 12, true);
+
+
+--
+-- Data for Name: campaigns; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY campaigns (id, name, title, description, status, contact_lists_id, script_id, created_at, updated_at) FROM stdin;
+1	Paws for Good	Paws for Good	This campaign collects feedback on the first Hatch & Twilio.org project.	active	1	1	2017-09-27 14:40:12.62-07	2017-09-27 14:40:12.62-07
+\.
+
+
+--
+-- Name: campaigns_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('campaigns_id_seq', 1, true);
+
+
+--
+-- Data for Name: campaigns_users; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY campaigns_users (id, campaign_id, user_id, created_at, updated_at) FROM stdin;
+1	1	1	2017-09-27 14:40:42.372478-07	2017-09-27 14:40:42.372478-07
+\.
+
+
+--
+-- Name: campaigns_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('campaigns_users_id_seq', 1, true);
+
+
+--
+-- Data for Name: contact_lists; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY contact_lists (id, name, created_at, updated_at) FROM stdin;
+1	Paws for Good	2017-09-27 14:40:02.382-07	2017-09-27 14:40:02.382-07
+\.
+
+
+--
+-- Data for Name: contact_lists_contacts; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY contact_lists_contacts (id, contact_id, contact_list_id, created_at, updated_at) FROM stdin;
+1	1	1	2017-09-27 14:40:02.43167-07	2017-09-27 14:40:02.43167-07
+2	2	1	2017-09-27 14:40:02.431936-07	2017-09-27 14:40:02.431936-07
+3	8	1	2017-09-27 14:40:02.434006-07	2017-09-27 14:40:02.434006-07
+4	5	1	2017-09-27 14:40:02.436539-07	2017-09-27 14:40:02.436539-07
+5	3	1	2017-09-27 14:40:02.437745-07	2017-09-27 14:40:02.437745-07
+6	6	1	2017-09-27 14:40:02.441338-07	2017-09-27 14:40:02.441338-07
+7	7	1	2017-09-27 14:40:02.441888-07	2017-09-27 14:40:02.441888-07
+8	4	1	2017-09-27 14:40:02.44245-07	2017-09-27 14:40:02.44245-07
+9	9	1	2017-09-27 14:40:02.444167-07	2017-09-27 14:40:02.444167-07
+10	10	1	2017-09-27 14:40:02.445451-07	2017-09-27 14:40:02.445451-07
+\.
+
+
+--
+-- Name: contact_lists_contacts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('contact_lists_contacts_id_seq', 10, true);
+
+
+--
+-- Name: contact_lists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('contact_lists_id_seq', 1, true);
+
+
+--
+-- Data for Name: contacts; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY contacts (id, external_id, first_name, last_name, email, phone_number, is_invalid_number, do_not_call, created_at, updated_at) FROM stdin;
+1	external_id_0	Sammy	Davis	email_0	+14237084575	f	f	2017-09-27 14:40:02.401-07	2017-09-27 14:40:02.401-07
+2	external_id_3	Tammy	Davis	email_3	+14237084575	f	f	2017-09-27 14:40:02.406-07	2017-09-27 14:40:02.406-07
+6	external_id_8	Lupita	Davila	email_8	+14237084575	f	f	2017-09-27 14:40:02.414-07	2017-09-27 14:40:02.414-07
+7	external_id_9	Pandy	Davis	email_9	+14237084575	f	f	2017-09-27 14:40:02.415-07	2017-09-27 14:40:02.415-07
+9	external_id_2	Josh	Levinger	email_2	+14237084575	f	f	2017-09-27 14:40:02.421-07	2017-09-27 14:40:02.421-07
+10	external_id_1	Erika	Balbuena	email_1	+14237084575	f	f	2017-09-27 14:40:02.421-07	2017-09-27 14:40:02.421-07
+8	external_id_6	Duy	Nguyen	email_6	+14086428264	f	f	2017-09-27 14:40:02.421-07	2017-09-27 14:40:02.421-07
+5	external_id_5	Sandy	Davis	email_5	+14237084575	f	t	2017-09-27 14:40:02.412-07	2017-09-27 14:46:29.873-07
+3	external_id_7	Handy	Davis	email_7	+14237084575	t	f	2017-09-27 14:40:02.412-07	2017-09-27 14:46:32.786-07
+4	external_id_4	Candy	Davis	email_4	+14237084575	f	t	2017-09-27 14:40:02.401-07	2017-09-27 14:48:30.263-07
+\.
+
+
+--
+-- Name: contacts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('contacts_id_seq', 10, true);
+
+
+--
+-- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY questions (id, title, description, type, responses, created_at, updated_at) FROM stdin;
+2	Trivia 1	How many civil rights, social action, and advocacy organizations are part of the Twilio.org community?	singleselect	35,461,107	2017-09-27 14:36:02.012-07	2017-09-27 14:36:02.012-07
+3	Trivia 2	Who received the first investment from the Twilio.org Impact Fund?	singleselect	Code 2040,Hustle,Lesbians Who Tech	2017-09-27 14:36:38.439-07	2017-09-27 14:36:38.439-07
+4	Other NonProfits	What is a non-profit you would like to see Twilio.Org work with in the future?	paragraph		2017-09-27 14:37:47.282-07	2017-09-27 14:37:47.282-07
+1	LaCroix	What are your favorite flavors of LaCroix?	multiselect	Lime,Pamplemousse,Passionfruit,Mango,Peach	2017-09-27 14:35:28.489-07	2017-09-27 14:35:28.489-07
+\.
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('questions_id_seq', 4, true);
+
+
+--
+-- Data for Name: questions_scripts; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY questions_scripts (id, script_id, question_id, sequence_number, created_at, updated_at) FROM stdin;
+1	1	2	2	2017-09-27 14:39:39.97933-07	2017-09-27 14:39:39.97933-07
+2	1	1	1	2017-09-27 14:39:39.978781-07	2017-09-27 14:39:39.978781-07
+3	1	3	3	2017-09-27 14:39:39.98318-07	2017-09-27 14:39:39.98318-07
+4	1	4	4	2017-09-27 14:39:39.984691-07	2017-09-27 14:39:39.984691-07
+\.
+
+
+--
+-- Name: questions_scripts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('questions_scripts_id_seq', 4, true);
+
+
+--
+-- Data for Name: responses; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY responses (id, question_id, call_id, response, created_at, updated_at) FROM stdin;
+1	1	2	Lime,Mango	2017-09-27 14:45:57.882091-07	2017-09-27 14:45:57.882091-07
+2	2	2	107	2017-09-27 14:45:57.882437-07	2017-09-27 14:45:57.882437-07
+3	3	2	Hustle	2017-09-27 14:45:57.882681-07	2017-09-27 14:45:57.882681-07
+4	4	2	ASPCA	2017-09-27 14:45:57.884673-07	2017-09-27 14:45:57.884673-07
+5	1	6	Pamplemousse,Passionfruit,Mango	2017-09-27 14:47:30.640805-07	2017-09-27 14:47:30.640805-07
+6	2	6	35	2017-09-27 14:47:30.641849-07	2017-09-27 14:47:30.641849-07
+7	3	6	Lesbians Who Tech	2017-09-27 14:47:30.644147-07	2017-09-27 14:47:30.644147-07
+8	4	6	LGBT Center	2017-09-27 14:47:30.645238-07	2017-09-27 14:47:30.645238-07
+11	3	7	Hustle	2017-09-27 14:48:11.585691-07	2017-09-27 14:48:11.585691-07
+9	2	7	35	2017-09-27 14:48:11.585516-07	2017-09-27 14:48:11.585516-07
+10	1	7	Peach	2017-09-27 14:48:11.58535-07	2017-09-27 14:48:11.58535-07
+12	4	7	Red Cross	2017-09-27 14:48:11.585909-07	2017-09-27 14:48:11.585909-07
+13	1	9	Pamplemousse	2017-09-27 14:49:00.104841-07	2017-09-27 14:49:00.104841-07
+14	2	9	107	2017-09-27 14:49:00.104919-07	2017-09-27 14:49:00.104919-07
+15	3	9	Hustle	2017-09-27 14:49:00.105151-07	2017-09-27 14:49:00.105151-07
+16	4	9	More Avaaz!	2017-09-27 14:49:00.105315-07	2017-09-27 14:49:00.105315-07
+17	1	10	Passionfruit	2017-09-27 14:49:27.788258-07	2017-09-27 14:49:27.788258-07
+18	2	10	107	2017-09-27 14:49:27.788379-07	2017-09-27 14:49:27.788379-07
+19	3	10	Hustle	2017-09-27 14:49:27.788512-07	2017-09-27 14:49:27.788512-07
+20	4	10	ALL OF THEM	2017-09-27 14:49:27.788709-07	2017-09-27 14:49:27.788709-07
+\.
+
+
+--
+-- Name: responses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('responses_id_seq', 20, true);
+
+
+--
+-- Data for Name: scripts; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY scripts (id, name, body, description, created_at, updated_at) FROM stdin;
+1	Paws for Good	Hello <contact name>,\n\nWe're collecting feedback on the inaugural Hatch and Twilio.org project. Do you have time to answer a few questions?	Read the script using the contact's name where specified.	2017-09-27 14:39:39.963-07	2017-09-27 14:39:39.963-07
+\.
+
+
+--
+-- Name: scripts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('scripts_id_seq', 1, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: phonebank
+--
+
+COPY users (id, email, first_name, last_name, phone_number, password_hash, is_admin, is_banned, is_active, call_sid, created_at, updated_at) FROM stdin;
+2	admin@foobar.com	Admin	Account	555-555-4838	$2a$12$Hlc9HcinWDGkLQ5XXDJkd.oEZUMcCCpu7xIrEKf8UaNpovhaAmmrS	t	f	t	\N	2017-09-27 14:33:11.236-07	2017-09-27 14:33:11.236-07
+1	jadzia@twilio.com	Jadzia	Thomas	+14237712171	$2a$12$Tyimrw4POL5cGwcDfQNr6.5OKLc0.Bzq9bNtRdTDoipqaljxbz56.	f	f	t	\N	2017-09-27 14:33:11.238-07	2017-09-27 14:50:02.73-07
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phonebank
+--
+
+SELECT pg_catalog.setval('users_id_seq', 2, true);
+
+
+--
+-- Name: calls calls_campaign_id_contact_id_attempt_num_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls
+    ADD CONSTRAINT calls_campaign_id_contact_id_attempt_num_unique UNIQUE (campaign_id, contact_id, attempt_num);
+
+
+--
+-- Name: calls calls_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls
+    ADD CONSTRAINT calls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: campaigns campaigns_name_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT campaigns_name_unique UNIQUE (name);
+
+
+--
+-- Name: campaigns campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: campaigns_users campaigns_users_campaign_id_user_id_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns_users
+    ADD CONSTRAINT campaigns_users_campaign_id_user_id_unique UNIQUE (campaign_id, user_id);
+
+
+--
+-- Name: campaigns_users campaigns_users_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns_users
+    ADD CONSTRAINT campaigns_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_lists_contacts contact_lists_contacts_contact_id_contact_list_id_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists_contacts
+    ADD CONSTRAINT contact_lists_contacts_contact_id_contact_list_id_unique UNIQUE (contact_id, contact_list_id);
+
+
+--
+-- Name: contact_lists_contacts contact_lists_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists_contacts
+    ADD CONSTRAINT contact_lists_contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contact_lists contact_lists_name_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists
+    ADD CONSTRAINT contact_lists_name_unique UNIQUE (name);
+
+
+--
+-- Name: contact_lists contact_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists
+    ADD CONSTRAINT contact_lists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contacts contacts_first_name_phone_number_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_first_name_phone_number_unique UNIQUE (first_name, phone_number);
+
+
+--
+-- Name: contacts contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contacts
+    ADD CONSTRAINT contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions questions_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_scripts questions_scripts_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions_scripts
+    ADD CONSTRAINT questions_scripts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions_scripts questions_scripts_script_id_question_id_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions_scripts
+    ADD CONSTRAINT questions_scripts_script_id_question_id_unique UNIQUE (script_id, question_id);
+
+
+--
+-- Name: questions questions_title_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions
+    ADD CONSTRAINT questions_title_unique UNIQUE (title);
+
+
+--
+-- Name: responses responses_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY responses
+    ADD CONSTRAINT responses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: responses responses_question_id_call_id_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY responses
+    ADD CONSTRAINT responses_question_id_call_id_unique UNIQUE (question_id, call_id);
+
+
+--
+-- Name: scripts scripts_name_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY scripts
+    ADD CONSTRAINT scripts_name_unique UNIQUE (name);
+
+
+--
+-- Name: scripts scripts_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY scripts
+    ADD CONSTRAINT scripts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_unique; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_email_unique UNIQUE (email);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: campaigns_name_index; Type: INDEX; Schema: public; Owner: phonebank
+--
+
+CREATE INDEX campaigns_name_index ON campaigns USING btree (name);
+
+
+--
+-- Name: questions_description_index; Type: INDEX; Schema: public; Owner: phonebank
+--
+
+CREATE INDEX questions_description_index ON questions USING btree (description);
+
+
+--
+-- Name: questions_title_index; Type: INDEX; Schema: public; Owner: phonebank
+--
+
+CREATE INDEX questions_title_index ON questions USING btree (title);
+
+
+--
+-- Name: scripts_name_index; Type: INDEX; Schema: public; Owner: phonebank
+--
+
+CREATE INDEX scripts_name_index ON scripts USING btree (name);
+
+
+--
+-- Name: users_email_index; Type: INDEX; Schema: public; Owner: phonebank
+--
+
+CREATE INDEX users_email_index ON users USING btree (email);
+
+
+--
+-- Name: calls calls_campaign_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls
+    ADD CONSTRAINT calls_campaign_id_foreign FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
+-- Name: calls calls_contact_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls
+    ADD CONSTRAINT calls_contact_id_foreign FOREIGN KEY (contact_id) REFERENCES contacts(id);
+
+
+--
+-- Name: calls calls_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY calls
+    ADD CONSTRAINT calls_user_id_foreign FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: campaigns campaigns_contact_lists_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT campaigns_contact_lists_id_foreign FOREIGN KEY (contact_lists_id) REFERENCES contact_lists(id);
+
+
+--
+-- Name: campaigns campaigns_script_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns
+    ADD CONSTRAINT campaigns_script_id_foreign FOREIGN KEY (script_id) REFERENCES scripts(id);
+
+
+--
+-- Name: campaigns_users campaigns_users_campaign_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns_users
+    ADD CONSTRAINT campaigns_users_campaign_id_foreign FOREIGN KEY (campaign_id) REFERENCES campaigns(id);
+
+
+--
+-- Name: campaigns_users campaigns_users_user_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY campaigns_users
+    ADD CONSTRAINT campaigns_users_user_id_foreign FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: contact_lists_contacts contact_lists_contacts_contact_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists_contacts
+    ADD CONSTRAINT contact_lists_contacts_contact_id_foreign FOREIGN KEY (contact_id) REFERENCES contacts(id);
+
+
+--
+-- Name: contact_lists_contacts contact_lists_contacts_contact_list_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY contact_lists_contacts
+    ADD CONSTRAINT contact_lists_contacts_contact_list_id_foreign FOREIGN KEY (contact_list_id) REFERENCES contact_lists(id);
+
+
+--
+-- Name: questions_scripts questions_scripts_question_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions_scripts
+    ADD CONSTRAINT questions_scripts_question_id_foreign FOREIGN KEY (question_id) REFERENCES questions(id);
+
+
+--
+-- Name: questions_scripts questions_scripts_script_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY questions_scripts
+    ADD CONSTRAINT questions_scripts_script_id_foreign FOREIGN KEY (script_id) REFERENCES scripts(id);
+
+
+--
+-- Name: responses responses_call_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY responses
+    ADD CONSTRAINT responses_call_id_foreign FOREIGN KEY (call_id) REFERENCES calls(id);
+
+
+--
+-- Name: responses responses_question_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: phonebank
+--
+
+ALTER TABLE ONLY responses
+    ADD CONSTRAINT responses_question_id_foreign FOREIGN KEY (question_id) REFERENCES questions(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
