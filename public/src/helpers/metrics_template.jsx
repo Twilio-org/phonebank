@@ -117,8 +117,8 @@ export function outcomeDataFormat(outcomeData) {
   outcomeTemplate.labels = removeUnderscore(outcomeKeys);
   outcomeTemplate.datasets[0].data = [
     PENDING,
-    BAD_NUMBER,
     ANSWERED,
+    BAD_NUMBER,
     NO_ANSWER,
     DO_NOT_CALL,
     LEFT_MSG,
