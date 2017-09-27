@@ -13,7 +13,10 @@ export default class CampaignList extends Component {
     this.volunteerJoinCampaignClick = this.volunteerJoinCampaignClick.bind(this);
   }
   componentDidMount() {
-    const { is_admin: isAdmin } = this.props.account_info;
+    // Note: this was a fix for the demo, this should be added
+    // to list of things to carry over
+    // const { is_admin: isAdmin } = this.props.account_info;
+    const isAdmin = localStorage.getItem('permissions');
     const status = isAdmin ? '' : 'active';
     this.props.fetchCampaigns(status);
   }
