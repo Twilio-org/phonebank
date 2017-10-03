@@ -30,9 +30,9 @@ describe('Component testing for <TableListView />: ', () => {
 
   describe('Component rendering: ', () => {
     const wrapper = shallow(<TableListView {...props} />);
-    it('should have 3 div elements', () => {
+    it('should have 1 div elements', () => {
       const divElements = wrapper.find('div').length;
-      expect(divElements).toBe(3);
+      expect(divElements).toBe(1);
     });
     it('should have 1 <Banner /> elements ', () => {
       const BannerElements = wrapper.find('Banner').length;

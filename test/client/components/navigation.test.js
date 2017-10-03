@@ -45,14 +45,14 @@ describe('<Navigation />', () => {
       ).toJSON();
       expect(tree).toMatchSnapshot();
     });
-    it('should render <ButtonToolbar />', () => {
-      expect(wrapper.find('ButtonToolbar').length).toBe(1);
+    it('should render <Nav />', () => {
+      expect(wrapper.find('Nav').length).toBe(1);
     });
-    it('should render <DropdownButton />', () => {
-      expect(wrapper.find('DropdownButton').length).toBe(1);
+    it('should render <NavDropdown />', () => {
+      expect(wrapper.find('NavDropdown').length).toBe(1);
     });
-    it('should render <Link />', () => {
-      expect(wrapper.find('Link').length).toBeGreaterThan(1);
+    it('should render <MenuItem />', () => {
+      expect(wrapper.find('MenuItem').length).toBeGreaterThan(1);
     });
   });
 

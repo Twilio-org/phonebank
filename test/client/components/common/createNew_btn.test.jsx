@@ -15,10 +15,6 @@ describe('Component testing for <CreateNewButton /> ', () => {
 
   describe('Component rendering: ', () => {
     const wrapper = shallow(<CreateNewButton {...props} />);
-    it('should render 1 div element ', () => {
-      const divElements = wrapper.find('div').length;
-      expect(divElements).toBe(1);
-    });
     it('should render 1 Button element', () => {
       const buttonElements = wrapper.find('Button').length;
       expect(buttonElements).toBe(1);

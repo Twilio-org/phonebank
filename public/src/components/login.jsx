@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { renderField } from './common/form_helpers';
 import { loginUser } from '../actions/login';
@@ -19,21 +19,26 @@ class LogInForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field
-            name="email"
-            label="email"
-            component={renderField}
-          />
-          <Field
-            name="password"
-            label="password"
-            component={renderField}
-          />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+      <div className="login-reg-form">
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div>
+            <Field
+              name="email"
+              label="Email"
+              component={renderField}
+            />
+            <Field
+              name="password"
+              label="Password"
+              component={renderField}
+            />
+          </div>
+          <div>
+            <button className="btn btn-primary" type="submit">Log In</button>
+            <Link className="register-link" to="/public/registration">Create an Account</Link>
+          </div>
+        </form>
+      </div>
     );
   }
 }

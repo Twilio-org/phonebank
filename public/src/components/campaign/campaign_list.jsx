@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import buttons_obj from '../common/button_objs';
 import TableListView from '../common/list_view';
 import tableHeaders from '../common/list_table_headers';
+import Footer from '../footer';
 
 const { campaigns: campaignHeaders } = tableHeaders;
 
@@ -12,7 +13,11 @@ export default class CampaignList extends Component {
     this.volunteerJoinCampaignClick = this.volunteerJoinCampaignClick.bind(this);
   }
   componentDidMount() {
-    const status = this.props.account_info.is_admin ? '' : 'active';
+    // Note: this was a fix for the demo, this should be added
+    // to list of things to carry over
+    // const { is_admin: isAdmin } = this.props.account_info;
+    const isAdmin = localStorage.getItem('permissions');
+    const status = isAdmin ? '' : 'active';
     this.props.fetchCampaigns(status);
   }
 
@@ -54,6 +59,7 @@ export default class CampaignList extends Component {
             />
         ) : null
       }
+        {account_info.is_admin ? '' : <Footer /> }
       </div>
     );
   }

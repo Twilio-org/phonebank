@@ -4,6 +4,7 @@ import SidebarList from './sidebar_list_view/sidebar_list';
 import CurrentCampaign from './sidebar_list_view/current_campaign';
 import DashboardButtonGroup from '../common/nav_btn_group';
 import Banner from '../common/welcome_banner';
+import Footer from '../footer';
 
 export default class JoinedCampaigns extends Component {
   componentDidMount() {
@@ -27,18 +28,24 @@ export default class JoinedCampaigns extends Component {
 
     return (
       <div>
-        <Banner
-          first_name={first_name}
-          last_name={last_name}
-          is_admin={is_admin}
-          history={history}
-          page={page}
-        />
-        <DashboardButtonGroup
-          is_admin={is_admin}
-          page={page}
-          history={history}
-        />
+        <Row className="banner-header">
+          <Col sm={4}>
+            <Banner
+              first_name={first_name}
+              last_name={last_name}
+              is_admin={is_admin}
+              history={history}
+              page={page}
+            />
+          </Col>
+          <Col sm={8}>
+            <DashboardButtonGroup
+              is_admin={is_admin}
+              page={page}
+              history={history}
+            />
+          </Col>
+        </Row>
         <section id={'joined-campaigns-content'}>
           <Row>
             <Col xs={5} md={4} lg={3}>
@@ -64,6 +71,7 @@ export default class JoinedCampaigns extends Component {
             </Col>
           </Row>
         </section>
+        <Footer />
       </div>
     );
   }

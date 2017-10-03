@@ -85,31 +85,15 @@ export default {
     const statusToggleActivePauseResult = statusToggleActivePause(status);
     const statusToggleCompleteResult = statusToggleComplete(status);
     return [
+      // {
+      //   key: 1,
+      //   text: () => 'Call Page',
+      //   size: 'xsmall',
+      //   style: 'success',
+      //   handler: () => {}
+      // },
       {
         key: 1,
-        text: () => 'Call Page',
-        size: 'xsmall',
-        style: 'success',
-        handler: () => {}
-      },
-      {
-        key: 2,
-        text: () => 'Campaign Stats',
-        size: 'xsmall',
-        style: 'info',
-        handler: () => {
-          history.push(`/admin/${page.toLowerCase()}s/${id}`);
-        }
-      },
-      {
-        key: 3,
-        text: () => 'Release Calls',
-        size: 'xsmall',
-        style: 'warning',
-        hanlder: () => {}
-      },
-      {
-        key: 4,
         text: () => 'View',
         size: 'xsmall',
         style: 'primary',
@@ -118,7 +102,14 @@ export default {
         }
       },
       {
-        key: 5,
+        key: 2,
+        text: () => 'Release Calls',
+        size: 'xsmall',
+        style: 'success',
+        hanlder: () => {}
+      },
+      {
+        key: 3,
         text: () => statusToggleActivePauseResult.label,
         size: 'xsmall',
         style: statusToggleActivePauseResult.buttonStyle,
@@ -126,7 +117,7 @@ export default {
         disabled: statusToggleActivePauseResult.isDisabled
       },
       {
-        key: 6,
+        key: 4,
         text: () => statusToggleCompleteResult.label,
         size: 'xsmall',
         style: statusToggleCompleteResult.buttonStyle,

@@ -8,7 +8,9 @@ import ContactLists from '../../../../public/src/components/contactlist/contactl
 import UsersList from '../../../../public/src/components/users/users_list';
 
 import fixtures from '../../client_fixtures';
-import { checkObjectProps } from '../../client_test_helpers';
+import { checkObjectProps, exposeLocalStorageMock } from '../../client_test_helpers';
+
+exposeLocalStorageMock();
 
 const { listFixture: campaignListFixtures } = fixtures.campaignFixtures;
 const { listFixture: questionListFixtures } = fixtures.questionFixtures;
