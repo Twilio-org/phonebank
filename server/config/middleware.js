@@ -1,6 +1,7 @@
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import path from 'path';
+import fs from 'fs';
 import indexRouter from './routes/index';
 import scriptsRouter from './routes/scripts';
 import questionsRouter from './routes/questions';
@@ -18,7 +19,22 @@ export default function middleware(app, express) {
   app.use(bodyParser.json());
 
   // define where express should look for static assests
-  app.use(express.static(path.join(__dirname, '../../public/dist/src')));
+  const staticFilesDir = path.join(__dirname, '../../public/dist/src');
+  app.use(express.static(staticFilesDir));
+  app.get('/main.js', function (req, res, next) {
+    // redirect to latest build with content hash
+    try {
+      const files=fs.readdirSync(staticFilesDir);
+      for(var i=0;i<files.length;i++){
+        if (files[i].lastIndexOf('main') === 0) {
+          return res.redirect(files[i]);
+        }
+      }
+      return res.send('alert("No main.js found! You may need to run npm build.");');
+    } catch(error) {
+      return res.send('alert("No public/dist/src dir! You may need to run npm build.");');
+    }
+  });
 
   // use passport for authentication
   app.use(passport.initialize());
@@ -31,6 +47,8 @@ export default function middleware(app, express) {
   app.use('/users', usersRouter);
   app.use('/auth', authRouter);
   app.use('/campaigns', campaignsRouter);
+
+  app.engine('html', require('ejs').renderFile);
   app.use('*', indexRouter);
 
   // pass the logger

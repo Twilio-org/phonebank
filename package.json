@@ -11,7 +11,7 @@
     "db:seed": "babel-node --presets env,es2015,stage-1 server/db/seed.js",
     "db:refresh": "npm run db:teardown && npm run db:setup && npm run db:seed",
     "lint": "eslint --ext js --ext jsx .",
-    "build": "webpack -d  --watch --content-base src/ --inline",
+    "build": "webpack -d --watch",
     "build:prod": "webpack -p",
     "build:profile": "webpack --profile --json > webpack-stats.json",
     "start": "nodemon server/app.js --exec babel-node --presets env,es2015,stage-1",
