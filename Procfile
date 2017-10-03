@@ -1,1 +1,1 @@
-web: nodemon build/app.js
+web: ./node_modules/.bin/forever build/app.js
