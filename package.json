@@ -19,7 +19,8 @@
     "test:client": "jest",
     "test:client:refresh": "jest --updateSnapshot",
     "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register",
-    "heroku-postbuild": "npm run babel"
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; npm install --only=dev --dev",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; npm run babel"
   },
   "jest": {
     "verbose": true,
