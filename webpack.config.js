@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const SRC_DIR = path.resolve(__dirname, 'public');
 const DIST_DIR = path.resolve(__dirname, 'public/dist');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
@@ -16,7 +17,7 @@ module.exports = {
   entry: `${SRC_DIR}/src/index.jsx`,
   output: {
     path: `${DIST_DIR}/src/`,
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash:8].js',
     publicPath: '/'
   },
   resolve: {
@@ -60,9 +61,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: 'public/index.html',
+    }),
     new ExtractTextPlugin('style.css'),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/), // add more locales here if needed
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new CompressionPlugin({
