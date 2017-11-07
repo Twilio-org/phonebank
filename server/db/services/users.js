@@ -27,6 +27,14 @@ export default {
       .fetch();
   },
 
+  getUserWithCampaignsAndCallsById: (params) => {
+    const { id } = params;
+
+    return new User({ id })
+      .fetch({ withRelated: ['campaigns', 'calls'] })
+      .then(user => user);
+  },
+
   updateUserById: (params) => {
     const { id } = params;
     const extractedParams = {

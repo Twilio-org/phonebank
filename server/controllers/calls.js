@@ -6,14 +6,7 @@ import campaignsService from '../db/services/campaigns';
 
 import { hangUpVolunteerCall, hangUpContactCall, mutateCallConnectContact } from '../util/twilio';
 
-function userHasJoinedCampaign(userId, campaignId) {
-  return usersService.getUserCampaigns({ id: userId })
-    .then((campaigns) => {
-      const userCampaigns = campaigns.models.filter(campaign => campaign.id === campaignId);
-
-      return !!userCampaigns.length;
-    });
-}
+/* ======== Call update HELPERS ========== */
 
 function updateNoCallContact(outcome, id) {
   const { updateContactDoNotCallById, updateContactInvalidNumberById } = contactsService;
@@ -24,30 +17,7 @@ function updateNoCallContact(outcome, id) {
   return outcomeMap[outcome]({ id });
 }
 
-export function assignCall(req, res) {
-  const user_id = parseInt(req.params.id, 10);
-  const user_campaign_id = parseInt(req.params.campaign_id, 10);
-
-  userHasJoinedCampaign(user_id, user_campaign_id)
-  .then((userHasJoined) => {
-    if (userHasJoined) {
-      return callsService.assignCall({
-        campaign_id: user_campaign_id,
-        user_id
-      }).then((call) => {
-        if (call) {
-          return res.status(200).json(call);
-        }
-
-        return res.status(404).json({ message: 'no calls available' });
-      }).catch(err => console.log('Could not assign call:', err));
-    }
-    return res.status(401).json({ message: 'User has not joined that campaign' });
-  }).catch(err => console.log(err));
-}
-
-/* ======== Call update HELPERS ========== */
-function outcomeIsValid(outcome) {
+function validateOutcome(newOutcome, prevOutcome) {
   const validOutcomes = [
     'ANSWERED',
     'BAD_NUMBER',
@@ -56,11 +26,13 @@ function outcomeIsValid(outcome) {
     'NO_ANSWER',
     'INCOMPLETE'
   ];
-
-  return validOutcomes.includes(outcome.toUpperCase());
+  if (prevOutcome !== 'PENDING') {
+    return false;
+  }
+  return validOutcomes.includes(newOutcome);
 }
 
-function validateStatusForUpdate(newStatus, prevStatus) {
+function validateStatusTransition(newStatus, prevStatus) {
   const validTransitions = {
     ASSIGNED: ['IN_PROGRESS', 'ATTEMPTED'],
     IN_PROGRESS: ['HUNG_UP'],
@@ -78,22 +50,14 @@ function validateStatusForUpdate(newStatus, prevStatus) {
   return true;
 }
 
-function checkCallIsAssigned(status) {
-  return status === 'ASSIGNED';
-}
-
-function lookUpCall(id) {
-  return callsService.getCallById({ id });
-}
-
 function putCallAttempt(id, outcome, notes) {
-  return callsService.recordAttempt({ id, outcome, notes });
-}
-
-function saveNewAttempt(contact_id, campaign_id, attempt_num) {
-  const newCallParams = { contact_id, campaign_id, attempt_num };
-
-  return callsService.createNewAttempt(newCallParams);
+  return callsService.recordAttempt({ id, outcome, notes })
+    .then((updatedCall) => {
+      if (updatedCall) {
+        return { callUpdateSuccess: true };
+      }
+      return { callUpdateSuccess: false, callUpdateCode: 500, callUpdateMessage: `Unexpectedly unable to update call with outcome ${outcome}` };
+    }).catch(err => ({ callUpdateSuccess: false, callUpdateCode: 500, callUpdateMessage: `Unexpectedly unable to update call with outcome '${outcome}': ${err}` }));
 }
 
 function saveResponses(responses, call_id) {
@@ -102,52 +66,53 @@ function saveResponses(responses, call_id) {
     const responseParams = { call_id, question_id, response };
     return responsesService.saveNewResponse(responseParams)
       .then()
-      .catch(err => console.log(`Error in saving new responses: ${err}`));
-  }));
+      .catch(err => ({ responseSaveSucces: false, responseSaveCode: 500, responseSaveMessage: `Error saving responses: ${err}` }));
+  })).then((savedResponses) => {
+    const allSaved = savedResponses.every(savedResponse => !!savedResponse);
+    if (allSaved) {
+      return { responseSaveSucces: true, responseSaveCode: 200, responseSaveMessage: 'Successfully saved new responses' };
+    }
+    return { responseSaveSucces: false, responseSaveCode: 500, responseSaveMessage: 'Unexpectedly failed to save responses' };
+  }).catch(err => ({ responseSaveSucces: false, code: 500, responseSaveMessage: `Error saving responses: ${err}` }));
 }
 
-function afterPut(res, outcome, contact_id, attempt_num, campaign_id) {
-  if (outcome === 'DO_NOT_CALL' || outcome === 'BAD_NUMBER') {
-    return updateNoCallContact(outcome, contact_id);
-  } else if (outcome === 'LEFT_MSG' || outcome === 'NO_ANSWER' || outcome === 'INCOMPLETE') {
-    if (attempt_num < 3) {
-      return saveNewAttempt(contact_id, campaign_id, attempt_num + 1);
+function afterPut(updateContactId, updateCampaignId, updateOutcome, updateAttemptNum) {
+  if (updateOutcome === 'DO_NOT_CALL' || updateOutcome === 'BAD_NUMBER') {
+    return updateNoCallContact(updateOutcome, updateContactId)
+      .then((updatedContact) => {
+        if (updatedContact) {
+          return { afterPutSuccess: true, afterPutCode: 201, afterPutMessage: 'Contact successfully updated' };
+        }
+        return { afterPutSuccess: false, afterPutCode: 500, afterPutMessage: 'Unexpectedly unable to update contact' };
+      }).catch(err => ({ afterPutSuccess: false, afterPutCode: 500, afterPutMessage: `Error updating contact contact with outcome '${updateOutcome}': ${err}` }));
+  } else if (updateOutcome === 'LEFT_MSG' || updateOutcome === 'NO_ANSWER' || updateOutcome === 'INCOMPLETE') {
+    if (updateAttemptNum < 3) {
+      return callsService.createNewAttempt({
+        contact_id: updateContactId,
+        campaign_id: updateCampaignId,
+        attempt_num: (updateAttemptNum + 1).toString(10)
+      }).then((newAttempt) => {
+        if (newAttempt) {
+          return { afterPutSuccess: true, afterPutCode: 201, afterPutMessage: 'Call log successfully updated.' };
+        }
+        return { afterPutSuccess: false, afterPutCode: 500, afterPutMessage: `Unexpectedly unable create new call attempt for contact with id ${updateContactId} for campaign ${updateCampaignId}.` };
+      }).catch(err => ({ afterPutCode: 500, afterPutMessage: `Error creating new call attempt for contact with id ${updateContactId} for campaign ${updateCampaignId}: ${err}` }));
     }
   }
-  return res.status(304).json({ message: 'Call log not modified.' });
+  return { afterPutSuccess: false, afterPutCode: 500, afterPutMessage: `Unexpectedly unable to handle post update outcome for contact with id ${updateContactId} for campaign ${updateCampaignId}` };
 }
 
-function handleHangUpFlow(res, user_id, call_id, campaign_id) {
-  return usersService.getUserById({ id: user_id })
-  .then((userObj) => {
-    const { call_sid: userCallSid } = userObj.attributes;
-    hangUpContactCall(userCallSid, user_id, campaign_id)
-    .then(() => {
-      callsService.updateCallStatus({ id: call_id, status: 'HUNG_UP' })
-      .then((updateResponse) => {
-        const { attributes: updatedCall } = updateResponse;
-        if (updatedCall) {
-          const updateCallSuccess = 'call status updated to HUNG_UP';
-          return res.status(200)
-            .json({ message: updateCallSuccess });
-        }
-        return res.status(500).json({ messge: 'problem with updating call status to HUNG_UP' });
-      })
-      .catch((err) => {
-        const updateCallError = `Could not update call status to 'HUNG_UP': ${err}`;
-        return res.status(500).json({ message: updateCallError });
-      });
-    })
-    .catch((err) => {
-      const hangUpCallError = `Could not hang up call from twilio client to contact: ${err}`;
-      return res.status(500).json({ message: hangUpCallError });
-    });
-  })
-  .catch(err => res.status(404).json({ message: `Could not find user by ID, could not hang up user: ${err}` }));
-}
-
-function getCallsNotAttempted(campaign_id) {
-  return callsService.getCallsNotAttemptedByCampaignId({ campaign_id });
+function handleHangUpFlow(userId, callId, campaignId, userCallSid) {
+  return hangUpContactCall(userCallSid, userId, campaignId)
+    .then(() =>
+      callsService.updateCallStatus({ id: callId, status: 'HUNG_UP' })
+        .then((updateResponse) => {
+          if (updateResponse) {
+            return { code: 200, message: 'call status updated to HUNG_UP' };
+          }
+          return { code: 500, messge: 'Unexpected problem with updating call status to HUNG_UP' };
+        }).catch(err => ({ code: 500, message: `Could not update call status to 'HUNG_UP': ${err}` }))
+    ).catch(err => ({ code: 500, message: `Could not hang up call from twilio client to contact: ${err}` }));
 }
 
 function isFinalOutcome(outcome) {
@@ -155,8 +120,8 @@ function isFinalOutcome(outcome) {
   return finalOutcomes.includes(outcome.toUpperCase());
 }
 
-function isLastAttemptedCall(campaign_id, outcome) {
-  return getCallsNotAttempted(campaign_id)
+function checkLastAttempted(campaign_id, outcome) {
+  return callsService.getCallsNotAttemptedByCampaignId({ campaign_id })
     .then((callsNotAttempted) => {
       const callOutComeIsFinal = isFinalOutcome(outcome);
       const numCallsNotAttempted = callsNotAttempted.length;
@@ -164,149 +129,385 @@ function isLastAttemptedCall(campaign_id, outcome) {
     }).catch(err => console.log(`Error in getting calls not attempted: ${err}`));
 }
 
-function markCampaignComplete(res, campaign_id) {
-  return campaignsService.markCampaignAsCompleted({ id: campaign_id })
-    .then(() => res.status(201).json({ message: 'Campaign successfully marked as completed.' }))
-    .catch((err) => {
-      console.log('Cannot update the campaign as completed: ', err);
-      return res.status(500).json({ message: `Cannot update the campaign as completed: ${err}` });
-    });
+function markCampaignComplete(updateCampaignId) {
+  return campaignsService.markCampaignAsCompleted({ id: updateCampaignId })
+    .then((campaign) => {
+      if (campaign) {
+        return { updateCampaignCode: 201, updateCampaignMessage: 'Successfully marked campaign as completed.' };
+      }
+      return { updateCampaignCode: 500, updateCampaignMessage: `Unexpectedly unable to mark campaign with id ${updateCampaignId} as completed.` };
+    })
+    .catch(err => ({ updateCampaignCode: 500, updateCampaignMessage: `Error marking campaign with id ${updateCampaignId} as completed: ${err}.` }));
+}
+
+function validateUserAuthorizaion(user, updateCampaignId, updateCallId) {
+  let authMessage;
+
+  if (!user.hasCampaign(updateCampaignId)) {
+    authMessage = `User has not joined campaign with id ${updateCampaignId}.`;
+  } else if (!user.subjectCampaign.attributes.status === 'active') {
+    authMessage = `Campaign with id ${updateCampaignId} is not active`;
+  } else if (!user.hasCall(updateCallId)) {
+    authMessage = `Call with id ${updateCallId} is not assigned to user.`;
+  }
+  if (authMessage) {
+    return { authSuccess: false, authCode: 401, authMessage };
+  }
+  return { authSuccess: true };
+}
+
+function validateUpdate(
+  currentCallOutcome,
+  currentCallStatus,
+  checkStatus,
+  checkOutcome = null,
+  checkResponses = null,
+  checkNotes = null
+) {
+  if (typeof checkStatus !== 'string') {
+    return { udpateValid: false, validationCode: 400, validationMessage: 'Status must be a string.' };
+  }
+  if (!validateStatusTransition(checkStatus, currentCallStatus)) {
+    return { updateValid: false, validationCode: 400, validationMessage: 'Status transition not allowed.' };
+  }
+  if (checkOutcome) {
+    if (typeof checkOutcome !== 'string') {
+      return { updateValid: false, validationCode: 400, validationMessage: 'Outcome must be a string' };
+    }
+    if (!validateOutcome(checkOutcome, currentCallOutcome)) {
+      return { updateValid: false, validationCode: 400, validationMessage: '' };
+    }
+    if (checkStatus !== 'ATTEMPTED') {
+      return { updateValid: false, validationCode: 400, validationMessage: 'Update setting outcome must set status \'ATTEMPTED\'.' };
+    }
+    if (checkOutcome === 'ANSWERED') {
+      if (!checkResponses) {
+        return { updateValid: false, validationCode: 400, validationMessage: 'Update with outcome \'ANSWERED\' must include responses.' };
+      }
+      if (!Array.isArray(checkResponses)) {
+        return { updateValid: false, validationCode: 400, validationMessage: 'Responses must be an array.' };
+      }
+    }
+  }
+  if (checkNotes && typeof checkNotes !== 'string') {
+    return { updateValid: false, validationCode: 400, validationMessage: 'Notes must be a string.' };
+  }
+  return { updateValid: true };
+}
+
+function updateCallStatus(updateCallId, updateStatus) {
+  return callsService.updateCallStatus({ id: updateCallId, status: updateStatus })
+    .then(updatedCall => ({ code: 200, message: `Call status updated to ${updateStatus}`, call: updatedCall }))
+    .catch(err => ({ code: 500, message: `Error updating call status to ${updateStatus}: ${err}` }));
+}
+
+function updateStatusNoOutcome(
+  updateStatus,
+  updateUserId,
+  updateCallId,
+  updateCampaignId,
+  userCallSid
+) {
+  return new Promise((resolve, reject) => {
+    if (!userCallSid) {
+      return resolve({ statusUpdateCode: 400, statusUpdateMessage: 'User not currently connected to call session.' });
+    }
+    if (updateStatus === 'HUNG_UP') {
+      return handleHangUpFlow(updateUserId, updateCallId, updateCampaignId, userCallSid)
+      .then((hangUpResult) => {
+        const { code, message } = hangUpResult;
+        return resolve({ statusUpdateCode: code, statusUpdateMessage: message });
+      });
+    } else if (updateStatus === 'IN_PROGRESS') {
+      return mutateCallConnectContact(
+        userCallSid,
+        { user: updateUserId, campaign: updateCampaignId, call: updateCallId }
+      ).then(() =>
+        updateCallStatus(updateCallId, updateStatus)
+        .then((updatedCall) => {
+          if (updatedCall) {
+            return resolve({ statusUpdateCode: 201, statusUpdateMessage: 'Call status successfully updated.' });
+          }
+          return reject({ statusUpdateCode: 500, statusUpdateMessage: `Unexpectedly unable to update call with status ${updateStatus}` });
+        }).catch(err => reject({ statusUpdateCode: 500, statusUpdateMessage: `Error updating call with status ${updateStatus}: ${err}` }))
+      ).catch(err => reject({ statusUpdateCode: 500, statusUpdateMessage: `Error updating call with status ${updateStatus}: ${err}` }));
+    }
+    return reject({ statusUpdateCode: 500, statusUpdateMessage: `Unexpectedly unable to update call with status ${updateStatus}` });
+  });
+}
+
+function saveResponseOrRequeue(
+  updateResponses,
+  updateCallId,
+  updateContactId,
+  updateCampaignId,
+  updateOutcome,
+  updateAttemptNum
+) {
+  if (updateResponses) {
+    return saveResponses(updateResponses, updateCallId)
+      .then((updateResponsesResult) => {
+        const {
+          responseSaveSuccess,
+          responseSaveCode,
+          responseSaveMessage
+        } = updateResponsesResult;
+        return {
+          responseOrRequeueSuccess: responseSaveSuccess,
+          responseOrRequeueCode: responseSaveCode,
+          responseOrRequeueMessage: responseSaveMessage
+        };
+      })
+      .catch(err => ({
+        responseOrRequeueSuccess: false,
+        responseOrRequeueCode: 500,
+        responseOrRequeueMessage: `Unexpected Error saving responses for call with id ${updateCallId} in campaign with id ${updateCampaignId}: ${err}`
+      }));
+  }
+  return afterPut(updateContactId, updateCampaignId, updateOutcome, updateAttemptNum)
+    .then((putResult) => {
+      const { afterPutSuccess, afterPutCode, afterPutMessage } = putResult;
+      return {
+        responseOrRequeueSuccess: afterPutSuccess,
+        responseOrRequeueCode: afterPutCode,
+        responseOrRequeueMessage: afterPutMessage
+      };
+    })
+    .catch(err => ({
+      responseOrRequeueSuccess: false,
+      responseOrRequeueCode: 500,
+      responseOrRequeueMessage: `Unexpected Error handling post update steps for call with id ${updateCallId} in campaign with id ${updateCampaignId}: ${err}`
+    }));
 }
 
 /* ======== END HELPERS ========== */
 
-export function recordAttempt(req, res) {
-  const { outcome, notes, responses, status: newStatus } = req.body;
+export function assignCall(req, res) {
+  const updateUserId = parseInt(req.params.id, 10);
+  const updateCampaignId = parseInt(req.params.campaign_id, 10);
+  let code;
+  let message;
 
-  if (newStatus === 'ATTEMPTED' && outcome === 'ANSWERED') {
-    if (!responses || !outcome) {
-      return res.status(400).json({ message: 'update request with a status of ATTEMPTED and outcome of ANSWERED must have response object.' });
-    }
-    if (!Array.isArray(responses)) {
-      return res.status(400).json({ message: 'Responses should be an array of objects' });
-    }
-  }
-  const call_id = parseInt(req.params.call_id, 10);
-  const user_id = parseInt(req.params.id, 10);
-  const user_campaign_id = parseInt(req.params.campaign_id, 10);
-
-  if (outcome && !outcomeIsValid(outcome)) {
-    return res.status(400).json({ message: 'Outcome is not valid' });
-  }
-
-  return userHasJoinedCampaign(user_id, user_campaign_id)
-    .then((userHasJoined) => {
-      if (userHasJoined) {
-        return lookUpCall(call_id).then((call) => {
-          if (call) {
-            const { contact_id, campaign_id, status } = call.attributes;
-            if (validateStatusForUpdate(newStatus, status)) {
-              if (newStatus === 'HUNG_UP') {
-                return handleHangUpFlow(res, user_id, call_id, campaign_id);
-              } else if (newStatus === 'IN_PROGRESS') {
-                return usersService.getUserById({ id: user_id })
-                  .then((user) => {
-                    if (user) {
-                      const { call_sid } = user.attributes;
-                      if (!call_sid) {
-                        return res.status(400).json({ message: 'user is not currently connected to a call session' });
-                      }
-                      const idCollection = {
-                        user: user_id,
-                        campaign: campaign_id,
-                        call: call_id
-                      };
-                      return mutateCallConnectContact(call_sid, idCollection)
-                        .then(() =>
-                          callsService.updateCallStatus({ id: call_id, status: newStatus })
-                            .then(updatedCall => res.status(200).json({ message: `call status updated to ${newStatus}`, call: updatedCall }))
-                            .catch(err => console.log('error updating status in calls controller: ', err))
-                        ).catch(err => console.log('error mutating call in recordAttempt function of calls controller when setting modifying call with Twilio client: ', err));
-                    }
-                    return res.status(404).json({ message: `could not find user with id ${user_id}` });
-                  }).catch(err => console.log('error finding user by id in recordAttempt function of calls controller when getting user call SID for IN_PROGRESS status: ', err));
-              }
-              return putCallAttempt(call_id, outcome, notes)
-                .then(() => {
-                  const attempt_num = parseInt(call.attributes.attempt_num, 10);
-                  return isLastAttemptedCall(campaign_id, outcome)
-                    .then((isLastCall) => {
-                      if (!isLastCall) {
-                        if (responses) {
-                          return saveResponses(responses, call_id)
-                            .then(() => res.status(201).json({ message: 'Successfully saved new responses' }))
-                            .catch(err => res.status(500).json({ message: `Could not save new responses: ${err}` }));
-                        }
-                        return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                          .then(() => res.status(200).json({ message: 'Contact and call log updated successfully.' }))
-                          .catch(err => console.log('Could not update contact status or call log: ', err));
-                      }
-                      if (responses) {
-                        return saveResponses(responses, call_id)
-                          .then(() => markCampaignComplete(res, campaign_id))
-                          .catch(err => console.log(`Error in saving responses: ${err}`));
-                      }
-                      return afterPut(res, outcome, contact_id, attempt_num, campaign_id)
-                        .then(() => markCampaignComplete(res, campaign_id))
-                        .catch(err => console.log(`Error in updating call outcome or creating new call: ${err}`));
-                    }).catch(err => console.log(`Could not complete query to determine if this was the last call: ${err}`));
-                }).catch(err => console.log('could not set call status to attempted: ', err));
-            }
-            return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
-          }
-          return res.status(404).json({ message: 'Call ID does not exist' });
-        }).catch(err => console.log('could not find call for updating: ', err));
+  return usersService.getUserWithCampaignsAndCallsById({ id: updateUserId })
+    .then((user) => {
+      if (!user.hasCampaign(updateCampaignId)) {
+        code = 401;
+        message = `User has not joined campaign with id ${updateCampaignId}.`;
+      } else if (!user.subjectCampaign.attributes.status === 'active') {
+        code = 401;
+        message = `Campaign with id ${updateCampaignId} is not active`;
       }
-      return res.status(401).json({ message: 'User has not joined that campaign' });
-    }).catch(err => console.log('could not check if user has joined campaign: ', err));
+      if (code && message) {
+        return res.status(code).json({ message });
+      }
+      return callsService.assignCall({ campaign_id: updateCampaignId, user_id: updateUserId })
+        .then((call) => {
+          if (call) {
+            return res.status(200).json(call);
+          }
+          code = 404;
+          message = 'no calls available';
+          return res.status(code).json({ message });
+        }).catch(err => res.status(500).json({ message: `Error assigning call to user with id ${updateUserId} for campaign with id ${updateCampaignId}: ${err}` }));
+    }).catch(err => res.status(500).json({ message: `Error looking up user with id ${updateUserId} to assign call for campaign with id ${updateCampaignId}: ${err}` }));
+}
+
+export function updateAttempt(req, res) {
+  const {
+    outcome: updateOutcome,
+    notes: updateNotes,
+    responses: updateResponses,
+    status: updateStatus
+  } = req.body;
+  const updateCallId = parseInt(req.params.call_id, 10);
+  const updateUserId = parseInt(req.params.id, 10);
+  const updateCampaignId = parseInt(req.params.campaign_id, 10);
+  let code;
+  let message;
+
+  return usersService.getUserWithCampaignsAndCallsById({ id: updateUserId })
+    .then((user) => {
+      const { authSuccess, authCode, authMessage } = validateUserAuthorizaion(
+        user, updateCampaignId, updateCallId);
+      if (!authSuccess) {
+        code = authCode;
+        message = authMessage;
+      } else {
+        const {
+          attributes: { call_sid: userCallSid },
+          subjectCall: { attributes: { outcome: callOutcome, status: callStatus } }
+        } = user;
+        const { updateValid, validationCode, validationMessage } = validateUpdate(
+          callOutcome,
+          callStatus,
+          updateStatus,
+          updateOutcome,
+          updateResponses,
+          updateNotes
+        );
+        if (updateValid) {
+          return new Promise((resolve, reject) => {
+            if (!updateOutcome) {
+              return updateStatusNoOutcome(
+                updateStatus,
+                updateUserId,
+                updateCallId,
+                updateCampaignId,
+                userCallSid
+              ).then((updateStatusResult) => {
+                const { statusUpdateCode, statusUpdateMessage } = updateStatusResult;
+                return resolve({ code: statusUpdateCode, message: statusUpdateMessage });
+              });
+            }
+            return putCallAttempt(updateCallId, updateOutcome, updateNotes)
+              .then((putResult) => {
+                const { callUpdateSuccess, callUpdateCode, callUpdateMessage } = putResult;
+                if (!callUpdateSuccess) {
+                  return reject({ code: callUpdateCode, message: callUpdateMessage });
+                }
+                const {
+                  contact_id: updateContactId,
+                  attempt_num
+                } = user.subjectCall.attributes;
+                const updateAttemptNum = parseInt(attempt_num, 10);
+                return saveResponseOrRequeue(
+                  updateResponses,
+                  updateCallId,
+                  updateContactId,
+                  updateCampaignId,
+                  updateOutcome,
+                  updateAttemptNum
+                )
+                  .then((responseOrRequeueResult) => {
+                    const {
+                      responseOrRequeueSuccess,
+                      responseOrRequeueCode,
+                      responseOrRequeueMessage
+                    } = responseOrRequeueResult;
+                    if (!responseOrRequeueSuccess) {
+                      return reject(
+                        { code: responseOrRequeueCode, message: responseOrRequeueMessage }
+                      );
+                    }
+                    return checkLastAttempted(updateCampaignId, updateOutcome)
+                      .then((isLast) => {
+                        if (isLast) {
+                          return markCampaignComplete(updateCampaignId)
+                            .then((markResult) => {
+                              const { updateCampaignCode, updateCampaignMessage } = markResult;
+                              return resolve({
+                                code: updateCampaignCode,
+                                message: updateCampaignMessage
+                              });
+                            }).catch(err => reject({ code: 500, message: `Unexpected error marking campaign with id ${updateCampaignId} complete: ${err}` }));
+                        }
+                        return resolve({
+                          code: responseOrRequeueCode,
+                          message: responseOrRequeueMessage
+                        });
+                      }).catch(err => reject({ code: 500, message: `Unexpected error checking call with id ${updateCallId} is last call: ${err}` }));
+                  }).catch(err => reject({ code: 500, message: `Unexpected error handling post update process for call with id ${updateCallId}: ${err}` }));
+              }).catch(err => reject({ code: 500, message: `Unexpected error updating call: ${err}` }));
+          }).then((result) => {
+            if (result) {
+              const { code: resultCode, message: resultMessage } = result;
+              code = resultCode;
+              message = resultMessage;
+            } else {
+              code = 500;
+              message = 'Unexpectedly unable to update call attempt';
+            }
+            return res.status(code).json({ message });
+          }).catch((err) => {
+            if (err) {
+              const { code: errCode, message: errMessage } = err;
+              code = errCode;
+              message = errMessage;
+            } else {
+              code = 500;
+              message = 'Unknown error updating call attempt';
+            }
+            return res.status(code).json({ message });
+          });
+        }
+        if (!code && !message) {
+          if (validationCode && validationMessage) {
+            code = validationCode;
+            message = validationMessage;
+          } else {
+            code = 500;
+            message = 'Unexpectedly unable to update call attempt';
+          }
+        }
+      }
+      return res.status(code).json({ message });
+    }).catch(err => res.status(500).json({ message: `Error finding user with id ${updateUserId} in updateAttempt calls controller function: ${err}` }));
 }
 
 export function releaseCall(req, res) {
-  const call_id = parseInt(req.params.call_id, 10);
-  const user_id = parseInt(req.params.id, 10);
-  const user_campaign_id = parseInt(req.params.campaign_id, 10);
+  const updateCallId = parseInt(req.params.call_id, 10);
+  const updateUserId = parseInt(req.params.id, 10);
+  const updateCampaignId = parseInt(req.params.campaign_id, 10);
+  let code;
+  let message;
 
-  return userHasJoinedCampaign(user_id, user_campaign_id)
-    .then((userHasJoined) => {
-      if (userHasJoined) {
-        return lookUpCall(call_id).then((call) => {
-          const { status } = call.attributes;
-          if (checkCallIsAssigned(status)) {
-            return callsService.releaseCall({ id: call_id })
-              .then(() => res.status(200).json({ message: 'call successfully released' }))
-              .catch(err => console.log('could not release call: ', err));
-          }
-          return res.status(400).json({ message: 'call does not have status \'ASSIGNED\'' });
-        }).catch(err => console.log('could not find call for updating: ', err));
+  return usersService.getUserWithCampaignsAndCallsById({ id: updateUserId })
+    .then((user) => {
+      const { authSuccess, authCode, authMessage } = validateUserAuthorizaion(
+        user, updateCampaignId, updateCallId);
+      if (!authSuccess) {
+        code = authCode;
+        message = authMessage;
+      } else if (!user.subjectCall.attributes.status === 'ASSIGNED') {
+        code = 400;
+        message = `Call with id ${updateCallId} does not have status 'ASSIGNED'.`;
       }
-      return res.status(401).json({ message: 'User has not joined that campaign' });
-    })
-    .catch(err => console.log('could not check if user has joined campaign: ', err));
+      if (code && message) {
+        return res.status(code).json({ message });
+      }
+      return callsService.releaseCall({ id: user.subjectCall.id })
+        .then((call) => {
+          if (call) {
+            code = 200;
+            message = 'Call successfully released';
+          } else {
+            code = 500;
+            message = `Unexpectedly unable to release call with id ${updateCallId}.`;
+          }
+          return res.status(code).json({ message });
+        }).catch(err => res.status(500).json({ message: `Error releasing call with id ${updateCallId}: ${err}` }));
+    }).catch(err => res.status(500).json({ message: `Error looking up user with id ${updateUserId} while releasing call with id ${updateCallId}: ${err}` }));
 }
 
 
 export function hangUpCall(req, res) {
-  const { id } = req.params;
-  return usersService.getUserById({ id })
+  const updateUserId = parseInt(req.params.id, 10);
+  let code;
+  let message;
+
+  return usersService.getUserById({ id: updateUserId })
     .then((user) => {
       if (user) {
         const { call_sid } = user.attributes;
-        return hangUpVolunteerCall(call_sid, id)
+        if (!call_sid) {
+          code = 400;
+          message = `User with id ${updateUserId} is not currently connected to a call session.`;
+        }
+        if (code && message) {
+          return res.status(code).json({ message });
+        }
+        return hangUpVolunteerCall(call_sid, updateUserId)
           .then((call) => {
-            console.log('Current call session status successfully updated', call);
-            return usersService.clearUserCallSID({ id })
-              .then(() => res.status(202).json({ message: 'call succesfully hung up' }))
-              .catch(() => res.status(400).json({ message: 'call could not be terminated' }));
-          })
-          .catch((error) => {
-            console.log('Could not terminate call from Twilio client', error);
-            return res.status(500).json({ message: 'unable to terminate call from Twilio client' });
-          });
+            if (call) {
+              return usersService.clearUserCallSID({ updateUserId })
+                .then(() => res.status(202).json({ message: 'call succesfully hung up' }))
+                .catch(err => res.status(400).json({ message: `Error clearing call sid for user with id ${updateUserId}: ${err}` }));
+            }
+            code = 500;
+            message = `Unexpectedly unable to hang up volunteer call session for user with id ${updateUserId}`;
+            return res.status(code).json({ message });
+          }).catch(err => res.status(500).json({ message: `Error terminating call session for user with id ${updateUserId}: ${err}` }));
       }
-      return res.status(404).json({ message: 'User ID could not be found' });
-    })
-    .catch((error) => {
-      console.log('could not get user by id', error);
-      res.status(500).json({ message: 'could not get user\'s by ID ' });
-    });
+      return res.status(500).json({ message: `Unexpectedly unable to find user with id ${updateUserId} to hang up call session.` });
+    }).catch(err => res.status(500).json({ message: `Error finding user with id ${updateUserId} to hang up call session: ${err}` }));
 }
