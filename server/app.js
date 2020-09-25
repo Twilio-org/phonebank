@@ -24,4 +24,10 @@ server.on('listening', errorHandle.onListening);
 middleware(app, express);
 // routes(app, express);
 
+app.get('*.js', (req, res, next) => {
+  req.url = `${req.url}.gz`;
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
+
 export default server;

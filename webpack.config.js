@@ -1,9 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const SRC_DIR = path.resolve(__dirname, 'public');
 const DIST_DIR = path.resolve(__dirname, 'public/dist');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
   filename: '[name].[contenthash].css',
@@ -14,7 +17,7 @@ module.exports = {
   entry: `${SRC_DIR}/src/index.jsx`,
   output: {
     path: `${DIST_DIR}/src/`,
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash:8].js',
     publicPath: '/'
   },
   resolve: {
@@ -28,6 +31,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
+          plugins: ['lodash'],
           presets: ['react', 'es2015', 'stage-1', 'env']
         }
       },
@@ -57,7 +61,21 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('style.css')
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: 'public/index.html',
+    }),
+    new ExtractTextPlugin('style.css'),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/), // add more locales here if needed
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ]
 
 };

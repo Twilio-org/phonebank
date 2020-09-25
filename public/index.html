@@ -7,6 +7,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <script src="/bundle.js"></script>
+    <% if (typeof htmlWebpackPlugin != "undefined") { for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+    <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <% } } else { %>
+    <script src="/main.js"></script>
+    <% } %>
   </body>
 </html>

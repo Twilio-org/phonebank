@@ -76,3 +76,4 @@ public/dist/
 
 # webstorm files
 .idea
+webpack-stats.json

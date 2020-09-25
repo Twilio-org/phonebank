@@ -4,7 +4,7 @@ A phone banking solution powered by Twilio
 # local development (Mac)
 
 ## dev prerequisites
-- node v6.11.1
+- node v12.x
 - npm v3.10.10
 - postgres v9.6.3
 
