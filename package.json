@@ -2,6 +2,9 @@
   "name": "phonebank",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "babel": "babel --presets=env,es2015,stage-1 server --out-dir build",
     "db": "psql -U $PG_USER -d $PG_USER",
@@ -19,7 +22,7 @@
     "test:client": "jest",
     "test:client:refresh": "jest --updateSnapshot",
     "test:server": "PG_CONNECTION_STRING=$PG_CONNECTION_STRING_TEST DEBUG=true mocha './test/server' --recursive --compilers js:babel-core/register",
-    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; npm install --only=dev --dev",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; npm install --only=dev",
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; npm run babel; npm run build:prod;"
   },
   "jest": {
@@ -29,31 +32,32 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.20.0",
     "axios-mock-adapter": "^1.9.0",
-    "bcrypt": "^1.0.3",
-    "body-parser": "~1.17.1",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "bookshelf": "^0.10.4",
-    "bookshelf-bcrypt": "^2.1.0",
+    "bookshelf-bcrypt": "^3.0.2",
     "chai": "^4.1.0",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^3.0.0",
-    "chart.js": "^2.7.0",
+    "chart.js": "^2.9.3",
     "concurrently": "^3.5.0",
     "cookie-parser": "~1.4.3",
+    "cryptiles": "^4.1.3",
     "csv-parse": "^1.2.1",
     "debug": "~2.6.3",
     "ejs": "^2.5.6",
-    "express": "~4.15.2",
+    "express": "^4.17.1",
     "express-fileupload": "^0.1.4",
     "faker": "^4.1.0",
     "forever": "^0.15.3",
     "immutable": "^3.8.1",
     "jsonwebtoken": "^7.4.1",
-    "knex": "^0.13.0",
-    "lodash": "^4.17.4",
-    "moment": "^2.18.1",
-    "morgan": "~1.8.1",
+    "knex": "^0.21.5",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.0",
+    "morgan": "^1.10.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
@@ -74,8 +78,8 @@
     "redux-promise": "^0.5.3",
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
-    "serve-favicon": "~2.4.2",
-    "twilio": "^3.6.5"
+    "serve-favicon": "^2.5.0",
+    "twilio": "^3.49.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -88,7 +92,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "compression-webpack-plugin": "^1.0.0",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
@@ -113,6 +117,6 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.11.5"
   }
 }
